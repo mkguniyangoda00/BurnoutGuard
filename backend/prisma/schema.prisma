@@ -1,0 +1,262 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // or "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================================
+// 1. CORE IDENTITY & RBAC
+// ==============================================
+
+enum Role {
+  DEVELOPER
+  MANAGER
+  HR
+  SYSTEM_ADMIN
+  RESEARCH_ADMIN
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  role          Role      @default(DEVELOPER)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  lastLogin     DateTime?
+
+  // Relations
+  managedTeams      Team[]             @relation("TeamManager")
+  teamMemberships   UserTeam[]
+  dailyCheckins     DailyCheckin[]
+  workMetrics       WorkMetric[]
+  riskPredictions   RiskPrediction[]
+  recommendations   Recommendation[]
+  auditLogsTriggered AuditLog[]        @relation("AuditActor")
+}
+
+// ==============================================
+// 2. ORGANIZATIONAL HIERARCHY
+// ==============================================
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  
+  // Relations
+  teams     Team[]
+}
+
+model Team {
+  id           String     @id @default(uuid())
+  name         String
+  departmentId String
+  managerId    String
+  createdAt    DateTime   @default(now())
+
+  // Relations
+  department   Department @relation(fields: [departmentId], references: [id])
+  manager      User       @relation("TeamManager", fields: [managerId], references: [id])
+  members      UserTeam[]
+}
+
+model UserTeam {
+  userId   String
+  teamId   String
+  joinedAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([userId, teamId])
+}
+
+// ==============================================
+// 3. DATA INGESTION (TELEMETRY)
+// ==============================================
+
+model DailyCheckin {
+  id              String   @id @default(uuid())
+  userId          String
+  recordDate      DateTime @default(now()) @db.Date
+  
+  // Lifestyle & Psychosocial indicators
+  stressLevel     Int      // 1-10
+  sleepHours      Float
+  moodScore       Int      // 1-10
+  fatigueLevel    Int      // 1-10
+  
+  // Sri Lankan Context (Optional)
+  commuteBurden   Int?     // 1-10
+  powerDisruption Int?     // 1-10
+  
+  createdAt       DateTime @default(now())
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WorkMetric {
+  id                    String   @id @default(uuid())
+  userId                String
+  recordDate            DateTime @default(now()) @db.Date
+  
+  // Work-related indicators
+  hoursLogged           Float
+  commitsPushed         Int      @default(0)
+  prsReviewed           Int      @default(0)
+  meetingsDurationMins  Int      @default(0)
+  
+  // Agile/Sprint indicators
+  sprintPressureScore   Int?     // 1-10
+  bugFixingLoad         Int?     // 1-10
+  
+  createdAt             DateTime @default(now())
+
+  // Relations
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ==============================================
+// 4. MACHINE LEARNING OPERATIONS (MLOps)
+// ==============================================
+
+model Dataset {
+  id            String   @id @default(uuid())
+  versionTag    String   @unique
+  rowCount      Int
+  featureSchema Json     // JSON array of features used
+  storagePath   String   // Path to CSV/Parquet in S3/Local
+  createdAt     DateTime @default(now())
+
+  // Relations
+  modelsTrained MLModel[] @relation("TrainingDataset")
+  modelsValidated ModelPerformanceMetric[]
+}
+
+enum ModelStatus {
+  TESTING
+  ACTIVE
+  RETIRED
+}
+
+model MLModel {
+  id                  String      @id @default(uuid())
+  versionTag          String      @unique
+  algorithm           String      // e.g., "XGBoost", "Random Forest"
+  hyperparameters     Json
+  status              ModelStatus @default(TESTING)
+  trainingDatasetId   String
+  artifactPath        String      // Path to .pkl or .onnx file
+  trainedAt           DateTime    @default(now())
+  deployedAt          DateTime?
+
+  // Relations
+  trainingDataset     Dataset                  @relation("TrainingDataset", fields: [trainingDatasetId], references: [id])
+  performanceMetrics  ModelPerformanceMetric[]
+  predictions         RiskPrediction[]
+}
+
+model ModelPerformanceMetric {
+  id                  String   @id @default(uuid())
+  modelId             String
+  validationDatasetId String
+  
+  // Metrics
+  accuracy            Float
+  precision           Float
+  recall              Float
+  f1Score             Float
+  aucRoc              Float
+  demographicParity   Float?   // Fairness metric
+  
+  createdAt           DateTime @default(now())
+
+  // Relations
+  model               MLModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  validationDataset   Dataset @relation(fields: [validationDatasetId], references: [id])
+}
+
+// ==============================================
+// 5. INFERENCE & EXPLAINABILITY (XAI)
+// ==============================================
+
+enum RiskCategory {
+  LOW
+  MODERATE
+  HIGH
+  CRITICAL
+}
+
+model RiskPrediction {
+  id                  String       @id @default(uuid())
+  userId              String
+  modelId             String
+  predictionTimestamp DateTime     @default(now())
+  
+  burnoutProbability  Float        // 0.0 to 1.0
+  riskCategory        RiskCategory
+  
+  // Relations
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  model               MLModel               @relation(fields: [modelId], references: [id])
+  featureAttributions FeatureAttribution[]
+  recommendations     Recommendation[]
+}
+
+model FeatureAttribution {
+  id                    String         @id @default(uuid())
+  predictionId          String
+  featureName           String         // e.g., "sleepHours", "meetingsDurationMins"
+  shapValue             Float          // The impact of this feature on the prediction
+  originalFeatureValue  Float?         // The actual value that caused the SHAP score
+  
+  // Relations
+  prediction            RiskPrediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
+}
+
+// ==============================================
+// 6. INTERVENTIONS & AUDITING (GOVERNANCE)
+// ==============================================
+
+enum RecommendationStatus {
+  PENDING
+  ACCEPTED
+  DISMISSED
+}
+
+model Recommendation {
+  id                String               @id @default(uuid())
+  predictionId      String?
+  userId            String
+  recommendationText String
+  status            RecommendationStatus @default(PENDING)
+  createdAt         DateTime             @default(now())
+
+  // Relations
+  prediction        RiskPrediction? @relation(fields: [predictionId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id             String   @id @default(uuid())
+  actorId        String
+  action         String   // e.g., "RETRAIN_MODEL", "DEACTIVATE_USER", "EXPORT_DATA"
+  targetEntity   String   // e.g., "User", "MLModel"
+  targetEntityId String?
+  ipAddress      String?
+  timestamp      DateTime @default(now())
+
+  // Relations
+  actor          User     @relation("AuditActor", fields: [actorId], references: [id])
+}

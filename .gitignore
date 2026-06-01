@@ -1,71 +1,44 @@
-# =========================
-# Backend (.NET / ASP.NET Core)
-# =========================
-backend/**/bin/
-backend/**/obj/
-backend/**/*.user
-backend/**/*.suo
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
 
-# Build outputs
-**/bin/
-**/obj/
-**/out/
+# Testing
+coverage/
 
-# =========================
-# Frontend (Angular)
-# =========================
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/
+# Production
+dist/
+build/
 
-# =========================
-# Environment files
-# =========================
-.env
-*.env
-*.env.local
-
-# =========================
-# Logs
-# =========================
-*.log
-
-# =========================
-# OS files
-# =========================
+# Misc
 .DS_Store
-Thumbs.db
+*.pem
 
-# =========================
-# Visual Studio / .NET user files
-# =========================
-*.user
-*.rsuser
-*.suo
-*.userprefs
-*.sln.docstates
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# =========================
-# IDE folders
-# =========================
-.vs/
-.vscode/
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# =========================
-# NuGet
-# =========================
-*.nupkg
-*.snupkg
-packages/
+# TypeScript
+*.tsbuildinfo
 
-# =========================
-# Publish / artifacts
-# =========================
-publish/
-artifacts/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
 
-# =========================
-# Test results
-# =========================
-TestResults/
-*.trx
+# Prisma
+/prisma/migrations/
+
+# Legacy
+legacy/
