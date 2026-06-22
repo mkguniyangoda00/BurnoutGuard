@@ -1,0 +1,265 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================================
+// ENUMS
+// ==============================================
+
+enum UserRole {
+  Developer
+  Manager
+  HRofficer
+  Admin
+  ResearchAdmin
+}
+
+enum WorkModel {
+  Remote
+  Hybrid
+  Onsite
+}
+
+enum RiskLevel {
+  Low
+  Moderate
+  High
+  Critical
+}
+
+enum TrendDirection {
+  Improving
+  Stable
+  Worsening
+}
+
+enum ShapDirection {
+  IncreasesRisk
+  DecreasesRisk
+}
+
+enum RecommendationCategory {
+  Sleep
+  Exercise
+  WorkBoundary
+  Social
+  ScreenTime
+}
+
+enum AlertType {
+  Email
+  Push
+  InApp
+}
+
+enum AlertSeverity {
+  Info
+  Warning
+  Critical
+}
+
+// ==============================================
+// MODELS
+// ==============================================
+
+model User {
+  userId          String    @id @default(uuid())
+  email           String    @unique
+  passwordHash    String
+  fullName        String
+  role            UserRole
+  company         String?
+  isActive        Boolean   @default(true)
+  isEmailVerified Boolean   @default(false)
+  lastLoginAt     DateTime?
+
+  // Relations
+  developerProfile   DeveloperProfile?
+  dailyCheckIns      DailyCheckIn[]
+  burnoutPredictions BurnoutPrediction[]
+  recommendations    Recommendation[]
+  wellnessReports    WellnessReport[]
+  alerts             Alert[]
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model DeveloperProfile {
+  profileId         String    @id @default(uuid())
+  userId            String    @unique
+  jobTitle          String?
+  yearsExperience   Int?
+  workModel         WorkModel @default(Onsite)
+  teamSize          Int?
+  avgDailyHours     Float?
+  baselineRiskScore Float?
+  totalCheckIns     Int       @default(0)
+  currentStreak     Int       @default(0)
+
+  // Relations
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model DailyCheckIn {
+  checkInId       String    @id @default(uuid())
+  userId          String
+  checkInDate     DateTime
+  workHours       Float
+  stressLevel     Int
+  sleepHours      Float
+  sleepQuality    Int
+  exerciseDone    Boolean
+  screenTimeHours Float
+  workloadRating  Int
+  moodScore       Int
+  energyLevel     Int
+  notes           String?
+  isEdited        Boolean   @default(false)
+  editedAt        DateTime?
+
+  // Relations
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model BurnoutPrediction {
+  predictionId      String         @id @default(uuid())
+  userId            String
+  riskScore         Float
+  riskLevel         RiskLevel
+  modelVersion      String
+  checkInsUsed      Int
+  predictionDate    DateTime
+  isLatest          Boolean        @default(true)
+  trendDirection    TrendDirection @default(Stable)
+  previousRiskScore Float?
+  scoreChange       Float?
+
+  // Relations
+  user             User              @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  shapExplanations ShapExplanation[]
+  recommendations  Recommendation[]
+  alerts           Alert[]
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model ShapExplanation {
+  shapId            String        @id @default(uuid())
+  predictionId      String
+  featureName       String
+  shapValue         Float
+  featureValue      Float
+  importanceRank    Int
+  direction         ShapDirection
+  plainLanguageText String?
+
+  // Relations
+  prediction BurnoutPrediction @relation(fields: [predictionId], references: [predictionId], onDelete: Cascade)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model Recommendation {
+  recId              String                 @id @default(uuid())
+  predictionId       String
+  userId             String
+  category           RecommendationCategory
+  title              String
+  description        String
+  priority           Int
+  isCompleted        Boolean                @default(false)
+  completedAt        DateTime?
+  isDismissed        Boolean                @default(false)
+  dismissedAt        DateTime?
+  effectivenessScore Float?
+
+  // Relations
+  user       User              @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  prediction BurnoutPrediction @relation(fields: [predictionId], references: [predictionId], onDelete: NoAction, onUpdate: NoAction)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model WellnessReport {
+  reportId             String         @id @default(uuid())
+  userId               String
+  weekStart            DateTime
+  weekEnd              DateTime
+  avgStress            Float
+  avgSleep             Float
+  avgMood              Float
+  avgWorkHours         Float
+  totalCheckIns        Int
+  exerciseDays         Int
+  overallTrend         TrendDirection
+  riskScoreAtEndOfWeek Float?
+  insightSummary       String?
+
+  // Relations
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
+
+model Alert {
+  alertId      String        @id @default(uuid())
+  userId       String
+  predictionId String?
+  alertType    AlertType
+  severity     AlertSeverity
+  message      String
+  isRead       Boolean       @default(false)
+  readAt       DateTime?
+  isDismissed  Boolean       @default(false)
+  sentAt       DateTime
+
+  // Relations
+  user       User               @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  prediction BurnoutPrediction? @relation(fields: [predictionId], references: [predictionId], onDelete: NoAction, onUpdate: NoAction)
+
+  // Audit Fields
+  createdBy       String
+  createdDateTime DateTime  @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime  @updatedAt
+}
