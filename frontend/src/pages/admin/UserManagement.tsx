@@ -1,161 +1,261 @@
+/**
+ * UserManagement.tsx (pages/admin/UserManagement.tsx)
+ * 
+ * Admin panel for managing all registered users.
+ * 
+ * DATA: Fetches from GET /api/admin/users (backend strips passwordHash).
+ * ACTIONS:
+ *   - Change Role  → PUT /api/admin/users/:id/role
+ *   - Deactivate   → PUT /api/admin/users/:id/deactivate
+ * 
+ * WHY soft-delete (isActive flag) instead of hard DELETE:
+ * For a research system, preserving historical data is essential.
+ * If we hard-deleted a user, all their check-ins, predictions, and
+ * SHAP explanations would be orphaned. Setting isActive = false keeps
+ * all research data intact while preventing further access.
+ */
+
 import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
+import { adminService } from '../../services/admin.service';
+import { Loader2, UserX, Edit2, Check, X } from 'lucide-react';
+
+// Backend UserRole enum values (PascalCase)
+const ROLES = ['Developer', 'Manager', 'HRofficer', 'Admin', 'ResearchAdmin'] as const;
+
+/** Badge colours per role for quick visual scanning */
+const ROLE_COLORS: Record<string, string> = {
+  Developer: 'bg-blue-100 text-blue-700',
+  Manager: 'bg-amber-100 text-amber-700',
+  HRofficer: 'bg-purple-100 text-purple-700',
+  Admin: 'bg-gray-800 text-white',
+  ResearchAdmin: 'bg-gray-200 text-gray-700',
+};
 
 const UserManagement: React.FC = () => {
+  const queryClient = useQueryClient();
+  const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<any>(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
+  const [newRole, setNewRole] = useState('');
 
-  const handleEditClick = (user: any) => {
+  // ── Fetch all users from the backend ──────────────────────────────────
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['admin', 'users'],
+    queryFn: adminService.getAllUsers,
+  });
+
+  const users: any[] = data?.users ?? [];
+
+  // ── Role change mutation ───────────────────────────────────────────────
+  const roleMutation = useMutation({
+    mutationFn: ({ userId, role }: { userId: string; role: string }) =>
+      adminService.updateRole(userId, role),
+    onSuccess: () => {
+      // Refetch the user list after role change
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      setEditModalOpen(false);
+    },
+  });
+
+  // ── Deactivate mutation (soft-delete) ─────────────────────────────────
+  const deactivateMutation = useMutation({
+    mutationFn: (userId: string) => adminService.deactivateUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      setDeactivateModalOpen(false);
+    },
+  });
+
+  // ── Filter users based on search input ───────────────────────────────
+  const filteredUsers = users.filter(
+    (u) =>
+      u.fullName?.toLowerCase().includes(search.toLowerCase()) ||
+      u.email?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const openEdit = (user: any) => {
     setSelectedUser(user);
-    setIsEditModalOpen(true);
+    setNewRole(user.role);
+    setEditModalOpen(true);
   };
 
-  const handleCancelClick = (user: any) => {
+  const openDeactivate = (user: any) => {
     setSelectedUser(user);
-    setIsCancelModalOpen(true);
+    setDeactivateModalOpen(true);
   };
 
   return (
     <PageWrapper>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+      {/* ── Page Header ─────────────────────────────────────────────── */}
+      <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>User Management</h1>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>42 registered users · 38 active · 4 deactivated</p>
+          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {users.length} registered · {users.filter((u) => u.isActive).length} active ·{' '}
+            {users.filter((u) => !u.isActive).length} deactivated
+          </p>
         </div>
-        <button style={{ backgroundColor: 'var(--primary)', color: 'white', fontSize: '13px', fontWeight: 500, padding: '9px 16px', borderRadius: '8px', border: 'none' }}>
-          Add User
-        </button>
       </div>
 
-      <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-        <input 
-          type="text" 
-          placeholder="Search by name or email..." 
-          style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '13px', padding: '9px 12px 13px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)' }} 
+      {/* ── Search Filter ─────────────────────────────────────────────── */}
+      <div className="flex gap-3 mb-6">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary outline-none"
         />
-        <select style={{ fontFamily: 'var(--font-body)', fontSize: '13px', padding: '9px 12px 13px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)' }}>
-          <option>Role: All</option>
-        </select>
-        <select style={{ fontFamily: 'var(--font-body)', fontSize: '13px', padding: '9px 12px 13px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)' }}>
-          <option>Status: All</option>
-        </select>
       </div>
 
-      <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', overflow: 'hidden', backgroundColor: 'var(--background)', width: '100%', marginBottom: '16px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-          <thead style={{ backgroundColor: 'var(--surface)', height: '40px' }}>
-            <tr>
-              {['Name', 'Email', 'Role', 'Status', 'Last Login', 'Actions'].map(th => (
-                <th key={th} style={{ padding: '0 18px', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>{th}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              { in: 'MG', inBg: '#2F5FE0', name: 'Malithi Guniyangoda', email: 'malithi@dev.lk', role: 'Developer', roleClass: 'badge-primary', status: 'Active', statusClass: 'badge-success', login: 'Today 09:14' },
-              { in: 'PJ', inBg: '#D97706', name: 'Pasan Jayawardena', email: 'pasan@dev.lk', role: 'Team Lead', roleClass: 'badge-warning', status: 'Active', statusClass: 'badge-success', login: 'Yesterday' },
-              { in: 'NK', inBg: '#534AB7', name: 'Nadeesha Kumari', email: 'nadeesha@hr.lk', role: 'HR Officer', roleClass: 'badge-purple', status: 'Active', statusClass: 'badge-success', login: '2 days ago' },
-              { in: 'AR', inBg: '#2F5FE0', name: 'Ashen Rathnayake', email: 'ashen@dev.lk', role: 'Developer', roleClass: 'badge-primary', status: 'Active', statusClass: 'badge-success', login: '3 days ago' },
-              { in: 'SM', inBg: '#0F1117', name: 'Sachini Mendis', email: 'sachini@admin.lk', role: 'Admin', roleClass: 'badge-dark', status: 'Active', statusClass: 'badge-success', login: 'Today 11:30' },
-              { in: 'DW', inBg: '#2F5FE0', name: 'Dinuka Weerasinghe', email: 'dinuka@dev.lk', role: 'Developer', roleClass: 'badge-primary', status: 'Inactive', statusClass: 'badge-danger', login: '2 weeks ago' },
-              { in: 'RK', inBg: '#7B7E8C', name: 'Ravindu Karunarathne', email: 'ravindu@research.lk', role: 'Research Admin', roleClass: 'badge-muted', status: 'Active', statusClass: 'badge-success', login: 'Today 08:45' },
-            ].map((row, idx) => (
-              <tr key={idx} style={{ height: '52px', borderBottom: '1px solid var(--border-color)' }}>
-                <td style={{ padding: '0 18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: row.inBg, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 600 }}>{row.in}</div>
-                    <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>{row.name}</span>
-                  </div>
-                </td>
-                <td style={{ padding: '0 18px', fontSize: '12px', color: 'var(--text-muted)' }}>{row.email}</td>
-                <td style={{ padding: '0 18px' }}>
-                  <span className={`badge ${row.roleClass}`} style={row.roleClass === 'badge-dark' ? { backgroundColor: '#0F1117', color: 'white' } : {}}>{row.role}</span>
-                </td>
-                <td style={{ padding: '0 18px' }}>
-                  <span className={`badge ${row.statusClass}`}>{row.status}</span>
-                </td>
-                <td style={{ padding: '0 18px', fontSize: '12px', color: 'var(--text-muted)' }}>{row.login}</td>
-                <td style={{ padding: '0 18px' }}>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button 
-                      style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
-                      onClick={() => handleEditClick(row)}
-                      title="Edit User"
-                    >
-                      ✏️
-                    </button>
-                    <button 
-                      style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
-                      onClick={() => handleCancelClick(row)}
-                      title="Deactivate User"
-                    >
-                      🚫
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Showing 1–7 of 42 users</div>
-        <div style={{ display: 'flex', gap: '4px' }}>
-          <button style={{ padding: '4px 10px', fontSize: '12px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'var(--background)' }}>Prev</button>
-          <button style={{ padding: '4px 10px', fontSize: '12px', border: '1px solid var(--primary)', borderRadius: '4px', backgroundColor: 'var(--primary-light)', color: 'var(--primary)', fontWeight: 600 }}>1</button>
-          <button style={{ padding: '4px 10px', fontSize: '12px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'var(--background)' }}>2</button>
-          <button style={{ padding: '4px 10px', fontSize: '12px', border: '1px solid var(--border-color)', borderRadius: '4px', backgroundColor: 'var(--background)' }}>Next</button>
+      {/* ── Users Table ───────────────────────────────────────────────── */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-20 text-gray-400 gap-2">
+          <Loader2 className="animate-spin" size={20} />
+          Loading users...
         </div>
-      </div>
+      ) : isError ? (
+        <div className="text-red-500 text-center py-10">
+          Failed to load users. Please check your connection.
+        </div>
+      ) : (
+        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <tr>
+                {['Name', 'Email', 'Role', 'Status', 'Company', 'Actions'].map((h) => (
+                  <th key={h} className="px-4 py-3">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => {
+                // Compute avatar initials from full name
+                const initials = user.fullName
+                  ?.split(' ')
+                  .map((n: string) => n[0])
+                  .join('')
+                  .slice(0, 2)
+                  .toUpperCase();
 
-      {/* Edit User Modal */}
-      {isEditModalOpen && selectedUser && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <Card style={{ width: '400px', maxWidth: '90%' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Edit User</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Name</label>
-                <input type="text" defaultValue={selectedUser.name} style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)' }} />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Role</label>
-                <select defaultValue={selectedUser.role} style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-                  <option value="Developer">Developer</option>
-                  <option value="Team Lead">Team Lead</option>
-                  <option value="HR Officer">HR Officer</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Research Admin">Research Admin</option>
-                </select>
-              </div>
+                return (
+                  <tr key={user.userId} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        {/* Avatar circle */}
+                        <div className="w-8 h-8 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+                          {initials}
+                        </div>
+                        <span className="text-sm font-medium text-gray-800">{user.fullName}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{user.email}</td>
+                    <td className="px-4 py-3">
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${ROLE_COLORS[user.role] ?? 'bg-gray-100 text-gray-600'}`}>
+                        {user.role}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
+                        {user.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{user.company ?? '—'}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        {/* Edit role button */}
+                        <button
+                          onClick={() => openEdit(user)}
+                          className="p-1.5 text-gray-500 hover:text-primary hover:bg-blue-50 rounded-md transition-colors"
+                          title="Edit Role"
+                        >
+                          <Edit2 size={14} />
+                        </button>
+                        {/* Deactivate button — only shown for active users */}
+                        {user.isActive && (
+                          <button
+                            onClick={() => openDeactivate(user)}
+                            className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                            title="Deactivate User"
+                          >
+                            <UserX size={14} />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ── Edit Role Modal ───────────────────────────────────────────── */}
+      {editModalOpen && selectedUser && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card style={{ width: '400px', maxWidth: '90%', padding: '24px' }}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">Change Role</h2>
+              <button onClick={() => setEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <X size={18} />
+              </button>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-              <Button variant="secondary" onClick={() => setIsEditModalOpen(false)}>Cancel</Button>
-              <Button variant="primary" onClick={() => setIsEditModalOpen(false)}>Save Changes</Button>
+            <p className="text-sm text-gray-500 mb-4">
+              Changing role for <strong>{selectedUser.fullName}</strong>
+            </p>
+            <select
+              value={newRole}
+              onChange={(e) => setNewRole(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white mb-4"
+            >
+              {ROLES.map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" onClick={() => setEditModalOpen(false)}>Cancel</Button>
+              <Button
+                variant="primary"
+                disabled={roleMutation.isPending}
+                onClick={() => roleMutation.mutate({ userId: selectedUser.userId, role: newRole })}
+              >
+                {roleMutation.isPending ? <Loader2 className="animate-spin" size={14} /> : <><Check size={14} /> Save</>}
+              </Button>
             </div>
           </Card>
         </div>
       )}
 
-      {/* Cancel/Deactivate Confirmation Modal */}
-      {isCancelModalOpen && selectedUser && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <Card style={{ width: '400px', maxWidth: '90%', borderTop: '4px solid var(--danger)' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '12px', color: 'var(--text-primary)' }}>Deactivate User?</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: 1.5 }}>
-              Are you sure you want to deactivate <strong>{selectedUser.name}</strong>? They will no longer be able to log in to BurnoutGuard. This action can be reversed later.
+      {/* ── Deactivate Confirmation Modal ─────────────────────────────── */}
+      {deactivateModalOpen && selectedUser && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card style={{ width: '400px', maxWidth: '90%', padding: '24px', borderTop: '4px solid #EF4444' }}>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">Deactivate User?</h2>
+            <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+              Are you sure you want to deactivate{' '}
+              <strong>{selectedUser.fullName}</strong>? Their account will be
+              suspended but all data is preserved for research integrity.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-              <Button variant="secondary" onClick={() => setIsCancelModalOpen(false)}>Cancel</Button>
-              <button 
-                onClick={() => setIsCancelModalOpen(false)}
-                style={{ padding: '8px 16px', backgroundColor: 'var(--danger)', color: 'white', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" onClick={() => setDeactivateModalOpen(false)}>Cancel</Button>
+              <button
+                disabled={deactivateMutation.isPending}
+                onClick={() => deactivateMutation.mutate(selectedUser.userId)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50 flex items-center gap-2"
               >
-                Yes, Deactivate
+                {deactivateMutation.isPending ? (
+                  <Loader2 className="animate-spin" size={14} />
+                ) : (
+                  'Yes, Deactivate'
+                )}
               </button>
             </div>
           </Card>

@@ -1,86 +1,86 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+/**
+ * AuthContext.tsx
+ * 
+ * Provides a React Context wrapper around our Zustand auth store.
+ * 
+ * WHY we kept AuthContext even though we have Zustand:
+ * The existing UI components (Navbar, PageWrapper, etc.) were built using
+ * `useAuth()` from this context. Rather than refactoring every component,
+ * we act as a "bridge" — the context reads from Zustand under the hood.
+ * This is a common real-world pattern when migrating state management solutions.
+ * 
+ * WHY Zustand over Context alone:
+ * React Context triggers re-renders in ALL consumers when any value changes.
+ * Zustand uses shallow comparison and only re-renders components that
+ * subscribe to the specific piece of state that changed — much more performant.
+ */
 
-// Defines the available roles in the system
-export type Role = 'developer' | 'manager' | 'hr' | 'admin' | 'research_admin' | null;
+import React, { createContext, useContext } from 'react';
+import { useAuthStore } from '../store/auth.store';
+
+// Role type matches the backend UserRole enum exactly
+export type Role = 'Developer' | 'Manager' | 'HRofficer' | 'Admin' | 'ResearchAdmin' | null;
 
 export interface User {
-  id: string;
-  name: string;
+  userId: string;
+  fullName: string;
   email: string;
   role: Role;
-  avatarInitials: string;
+  company?: string;
+  isActive: boolean;
+  // Computed field for display in the navbar avatar
+  avatarInitials?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   role: Role;
-  login: (email: string) => boolean;
   logout: () => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock Users for testing the role-based views
-const mockUsers: Record<string, User> = {
-  developer: { id: '1', name: 'Malithi Guniyangoda', email: 'malithi@company.com', role: 'developer', avatarInitials: 'MG' },
-  manager: { id: '2', name: 'Alex Manager', email: 'alex.m@company.com', role: 'manager', avatarInitials: 'AM' },
-  hr: { id: '3', name: 'Sarah HR', email: 'sarah.h@company.com', role: 'hr', avatarInitials: 'SH' },
-  admin: { id: '4', name: 'System Admin', email: 'admin@company.com', role: 'admin', avatarInitials: 'SA' },
-  research_admin: { id: '5', name: 'Research Admin', email: 'research@company.com', role: 'research_admin', avatarInitials: 'RA' },
-};
-
+/**
+ * AuthProvider: Wraps the app and makes auth state available to all child components.
+ * It bridges the Zustand store to the React Context API for backward compatibility.
+ */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  // Pull everything from the central Zustand store
+  const { user, isAuthenticated, logout } = useAuthStore();
 
-  // Load from localStorage on mount to persist login state across reloads
-  useEffect(() => {
-    const savedUser = localStorage.getItem('bg_user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (e) {
-        console.error('Failed to parse user from local storage');
+  // Compute the avatar initials from the user's full name for the UI
+  const enrichedUser: User | null = user
+    ? {
+        ...user,
+        role: user.role as Role,
+        avatarInitials: user.fullName
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2),
       }
-    }
-  }, []);
-
-  // Mock login function that authenticates a user based on their email address.
-  // In a real application, this would make an API call to your backend (e.g. built with Prisma)
-  // to verify the email and password.
-  const login = (email: string): boolean => {
-    // Search our mock user database for a matching email
-    const foundUser = Object.values(mockUsers).find((u) => u.email.toLowerCase() === email.toLowerCase());
-    
-    if (foundUser) {
-      setUser(foundUser);
-      localStorage.setItem('bg_user', JSON.stringify(foundUser));
-      return true;
-    }
-    
-    // Return false if the user was not found
-    return false;
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('bg_user');
-  };
+    : null;
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      role: user?.role || null,
-      login,
-      logout,
-      isAuthenticated: !!user
-    }}>
+    <AuthContext.Provider
+      value={{
+        user: enrichedUser,
+        role: enrichedUser?.role ?? null,
+        logout,
+        isAuthenticated,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to consume the AuthContext safely
+/**
+ * useAuth: Custom hook to access auth state from any component.
+ * Will throw an error if used outside of AuthProvider (defensive programming).
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
