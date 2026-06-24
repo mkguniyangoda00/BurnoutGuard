@@ -1,110 +1,230 @@
+/**
+ * Developer Dashboard (pages/developer/Dashboard.tsx)
+ * 
+ * The main homepage for Developer-role users.
+ * 
+ * DATA FLOW:
+ * 1. Fetches the latest burnout prediction from /api/predictions/latest
+ *    — This includes the riskScore, riskLevel, and SHAP explanations
+ * 2. Fetches the check-in streak from /api/checkins/streak
+ *    — Shows how many consecutive days the user has checked in
+ * 
+ * WHY server-driven data here (not mocked):
+ * For a research publication, all displayed data must be traceable back to
+ * real user inputs. Using live database-backed data ensures reproducibility
+ * and validates that our ML pipeline is functioning end-to-end.
+ */
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { useNavigate } from 'react-router-dom';
+import { predictionService } from '../../services/prediction.service';
+import { checkinService } from '../../services/checkin.service';
+import { useAuth } from '../../context/AuthContext';
+import { Loader2, AlertTriangle, TrendingUp } from 'lucide-react';
+
+/** Maps backend RiskLevel enum values to display colours */
+const RISK_COLORS: Record<string, string> = {
+  Low: '#10B981',       // green
+  Moderate: '#F59E0B',  // amber
+  High: '#EF4444',      // red
+  Critical: '#7C2D12',  // dark red
+};
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // ── Fetch latest prediction from backend ──────────────────────────
+  // queryKey: React Query uses this as a cache key.
+  // If another component also queries ['prediction', 'latest'], they share the cache.
+  const {
+    data: predictionData,
+    isLoading: predLoading,
+    isError: predError,
+  } = useQuery({
+    queryKey: ['prediction', 'latest'],
+    queryFn: predictionService.getLatest,
+  });
+
+  // ── Fetch streak from backend ─────────────────────────────────────
+  const { data: streakData } = useQuery({
+    queryKey: ['checkin', 'streak'],
+    queryFn: checkinService.getStreak,
+  });
+
+  const prediction = predictionData?.prediction;
+  const streak = streakData?.streak ?? 0;
+  const riskColor = prediction ? RISK_COLORS[prediction.riskLevel] ?? '#6B7280' : '#6B7280';
+  const riskScore = prediction?.riskScore ?? 0;
+
+  // ── Get top 3 SHAP features that are increasing risk ─────────────
+  // SHAP values are sorted by magnitude; we filter to show only risk-increasing ones
+  const topRiskFactors = prediction?.shapExplanations
+    ?.filter((s: any) => s.direction === 'IncreasesRisk')
+    ?.sort((a: any, b: any) => b.shapValue - a.shapValue)
+    ?.slice(0, 3) ?? [];
+
+  // Greeting based on time of day — a small but impactful UX detail
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
 
   return (
     <PageWrapper>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+      {/* ── Page Header ───────────────────────────────────────────────── */}
+      <div className="flex justify-between items-start mb-7">
         <div>
-          <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Good morning, Malithi</h1>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Wednesday, 1 April 2026 · Week 14 of your tracking journey</p>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {getGreeting()}, {user?.fullName?.split(' ')[0] ?? 'there'}
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            })}
+            {streak > 0 && ` · 🔥 ${streak}-day streak`}
+          </p>
         </div>
-        {/* Action Button: Routes the user to the Check-In form */}
-        <Button variant="primary" onClick={() => navigate('/check-in')}>
+        {/* Clicking this navigates to the Check-In form */}
+        <Button variant="primary" onClick={() => navigate('/developer/check-in')}>
           + Daily Check-in
         </Button>
       </div>
 
-      {/* Hero Risk Card */}
-      <Card className="hero-card" style={{
-        background: 'linear-gradient(135deg, #0F1117 0%, #1E2236 100%)',
-        padding: '24px 28px',
-        marginBottom: '20px',
-        color: 'white',
-        border: 'none',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div>
-          <span style={{ fontSize: '11px', letterSpacing: '0.1em', opacity: 0.55, textTransform: 'uppercase' }}>
-            Current Burnout Risk
-          </span>
-          <h2 style={{ fontSize: '36px', color: '#F59E0B', margin: '8px 0' }}>Moderate</h2>
-          <p style={{ fontSize: '13px', opacity: 0.65, marginBottom: '16px' }}>
-            ↑ Slightly elevated from last week · 3 key factors identified
-          </p>
-          <button style={{
-            padding: '4px 12px',
-            borderRadius: '20px',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontSize: '12px',
-            border: 'none'
-          }}>
-            View explanation →
-          </button>
-        </div>
-        
-        <div style={{ position: 'relative', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
-            <circle cx="40" cy="40" r="34" fill="none" stroke="#F59E0B" strokeWidth="6" 
-                    strokeDasharray="213.6" strokeDashoffset={213.6 * (1 - 0.62)} 
-                    strokeLinecap="round" transform="rotate(-90 40 40)" />
-          </svg>
-          <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <span style={{ fontSize: '16px', fontWeight: 600, color: '#F59E0B' }}>0.62</span>
+      {/* ── Hero Risk Card ────────────────────────────────────────────── */}
+      <Card
+        className="hero-card"
+        style={{
+          background: 'linear-gradient(135deg, #0F1117 0%, #1E2236 100%)',
+          padding: '24px 28px',
+          marginBottom: '20px',
+          color: 'white',
+          border: 'none',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        {predLoading ? (
+          // Show a spinner while data is loading
+          <div className="flex items-center gap-3 text-white/70">
+            <Loader2 className="animate-spin" size={20} />
+            <span>Loading your latest prediction...</span>
           </div>
-          <span style={{ position: 'absolute', bottom: '-20px', fontSize: '11px', opacity: 0.5 }}>Risk score</span>
-        </div>
-      </Card>
-
-      {/* Stat Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-        <Card>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Avg. sleep this week</span>
-          <div style={{ fontSize: '24px', fontWeight: 600, margin: '4px 0' }}>5.8h</div>
-          <span style={{ fontSize: '12px', color: 'var(--danger)' }}>↓ 0.6h below target</span>
-        </Card>
-        <Card>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Avg. stress level</span>
-          <div style={{ fontSize: '24px', fontWeight: 600, margin: '4px 0' }}>7.2 / 10</div>
-          <span style={{ fontSize: '12px', color: 'var(--danger)' }}>↑ Higher than baseline</span>
-        </Card>
-        <Card>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Check-ins completed</span>
-          <div style={{ fontSize: '24px', fontWeight: 600, margin: '4px 0' }}>5 / 7</div>
-          <span style={{ fontSize: '12px', color: 'var(--success)' }}>↗ Good consistency</span>
-        </Card>
-      </div>
-
-      {/* Risk Factors Panel */}
-      <Card>
-        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '16px' }}>Top risk factors this week</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {[
-            { color: 'var(--danger)', text: 'Low sleep quality (avg. 2.1/5) — strongest contributor', shap: '+0.18 SHAP', badge: 'danger' },
-            { color: 'var(--warning)', text: 'High working hours (avg. 10.3h/day)', shap: '+0.14 SHAP', badge: 'warning' },
-            { color: 'var(--warning)', text: 'No exercise on 5 of 7 days', shap: '+0.09 SHAP', badge: 'warning' },
-          ].map((factor, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < 2 ? '1px solid var(--border-color)' : 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: factor.color }} />
-                <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{factor.text}</span>
-              </div>
-              <Badge variant={factor.badge as any}>{factor.shap}</Badge>
+        ) : predError || !prediction ? (
+          // Friendly message when no prediction exists yet
+          <div className="flex flex-col gap-2">
+            <span className="text-xs text-white/50 uppercase tracking-wider">Burnout Risk</span>
+            <p className="text-white/70 text-sm">
+              No prediction yet. Complete at least 7 check-ins, then run a prediction.
+            </p>
+            <button
+              className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full w-fit hover:bg-white/20 transition-colors mt-1"
+              onClick={() => navigate('/developer/check-in')}
+            >
+              Start Check-in →
+            </button>
+          </div>
+        ) : (
+          // Real prediction data from the backend
+          <>
+            <div>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Current Burnout Risk
+              </span>
+              <h2 className="text-4xl font-bold mt-2" style={{ color: riskColor }}>
+                {prediction.riskLevel}
+              </h2>
+              <p className="text-sm text-white/60 mt-1 mb-4">
+                {prediction.trendDirection === 'Improving'
+                  ? '↓ Improving from last prediction'
+                  : prediction.trendDirection === 'Worsening'
+                  ? '↑ Slightly elevated from last prediction'
+                  : '→ Stable compared to last prediction'}
+                &nbsp;·&nbsp;
+                {prediction.shapExplanations?.length ?? 0} key factors identified
+              </p>
+              <button
+                className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full hover:bg-white/20 transition-colors"
+                onClick={() => navigate('/developer/explanation')}
+              >
+                View explanation →
+              </button>
             </div>
-          ))}
-        </div>
+
+            {/* Risk Score Donut ─────────────────────────────────────── */}
+            <div className="relative w-24 h-24 flex items-center justify-center flex-shrink-0">
+              <svg width="96" height="96" viewBox="0 0 96 96">
+                {/* Background track */}
+                <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="7" />
+                {/* Progress arc — strokeDashoffset controls the fill percentage */}
+                <circle
+                  cx="48" cy="48" r="40"
+                  fill="none"
+                  stroke={riskColor}
+                  strokeWidth="7"
+                  strokeDasharray={`${2 * Math.PI * 40}`}
+                  strokeDashoffset={`${2 * Math.PI * 40 * (1 - riskScore)}`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 48 48)"
+                />
+              </svg>
+              <div className="absolute flex flex-col items-center">
+                <span className="text-lg font-bold" style={{ color: riskColor }}>
+                  {(riskScore * 100).toFixed(0)}%
+                </span>
+                <span className="text-xs text-white/40">risk</span>
+              </div>
+            </div>
+          </>
+        )}
       </Card>
+
+      {/* ── Top Risk Factors (from SHAP) ──────────────────────────────── */}
+      {topRiskFactors.length > 0 && (
+        <Card style={{ marginBottom: '20px' }}>
+          <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <AlertTriangle size={15} className="text-amber-500" />
+            Top risk factors this week
+            <span className="text-xs font-normal text-gray-400 ml-1">(from SHAP model explanation)</span>
+          </h3>
+          <div className="flex flex-col gap-3">
+            {topRiskFactors.map((factor: any, i: number) => (
+              <div
+                key={factor.shapId ?? i}
+                className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+              >
+                <div className="flex items-center gap-3">
+                  {/* Coloured dot indicates severity */}
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{
+                      backgroundColor: factor.shapValue > 0.15 ? '#EF4444' : '#F59E0B',
+                    }}
+                  />
+                  <span className="text-sm text-gray-600">{factor.plainLanguageText}</span>
+                </div>
+                <Badge variant={factor.shapValue > 0.15 ? 'danger' : 'warning'}>
+                  +{factor.shapValue.toFixed(2)} SHAP
+                </Badge>
+              </div>
+            ))}
+          </div>
+          <button
+            className="mt-3 text-xs text-primary font-medium flex items-center gap-1 hover:underline"
+            onClick={() => navigate('/developer/explanation')}
+          >
+            <TrendingUp size={12} /> See full SHAP waterfall chart
+          </button>
+        </Card>
+      )}
     </PageWrapper>
   );
 };

@@ -1,19 +1,38 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth, type Role } from './context/AuthContext';
+/**
+ * App.tsx
+ * 
+ * Root routing configuration for BurnoutGuard.
+ * 
+ * WHY role-based routing:
+ * Different user roles see entirely different parts of the application.
+ * A Developer should never accidentally reach the HR analytics dashboard.
+ * We enforce this on the frontend for UX and on the backend via RBAC middleware
+ * for true security (frontend routing can always be bypassed).
+ * 
+ * Route structure:
+ * /login, /register — public, no auth required
+ * / (protected) — RoleRouter redirects to the correct dashboard
+ * /developer/* — Developer-specific pages
+ * /manager/*   — Manager-specific pages
+ * /hr/*        — HR Officer pages
+ * /admin/*     — Admin / Research Admin pages
+ */
 
-// Auth Pages
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { useAuth } from './context/AuthContext';
+
+// Public Pages
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 
 // Developer Pages
-import Dashboard from './pages/developer/Dashboard';
+import DevDashboard from './pages/developer/Dashboard';
 import CheckIn from './pages/developer/CheckIn';
-import Explanation from './pages/developer/Explanation';
+import RiskView from './pages/developer/RiskView';
 import Recommendations from './pages/developer/Recommendations';
 import WeeklyReport from './pages/developer/WeeklyReport';
-import Profile from './pages/developer/Profile';
-import RiskView from './pages/developer/RiskView';
+import Explanation from './pages/developer/Explanation';
 import WhatIfSimulator from './pages/developer/WhatIfSimulator';
 
 // Manager Pages
@@ -25,78 +44,66 @@ import DepartmentOverview from './pages/hr/DepartmentOverview';
 import Trends from './pages/hr/Trends';
 
 // Admin Pages
-import ResearchAdmin from './pages/admin/ModelManagement';
-import AuditLogs from './pages/admin/AuditLogs';
-import FairnessReport from './pages/admin/FairnessReport';
 import UserManagement from './pages/admin/UserManagement';
-import DatasetExport from './pages/admin/DatasetExport';
-import Survey from './pages/admin/Survey';
+import ModelManagement from './pages/admin/ModelManagement';
+import AuditLogs from './pages/admin/AuditLogs';
 
-import './styles/index.css';
-
-// Component to protect routes based on authentication and optionally role
-const ProtectedRoute: React.FC<{ children: React.ReactNode, allowedRoles?: Role[] }> = ({ children, allowedRoles }) => {
-  const { isAuthenticated, role } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+/**
+ * RoleRouter: After login, redirects users to their role-appropriate homepage.
+ * WHY: A single "/" route that adapts to role is more maintainable than
+ * having the login page decide where to redirect.
+ */
+const RoleRouter = () => {
+  const { role } = useAuth();
+  switch (role) {
+    case 'Manager':     return <Navigate to="/manager/dashboard" replace />;
+    case 'HRofficer':  return <Navigate to="/hr/department-overview" replace />;
+    case 'Admin':
+    case 'ResearchAdmin': return <Navigate to="/admin/users" replace />;
+    case 'Developer':
+    default:            return <Navigate to="/developer/dashboard" replace />;
   }
-
-  if (allowedRoles && role && !allowedRoles.includes(role)) {
-    // If they go to a route they don't have access to, send them to their dashboard
-    if (role === 'manager') return <Navigate to="/manager/dashboard" replace />;
-    if (role === 'hr') return <Navigate to="/hr/department-overview" replace />;
-    if (role === 'admin' || role === 'research_admin') return <Navigate to="/admin/models" replace />;
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <>{children}</>;
 };
 
-const App: React.FC = () => {
+function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Default Redirect */}
-          <Route path="/" element={<ProtectedRoute><Navigate to="/dashboard" replace /></ProtectedRoute>} />
+    <Routes>
+      {/* ─── Public Routes ──────────────────────────────────────────── */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-          {/* Developer Routes */}
-          <Route path="/dashboard" element={<ProtectedRoute allowedRoles={['developer']}><Dashboard /></ProtectedRoute>} />
-          <Route path="/check-in" element={<ProtectedRoute allowedRoles={['developer']}><CheckIn /></ProtectedRoute>} />
-          <Route path="/my-risk" element={<ProtectedRoute allowedRoles={['developer']}><RiskView /></ProtectedRoute>} />
-          <Route path="/shap-insights" element={<ProtectedRoute allowedRoles={['developer']}><Explanation /></ProtectedRoute>} />
-          <Route path="/recommendations" element={<ProtectedRoute allowedRoles={['developer']}><Recommendations /></ProtectedRoute>} />
-          <Route path="/reports" element={<ProtectedRoute allowedRoles={['developer']}><WeeklyReport /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/simulator" element={<ProtectedRoute allowedRoles={['developer']}><WhatIfSimulator /></ProtectedRoute>} />
+      {/* ─── Protected Routes (require JWT token) ────────────────────── */}
+      <Route element={<ProtectedRoute />}>
+        {/* Root path → redirect to correct dashboard based on role */}
+        <Route path="/" element={<RoleRouter />} />
 
-          {/* Manager Routes */}
-          <Route path="/manager/dashboard" element={<ProtectedRoute allowedRoles={['manager']}><TeamDashboard /></ProtectedRoute>} />
-          <Route path="/manager/sprint-risk" element={<ProtectedRoute allowedRoles={['manager']}><SprintRisk /></ProtectedRoute>} />
+        {/* Developer routes */}
+        <Route path="/developer/dashboard" element={<DevDashboard />} />
+        <Route path="/developer/check-in" element={<CheckIn />} />
+        <Route path="/developer/my-risk" element={<RiskView />} />
+        <Route path="/developer/recommendations" element={<Recommendations />} />
+        <Route path="/developer/reports" element={<WeeklyReport />} />
+        <Route path="/developer/explanation" element={<Explanation />} />
+        <Route path="/developer/what-if" element={<WhatIfSimulator />} />
 
-          {/* HR Routes */}
-          <Route path="/hr/department-overview" element={<ProtectedRoute allowedRoles={['hr']}><DepartmentOverview /></ProtectedRoute>} />
-          <Route path="/hr/trends" element={<ProtectedRoute allowedRoles={['hr']}><Trends /></ProtectedRoute>} />
+        {/* Manager routes */}
+        <Route path="/manager/dashboard" element={<TeamDashboard />} />
+        <Route path="/manager/sprint-risk" element={<SprintRisk />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin/models" element={<ProtectedRoute allowedRoles={['admin', 'research_admin']}><ResearchAdmin /></ProtectedRoute>} />
-          <Route path="/admin/audit-logs" element={<ProtectedRoute allowedRoles={['admin']}><AuditLogs /></ProtectedRoute>} />
-          <Route path="/admin/fairness-report" element={<ProtectedRoute allowedRoles={['admin', 'research_admin']}><FairnessReport /></ProtectedRoute>} />
-          <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><UserManagement /></ProtectedRoute>} />
-          <Route path="/admin/datasets" element={<ProtectedRoute allowedRoles={['admin', 'research_admin']}><DatasetExport /></ProtectedRoute>} />
-          <Route path="/admin/survey" element={<ProtectedRoute allowedRoles={['research_admin']}><Survey /></ProtectedRoute>} />
+        {/* HR routes */}
+        <Route path="/hr/department-overview" element={<DepartmentOverview />} />
+        <Route path="/hr/trends" element={<Trends />} />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+        {/* Admin routes */}
+        <Route path="/admin/users" element={<UserManagement />} />
+        <Route path="/admin/models" element={<ModelManagement />} />
+        <Route path="/admin/audit-logs" element={<AuditLogs />} />
+      </Route>
+
+      {/* Fallback: redirect unknown URLs back to root */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
-};
+}
 
 export default App;
