@@ -9,7 +9,7 @@ const userRepo = new UserRepository();
 const authService = new AuthService(userRepo);
 const authController = new AuthController(authService);
 
-router.post('/', authController.register);
+router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.get('/me', Authenticate, authController.me);
 

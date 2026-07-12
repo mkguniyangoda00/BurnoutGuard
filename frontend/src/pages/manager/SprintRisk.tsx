@@ -1,123 +1,129 @@
+/**
+ * SprintRisk.tsx (pages/manager/SprintRisk.tsx)
+ * 
+ * Manager view showing risk trends over sprints/weeks.
+ * 
+ * DATA FLOW:
+ * Fetches from /api/analytics/sprint.
+ * Backend groups historical predictions by week and counts the number
+ * of High, Moderate, and Low risk occurrences.
+ */
+
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { analyticsService } from '../../services/analytics.service';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 const SprintRisk: React.FC = () => {
+  // ── Fetch Sprint Analytics ───────────────────────────────────────────
+  const { data: rawData, isLoading, isError } = useQuery({
+    queryKey: ['analytics', 'sprint'],
+    queryFn: analyticsService.getSprintRisk,
+  });
+
+  // The backend returns an array of objects: { week: string, highCount: number, moderateCount: number, lowCount: number }
+  // We reverse it so the oldest week is on the left of the chart, newest on the right.
+  const sprintData = rawData ? [...rawData].reverse() : [];
+
   return (
     <PageWrapper>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+      <div className="flex justify-between items-start mb-6">
         <div>
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Sprint Risk Analysis</h1>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Current sprint: Sprint 23 · 14 April – 28 April 2026</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Sprint Risk Analysis</h1>
+          <p className="text-sm text-gray-500">
+            Historical trend of burnout risk levels across recent weeks.
+          </p>
         </div>
-        <button style={{ backgroundColor: 'var(--primary)', color: 'white', fontSize: '13px', fontWeight: 500, padding: '9px 16px', borderRadius: '8px', border: 'none' }}>
-          Export Report
-        </button>
       </div>
 
-      <div style={{ backgroundColor: 'var(--warning-light)', border: '1px solid var(--warning)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px' }}>
-        <p style={{ fontSize: '13px', color: 'var(--warning)', margin: 0 }}>⚠ 3 team members are showing elevated burnout risk during this sprint. Consider reviewing workload distribution.</p>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)' }}>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Sprint pressure scores</h2>
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-400 bg-white border border-gray-200 rounded-xl">
+          <Loader2 className="animate-spin mb-4" size={32} />
+          <span>Loading sprint analytics...</span>
+        </div>
+      ) : isError ? (
+        <div className="flex flex-col items-center justify-center py-20 text-red-500 bg-white border border-gray-200 rounded-xl">
+          <AlertCircle className="mb-4" size={32} />
+          <span>Failed to load sprint data.</span>
+        </div>
+      ) : sprintData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 bg-white border border-gray-200 rounded-xl">
+          <p>Not enough historical data available.</p>
+        </div>
+      ) : (
+        <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+          <h2 className="text-sm font-bold text-gray-800 mb-6">Burnout Risk Trend (Weekly)</h2>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {[
-              { label: 'Dev 01', score: 8.2, color: 'var(--danger)' },
-              { label: 'Dev 02', score: 6.5, color: 'var(--warning)' },
-              { label: 'Dev 03', score: 9.1, color: 'var(--danger)' },
-              { label: 'Dev 04', score: 4.3, color: 'var(--success)' },
-              { label: 'Dev 05', score: 7.8, color: 'var(--warning)' },
-            ].map((bar, idx) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: '60px', fontSize: '12px', color: 'var(--text-primary)' }}>{bar.label}</div>
-                <div style={{ flex: 1, height: '8px', backgroundColor: 'var(--soft-fill)', borderRadius: '4px', margin: '0 12px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: `${(bar.score / 10) * 100}%`, backgroundColor: bar.color, borderRadius: '4px' }}></div>
+          <div className="flex flex-col gap-6">
+            {sprintData.map((weekData: any, idx: number) => {
+              const total = weekData.highCount + weekData.moderateCount + weekData.lowCount;
+              // Avoid division by zero
+              const highPct = total > 0 ? (weekData.highCount / total) * 100 : 0;
+              const modPct = total > 0 ? (weekData.moderateCount / total) * 100 : 0;
+              const lowPct = total > 0 ? (weekData.lowCount / total) * 100 : 0;
+
+              return (
+                <div key={idx}>
+                  <div className="flex justify-between text-xs font-medium text-gray-500 mb-2">
+                    <span>{weekData.week}</span>
+                    <span>Total Predictions: {total}</span>
+                  </div>
+                  {total === 0 ? (
+                    <div className="w-full h-6 bg-gray-50 border border-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">
+                      No data this week
+                    </div>
+                  ) : (
+                    <div className="flex w-full h-6 rounded-md overflow-hidden bg-gray-100">
+                      {lowPct > 0 && (
+                        <div 
+                          style={{ width: `${lowPct}%` }} 
+                          className="bg-green-500 flex items-center justify-center text-[10px] text-white font-bold"
+                          title={`Low Risk: ${weekData.lowCount}`}
+                        >
+                          {lowPct > 10 ? weekData.lowCount : ''}
+                        </div>
+                      )}
+                      {modPct > 0 && (
+                        <div 
+                          style={{ width: `${modPct}%` }} 
+                          className="bg-amber-500 flex items-center justify-center text-[10px] text-white font-bold"
+                          title={`Moderate Risk: ${weekData.moderateCount}`}
+                        >
+                          {modPct > 10 ? weekData.moderateCount : ''}
+                        </div>
+                      )}
+                      {highPct > 0 && (
+                        <div 
+                          style={{ width: `${highPct}%` }} 
+                          className="bg-red-500 flex items-center justify-center text-[10px] text-white font-bold"
+                          title={`High/Critical Risk: ${weekData.highCount}`}
+                        >
+                          {highPct > 10 ? weekData.highCount : ''}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <div style={{ width: '40px', textAlign: 'right', fontSize: '13px', color: 'var(--text-primary)' }}>{bar.score}/10</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </div>
 
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)' }}>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Risk factors this sprint</h2>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Legend */}
+          <div className="flex gap-4 mt-8 pt-4 border-t border-gray-100 justify-center">
             {[
-              { color: 'var(--danger)', text: 'Requirement changes increased by 40% this sprint' },
-              { color: 'var(--danger)', text: 'Average overtime is 2.3 hours per day' },
-              { color: 'var(--warning)', text: '3 developers on on-call duty simultaneously' },
-              { color: 'var(--warning)', text: 'Daily standups average 45 minutes overrun' },
+              { color: 'bg-green-500', label: 'Low Risk' },
+              { color: 'bg-amber-500', label: 'Moderate Risk' },
+              { color: 'bg-red-500', label: 'High/Critical Risk' },
             ].map((item, idx) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: item.color, marginTop: '4px', flexShrink: 0 }}></div>
-                <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{item.text}</div>
+              <div key={idx} className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-sm ${item.color}`}></div>
+                <span className="text-xs text-gray-500 font-medium">{item.label}</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
-      <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)' }}>
-        <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Burnout risk trend across last 4 sprints</h2>
-        
-        {/* Abstracting the chart using simple SVG */}
-        <div style={{ position: 'relative', height: '220px', width: '100%', marginBottom: '32px', paddingBottom: '20px' }}>
-          <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 100 120" style={{ overflow: 'visible' }}>
-            {/* Grid lines */}
-            <line x1="0" y1="0" x2="100" y2="0" stroke="var(--border-color)" strokeWidth="0.5" />
-            <line x1="0" y1="25" x2="100" y2="25" stroke="var(--border-color)" strokeWidth="0.5" />
-            <line x1="0" y1="50" x2="100" y2="50" stroke="var(--border-color)" strokeWidth="0.5" />
-            <line x1="0" y1="75" x2="100" y2="75" stroke="var(--border-color)" strokeWidth="0.5" />
-            <line x1="0" y1="100" x2="100" y2="100" stroke="var(--border-color)" strokeWidth="0.5" />
-            
-            {/* Red Line: 1, 2, 2, 3 mapped to max 10 => 10%, 20%, 20%, 30% from bottom => y=90, 80, 80, 70 */}
-            <polyline points="0,90 33,80 66,80 100,70" fill="none" stroke="var(--danger)" strokeWidth="2" />
-            <circle cx="0" cy="90" r="2" fill="var(--danger)" />
-            <circle cx="33" cy="80" r="2" fill="var(--danger)" />
-            <circle cx="66" cy="80" r="2" fill="var(--danger)" />
-            <circle cx="100" cy="70" r="2" fill="var(--danger)" />
-
-            {/* Amber Line: 3, 4, 5, 5 => y=70, 60, 50, 50 */}
-            <polyline points="0,70 33,60 66,50 100,50" fill="none" stroke="var(--warning)" strokeWidth="2" />
-            <circle cx="0" cy="70" r="2" fill="var(--warning)" />
-            <circle cx="33" cy="60" r="2" fill="var(--warning)" />
-            <circle cx="66" cy="50" r="2" fill="var(--warning)" />
-            <circle cx="100" cy="50" r="2" fill="var(--warning)" />
-
-            {/* Green Line: 8, 6, 5, 4 => y=20, 40, 50, 60 */}
-            <polyline points="0,20 33,40 66,50 100,60" fill="none" stroke="var(--success)" strokeWidth="2" />
-            <circle cx="0" cy="20" r="2" fill="var(--success)" />
-            <circle cx="33" cy="40" r="2" fill="var(--success)" />
-            <circle cx="66" cy="50" r="2" fill="var(--success)" />
-            <circle cx="100" cy="60" r="2" fill="var(--success)" />
-          </svg>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px', fontSize: '11px', color: 'var(--text-muted)' }}>
-            <span style={{ transform: 'translateX(0)' }}>Sprint 20</span>
-            <span style={{ transform: 'translateX(-50%)' }}>Sprint 21</span>
-            <span style={{ transform: 'translateX(-50%)' }}>Sprint 22</span>
-            <span style={{ transform: 'translateX(-100%)' }}>Sprint 23</span>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '12px', height: '12px', borderRadius: '2px', backgroundColor: 'var(--danger)' }}></div>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>High risk count</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '12px', height: '12px', borderRadius: '2px', backgroundColor: 'var(--warning)' }}></div>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Moderate risk count</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '12px', height: '12px', borderRadius: '2px', backgroundColor: 'var(--success)' }}></div>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Low risk count</span>
-          </div>
-        </div>
-      </div>
+      )}
     </PageWrapper>
   );
 };

@@ -22,9 +22,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 
-// Public Pages
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
+// Public Pages (auth subfolder)
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 // Developer Pages
 import DevDashboard from './pages/developer/Dashboard';
