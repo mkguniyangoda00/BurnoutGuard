@@ -1,96 +1,159 @@
+/**
+ * DepartmentOverview.tsx (pages/hr/DepartmentOverview.tsx)
+ * 
+ * Overview for HR Officer role. Shows risk distribution by department.
+ * 
+ * DATA FLOW:
+ * Fetches data from /api/analytics/department
+ * Backend aggregates the latest prediction for all users, grouped by company/department.
+ * Only departments with 5+ members are returned to protect anonymity.
+ */
+
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { analyticsService } from '../../services/analytics.service';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 const DepartmentOverview: React.FC = () => {
+  // ── Fetch Department Analytics ───────────────────────────────────────
+  const { data: rawData, isLoading, isError } = useQuery({
+    queryKey: ['analytics', 'department'],
+    queryFn: analyticsService.getDepartmentOverview,
+  });
+
+  const deptData = rawData || [];
+
+  // Calculate overall averages across all valid departments
+  let totalHigh = 0;
+  let totalMod = 0;
+  let totalLow = 0;
+  
+  if (deptData.length > 0) {
+    deptData.forEach((d: any) => {
+      totalHigh += d.highPct;
+      totalMod += d.moderatePct;
+      totalLow += d.lowPct;
+    });
+    totalHigh = Math.round(totalHigh / deptData.length);
+    totalMod = Math.round(totalMod / deptData.length);
+    totalLow = Math.round(totalLow / deptData.length);
+  }
+
+  // Find the department with the highest "high risk" percentage
+  const highestRiskDept = deptData.length > 0 
+    ? [...deptData].sort((a, b) => b.highPct - a.highPct)[0]
+    : null;
+
   return (
     <PageWrapper>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Organisation Burnout Overview</h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>April 2026 · All data anonymised and aggregated · Minimum 5 members per group shown</p>
+      {/* ── Header ──────────────────────────────────────────────────────── */}
+      <div className="mb-7">
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Organisation Burnout Overview</h1>
+        <p className="text-sm text-gray-500">
+          All data anonymised and aggregated · Minimum 5 members per group shown
+        </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
-        {[
-          { num: '23%', label: 'High Risk Rate', color: 'var(--danger)' },
-          { num: '41%', label: 'Moderate Risk Rate', color: 'var(--warning)' },
-          { num: '36%', label: 'Low Risk Rate', color: 'var(--success)' },
-          { num: '8.7', label: 'Avg Stress Score', color: 'var(--text-muted)' },
-        ].map((chip, idx) => (
-          <div key={idx} style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '14px 16px', textAlign: 'center', backgroundColor: 'var(--background)' }}>
-            <div style={{ fontSize: '28px', fontWeight: 600, color: chip.color, marginBottom: '4px', lineHeight: 1 }}>{chip.num}</div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{chip.label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginBottom: '24px' }}>
-        <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Risk by department</h2>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {[
-            { dept: 'Engineering', green: 30, amber: 45, red: 25 },
-            { dept: 'QA', green: 50, amber: 35, red: 15 },
-            { dept: 'DevOps', green: 25, amber: 40, red: 35 },
-            { dept: 'Product', green: 55, amber: 35, red: 10 },
-            { dept: 'Support', green: 45, amber: 40, red: 15 },
-          ].map((row, idx) => (
-            <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ width: '100px', fontSize: '13px', color: 'var(--text-secondary)' }}>{row.dept}</div>
-              <div style={{ flex: 1, display: 'flex', height: '12px', borderRadius: '6px', overflow: 'hidden' }}>
-                <div style={{ width: `${row.green}%`, backgroundColor: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'white', fontWeight: 600 }}>{row.green > 10 ? `${row.green}%` : ''}</div>
-                <div style={{ width: `${row.amber}%`, backgroundColor: 'var(--warning)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'white', fontWeight: 600 }}>{row.amber > 10 ? `${row.amber}%` : ''}</div>
-                <div style={{ width: `${row.red}%`, backgroundColor: 'var(--danger)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'white', fontWeight: 600 }}>{row.red > 10 ? `${row.red}%` : ''}</div>
-              </div>
-            </div>
-          ))}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+          <Loader2 className="animate-spin mb-4" size={32} />
+          <span>Loading department analytics...</span>
         </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)' }}>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Departments needing attention</h2>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      ) : isError ? (
+        <div className="flex flex-col items-center justify-center py-20 text-red-500">
+          <AlertCircle className="mb-4" size={32} />
+          <span>Failed to load organisation data.</span>
+        </div>
+      ) : deptData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+          <p>Not enough data available.</p>
+          <p className="text-sm text-gray-400 mt-2">Departments must have at least 5 active users with predictions to be shown.</p>
+        </div>
+      ) : (
+        <>
+          {/* ── Summary Stats ───────────────────────────────────────────────── */}
+          <div className="grid grid-cols-4 gap-3 mb-6">
             {[
-              { name: 'DevOps', highRisk: '35%', desc: 'High on-call frequency and overtime' },
-              { name: 'Engineering', highRisk: '25%', desc: 'Sprint pressure and requirement changes' },
-              { name: 'QA', highRisk: '15%', desc: 'Deadline pressure and meeting overload' },
-            ].map((dept, idx) => (
-              <div key={idx} style={{ display: 'flex', paddingLeft: '12px', borderLeft: '3px solid var(--danger)' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: 600 }}>{dept.name}</span>
-                    <span style={{ fontSize: '11px', backgroundColor: 'var(--danger-light)', color: 'var(--danger)', padding: '2px 8px', borderRadius: '10px', fontWeight: 500 }}>{dept.highRisk} high risk</span>
+              { num: `${totalHigh}%`, label: 'Avg High Risk Rate', color: 'text-red-500' },
+              { num: `${totalMod}%`, label: 'Avg Moderate Risk Rate', color: 'text-amber-500' },
+              { num: `${totalLow}%`, label: 'Avg Low Risk Rate', color: 'text-green-500' },
+              { num: highestRiskDept ? highestRiskDept.department : '—', label: 'Most Stressed Dept', color: 'text-gray-700' },
+            ].map((chip, idx) => (
+              <div key={idx} className="border border-gray-200 rounded-xl p-4 text-center bg-white shadow-sm">
+                <div className={`text-2xl font-bold mb-1 truncate ${chip.color}`}>{chip.num}</div>
+                <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">{chip.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Risk by Department Bar Chart ──────────────────────────────── */}
+          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+            <h2 className="text-sm font-bold text-gray-800 mb-5">Burnout Risk Distribution by Department</h2>
+            
+            <div className="flex flex-col gap-4">
+              {deptData.map((row: any, idx: number) => {
+                // Formatting percentages
+                const low = Math.round(row.lowPct);
+                const mod = Math.round(row.moderatePct);
+                const high = Math.round(row.highPct);
+
+                return (
+                  <div key={idx} className="flex items-center">
+                    <div className="w-32 text-sm font-medium text-gray-700 truncate pr-2" title={row.department}>
+                      {row.department}
+                    </div>
+                    {/* Stacked Progress Bar */}
+                    <div className="flex-1 flex h-4 rounded-full overflow-hidden bg-gray-100 border border-gray-200/50">
+                      {low > 0 && (
+                        <div 
+                          style={{ width: `${low}%` }} 
+                          className="bg-green-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                          title={`Low Risk: ${low}%`}
+                        >
+                          {low > 8 ? `${low}%` : ''}
+                        </div>
+                      )}
+                      {mod > 0 && (
+                        <div 
+                          style={{ width: `${mod}%` }} 
+                          className="bg-amber-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                          title={`Moderate Risk: ${mod}%`}
+                        >
+                          {mod > 8 ? `${mod}%` : ''}
+                        </div>
+                      )}
+                      {high > 0 && (
+                        <div 
+                          style={{ width: `${high}%` }} 
+                          className="bg-red-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                          title={`High/Critical Risk: ${high}%`}
+                        >
+                          {high > 8 ? `${high}%` : ''}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{dept.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                );
+              })}
+            </div>
 
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)' }}>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Organisation-wide top risk factors</h2>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {[
-              { label: 'Overtime frequency', pct: 71, color: 'var(--danger)' },
-              { label: 'Poor sleep', pct: 65, color: 'var(--danger)' },
-              { label: 'Sprint pressure', pct: 58, color: 'var(--warning)' },
-              { label: 'Low exercise', pct: 51, color: 'var(--warning)' },
-              { label: 'Meeting overload', pct: 44, color: 'var(--primary)' },
-            ].map((bar, idx) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ width: '130px', fontSize: '12px', color: 'var(--text-secondary)' }}>{bar.label}</div>
-                <div style={{ flex: 1, height: '8px', backgroundColor: 'var(--soft-fill)', borderRadius: '4px', margin: '0 12px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: `${bar.pct}%`, backgroundColor: bar.color, borderRadius: '4px' }}></div>
+            {/* Legend */}
+            <div className="flex gap-4 mt-6 pt-4 border-t border-gray-100 justify-center">
+              {[
+                { color: 'bg-green-500', label: 'Low Risk' },
+                { color: 'bg-amber-500', label: 'Moderate Risk' },
+                { color: 'bg-red-500', label: 'High/Critical Risk' },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <div className={`w-3 h-3 rounded-sm ${item.color}`}></div>
+                  <span className="text-xs text-gray-500 font-medium">{item.label}</span>
                 </div>
-                <div style={{ width: '32px', textAlign: 'right', fontSize: '11px', color: 'var(--text-muted)' }}>{bar.pct}%</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </PageWrapper>
   );
 };

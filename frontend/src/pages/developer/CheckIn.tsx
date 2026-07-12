@@ -1,32 +1,56 @@
+/**
+ * CheckIn.tsx (pages/developer/CheckIn.tsx)
+ * 
+ * The daily wellbeing check-in form for developers.
+ * 
+ * This is the most critical data-entry point in BurnoutGuard.
+ * Every field maps directly to a column in the DailyCheckIn Prisma model.
+ * The backend Zod validator enforces the same ranges shown in the UI.
+ * 
+ * WHY useMutation from React Query:
+ * useMutation handles the full lifecycle of a POST request —
+ * isPending (show spinner), isSuccess (show confirmation), isError (show message).
+ * Without it, you'd need 3+ separate useState hooks to track the same state.
+ */
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
+import { checkinService, type CheckInPayload } from '../../services/checkin.service';
+import { Loader2, CheckCircle } from 'lucide-react';
 
-const ScaleInput: React.FC<{ 
-  label: string, 
-  max: number, 
-  value: number, 
-  onChange: (v: number) => void 
-}> = ({ label, max, value, onChange }) => (
-  <div style={{ marginBottom: '16px' }}>
-    <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>{label}</label>
-    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+/**
+ * ScaleInput — reusable 1-to-N button scale selector.
+ * Used for Stress Level, Sleep Quality, Mood, etc.
+ * 
+ * WHY custom component instead of a range input (<input type="range">):
+ * Discrete button scales are more usable on both desktop and mobile,
+ * and make the selected value visually obvious without reading a tooltip.
+ */
+const ScaleInput: React.FC<{
+  label: string;
+  max: number;
+  value: number;
+  onChange: (v: number) => void;
+  description?: string;
+}> = ({ label, max, value, onChange, description }) => (
+  <div className="mb-4">
+    <label className="block text-xs text-gray-500 mb-1 font-medium">{label}</label>
+    {description && <p className="text-xs text-gray-400 mb-2">{description}</p>}
+    <div className="flex gap-1.5 flex-wrap">
       {Array.from({ length: max }, (_, i) => i + 1).map((n) => (
         <button
           key={n}
+          type="button" // Prevent accidental form submission
           onClick={() => onChange(n)}
-          style={{
-            height: '32px',
-            minWidth: '32px',
-            padding: '0 8px',
-            borderRadius: '6px',
-            border: n === value ? '1px solid var(--primary)' : '1px solid var(--border-color)',
-            backgroundColor: n === value ? 'var(--primary)' : 'var(--soft-fill)',
-            color: n === value ? 'white' : 'var(--text-muted)',
-            fontSize: '12px',
-            fontWeight: 500
-          }}
+          className={`h-8 min-w-[32px] px-2 rounded-md text-xs font-medium border transition-all ${
+            n === value
+              ? 'bg-primary text-white border-primary shadow-sm'
+              : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-primary hover:text-primary'
+          }`}
         >
           {n}
         </button>
@@ -36,101 +60,241 @@ const ScaleInput: React.FC<{
 );
 
 const CheckIn: React.FC = () => {
-  const [sleepQuality, setSleepQuality] = useState(3);
-  const [stressLevel, setStressLevel] = useState(7);
-  const [workload, setWorkload] = useState(4);
-  const [mood, setMood] = useState(5);
-  const [exercise, setExercise] = useState<'Yes' | 'No'>('No');
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  // ── Form state — each field mirrors the backend CheckInPayload interface ──
+  const [formData, setFormData] = useState<CheckInPayload>({
+    workHours: 8,
+    stressLevel: 5,
+    sleepHours: 7,
+    sleepQuality: 3,
+    exerciseDone: false,
+    screenTimeHours: 6,
+    workloadRating: 3,
+    moodScore: 6,
+    energyLevel: 3,
+    notes: '',
+  });
+
+  // ── Submit mutation ────────────────────────────────────────────────────
+  const mutation = useMutation({
+    mutationFn: () => checkinService.submit(formData),
+    onSuccess: () => {
+      // Invalidate cached queries so the dashboard updates immediately
+      queryClient.invalidateQueries({ queryKey: ['checkin', 'streak'] });
+      queryClient.invalidateQueries({ queryKey: ['prediction', 'latest'] });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
+  // ── Show success state after submission ────────────────────────────────
+  if (mutation.isSuccess) {
+    return (
+      <PageWrapper>
+        <div className="max-w-md mx-auto mt-16 text-center">
+          <CheckCircle size={56} className="text-green-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Check-in Submitted!</h2>
+          <p className="text-gray-500 mb-6">
+            Great job. Your data has been saved and will be used to update your burnout risk
+            prediction once you have 7 consecutive check-ins.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Button variant="secondary" onClick={() => navigate('/developer/dashboard')}>
+              Back to Dashboard
+            </Button>
+            <Button variant="primary" onClick={() => mutation.reset()}>
+              Submit Another
+            </Button>
+          </div>
+        </div>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+      {/* ── Page Header ─────────────────────────────────────────────── */}
+      <div className="flex justify-between items-start mb-7">
         <div>
-          <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Today's Check-in</h1>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Wednesday, 1 April 2026 · Takes about 90 seconds</p>
-        </div>
-        <div style={{ padding: '6px 12px', backgroundColor: 'var(--soft-fill)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
-          5 of 7 this week
+          <h1 className="text-2xl font-bold text-gray-900">Today's Check-in</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long', month: 'long', day: 'numeric',
+            })} · Takes about 90 seconds
+          </p>
         </div>
       </div>
 
-      <div style={{ 
-        backgroundColor: '#F0F4FF', 
-        border: '1px solid #C7D5FA', 
-        borderRadius: '14px', 
-        padding: '14px 18px', 
-        fontSize: '13px', 
-        color: 'var(--primary)',
-        marginBottom: '20px'
-      }}>
-        💡 You're close to unlocking your weekly prediction — submit today's check-in to get your updated risk score.
+      {/* ── Motivational Banner ──────────────────────────────────────── */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-sm text-primary mb-5">
+        💡 Complete 7 consecutive check-ins to unlock your weekly burnout risk prediction.
       </div>
 
-      <Card style={{ padding: '24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-          <div>
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Hours worked today</label>
-              <input type="number" defaultValue="9.5" style={{
-                width: '100%', padding: '9px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '13px'
-              }} />
+      <form onSubmit={handleSubmit}>
+        <Card style={{ padding: '24px' }}>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+            {/* ── Left Column ───────────────────────────────────── */}
+            <div>
+              {/* Number input for work hours */}
+              <div className="mb-4">
+                <label className="block text-xs text-gray-500 mb-1 font-medium">
+                  Hours worked today
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  max={24}
+                  step={0.5}
+                  value={formData.workHours}
+                  onChange={(e) => setFormData({ ...formData, workHours: parseFloat(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                />
+              </div>
+
+              <ScaleInput
+                label="Sleep quality last night"
+                description="1 = Very poor, 5 = Excellent"
+                max={5}
+                value={formData.sleepQuality}
+                onChange={(v) => setFormData({ ...formData, sleepQuality: v })}
+              />
+
+              <ScaleInput
+                label="Workload feeling"
+                description="1 = Very light, 5 = Overwhelming"
+                max={5}
+                value={formData.workloadRating}
+                onChange={(v) => setFormData({ ...formData, workloadRating: v })}
+              />
+
+              <ScaleInput
+                label="Energy level"
+                description="1 = Exhausted, 5 = Energised"
+                max={5}
+                value={formData.energyLevel}
+                onChange={(v) => setFormData({ ...formData, energyLevel: v })}
+              />
+
+              {/* Exercise toggle — maps to boolean exerciseDone field */}
+              <div className="mb-4">
+                <label className="block text-xs text-gray-500 mb-1 font-medium">
+                  Did you exercise today?
+                </label>
+                <div className="flex gap-2">
+                  {(['No', 'Yes'] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, exerciseDone: opt === 'Yes' })}
+                      className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${
+                        formData.exerciseDone === (opt === 'Yes')
+                          ? opt === 'Yes'
+                            ? 'bg-green-50 border-green-400 text-green-700'
+                            : 'bg-gray-100 border-gray-400 text-gray-700'
+                          : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-            
-            <ScaleInput label="Sleep quality" max={5} value={sleepQuality} onChange={setSleepQuality} />
-            <ScaleInput label="Workload feeling" max={5} value={workload} onChange={setWorkload} />
-            
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Exercise today?</label>
-              <div style={{ display: 'flex', gap: '6px' }}>
-                {['No', 'Yes'].map((opt) => (
-                  <button
-                    key={opt}
-                    onClick={() => setExercise(opt as any)}
-                    style={{
-                      flex: 1, padding: '8px', borderRadius: '8px', border: exercise === opt ? (opt === 'Yes' ? '1.5px solid var(--success)' : '1px solid var(--border-color)') : '1px solid var(--border-color)',
-                      backgroundColor: exercise === opt ? (opt === 'Yes' ? 'var(--success-light)' : 'var(--soft-fill)') : 'var(--soft-fill)',
-                      color: exercise === opt ? (opt === 'Yes' ? 'var(--success)' : 'var(--text-primary)') : 'var(--text-muted)',
-                      fontSize: '13px', fontWeight: exercise === opt ? 500 : 400
-                    }}
-                  >
-                    {opt}
-                  </button>
-                ))}
+
+            {/* ── Right Column ──────────────────────────────────── */}
+            <div>
+              <div className="mb-4">
+                <label className="block text-xs text-gray-500 mb-1 font-medium">
+                  Sleep hours last night
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  max={24}
+                  step={0.5}
+                  value={formData.sleepHours}
+                  onChange={(e) => setFormData({ ...formData, sleepHours: parseFloat(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                />
+              </div>
+
+              <ScaleInput
+                label="Stress level today"
+                description="1 = Very calm, 10 = Extremely stressed"
+                max={10}
+                value={formData.stressLevel}
+                onChange={(v) => setFormData({ ...formData, stressLevel: v })}
+              />
+
+              <ScaleInput
+                label="Mood score"
+                description="1 = Very low, 10 = Excellent"
+                max={10}
+                value={formData.moodScore}
+                onChange={(v) => setFormData({ ...formData, moodScore: v })}
+              />
+
+              <div className="mb-4">
+                <label className="block text-xs text-gray-500 mb-1 font-medium">
+                  Screen time (hours, outside of work)
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  max={24}
+                  step={0.5}
+                  value={formData.screenTimeHours}
+                  onChange={(e) => setFormData({ ...formData, screenTimeHours: parseFloat(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                />
               </div>
             </div>
           </div>
 
-          <div>
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Sleep hours last night</label>
-              <input type="number" defaultValue="6.0" style={{
-                width: '100%', padding: '9px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '13px'
-              }} />
-            </div>
-
-            <ScaleInput label="Stress level today" max={10} value={stressLevel} onChange={setStressLevel} />
-            <ScaleInput label="Mood score" max={10} value={mood} onChange={setMood} />
-
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Screen time (hrs)</label>
-              <input type="number" defaultValue="11.0" style={{
-                width: '100%', padding: '9px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '13px'
-              }} />
-            </div>
+          {/* ── Notes field (full width) ───────────────────────────── */}
+          <div className="mt-2">
+            <label className="block text-xs text-gray-500 mb-1 font-medium">
+              Any notes? (optional, max 500 characters)
+            </label>
+            <textarea
+              placeholder="e.g. Had a tough sprint review today..."
+              maxLength={500}
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              className="w-full h-16 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm resize-none focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+            />
           </div>
-        </div>
 
-        <div style={{ marginTop: '16px' }}>
-          <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Any notes? (optional)</label>
-          <textarea placeholder="e.g. Had a tough sprint review today..." style={{
-            width: '100%', height: '64px', padding: '9px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '13px', resize: 'none'
-          }} />
-        </div>
+          {/* ── Error message from backend ────────────────────────── */}
+          {mutation.isError && (
+            <div className="mt-3 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
+              Submission failed. Please check your inputs and try again.
+            </div>
+          )}
 
-        <Button variant="primary" style={{ width: '100%', marginTop: '24px', padding: '12px' }}>
-          Submit Check-in →
-        </Button>
-      </Card>
+          {/* ── Submit button ─────────────────────────────────────── */}
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={mutation.isPending}
+            style={{ width: '100%', marginTop: '20px', padding: '12px' }}
+          >
+            {mutation.isPending ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="animate-spin" size={16} />
+                Saving...
+              </span>
+            ) : (
+              'Submit Check-in →'
+            )}
+          </Button>
+        </Card>
+      </form>
     </PageWrapper>
   );
 };
