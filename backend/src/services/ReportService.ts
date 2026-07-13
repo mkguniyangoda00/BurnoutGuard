@@ -21,7 +21,7 @@ export class ReportService {
       },
     });
 
-    if (checkIns.length < 3) {
+    if (checkIns.length < 1) {
       console.log(`[ReportService] Skipping user ${userId} — only ${checkIns.length} check-ins this week`);
       return null;
     }

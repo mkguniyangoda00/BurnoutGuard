@@ -4,6 +4,7 @@ import { RecommendationService } from './RecommendationService';
 import { Prediction } from '../models/Prediction';
 import { ShapExplanation } from '../models/ShapExplanation';
 import { AlertService } from './AlertService';
+import prisma from '../config/Db';
 
 export class PredictionService {
   constructor(
@@ -38,13 +39,18 @@ export class PredictionService {
           : `${s.featureName} is helping reduce your risk by ${Math.abs(s.shapValue).toFixed(2)} points`,
     }));
 
+    // Calculate actual check-ins count dynamically
+    const checkInsUsed = await prisma.dailyCheckIn.count({
+      where: { userId },
+    });
+
     const saved = await this.predictionRepo.createWithShap(
       {
         userId,
         riskScore: mlResult.riskScore,
         riskLevel: mlResult.riskLevel,
         modelVersion: mlResult.modelVersion,
-        checkInsUsed: 7,
+        checkInsUsed: checkInsUsed || 1,
         predictionDate: new Date(),
         isLatest: true,
         trendDirection,
