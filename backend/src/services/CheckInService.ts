@@ -3,11 +3,15 @@ import { MlService } from './MlService';
 import { CheckInDto } from '../middleware/validators/CheckInValidator';
 import { CheckIn } from '../models/CheckIn';
 import prisma from '../config/Db';
+import { PredictionService } from './PredictionService';
+import { ReportService } from './ReportService';
 
 export class CheckInService {
   constructor(
     private checkInRepo: CheckInRepository,
-    private mlService: MlService
+    private mlService: MlService,
+    private predictionService?: PredictionService,
+    private reportService?: ReportService
   ) {}
 
   async submit(userId: string, dto: CheckInDto): Promise<CheckIn> {
@@ -32,8 +36,33 @@ export class CheckInService {
       data: { totalCheckIns: total, currentStreak: streak },
     });
 
-    if (total >= 7) {
-      this.mlService.triggerPrediction(userId);
+    // Auto-trigger prediction generation if predictionService is injected
+    if (this.predictionService) {
+      try {
+        await this.predictionService.createPrediction(userId);
+      } catch (err: any) {
+        console.error(`[CheckInService] Auto-prediction generation failed for user ${userId}:`, err.message);
+      }
+    }
+
+    // Auto-trigger wellness report generation if reportService is injected
+    if (this.reportService) {
+      try {
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const diffToMonday = (dayOfWeek + 6) % 7;
+        const weekStart = new Date(today);
+        weekStart.setDate(today.getDate() - diffToMonday);
+        weekStart.setHours(0, 0, 0, 0);
+
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        weekEnd.setHours(23, 59, 59, 999);
+
+        await this.reportService.generateForUser(userId, weekStart, weekEnd);
+      } catch (err: any) {
+        console.error(`[CheckInService] Auto-wellness report generation failed for user ${userId}:`, err.message);
+      }
     }
 
     return checkIn;

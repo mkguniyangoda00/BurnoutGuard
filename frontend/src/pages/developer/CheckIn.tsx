@@ -81,15 +81,25 @@ const CheckIn: React.FC = () => {
   const mutation = useMutation({
     mutationFn: () => checkinService.submit(formData),
     onSuccess: () => {
-      // Invalidate cached queries so the dashboard updates immediately
+      // Invalidate cached queries so all panels update immediately
       queryClient.invalidateQueries({ queryKey: ['checkin', 'streak'] });
       queryClient.invalidateQueries({ queryKey: ['prediction', 'latest'] });
+      queryClient.invalidateQueries({ queryKey: ['prediction', 'history'] });
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+      queryClient.invalidateQueries({ queryKey: ['recommendations'] });
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate();
+  };
+
+  // Extract custom error message from backend if available
+  const getErrorMessage = () => {
+    if (!mutation.error) return null;
+    const err = mutation.error as any;
+    return err.response?.data?.error || err.message || 'Submission failed. Please check your inputs and try again.';
   };
 
   // ── Show success state after submission ────────────────────────────────
@@ -100,8 +110,8 @@ const CheckIn: React.FC = () => {
           <CheckCircle size={56} className="text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Check-in Submitted!</h2>
           <p className="text-gray-500 mb-6">
-            Great job. Your data has been saved and will be used to update your burnout risk
-            prediction once you have 7 consecutive check-ins.
+            Great job. Your wellness data has been saved and used to update your burnout risk
+            prediction, recommendations, and weekly wellness report immediately.
           </p>
           <div className="flex gap-3 justify-center">
             <Button variant="secondary" onClick={() => navigate('/developer/dashboard')}>
@@ -273,7 +283,7 @@ const CheckIn: React.FC = () => {
           {/* ── Error message from backend ────────────────────────── */}
           {mutation.isError && (
             <div className="mt-3 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
-              Submission failed. Please check your inputs and try again.
+              {getErrorMessage()}
             </div>
           )}
 
