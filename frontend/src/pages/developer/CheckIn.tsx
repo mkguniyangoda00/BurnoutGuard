@@ -46,11 +46,10 @@ const ScaleInput: React.FC<{
           key={n}
           type="button" // Prevent accidental form submission
           onClick={() => onChange(n)}
-          className={`h-8 min-w-[32px] px-2 rounded-md text-xs font-medium border transition-all ${
-            n === value
-              ? 'bg-primary text-white border-primary shadow-sm'
-              : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-primary hover:text-primary'
-          }`}
+          className={`h-8 min-w-[32px] px-2 rounded-md text-xs font-medium border transition-all ${n === value
+            ? 'bg-primary text-white border-primary shadow-sm'
+            : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-primary hover:text-primary'
+            }`}
         >
           {n}
         </button>
@@ -96,11 +95,11 @@ const CheckIn: React.FC = () => {
   };
 
   // Extract custom error message from backend if available
-  const getErrorMessage = () => {
-    if (!mutation.error) return null;
-    const err = mutation.error as any;
-    return err.response?.data?.error || err.message || 'Submission failed. Please check your inputs and try again.';
-  };
+  // const getErrorMessage = () => {
+  //   if (!mutation.error) return null;
+  //   const err = mutation.error as any;
+  //   return err.response?.data?.error || err.message || 'Submission failed. Please check your inputs and try again.';
+  // };
 
   // ── Show success state after submission ────────────────────────────────
   if (mutation.isSuccess) {
@@ -201,13 +200,12 @@ const CheckIn: React.FC = () => {
                       key={opt}
                       type="button"
                       onClick={() => setFormData({ ...formData, exerciseDone: opt === 'Yes' })}
-                      className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${
-                        formData.exerciseDone === (opt === 'Yes')
-                          ? opt === 'Yes'
-                            ? 'bg-green-50 border-green-400 text-green-700'
-                            : 'bg-gray-100 border-gray-400 text-gray-700'
-                          : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300'
-                      }`}
+                      className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${formData.exerciseDone === (opt === 'Yes')
+                        ? opt === 'Yes'
+                          ? 'bg-green-50 border-green-400 text-green-700'
+                          : 'bg-gray-100 border-gray-400 text-gray-700'
+                        : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300'
+                        }`}
                     >
                       {opt}
                     </button>
@@ -283,7 +281,7 @@ const CheckIn: React.FC = () => {
           {/* ── Error message from backend ────────────────────────── */}
           {mutation.isError && (
             <div className="mt-3 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
-              {getErrorMessage()}
+              Submission failed. Please check your inputs and try again.
             </div>
           )}
 

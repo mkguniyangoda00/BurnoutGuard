@@ -1,36 +1,34 @@
 import { Router } from 'express';
 import { CheckInRepository } from '../repositories/CheckInRepository';
+import { PredictionRepository } from '../repositories/PredictionRepository';
+import { RecommendationRepository } from '../repositories/RecommendationRepository';
+import { AlertRepository } from '../repositories/AlertRepository';
 import { MlService } from '../services/MlService';
+import { RecommendationService } from '../services/RecommendationService';
+import { AlertService } from '../services/AlertService';
+import { PredictionService } from '../services/PredictionService';
 import { CheckInService } from '../services/CheckInService';
 import { CheckInController } from '../controllers/CheckInController';
 import { Authenticate } from '../middleware/Authenticate';
 import { authorize } from '../middleware/Authorize';
 
-import { PredictionRepository } from '../repositories/PredictionRepository';
-import { RecommendationRepository } from '../repositories/RecommendationRepository';
-import { AlertRepository } from '../repositories/AlertRepository';
-import { RecommendationService } from '../services/RecommendationService';
-import { AlertService } from '../services/AlertService';
-import { PredictionService } from '../services/PredictionService';
-
-import { ReportRepository } from '../repositories/ReportRepository';
-import { ReportService } from '../services/ReportService';
-
 const router = Router();
-const checkInRepo = new CheckInRepository();
-const mlService = new MlService();
 
+const checkInRepo = new CheckInRepository();
 const predictionRepo = new PredictionRepository();
 const recRepo = new RecommendationRepository();
 const alertRepo = new AlertRepository();
+const mlService = new MlService();
 const recService = new RecommendationService(recRepo);
 const alertService = new AlertService(alertRepo);
+
+// Create CheckInService first
+const checkInService = new CheckInService(checkInRepo, mlService);
+
+// Create PredictionService and inject into CheckInService
 const predictionService = new PredictionService(predictionRepo, mlService, recService, alertService);
+checkInService.setPredictionService(predictionService);
 
-const reportRepo = new ReportRepository();
-const reportService = new ReportService(reportRepo, checkInRepo);
-
-const checkInService = new CheckInService(checkInRepo, mlService, predictionService, reportService);
 const checkInController = new CheckInController(checkInService);
 
 router.post('/', Authenticate, authorize(['Developer']), checkInController.submit);

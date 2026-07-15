@@ -1,18 +1,38 @@
-import { client } from './client';
+import client from './client';
 
 export const authService = {
-  login: async (credentials: any) => {
-    const response = await client.post('/auth/login', credentials);
-    return response.data;
+  register: async (data: {
+    email: string;
+    password: string;
+    fullName: string;
+    role: string;
+    company?: string;
+  }) => {
+    const res = await client.post('/auth/register', data);
+    return res.data;
   },
-  
-  register: async (userData: any) => {
-    const response = await client.post('/auth/register', userData);
-    return response.data;
+
+  login: async (data: { email: string; password: string }) => {
+    const res = await client.post('/auth/login', data);
+    const { token, user } = res.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    return res.data;
   },
-  
-  getMe: async () => {
-    const response = await client.get('/auth/me');
-    return response.data;
-  }
+
+  me: async () => {
+    const res = await client.get('/auth/me');
+    return res.data.user;
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  },
+
+  getStoredUser: () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  },
 };

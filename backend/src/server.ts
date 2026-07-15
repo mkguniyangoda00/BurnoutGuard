@@ -24,7 +24,17 @@ const app = express();
 
 // ── Middlewares ───────────────────────────────────────────────────────────────
 app.use(helmet());
-app.use(cors());
+// restricted CORS using your env variable
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',  // fallback if 5173 is taken
+    Env.FRONTEND_URL,
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -50,19 +60,20 @@ app.use('/api/admin', AdminRoutes);
 // ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
 
-  // Zod validation errors
   if (err.name === 'ZodError') {
     res.status(400).json({ error: 'Validation error', details: err.errors });
     return;
   }
 
-  res.status(statusCode).json({ error: message });
+  res.status(statusCode).json({ error: err.message || 'Internal Server Error' });
 });
 
 // ── Scheduled Jobs ────────────────────────────────────────────────────────────
-const reportService = new ReportService(new ReportRepository(), new CheckInRepository());
+const reportService = new ReportService(
+  new ReportRepository(),
+  new CheckInRepository()
+);
 startWeeklyReportJob(reportService);
 
 // ── Start Server ──────────────────────────────────────────────────────────────
