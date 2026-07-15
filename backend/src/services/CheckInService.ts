@@ -1,18 +1,20 @@
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import { MlService } from './MlService';
+import { PredictionService } from './PredictionService';
 import { CheckInDto } from '../middleware/validators/CheckInValidator';
 import { CheckIn } from '../models/CheckIn';
 import prisma from '../config/Db';
-import { PredictionService } from './PredictionService';
-import { ReportService } from './ReportService';
 
 export class CheckInService {
   constructor(
     private checkInRepo: CheckInRepository,
     private mlService: MlService,
-    private predictionService?: PredictionService,
-    private reportService?: ReportService
-  ) {}
+    private predictionService?: PredictionService // optional to avoid circular deps at startup
+  ) { }
+
+  setPredictionService(service: PredictionService) {
+    this.predictionService = service;
+  }
 
   async submit(userId: string, dto: CheckInDto): Promise<CheckIn> {
     const existing = await this.checkInRepo.findTodayByUser(userId);
@@ -36,38 +38,19 @@ export class CheckInService {
       data: { totalCheckIns: total, currentStreak: streak },
     });
 
-    // Auto-trigger prediction generation if predictionService is injected
-    if (this.predictionService) {
-      try {
-        await this.predictionService.createPrediction(userId);
-      } catch (err: any) {
-        console.error(`[CheckInService] Auto-prediction generation failed for user ${userId}:`, err.message);
-      }
-    }
-
-    // Auto-trigger wellness report generation if reportService is injected
-    if (this.reportService) {
-      try {
-        const today = new Date();
-        const dayOfWeek = today.getDay();
-        const diffToMonday = (dayOfWeek + 6) % 7;
-        const weekStart = new Date(today);
-        weekStart.setDate(today.getDate() - diffToMonday);
-        weekStart.setHours(0, 0, 0, 0);
-
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekStart.getDate() + 6);
-        weekEnd.setHours(23, 59, 59, 999);
-
-        await this.reportService.generateForUser(userId, weekStart, weekEnd);
-      } catch (err: any) {
-        console.error(`[CheckInService] Auto-wellness report generation failed for user ${userId}:`, err.message);
-      }
+    if (total >= 7 && this.predictionService) {
+      // Run async so check-in response is not delayed
+      this.predictionService.createPrediction(userId).catch((err) => {
+        console.error(
+          `[CheckInService] Failed to create prediction for user ${userId}:`,
+          err.message
+        );
+      });
     }
 
     return checkIn;
   }
-
+  // Auto-trigger prediction generation if predictionService is injected
   async getHistory(userId: string): Promise<CheckIn[]> {
     return this.checkInRepo.findByUserId(userId);
   }
@@ -96,7 +79,7 @@ export class CheckInService {
     today.setHours(0, 0, 0, 0);
 
     if (checkInDay.getTime() !== today.getTime()) {
-      const err: any = new Error('You can only edit today\'s check-in');
+      const err: any = new Error("You can only edit today's check-in");
       err.statusCode = 400;
       throw err;
     }

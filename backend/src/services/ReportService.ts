@@ -7,7 +7,7 @@ export class ReportService {
   constructor(
     private reportRepo: ReportRepository,
     private checkInRepo: CheckInRepository
-  ) {}
+  ) { }
 
   async generateForUser(
     userId: string,
@@ -21,22 +21,24 @@ export class ReportService {
       },
     });
 
-    if (checkIns.length < 1) {
-      console.log(`[ReportService] Skipping user ${userId} — only ${checkIns.length} check-ins this week`);
+    if (checkIns.length < 3) {
+      console.log(
+        `[ReportService] Skipping user ${userId} — only ${checkIns.length} check-ins this week`
+      );
       return null;
     }
 
-    const avg = (vals: number[]) =>
-      vals.reduce((a, b) => a + b, 0) / vals.length;
+    const avg = (arr: number[]) =>
+      parseFloat((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2));
 
-    const avgStress = avg(checkIns.map((c) => c.stressLevel));
-    const avgSleep = avg(checkIns.map((c) => c.sleepHours));
-    const avgMood = avg(checkIns.map((c) => c.moodScore));
-    const avgWorkHours = avg(checkIns.map((c) => c.workHours));
-    const exerciseDays = checkIns.filter((c) => c.exerciseDone).length;
+    const avgStress = avg(checkIns.map((c: any) => c.stressLevel));
+    const avgSleep = avg(checkIns.map((c: any) => c.sleepHours));
+    const avgMood = avg(checkIns.map((c: any) => c.moodScore));
+    const avgWorkHours = avg(checkIns.map((c: any) => c.workHours));
+    const exerciseDays = checkIns.filter((c: any) => c.exerciseDone).length;
     const totalCheckIns = checkIns.length;
 
-    // Get latest prediction risk score in this week
+    // Get risk score from latest prediction in this week
     const latestPrediction = await prisma.burnoutPrediction.findFirst({
       where: {
         userId,
@@ -44,30 +46,32 @@ export class ReportService {
       },
       orderBy: { predictionDate: 'desc' },
     });
-    const riskScoreAtEndOfWeek = latestPrediction?.riskScore ?? undefined;
+
+    const riskScoreAtEndOfWeek = latestPrediction?.riskScore ?? null;
     const riskLevel = latestPrediction?.riskLevel ?? 'Unknown';
 
-    // Compare to previous week
+    // Get previous week's report for trend comparison
     const prevWeekStart = new Date(weekStart);
     prevWeekStart.setDate(prevWeekStart.getDate() - 7);
     const prevReport = await this.reportRepo.findByWeek(userId, prevWeekStart);
 
     let overallTrend = 'Stable';
     if (prevReport) {
-      if (avgStress - prevReport.avgStress < -0.5) overallTrend = 'Improving';
-      else if (avgStress - prevReport.avgStress > 0.5) overallTrend = 'Worsening';
+      if (avgStress < prevReport.avgStress - 0.5) overallTrend = 'Improving';
+      else if (avgStress > prevReport.avgStress + 0.5) overallTrend = 'Worsening';
     }
 
-    const weekLabel = weekStart.toLocaleDateString('en-GB', {
-      day: '2-digit', month: 'short', year: 'numeric',
+    const weekStartFormatted = weekStart.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
+
     const insightSummary =
-      `Week of ${weekLabel}: Average stress ${avgStress.toFixed(1)}/10, ` +
-      `sleep ${avgSleep.toFixed(1)}h, mood ${avgMood.toFixed(1)}/10, ` +
-      `work hours ${avgWorkHours.toFixed(1)}h per day. ` +
+      `Week of ${weekStartFormatted}: Average stress ${avgStress}/10, ` +
+      `sleep ${avgSleep}h, mood ${avgMood}/10, work hours ${avgWorkHours}h/day. ` +
       `Burnout risk: ${riskLevel}. Trend: ${overallTrend}.`;
 
-    const existing = await this.reportRepo.findByWeek(userId, weekStart);
     const reportData = {
       userId,
       weekStart,
@@ -79,27 +83,34 @@ export class ReportService {
       totalCheckIns,
       exerciseDays,
       overallTrend,
-      riskScoreAtEndOfWeek,
+      riskScoreAtEndOfWeek: riskScoreAtEndOfWeek ?? undefined,
       insightSummary,
       createdBy: userId,
       modifiedBy: userId,
     };
 
-    if (existing) {
-      return this.reportRepo.update(existing.reportId, reportData as any);
+    // Update if exists, create if not
+    const existingReport = await this.reportRepo.findByWeek(userId, weekStart);
+    if (existingReport) {
+      return this.reportRepo.update(existingReport.reportId, {
+        ...reportData,
+        modifiedDate: new Date(),
+      } as any);
     }
+
     return this.reportRepo.create(reportData);
   }
 
   async generateForAllUsers(): Promise<number> {
     const users = await prisma.user.findMany({ where: { isActive: true } });
 
+    // Last week: Monday to Sunday
     const now = new Date();
-    const dayOfWeek = now.getDay(); // 0=Sun
-    const diffToMonday = (dayOfWeek + 6) % 7;
+    const dayOfWeek = now.getDay(); // 0 = Sunday
+    const daysToLastMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1 + 7;
 
     const weekStart = new Date(now);
-    weekStart.setDate(now.getDate() - diffToMonday - 7);
+    weekStart.setDate(now.getDate() - daysToLastMonday);
     weekStart.setHours(0, 0, 0, 0);
 
     const weekEnd = new Date(weekStart);
@@ -108,11 +119,17 @@ export class ReportService {
 
     let count = 0;
     for (const user of users) {
-      const report = await this.generateForUser(user.userId, weekStart, weekEnd);
+      const report = await this.generateForUser(
+        (user as any).userId,
+        weekStart,
+        weekEnd
+      );
       if (report) count++;
     }
 
-    console.log(`[ReportService] Generated ${count} reports for week of ${weekStart.toDateString()}`);
+    console.log(
+      `[ReportService] Generated ${count} reports for week of ${weekStart.toDateString()}`
+    );
     return count;
   }
 
@@ -120,7 +137,10 @@ export class ReportService {
     return this.reportRepo.findAllByUser(userId);
   }
 
-  async getById(reportId: string, userId: string): Promise<WellnessReport | null> {
+  async getById(
+    reportId: string,
+    userId: string
+  ): Promise<WellnessReport | null> {
     return this.reportRepo.findById(reportId, userId);
   }
 }
