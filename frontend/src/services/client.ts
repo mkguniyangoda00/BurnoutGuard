@@ -1,35 +1,31 @@
+// src/services/client.ts — replace entire file with this
 import axios from 'axios';
 
-/**
- * Axios client instance for all backend requests.
- * Uses http://localhost:5000/api as the base URL.
- * Automatically attaches the JWT token from localStorage to every request.
- */
-export const client = axios.create({
-  baseURL: 'http://localhost:5000/api',
+const client = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  headers: { 'Content-Type': 'application/json' },
 });
 
-client.interceptors.request.use(
-  (config) => {
-    // Get token from local storage
-    const token = localStorage.getItem('bg_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 client.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // If we receive a 401 Unauthorized, automatically log the user out
-    if (error.response?.status === 401) {
-      localStorage.removeItem('bg_token');
-      // Dispatch custom event to tell the store to clear state
-      window.dispatchEvent(new Event('bg_unauthorized'));
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
     }
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
+
+// Export BOTH ways so any import style works
+export { client };           // named export  → import { client } from './client'
+export default client;       // default export → import client from './client'

@@ -9,7 +9,7 @@
  * keeps our React components clean and makes it easy to unit test.
  */
 
-import { client } from './client';
+import client from './client';
 
 /**
  * Matches the Zod validator on the backend exactly.
@@ -28,32 +28,37 @@ export interface CheckInPayload {
   notes?: string;           // optional, max 500 chars
 }
 
+
+
 export const checkinService = {
-  /**
-   * Submits a new daily check-in to the backend.
-   * POST /api/checkins
-   * The backend will save it to the DailyCheckIn table in MySQL.
-   */
-  submit: async (payload: CheckInPayload) => {
-    const response = await client.post('/checkins', payload);
-    return response.data;
+  submit: async (data: {
+    workHours: number;
+    stressLevel: number;
+    sleepHours: number;
+    sleepQuality: number;
+    exerciseDone: boolean;
+    screenTimeHours: number;
+    workloadRating: number;
+    moodScore: number;
+    energyLevel: number;
+    notes?: string;
+  }) => {
+    const res = await client.post('/checkins', data);
+    return res.data.checkIn;
   },
 
-  /**
-   * Fetches the user's recent check-in history.
-   * GET /api/checkins
-   */
-  getHistory: async (limit?: number) => {
-    const response = await client.get('/checkins', { params: { limit } });
-    return response.data;
+  getHistory: async () => {
+    const res = await client.get('/checkins/history');
+    return res.data.checkIns;
   },
 
-  /**
-   * Fetches the user's streak data (consecutive check-in days).
-   * GET /api/checkins/streak
-   */
   getStreak: async () => {
-    const response = await client.get('/checkins/streak');
-    return response.data;
+    const res = await client.get('/checkins/streak');
+    return res.data.streak;
+  },
+
+  editCheckIn: async (id: string, data: object) => {
+    const res = await client.put(`/checkins/${id}`, data);
+    return res.data.checkIn;
   },
 };

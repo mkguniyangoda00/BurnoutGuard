@@ -9,33 +9,26 @@
  * all mapped from the backend RecommendationCategory enum.
  */
 
-import { client } from './client';
+import client from './client';
 
 export const recommendationService = {
-  /**
-   * Fetches all active (non-dismissed) recommendations for the user.
-   * GET /api/recommendations
-   */
   getActive: async () => {
-    const response = await client.get('/recommendations');
-    return response.data;
+    const res = await client.get('/recommendations');
+    return res.data.recommendations;
   },
 
-  /**
-   * Marks a specific recommendation as completed.
-   * PUT /api/recommendations/:id/complete
-   */
-  markComplete: async (id: string) => {
-    const response = await client.put(`/recommendations/${id}/complete`);
-    return response.data;
+  getAll: async () => {
+    const res = await client.get('/recommendations/all');
+    return res.data.recommendations;
   },
 
-  /**
-   * Dismisses a recommendation (user doesn't want to see it).
-   * PUT /api/recommendations/:id/dismiss
-   */
+  complete: async (id: string) => {
+    const res = await client.put(`/recommendations/${id}/complete`);
+    return res.data.recommendation;
+  },
+
   dismiss: async (id: string) => {
-    const response = await client.put(`/recommendations/${id}/dismiss`);
-    return response.data;
+    const res = await client.put(`/recommendations/${id}/dismiss`);
+    return res.data.recommendation;
   },
 };
