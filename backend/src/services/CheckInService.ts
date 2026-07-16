@@ -17,13 +17,6 @@ export class CheckInService {
   }
 
   async submit(userId: string, dto: CheckInDto): Promise<CheckIn> {
-    const existing = await this.checkInRepo.findTodayByUser(userId);
-    if (existing) {
-      const err: any = new Error('You have already submitted a check-in today');
-      err.statusCode = 400;
-      throw err;
-    }
-
     const checkIn = await this.checkInRepo.create({
       userId,
       checkInDate: new Date(),
@@ -38,8 +31,8 @@ export class CheckInService {
       data: { totalCheckIns: total, currentStreak: streak },
     });
 
-    if (total >= 7 && this.predictionService) {
-      // Run async so check-in response is not delayed
+    // Always trigger prediction generation (no 7-day minimum)
+    if (this.predictionService) {
       this.predictionService.createPrediction(userId).catch((err) => {
         console.error(
           `[CheckInService] Failed to create prediction for user ${userId}:`,

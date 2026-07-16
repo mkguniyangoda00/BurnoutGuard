@@ -16,16 +16,34 @@ import client from './client';
  * If the backend schema changes, we update this interface accordingly.
  */
 export interface CheckInPayload {
-  workHours: number;        // 0–24
-  stressLevel: number;      // 1–10
-  sleepHours: number;       // 0–24
-  sleepQuality: number;     // 1–5
-  exerciseDone: boolean;    // true/false
-  screenTimeHours: number;  // 0–24
-  workloadRating: number;   // 1–5
-  moodScore: number;        // 1–10
-  energyLevel: number;      // 1–5
-  notes?: string;           // optional, max 500 chars
+  // Sleep & Rest
+  sleepHours: number;        // 0–24
+  sleepQuality: number;      // 1–5
+  
+  // Physical Activity
+  exerciseLevel: number;     // 1–5 (None to Intense)
+  screenTimeHours: number;   // 0–24
+  
+  // Work & Productivity
+  workHours: number;         // 0–24
+  workloadRating: number;    // 1–5
+  overtimeHours: number;     // 0–24
+  breaksTaken: number;       // 0–20
+  commuteMinutes: number;    // 0–480
+  
+  // Mental & Emotional
+  stressLevel: number;       // 1–10
+  moodScore: number;         // 1–10
+  energyLevel: number;       // 1–5
+  workSatisfaction: number;  // 1–5
+  
+  // Lifestyle & Health
+  caffeineIntake: number;    // 0–10
+  mealQuality: number;       // 1–5
+  socialSupportLevel: number; // 1–5
+  
+  // Notes
+  notes?: string;            // optional, max 500 chars
 }
 
 

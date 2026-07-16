@@ -32,7 +32,6 @@ import { authService } from '../../services/auth.service';
 const Register: React.FC = () => {
   const navigate = useNavigate();
 
-  // Form state — fields match the backend RegisterDto schema exactly
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -41,31 +40,19 @@ const Register: React.FC = () => {
     company: '',
   });
 
-  // UI state
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  /**
-   * Generic input change handler.
-   * Works for both <input> and <select> elements because the name
-   * attribute on each field matches the key in formData.
-   */
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  /**
-   * Handles form submission.
-   * Calls the real backend POST /api/auth/register endpoint.
-   * On success, redirects to /login so the user can sign in.
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Client-side validation
     if (!formData.fullName || !formData.email || !formData.password) {
       setError('Please fill in all required fields.');
       return;
@@ -76,27 +63,22 @@ const Register: React.FC = () => {
     }
 
     setIsLoading(true);
-
     try {
       await authService.register(formData);
-
-      // Registration successful — redirect to login
       navigate('/login');
     } catch (err: any) {
-      const message =
-        err.response?.data?.message || 'Registration failed. Please check your details.';
+      const message = err.response?.data?.message || 'Registration failed. Please check your details.';
       setError(message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Shared input style to keep the JSX clean
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '10px 12px',
     borderRadius: 'var(--radius-sm)',
-    border: '1px solid var(--border-color)',
+    border: '1px solid var(--border)',
     backgroundColor: 'var(--background)',
     fontSize: '14px',
     color: 'var(--text-primary)',
@@ -120,170 +102,150 @@ const Register: React.FC = () => {
         backgroundColor: 'var(--surface)',
       }}
     >
-      <Card style={{ width: '100%', maxWidth: '400px', padding: '32px' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+      <Card style={{ width: '100%', maxWidth: '400px', padding: 0, overflow: 'hidden' }}>
+        {/* ── Dark navy banner (matches dashboard hero card) ── */}
+        <div
+          style={{
+            background: 'var(--navy-gradient)',
+            padding: '32px 32px 28px',
+            textAlign: 'center',
+            position: 'relative',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '3px',
+              background: 'var(--orange)',
+            }}
+          />
           <h1
             style={{
               fontFamily: 'var(--font-heading)',
-              color: 'var(--primary)',
-              fontSize: '28px',
+              color: '#FFFFFF',
+              fontSize: '26px',
               marginBottom: '8px',
             }}
           >
-            Join BurnoutGuard
+            Join Burnout<span style={{ color: 'var(--orange)' }}>Guard</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px' }}>
             Create an account to start tracking
           </p>
         </div>
 
-        {/* Registration Form */}
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          {/* Error Banner */}
-          {error && (
-            <div
-              style={{
-                padding: '10px 12px',
-                backgroundColor: 'var(--danger-light)',
-                color: 'var(--danger)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '13px',
-                border: '1px solid var(--danger)',
-              }}
-            >
-              {error}
+        {/* ── Form ── */}
+        <div style={{ padding: '32px' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {error && (
+              <div
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: 'var(--danger-light)',
+                  color: 'var(--danger)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '13px',
+                  border: '1px solid var(--danger)',
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="regFullName" style={labelStyle}>Full Name</label>
+              <input
+                id="regFullName"
+                name="fullName"
+                type="text"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="e.g. Jane Doe"
+                style={inputStyle}
+                required
+              />
             </div>
-          )}
 
-          {/* Full Name */}
-          <div>
-            <label htmlFor="regFullName" style={labelStyle}>
-              Full Name
-            </label>
-            <input
-              id="regFullName"
-              name="fullName"
-              type="text"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="e.g. Jane Doe"
-              style={inputStyle}
-              required
-            />
-          </div>
+            <div>
+              <label htmlFor="regEmail" style={labelStyle}>Email Address</label>
+              <input
+                id="regEmail"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="jane@company.com"
+                style={inputStyle}
+                required
+              />
+            </div>
 
-          {/* Email */}
-          <div>
-            <label htmlFor="regEmail" style={labelStyle}>
-              Email Address
-            </label>
-            <input
-              id="regEmail"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="jane@company.com"
-              style={inputStyle}
-              required
-            />
-          </div>
+            <div>
+              <label htmlFor="regPassword" style={labelStyle}>Password</label>
+              <input
+                id="regPassword"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Minimum 8 characters"
+                style={inputStyle}
+                required
+              />
+            </div>
 
-          {/* Password */}
-          <div>
-            <label htmlFor="regPassword" style={labelStyle}>
-              Password
-            </label>
-            <input
-              id="regPassword"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Minimum 8 characters"
-              style={inputStyle}
-              required
-            />
-          </div>
+            <div>
+              <label htmlFor="regRole" style={labelStyle}>Role</label>
+              <select
+                id="regRole"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                style={{ ...inputStyle, cursor: 'pointer' }}
+              >
+                <option value="Developer">Developer</option>
+                <option value="Manager">Manager</option>
+                <option value="HRofficer">HR Officer</option>
+                <option value="Admin">Admin</option>
+                <option value="ResearchAdmin">Research Admin</option>
+              </select>
+            </div>
 
-          {/* Role Selector */}
-          <div>
-            <label htmlFor="regRole" style={labelStyle}>
-              Role
-            </label>
-            <select
-              id="regRole"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              style={{
-                ...inputStyle,
-                cursor: 'pointer',
-              }}
+            <div>
+              <label htmlFor="regCompany" style={labelStyle}>
+                Company <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(optional)</span>
+              </label>
+              <input
+                id="regCompany"
+                name="company"
+                type="text"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="e.g. Acme Corp"
+                style={inputStyle}
+              />
+            </div>
+
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoading}
+              style={{ marginTop: '8px', padding: '12px', opacity: isLoading ? 0.7 : 1 }}
             >
-              <option value="Developer">Developer</option>
-              <option value="Manager">Manager</option>
-              <option value="HRofficer">HR Officer</option>
-              <option value="Admin">Admin</option>
-              <option value="ResearchAdmin">Research Admin</option>
-            </select>
-          </div>
+              {isLoading ? 'Creating Account…' : 'Create Account'}
+            </Button>
 
-          {/* Company (optional) */}
-          <div>
-            <label htmlFor="regCompany" style={labelStyle}>
-              Company{' '}
-              <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>
-                (optional)
-              </span>
-            </label>
-            <input
-              id="regCompany"
-              name="company"
-              type="text"
-              value={formData.company}
-              onChange={handleChange}
-              placeholder="e.g. Acme Corp"
-              style={inputStyle}
-            />
-          </div>
-
-          {/* Submit Button */}
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={isLoading}
-            style={{
-              marginTop: '8px',
-              padding: '12px',
-              opacity: isLoading ? 0.7 : 1,
-            }}
-          >
-            {isLoading ? 'Creating Account…' : 'Create Account'}
-          </Button>
-
-          {/* Login Link */}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: '16px',
-              fontSize: '13px',
-              color: 'var(--text-muted)',
-            }}
-          >
-            Already have an account?{' '}
-            <Link
-              to="/login"
-              style={{ color: 'var(--primary)', fontWeight: 500 }}
-            >
-              Sign In
-            </Link>
-          </div>
-        </form>
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
+              Already have an account?{' '}
+              <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 500 }}>
+                Sign In
+              </Link>
+            </div>
+          </form>
+        </div>
       </Card>
     </div>
   );

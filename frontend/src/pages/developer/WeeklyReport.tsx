@@ -11,16 +11,17 @@ const MetricChip: React.FC<{ label: string; value: string; color: string }> = ({
     style={{
       flex: 1,
       border: '1px solid var(--border-color)',
-      borderRadius: '14px',
-      padding: '14px 16px',
+      borderRadius: '10px',
+      padding: '16px 12px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: '4px',
+      gap: '6px',
+      backgroundColor: 'var(--bg)',
     }}
   >
-    <span style={{ fontSize: '22px', fontWeight: 600, color: color }}>{value}</span>
-    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{label}</span>
+    <span style={{ fontSize: '20px', fontWeight: 600, color: color }}>{value}</span>
+    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>{label}</span>
   </div>
 );
 
@@ -81,17 +82,17 @@ const WeeklyReport: React.FC = () => {
     <PageWrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
         <div>
-          <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>
+          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>
             Weekly Wellness Report
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
             {formatWeekRange(latestReport.weekStart, latestReport.weekEnd)} · {latestReport.totalCheckIns} check-ins submitted
           </p>
         </div>
-        <Button variant="primary" onClick={() => window.print()}>Print / Export</Button>
+        <Button variant="primary" onClick={() => window.print()} style={{ padding: '8px 16px', fontSize: '13px' }}>📥 Export / Print</Button>
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '18px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
         <MetricChip 
           label="Avg stress / 10" 
           value={latestReport.avgStress.toFixed(1)} 
@@ -115,8 +116,8 @@ const WeeklyReport: React.FC = () => {
       </div>
 
       {points.length > 0 && (
-        <Card style={{ marginBottom: '16px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '24px' }}>Risk score trend</h3>
+        <Card style={{ marginBottom: '16px', padding: '24px 28px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '24px', fontFamily: 'var(--font-heading)' }}>Risk score trend</h3>
           
           <div style={{ position: 'relative', marginBottom: '24px', padding: '0 20px' }}>
             <div style={{ height: '140px', width: '100%' }}>
@@ -177,13 +178,13 @@ const WeeklyReport: React.FC = () => {
         <div style={{ 
           backgroundColor: latestReport.overallTrend === 'Worsening' ? '#FFF9F9' : '#F6FBF9', 
           border: latestReport.overallTrend === 'Worsening' ? '1px solid #FEE2E2' : '1px solid #E6F5EE', 
-          borderRadius: '14px', 
+          borderRadius: '10px', 
           padding: '16px 18px', 
           fontSize: '13px', 
           color: 'var(--text-secondary)',
           lineHeight: 1.6
         }}>
-          <span style={{ fontWeight: 'bold', color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : 'var(--success)' }}>
+          <span style={{ fontWeight: 600, color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : 'var(--success)' }}>
             {latestReport.overallTrend === 'Worsening' ? '⚠ Weekly summary: ' : '✓ Weekly summary: '}
           </span> 
           {latestReport.insightSummary}

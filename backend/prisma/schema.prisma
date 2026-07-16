@@ -119,30 +119,49 @@ model DeveloperProfile {
 }
 
 model DailyCheckIn {
-  checkInId       String    @id @default(uuid())
-  userId          String
-  checkInDate     DateTime
-  workHours       Float
-  stressLevel     Int
-  sleepHours      Float
-  sleepQuality    Int
-  exerciseDone    Boolean
-  screenTimeHours Float
-  workloadRating  Int
-  moodScore       Int
-  energyLevel     Int
-  notes           String?
-  isEdited        Boolean   @default(false)
-  editedAt        DateTime?
+  checkInId           String    @id @default(uuid())
+  userId              String
+  checkInDate         DateTime
+  
+  // Sleep & Rest
+  sleepHours          Float
+  sleepQuality        Int
+  
+  // Physical Activity
+  exerciseLevel       Int       // 1-5 scale (None to Intense)
+  screenTimeHours     Float
+  
+  // Work & Productivity
+  workHours           Float
+  workloadRating      Int
+  overtimeHours       Float     // Additional hours beyond normal
+  breaksTaken         Int       // Number of breaks taken
+  commuteMinutes      Int       // Commute duration in minutes
+  
+  // Mental & Emotional
+  stressLevel         Int
+  moodScore           Int
+  energyLevel         Int
+  workSatisfaction    Int       // 1-5 scale
+  
+  // Lifestyle & Health
+  caffeineIntake      Int       // mg or cups (0-10 scale)
+  mealQuality         Int       // 1-5 scale
+  socialSupportLevel  Int       // 1-5 scale
+  
+  // Meta
+  notes               String?
+  isEdited            Boolean   @default(false)
+  editedAt            DateTime?
 
   // Relations
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   // Audit Fields
-  createdBy       String
-  createdDateTime DateTime  @default(now())
-  modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  createdBy           String
+  createdDateTime     DateTime  @default(now())
+  modifiedBy          String
+  modifiedDate        DateTime  @updatedAt
 }
 
 model BurnoutPrediction {
