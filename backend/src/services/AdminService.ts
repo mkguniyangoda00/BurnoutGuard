@@ -1,6 +1,10 @@
 import { UserRepository } from '../repositories/UserRepository';
 import prisma from '../config/db';
 import { User } from '../models/User';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class AdminService {
   constructor(private userRepo: UserRepository) {}
@@ -19,7 +23,18 @@ export class AdminService {
       err.statusCode = 400;
       throw err;
     }
-    return this.userRepo.updateRole(targetUserId, newRole);
+    const updated = await this.userRepo.updateRole(targetUserId, newRole);
+    auditLogService.log({
+      actorId: adminId,
+      actorEmail: 'admin',
+      actorRole: 'Admin',
+      action: 'ROLE CHANGE',
+      entityType: 'User',
+      entityId: targetUserId,
+      details: `Role changed to ${newRole}`,
+      result: 'Success',
+    });
+    return updated;
   }
 
   async deactivateUser(targetUserId: string, adminId: string) {
@@ -28,7 +43,17 @@ export class AdminService {
       err.statusCode = 400;
       throw err;
     }
-    return this.userRepo.updateStatus(targetUserId, false);
+    const updated = await this.userRepo.updateStatus(targetUserId, false);
+    auditLogService.log({
+      actorId: adminId,
+      actorEmail: 'admin',
+      actorRole: 'Admin',
+      action: 'DEACTIVATE',
+      entityType: 'User',
+      entityId: targetUserId,
+      result: 'Success',
+    });
+    return updated;
   }
 
   async getModelMetrics() {

@@ -3,6 +3,10 @@ import { hashPassword, comparePassword } from '../utils/HashUtils';
 import { generateToken } from '../utils/JwtUtils';
 import { RegisterDto, LoginDto } from '../middleware/validators/AuthValidator';
 import prisma from '../config/db';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
@@ -38,6 +42,15 @@ export class AuthService {
       });
     }
 
+    auditLogService.log({
+      actorEmail: dto.email,
+      actorRole: dto.role,
+      action: 'REGISTER',
+      entityType: 'User',
+      entityId: (user as any).userId,
+      result: 'Success',
+    });
+
     const { passwordHash: _ph, ...safeUser } = user as any;
     return safeUser;
   }
@@ -52,12 +65,30 @@ export class AuthService {
 
     const valid = await comparePassword(dto.password, user.passwordHash);
     if (!valid) {
+      auditLogService.log({
+        actorEmail: dto.email,
+        actorRole: 'Unknown',
+        action: 'LOGIN',
+        entityType: 'User',
+        result: 'Failed',
+        details: 'Invalid credentials',
+      });
       const err: any = new Error('Invalid email or password');
       err.statusCode = 401;
       throw err;
     }
 
     await this.userRepository.updateLastLogin((user as any).userId);
+
+    auditLogService.log({
+      actorId: (user as any).userId,
+      actorEmail: user.email,
+      actorRole: user.role as string,
+      action: 'LOGIN',
+      entityType: 'User',
+      entityId: (user as any).userId,
+      result: 'Success',
+    });
 
     const token = generateToken((user as any).userId, user.role as string);
     const { passwordHash: _ph, ...safeUser } = user as any;

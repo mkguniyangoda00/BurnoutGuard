@@ -15,7 +15,12 @@ import client from './client';
 export const adminService = {
   getUsers: async () => {
     const res = await client.get('/admin/users');
-    return res.data.users;
+    return res.data.users ?? res.data;
+  },
+
+  getAllUsers: async () => {
+    const res = await client.get('/admin/users');
+    return res.data.users ?? res.data;
   },
 
   updateRole: async (id: string, role: string) => {
@@ -28,8 +33,19 @@ export const adminService = {
     return res.data.user;
   },
 
+  deactivateUser: async (id: string) => {
+    const res = await client.put(`/admin/users/${id}/deactivate`);
+    return res.data.user;
+  },
+
   getModels: async () => {
     const res = await client.get('/admin/models');
     return res.data.metrics;
+  },
+
+  getAuditLogs: async (from?: string, to?: string) => {
+    const params = from && to ? `?from=${from}&to=${to}` : '';
+    const res = await client.get(`/admin/audit${params}`);
+    return res.data.logs;
   },
 };

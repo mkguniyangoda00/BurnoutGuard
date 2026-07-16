@@ -22,7 +22,7 @@ const TeamDashboard: React.FC = () => {
     queryFn: analyticsService.getTeamHeatmap,
   });
 
-  const members = data?.members ?? [];
+  const members = Array.isArray(data?.members) ? data.members : [];
 
   // Calculate aggregated stats for the top cards
   let highRiskCount = 0;

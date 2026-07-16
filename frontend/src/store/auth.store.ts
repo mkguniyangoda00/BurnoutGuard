@@ -18,22 +18,27 @@ interface AuthState {
   setUser: (user: User) => void;
 }
 
+const getStoredToken = () => localStorage.getItem('bg_token') || localStorage.getItem('token');
+
 /**
  * Zustand global store for managing authentication state.
  * Syncs the JWT token with localStorage to persist logins across refreshes.
  */
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  token: localStorage.getItem('bg_token'),
-  isAuthenticated: !!localStorage.getItem('bg_token'),
+  token: getStoredToken(),
+  isAuthenticated: !!getStoredToken(),
 
   login: (user, token) => {
     localStorage.setItem('bg_token', token);
+    localStorage.setItem('token', token);
     set({ user, token, isAuthenticated: true });
   },
 
   logout: () => {
     localStorage.removeItem('bg_token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     set({ user: null, token: null, isAuthenticated: false });
   },
 

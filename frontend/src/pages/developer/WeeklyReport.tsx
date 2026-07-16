@@ -69,17 +69,13 @@ const WeeklyReport: React.FC = () => {
 
   // Get trend points (last 4 weeks max)
   const trendReports = [...reports].slice(0, 4).reverse();
-  const points = trendReports.map((r, i) => {
+  const points = trendReports.map((r) => {
     const start = new Date(r.weekStart);
     const label = `Wk ${start.getDate()}/${start.getMonth() + 1}`;
     const value = r.riskScoreAtEndOfWeek ?? 0;
     const color = value < 0.4 ? 'var(--success)' : value < 0.7 ? 'var(--warning)' : 'var(--danger)';
     return { label, value, color };
   });
-
-  // Calculate trends for visualization
-  const currentRisk = latestReport.riskScoreAtEndOfWeek ?? 0;
-  const currentRiskFormatted = (currentRisk * 100).toFixed(0) + '%';
 
   return (
     <PageWrapper>

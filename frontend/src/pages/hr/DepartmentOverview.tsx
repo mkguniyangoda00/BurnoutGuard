@@ -22,7 +22,7 @@ const DepartmentOverview: React.FC = () => {
     queryFn: analyticsService.getDepartmentOverview,
   });
 
-  const deptData = rawData || [];
+  const deptData = Array.isArray(rawData) ? rawData : [];
 
   // Calculate overall averages across all valid departments
   let totalHigh = 0;

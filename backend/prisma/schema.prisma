@@ -263,3 +263,17 @@ model Alert {
   modifiedBy      String
   modifiedDate    DateTime  @updatedAt
 }
+
+model AuditLog {
+  logId           String   @id @default(uuid())
+  actorId         String?
+  actorEmail      String
+  actorRole       String
+  action          String
+  entityType      String
+  entityId        String?
+  ipAddress       String?
+  result          String   @default("Success")
+  details         String?  @db.Text
+  createdDateTime DateTime @default(now())
+}

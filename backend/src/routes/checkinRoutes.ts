@@ -10,7 +10,6 @@ import { PredictionService } from '../services/PredictionService';
 import { CheckInService } from '../services/CheckInService';
 import { CheckInController } from '../controllers/checkinController';
 import { Authenticate } from '../middleware/authenticate';
-import { authorize } from '../middleware/authorize';
 
 const router = Router();
 
@@ -31,9 +30,9 @@ checkInService.setPredictionService(predictionService);
 
 const checkInController = new CheckInController(checkInService);
 
-router.post('/', Authenticate, authorize(['Developer']), checkInController.submit);
+router.post('/', Authenticate, checkInController.submit);
 router.get('/history', Authenticate, checkInController.getHistory);
 router.get('/streak', Authenticate, checkInController.getStreak);
-router.put('/:id', Authenticate, authorize(['Developer']), checkInController.editToday);
+router.put('/:id', Authenticate, checkInController.editToday);
 
 export default router;
