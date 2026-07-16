@@ -1,4 +1,4 @@
-import prisma from '../config/Db';
+import prisma from '../config/db';
 import { Recommendation } from '../models/Recommendation';
 
 export class RecommendationRepository {
@@ -58,6 +58,6 @@ export class RecommendationRepository {
       where: { userId, isDismissed: true },
       select: { title: true },
     });
-    return dismissed.map((r) => r.title);
+    return dismissed.map((r: { title: string }) => r.title);
   }
 }

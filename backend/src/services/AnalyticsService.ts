@@ -1,6 +1,6 @@
 import { PredictionRepository } from '../repositories/PredictionRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 
 export class AnalyticsService {
   constructor(

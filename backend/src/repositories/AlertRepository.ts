@@ -1,6 +1,8 @@
-import prisma from '../config/Db';
+import prisma from '../config/db';
 import { Alert } from '../models/Alert';
-import { AlertType, AlertSeverity } from '@prisma/client';
+
+type AlertType = 'Email' | 'Push' | 'InApp';
+type AlertSeverity = 'Info' | 'Warning' | 'Critical';
 
 export class AlertRepository {
   async create(data: {

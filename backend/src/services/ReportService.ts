@@ -1,7 +1,7 @@
 import { ReportRepository } from '../repositories/ReportRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import { WellnessReport } from '../models/WellnessReport';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 
 export class ReportService {
   constructor(

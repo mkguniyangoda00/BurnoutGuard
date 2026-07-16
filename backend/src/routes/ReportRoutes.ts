@@ -3,8 +3,8 @@ import { ReportRepository } from '../repositories/ReportRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import { ReportService } from '../services/ReportService';
 import { ReportController } from '../controllers/ReportController';
-import { Authenticate } from '../middleware/Authenticate';
-import { authorize } from '../middleware/Authorize';
+import { Authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 const reportRepo = new ReportRepository();

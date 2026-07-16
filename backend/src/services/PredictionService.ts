@@ -4,7 +4,7 @@ import { RecommendationService } from './RecommendationService';
 import { Prediction } from '../models/Prediction';
 import { ShapExplanation } from '../models/ShapExplanation';
 import { AlertService } from './AlertService';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 
 export class PredictionService {
   constructor(
@@ -100,7 +100,7 @@ export class PredictionService {
     return prediction;
   }
 
-  async runWhatIf(userId: string, modifications: object) {
+  async runWhatIf(userId: string, modifications: Record<string, number>) {
     return this.mlService.getWhatIf(userId, modifications);
   }
 }

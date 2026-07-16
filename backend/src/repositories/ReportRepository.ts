@@ -1,4 +1,4 @@
-import prisma from '../config/Db';
+import prisma from '../config/db';
 import { WellnessReport } from '../models/WellnessReport';
 
 export class ReportRepository {

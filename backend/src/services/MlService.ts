@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Env } from '../config/Env';
+import { Env } from '../config/env';
 
 interface ShapRow {
   featureName: string;

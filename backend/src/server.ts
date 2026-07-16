@@ -2,12 +2,12 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { Env } from './config/Env';
+import { Env } from './config/env';
 
 // Routes
 import AuthRoutes from './routes/AuthRoutes';
-import CheckInRoutes from './routes/CheckInRoutes';
-import PredictionRoutes from './routes/PredictionRoutes';
+import CheckInRoutes from './routes/checkinRoutes';
+import PredictionRoutes from './routes/predictionRoutes';
 import RecommendationRoutes from './routes/RecommendationRoutes';
 import ReportRoutes from './routes/ReportRoutes';
 import AlertRoutes from './routes/AlertRoutes';
