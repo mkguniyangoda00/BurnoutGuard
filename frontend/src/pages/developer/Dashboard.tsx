@@ -1,4 +1,4 @@
-/**
+  /**
  * Developer Dashboard (pages/developer/Dashboard.tsx)
  * 
  * The main homepage for Developer-role users.
@@ -80,12 +80,12 @@ const Dashboard: React.FC = () => {
   return (
     <PageWrapper>
       {/* ── Page Header ───────────────────────────────────────────────── */}
-      <div className="flex justify-between items-start mb-7">
+      <div className="flex justify-between items-start mb-10">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '32px', fontWeight: 600, marginBottom: '6px' }}>
             {getGreeting()}, {user?.fullName?.split(' ')[0] ?? 'there'}
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             {new Date().toLocaleDateString('en-US', {
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
             })}
@@ -103,13 +103,14 @@ const Dashboard: React.FC = () => {
         className="hero-card"
         style={{
           background: 'linear-gradient(135deg, #0F1117 0%, #1E2236 100%)',
-          padding: '24px 28px',
-          marginBottom: '20px',
+          padding: '32px 40px',
+          marginBottom: '28px',
           color: 'white',
           border: 'none',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          borderRadius: '16px',
         }}
       >
         {predLoading ? (
@@ -123,7 +124,7 @@ const Dashboard: React.FC = () => {
           <div className="flex flex-col gap-2">
             <span className="text-xs text-white/50 uppercase tracking-wider">Burnout Risk</span>
             <p className="text-white/70 text-sm">
-              No prediction yet. Complete at least 7 check-ins, then run a prediction.
+              Ready to get your first risk assessment? Submit your first check-in today to generate a personalized burnout prediction.
             </p>
             <button
               className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full w-fit hover:bg-white/20 transition-colors mt-1"
@@ -187,13 +188,42 @@ const Dashboard: React.FC = () => {
         )}
       </Card>
 
+      {/* ── Metric Chips ──────────────────────────────────────────────── */}
+      {prediction && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '28px' }}>
+          <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
+            <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+              {prediction.shapExplanations?.filter((s: any) => s.direction === 'IncreasesRisk').length ?? 0}
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Risk factors</div>
+          </div>
+          <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
+            <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--success)', marginBottom: '4px' }}>
+              {prediction.shapExplanations?.filter((s: any) => s.direction === 'DecreasesRisk').length ?? 0}
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Protective factors</div>
+          </div>
+          <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
+            <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--primary)', marginBottom: '4px' }}>
+              {streak}
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Day streak</div>
+          </div>
+          <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
+            <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--primary)', marginBottom: '4px' }}>
+              {(prediction.riskScore * 100).toFixed(0)}%
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Risk score</div>
+          </div>
+        </div>
+      )}
+
       {/* ── Top Risk Factors (from SHAP) ──────────────────────────────── */}
       {topRiskFactors.length > 0 && (
-        <Card style={{ marginBottom: '20px' }}>
-          <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
+        <Card style={{ marginBottom: '20px', padding: '20px' }}>
+          <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 600 }}>
             <AlertTriangle size={15} className="text-amber-500" />
             Top risk factors this week
-            <span className="text-xs font-normal text-gray-400 ml-1">(from SHAP model explanation)</span>
           </h3>
           <div className="flex flex-col gap-3">
             {topRiskFactors.map((factor: any, i: number) => (

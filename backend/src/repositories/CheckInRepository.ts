@@ -1,20 +1,11 @@
 import prisma from '../config/db';
 import { CheckIn } from '../models/CheckIn';
+import { CheckInDto } from '../middleware/validators/CheckInValidator';
 
 export class CheckInRepository {
-  async create(data: {
+  async create(data: CheckInDto & {
     userId: string;
     checkInDate: Date;
-    workHours: number;
-    stressLevel: number;
-    sleepHours: number;
-    sleepQuality: number;
-    exerciseDone: boolean;
-    screenTimeHours: number;
-    workloadRating: number;
-    moodScore: number;
-    energyLevel: number;
-    notes?: string;
   }): Promise<CheckIn> {
     return prisma.dailyCheckIn.create({
       data: {

@@ -16,7 +16,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, LogOut, User } from 'lucide-react';
+import { Bell, LogOut, User, Settings } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext';
 import { client } from '../../services/client';
@@ -73,14 +73,14 @@ const Navbar: React.FC = () => {
           { name: 'Audit Logs', path: '/admin/audit-logs' },
         ];
       case 'Developer':
-      default:
-        return [
-          { name: 'Dashboard', path: '/developer/dashboard' },
-          { name: 'Check-in', path: '/developer/check-in' },
-          { name: 'My Risk', path: '/developer/my-risk' },
-          { name: 'Recommendations', path: '/developer/recommendations' },
-          { name: 'Reports', path: '/developer/reports' },
-        ];
+        default:
+          return [
+            { name: 'Dashboard', path: '/developer/dashboard' },
+            { name: 'Check-in', path: '/developer/check-in' },
+            { name: 'My Risk', path: '/developer/my-risk' },
+            { name: 'Recommendations', path: '/developer/recommendations' },
+            { name: 'Reports', path: '/developer/reports' },
+          ];
     }
   };
 
@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
   if (!user) return null;
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-7 h-14" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
+    <nav className="sticky top-0 z-50 flex items-center justify-between h-14" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)', paddingLeft: '40px', paddingRight: '40px' }}>
       {/* ── Left: Logo + Nav Links ─────────────────────────────────────── */}
       <div className="flex items-center gap-8">
         <Link to="/" style={{ fontFamily: 'DM Serif Display, serif', fontSize: '18px', color: 'var(--primary)', fontWeight: 600 }}>
@@ -216,6 +216,11 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsProfileOpen(false)}
               >
                 <User size={14} /> My Profile
+              </Link>
+              <Link to="/developer/dashboard"   // placeholder target until a Settings page exists
+                className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => setIsProfileOpen(false)}>
+                <Settings size={14} /> Settings
               </Link>
               <div className="h-px bg-gray-100 mx-3" />
               <button

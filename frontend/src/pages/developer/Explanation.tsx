@@ -5,74 +5,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { predictionService } from '../../services/prediction.service';
-import { Loader2, HelpCircle } from 'lucide-react';
-
-const SHAPRow: React.FC<{ label: string; value: number; color: string; align: 'left' | 'right' }> = ({
-  label,
-  value,
-  color,
-  align,
-}) => {
-  // Normalize SHAP value to percentage of bar width (max SHAP value is typically around 0.5)
-  const maxVal = 0.4;
-  const percentage = Math.min(100, (Math.abs(value) / maxVal) * 100);
-  const width = percentage + '%';
-
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', height: '32px', marginBottom: '8px' }}>
-      <div
-        style={{
-          width: '140px',
-          textAlign: 'right',
-          fontSize: '12px',
-          color: 'var(--text-secondary)',
-          paddingRight: '12px',
-          textTransform: 'capitalize',
-        }}
-      >
-        {label}
-      </div>
-      <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', height: '100%' }}>
-        {/* Center line dividing positive and negative SHAP */}
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            height: '100%',
-            width: '1px',
-            backgroundColor: 'var(--border-color)',
-            zIndex: 1,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: align === 'left' ? `calc(50% - ${width})` : '50%',
-            width: width,
-            height: '20px',
-            backgroundColor: color,
-            opacity: 0.85,
-            borderRadius: align === 'left' ? '4px 0 0 4px' : '0 4px 4px 0',
-            zIndex: 2,
-          }}
-        />
-      </div>
-      <div
-        style={{
-          width: '50px',
-          textAlign: 'left',
-          fontSize: '11px',
-          fontWeight: 600,
-          color: color,
-          paddingLeft: '12px',
-        }}
-      >
-        {value > 0 ? '+' : ''}
-        {value.toFixed(3)}
-      </div>
-    </div>
-  );
-};
+import { Loader2, HelpCircle, TrendingDown, TrendingUp } from 'lucide-react';
 
 const Explanation: React.FC = () => {
   const navigate = useNavigate();
@@ -146,110 +79,251 @@ const Explanation: React.FC = () => {
     return text;
   };
 
-  const formattedDate = new Date(prediction.predictionDate).toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+  // Calculate max impact for scaling bars
+  const allFactors = [...riskDrivers, ...riskMitigators];
+  const maxImpact = allFactors.length > 0 ? Math.max(...allFactors.map((f: any) => Math.abs(f.shapValue))) : 1;
+
+  // Get risk color based on level
+  const getRiskColor = (level: string) => {
+    switch (level) {
+      case 'Critical': return '#DC2626';
+      case 'High': return '#F97316';
+      case 'Moderate': return '#EAB308';
+      case 'Low': return '#1B8C6E';
+      default: return 'var(--primary)';
+    }
+  };
 
   return (
     <PageWrapper>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Why am I at risk?</h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-          SHAP-based explanation for your latest prediction · {formattedDate}
+      {/* ── Header ────────────────────────────────────────────────────── */}
+      <div style={{ marginBottom: '32px' }}>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '32px', fontWeight: 600, marginBottom: '8px' }}>
+          My Burnout Risk
+        </h1>
+        <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
+          Understand your risk factors and what's helping you stay resilient
         </p>
       </div>
 
-      <div
-        style={{
-          backgroundColor: 'var(--soft-fill)',
-          borderRadius: '14px',
-          padding: '16px 18px',
-          fontSize: '13px',
-          color: 'var(--text-secondary)',
-          lineHeight: 1.6,
-          marginBottom: '20px',
-        }}
-      >
-        Your risk score of{' '}
-        <span style={{ fontWeight: 'bold' }}>
-          {(prediction.riskScore * 100).toFixed(0)}% ({prediction.riskLevel})
-        </span>{' '}
-        was calculated from your check-in history. The chart below shows which factors increased or decreased your
-        risk, and by how much.
-      </div>
-
-      <Card style={{ padding: '24px', marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>
-          Feature contributions (SHAP waterfall)
-        </h3>
-
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {riskDrivers.map((s: any) => (
-            <SHAPRow
-              key={s.shapId}
-              label={s.featureName.replace(/([A-Z])/g, ' $1')}
-              value={s.shapValue}
-              color="var(--danger)"
-              align="left"
-            />
-          ))}
-
-          {riskDrivers.length > 0 && riskMitigators.length > 0 && (
-            <div
-              style={{
-                height: '1px',
-                borderTop: '1px dashed var(--border-color)',
-                margin: '12px 0 12px 140px',
-              }}
-            />
-          )}
-
-          {riskMitigators.map((s: any) => (
-            <SHAPRow
-              key={s.shapId}
-              label={s.featureName.replace(/([A-Z])/g, ' $1')}
-              value={s.shapValue}
-              color="var(--success)"
-              align="right"
-            />
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: '16px', marginTop: '24px', marginLeft: '140px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--danger)', borderRadius: '2px' }} />
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Increases risk</span>
+      {/* ── Risk Score Hero Card ─────────────────────────────────────── */}
+      <Card style={{ 
+        padding: '32px 28px', 
+        marginBottom: '32px', 
+        background: `linear-gradient(135deg, ${getRiskColor(prediction.riskLevel)} 0%, ${getRiskColor(prediction.riskLevel)}22 100%)`,
+        border: `2px solid ${getRiskColor(prediction.riskLevel)}33`
+      }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '32px', alignItems: 'center' }}>
+          {/* Risk Score Circle */}
+          <div style={{ position: 'relative', width: '120px', height: '120px' }}>
+            <svg width="120" height="120" style={{ transform: 'rotate(-90deg)' }}>
+              <circle
+                cx="60"
+                cy="60"
+                r="50"
+                fill="none"
+                stroke="rgba(255,255,255,0.2)"
+                strokeWidth="8"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="50"
+                fill="none"
+                stroke={getRiskColor(prediction.riskLevel)}
+                strokeWidth="8"
+                strokeDasharray={`${(prediction.riskScore * 100) * Math.PI} ${314.159}`}
+                strokeLinecap="round"
+              />
+            </svg>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center'
+            }}>
+              <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
+                {(prediction.riskScore * 100).toFixed(0)}%
+              </p>
+              <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>Risk</p>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--success)', borderRadius: '2px' }} />
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Decreases risk</span>
+
+          {/* Risk Details */}
+          <div>
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>RISK LEVEL</p>
+              <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
+                {prediction.riskLevel}
+              </p>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div>
+                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Trend</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {prediction.trendDirection === 'Improving' && (
+                    <>
+                      <TrendingDown size={18} style={{ color: 'var(--success)' }} />
+                      <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--success)' }}>Improving</span>
+                    </>
+                  )}
+                  {prediction.trendDirection === 'Worsening' && (
+                    <>
+                      <TrendingUp size={18} style={{ color: 'var(--danger)' }} />
+                      <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--danger)' }}>Worsening</span>
+                    </>
+                  )}
+                  {prediction.trendDirection === 'Stable' && (
+                    <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>→ Stable</span>
+                  )}
+                </div>
+              </div>
+              
+              <div>
+                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Data Points</p>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  {prediction.checkInsUsed || 1} check-in{prediction.checkInsUsed !== 1 ? 's' : ''}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </Card>
 
-      <div
-        style={{
-          backgroundColor: '#F0F4FF',
-          border: '1px solid #C7D5FA',
-          borderRadius: '14px',
-          padding: '16px 18px',
-          fontSize: '13px',
-          color: '#1E3A8A',
-          lineHeight: 1.6,
-        }}
-      >
-        <span style={{ fontWeight: 'bold' }}>In plain language:</span> {getPlainLanguageExplanation()}
+      {/* ── Risk Drivers (Red Bars) ────────────────────────────────── */}
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '4px' }}>
+            ⚠ Risk Areas
+          </h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+            Factors increasing your burnout risk
+          </p>
+        </div>
+
+        {riskDrivers.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {riskDrivers.slice(0, 5).map((factor: any, idx: number) => {
+              const barWidth = (Math.abs(factor.shapValue) / maxImpact) * 100;
+              const featureName = factor.featureName.replace(/([A-Z])/g, ' $1').trim();
+              
+              return (
+                <Card key={factor.shapId} style={{ padding: '16px 20px', backgroundColor: '#FEF2F2', border: '1px solid #FECACA' }}>
+                  <div style={{ marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {idx + 1}. {featureName}
+                      </p>
+                      <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                        +{factor.shapValue.toFixed(3)} impact
+                      </p>
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--danger)', backgroundColor: '#FEE2E2', padding: '4px 12px', borderRadius: '4px' }}>
+                      {Math.round(barWidth)}%
+                    </span>
+                  </div>
+                  
+                  <div style={{ width: '100%', height: '6px', backgroundColor: '#FECACA', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${barWidth}%`,
+                        backgroundColor: 'var(--danger)',
+                        borderRadius: '3px',
+                        transition: 'width 0.4s ease',
+                      }}
+                    />
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <Card style={{ padding: '20px', textAlign: 'center', backgroundColor: '#F0FDF4', border: '1px solid #BBFBBC' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No major risk areas identified. Great work!</p>
+          </Card>
+        )}
       </div>
 
-      <Button
-        variant="primary"
-        style={{ marginTop: '20px', width: '100%' }}
-        onClick={() => navigate('/developer/recommendations')}
-      >
-        Get recommendations →
-      </Button>
+      {/* ── Protective Factors (Green Bars) ────────────────────────── */}
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '4px' }}>
+            ✓ Protective Factors
+          </h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+            What's helping you stay resilient and healthy
+          </p>
+        </div>
+
+        {riskMitigators.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {riskMitigators.slice(0, 5).map((factor: any, idx: number) => {
+              const barWidth = (Math.abs(factor.shapValue) / maxImpact) * 100;
+              const featureName = factor.featureName.replace(/([A-Z])/g, ' $1').trim();
+              
+              return (
+                <Card key={factor.shapId} style={{ padding: '16px 20px', backgroundColor: '#F0FDF4', border: '1px solid #BBFBBC' }}>
+                  <div style={{ marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {idx + 1}. {featureName}
+                      </p>
+                      <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                        -{Math.abs(factor.shapValue).toFixed(3)} impact
+                      </p>
+                    </div>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--success)', backgroundColor: '#DBEAFE', padding: '4px 12px', borderRadius: '4px' }}>
+                      {Math.round(barWidth)}%
+                    </span>
+                  </div>
+                  
+                  <div style={{ width: '100%', height: '6px', backgroundColor: '#BBFBBC', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${barWidth}%`,
+                        backgroundColor: 'var(--success)',
+                        borderRadius: '3px',
+                        transition: 'width 0.4s ease',
+                      }}
+                    />
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <Card style={{ padding: '20px', textAlign: 'center', backgroundColor: '#F0FDF4', border: '1px solid #BBFBBC' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No protective factors identified yet.</p>
+          </Card>
+        )}
+      </div>
+
+      {/* ── Summary Insight ───────────────────────────────────────── */}
+      <Card style={{ 
+        padding: '24px 28px', 
+        marginBottom: '32px', 
+        backgroundColor: 'var(--primary-light)',
+        border: '1px solid var(--border)',
+        borderLeft: `4px solid var(--primary)`
+      }}>
+        <p style={{ fontSize: '14px', color: 'var(--primary)', lineHeight: 1.7, fontWeight: 500 }}>
+          {getPlainLanguageExplanation()}
+        </p>
+      </Card>
+
+      {/* ── Action Buttons ───────────────────────────────────────── */}
+      <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', paddingBottom: '20px' }}>
+        <Button variant="secondary" onClick={() => navigate('/developer/dashboard')}>
+          Back to Dashboard
+        </Button>
+        <Button variant="primary" onClick={() => navigate('/developer/recommendations')}>
+          View Recommendations →
+        </Button>
+      </div>
     </PageWrapper>
   );
 };

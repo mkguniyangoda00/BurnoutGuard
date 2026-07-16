@@ -15,7 +15,6 @@
  * (--surface, --primary, --border-color, etc.) with the shared Card and Button
  * UI components for visual consistency with the rest of the application.
  */
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Card } from '../../components/ui/Card';
@@ -27,46 +26,27 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
-  // Form state
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  // UI state
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  /**
-   * Handles form submission.
-   * Calls the real backend /api/auth/login endpoint, then stores the
-   * returned JWT token in the Zustand auth store (which persists it
-   * to localStorage for session continuity across page refreshes).
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Basic client-side validation
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
     }
 
     setIsLoading(true);
-
     try {
-      // Call the real backend API
       const data = await authService.login({ email, password });
-
-      // Store user + JWT in Zustand (persisted to localStorage)
       login(data.user, data.token);
-
-      // Navigate to root — the RoleRouter in App.tsx will redirect
-      // to the correct dashboard based on the user's role
       navigate('/');
     } catch (err: any) {
-      // Show the backend error message if available, otherwise a generic message
-      const message =
-        err.response?.data?.message || 'Invalid email or password.';
+      const message = err.response?.data?.message || 'Invalid email or password.';
       setError(message);
     } finally {
       setIsLoading(false);
@@ -83,143 +63,128 @@ const Login: React.FC = () => {
         backgroundColor: 'var(--surface)',
       }}
     >
-      <Card style={{ width: '100%', maxWidth: '400px', padding: '32px' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+      <Card style={{ width: '100%', maxWidth: '400px', padding: 0, overflow: 'hidden' }}>
+        {/* ── Dark navy banner (matches dashboard hero card) ── */}
+        <div
+          style={{
+            background: 'var(--navy-gradient)',
+            padding: '32px 32px 28px',
+            textAlign: 'center',
+            position: 'relative',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '3px',
+              background: 'var(--orange)',
+            }}
+          />
           <h1
             style={{
               fontFamily: 'var(--font-heading)',
-              color: 'var(--primary)',
+              color: '#FFFFFF',
               fontSize: '28px',
               marginBottom: '8px',
             }}
           >
-            BurnoutGuard
+            Burnout<span style={{ color: 'var(--orange)' }}>Guard</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px' }}>
             Sign in to continue to your dashboard
           </p>
         </div>
 
-        {/* Login Form */}
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          {/* Error Banner */}
-          {error && (
-            <div
-              style={{
-                padding: '10px 12px',
-                backgroundColor: 'var(--danger-light)',
-                color: 'var(--danger)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '13px',
-                border: '1px solid var(--danger)',
-              }}
-            >
-              {error}
+        {/* ── Form ── */}
+        <div style={{ padding: '32px' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {error && (
+              <div
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: 'var(--danger-light)',
+                  color: 'var(--danger)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '13px',
+                  border: '1px solid var(--danger)',
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label
+                htmlFor="loginEmail"
+                style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}
+              >
+                Email Address
+              </label>
+              <input
+                id="loginEmail"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="e.g. jane@company.com"
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  border: '1px solid var(--border)',
+                  backgroundColor: 'var(--background)',
+                  fontSize: '14px',
+                  color: 'var(--text-primary)',
+                }}
+                required
+              />
             </div>
-          )}
 
-          {/* Email Field */}
-          <div>
-            <label
-              htmlFor="loginEmail"
-              style={{
-                display: 'block',
-                fontSize: '13px',
-                fontWeight: 500,
-                marginBottom: '6px',
-                color: 'var(--text-secondary)',
-              }}
+            <div>
+              <label
+                htmlFor="loginPassword"
+                style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}
+              >
+                Password
+              </label>
+              <input
+                id="loginPassword"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  border: '1px solid var(--border)',
+                  backgroundColor: 'var(--background)',
+                  fontSize: '14px',
+                  color: 'var(--text-primary)',
+                }}
+                required
+              />
+            </div>
+
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoading}
+              style={{ marginTop: '8px', padding: '12px', opacity: isLoading ? 0.7 : 1 }}
             >
-              Email Address
-            </label>
-            <input
-              id="loginEmail"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="e.g. jane@company.com"
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--border-color)',
-                backgroundColor: 'var(--background)',
-                fontSize: '14px',
-                color: 'var(--text-primary)',
-              }}
-              required
-            />
-          </div>
+              {isLoading ? 'Signing in…' : 'Sign In'}
+            </Button>
 
-          {/* Password Field */}
-          <div>
-            <label
-              htmlFor="loginPassword"
-              style={{
-                display: 'block',
-                fontSize: '13px',
-                fontWeight: 500,
-                marginBottom: '6px',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              Password
-            </label>
-            <input
-              id="loginPassword"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--border-color)',
-                backgroundColor: 'var(--background)',
-                fontSize: '14px',
-                color: 'var(--text-primary)',
-              }}
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={isLoading}
-            style={{
-              marginTop: '8px',
-              padding: '12px',
-              opacity: isLoading ? 0.7 : 1,
-            }}
-          >
-            {isLoading ? 'Signing in…' : 'Sign In'}
-          </Button>
-
-          {/* Register Link */}
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: '16px',
-              fontSize: '13px',
-              color: 'var(--text-muted)',
-            }}
-          >
-            Don't have an account?{' '}
-            <Link
-              to="/register"
-              style={{ color: 'var(--primary)', fontWeight: 500 }}
-            >
-              Register
-            </Link>
-          </div>
-        </form>
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
+              Don't have an account?{' '}
+              <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 500 }}>
+                Register
+              </Link>
+            </div>
+          </form>
+        </div>
       </Card>
     </div>
   );
