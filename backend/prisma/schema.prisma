@@ -149,6 +149,23 @@ model DailyCheckIn {
   mealQuality         Int       // 1-5 scale
   socialSupportLevel  Int       // 1-5 scale
   
+  // Psychological Wellbeing
+  anxietyLevel        Int       // 1-10 scale
+  emotionalFatigue    Int       // 1-10 scale
+  motivationLevel     Int       // 1-5 scale
+  concentrationIssues Int       // 1-5 scale
+  irritabilityLevel   Int       // 1-5 scale
+  lonelinessLevel     Int       // 1-5 scale
+  selfEfficacy        Int       // 1-5 scale
+  copingAbility       Int       // 1-5 scale
+  
+  // Work Context (Sri Lankan & Global)
+  powerInternetDisruption Int  // 1-5 scale (WFH disruption stress, SL-specific)
+  wfhEnvironmentQuality Int    // 1-5 scale
+  familyResponsibilityLoad Int // 1-5 scale
+  salaryWorkloadSatisfaction Int // 1-5 scale
+  afterHoursMessaging Boolean  // Work communication outside hours
+  
   // Meta
   notes               String?
   isEdited            Boolean   @default(false)
