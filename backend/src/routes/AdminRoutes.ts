@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { AdminService } from '../services/AdminService';
 import { AdminController } from '../controllers/AdminController';
 import { UserRepository } from '../repositories/UserRepository';
-import { Authenticate } from '../middleware/Authenticate';
-import { authorize } from '../middleware/Authorize';
+import { Authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 const userRepo = new UserRepository();

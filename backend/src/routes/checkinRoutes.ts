@@ -8,9 +8,9 @@ import { RecommendationService } from '../services/RecommendationService';
 import { AlertService } from '../services/AlertService';
 import { PredictionService } from '../services/PredictionService';
 import { CheckInService } from '../services/CheckInService';
-import { CheckInController } from '../controllers/CheckInController';
-import { Authenticate } from '../middleware/Authenticate';
-import { authorize } from '../middleware/Authorize';
+import { CheckInController } from '../controllers/checkinController';
+import { Authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 

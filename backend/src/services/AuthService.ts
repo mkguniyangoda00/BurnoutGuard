@@ -2,7 +2,7 @@ import { UserRepository } from '../repositories/UserRepository';
 import { hashPassword, comparePassword } from '../utils/HashUtils';
 import { generateToken } from '../utils/JwtUtils';
 import { RegisterDto, LoginDto } from '../middleware/validators/AuthValidator';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
