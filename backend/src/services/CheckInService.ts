@@ -3,7 +3,7 @@ import { MlService } from './MlService';
 import { PredictionService } from './PredictionService';
 import { CheckInDto } from '../middleware/validators/CheckInValidator';
 import { CheckIn } from '../models/CheckIn';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 
 export class CheckInService {
   constructor(

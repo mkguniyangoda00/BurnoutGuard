@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { UserRepository } from '../repositories/UserRepository';
 import { AuthService } from '../services/AuthService';
 import { AuthController } from '../controllers/AuthController';
-import { Authenticate } from '../middleware/Authenticate';
+import { Authenticate } from '../middleware/authenticate';
 
 const router = Router();
 const userRepo = new UserRepository();

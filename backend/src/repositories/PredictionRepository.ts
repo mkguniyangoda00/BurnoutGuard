@@ -1,4 +1,4 @@
-import prisma from '../config/Db';
+import prisma from '../config/db';
 import { Prediction } from '../models/Prediction';
 import { ShapExplanation } from '../models/ShapExplanation';
 
@@ -26,7 +26,7 @@ export class PredictionRepository {
       plainLanguageText?: string;
     }[]
   ): Promise<Prediction & { shapExplanations: ShapExplanation[] }> {
-    return prisma.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx: any) => {
       const prediction = await tx.burnoutPrediction.create({
         data: predictionData as any,
       });

@@ -1,5 +1,5 @@
 import { UserRepository } from '../repositories/UserRepository';
-import prisma from '../config/Db';
+import prisma from '../config/db';
 import { User } from '../models/User';
 
 export class AdminService {
