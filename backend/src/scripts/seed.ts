@@ -112,7 +112,57 @@ async function main() {
     }
   }
 
-  console.log('Database seeding complete with dummy history.');
+  // ── Generate historical check-ins for all developers ──────────────
+  console.log('Generating historical check-in data...');
+  for (const dev of developers) {
+    // Generate 7 check-ins per dev (1 per day for a week)
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      d.setHours(10, 0, 0, 0);
+
+      await prisma.dailyCheckIn.create({
+        data: {
+          userId: dev.userId,
+          checkInDate: d,
+          
+          // Sleep & Rest
+          sleepHours: 6 + Math.random() * 3, // 6-9 hours
+          sleepQuality: Math.floor(Math.random() * 5) + 1, // 1-5
+          
+          // Physical Activity
+          exerciseLevel: Math.floor(Math.random() * 5) + 1, // 1-5
+          screenTimeHours: 4 + Math.random() * 6, // 4-10 hours
+          
+          // Work & Productivity
+          workHours: 7 + Math.random() * 3, // 7-10 hours
+          workloadRating: Math.floor(Math.random() * 5) + 1, // 1-5
+          overtimeHours: Math.random() > 0.7 ? Math.random() * 4 : 0, // 30% have overtime
+          breaksTaken: Math.floor(Math.random() * 6) + 1, // 1-6 breaks
+          commuteMinutes: Math.floor(Math.random() * 60) + 15, // 15-75 minutes
+          
+          // Mental & Emotional
+          stressLevel: Math.floor(Math.random() * 8) + 2, // 2-10 scale
+          moodScore: Math.floor(Math.random() * 7) + 3, // 3-10 scale
+          energyLevel: Math.floor(Math.random() * 5) + 1, // 1-5
+          workSatisfaction: Math.floor(Math.random() * 5) + 1, // 1-5
+          
+          // Lifestyle & Health
+          caffeineIntake: Math.floor(Math.random() * 6) + 1, // 1-6 cups
+          mealQuality: Math.floor(Math.random() * 5) + 1, // 1-5
+          socialSupportLevel: Math.floor(Math.random() * 5) + 1, // 1-5
+          
+          // Notes
+          notes: Math.random() > 0.7 ? 'Had a productive day' : undefined,
+          
+          createdBy: 'system',
+          modifiedBy: 'system',
+        },
+      });
+    }
+  }
+
+  console.log('Database seeding complete with dummy history and check-ins.');
 }
 
 main()

@@ -18,46 +18,51 @@ const RecCard: React.FC<{
   return (
     <Card style={{ 
       display: 'flex', 
-      gap: '14px', 
-      alignItems: 'flex-start',
-      marginBottom: '10px',
+      flexDirection: 'column',
+      gap: '12px',
+      padding: '18px',
       cursor: 'pointer',
-      transition: 'background-color 0.2s',
+      transition: 'background-color 0.2s, border-color 0.2s',
+      borderColor: completed ? 'var(--success)' : 'var(--border)',
+      opacity: completed ? 0.7 : 1,
     }} className="rec-card">
-      <div style={{ 
-        width: '36px', 
-        height: '36px', 
-        borderRadius: '10px', 
-        backgroundColor: bg, 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        flexShrink: 0
-      }}>
-        {icon}
-      </div>
-      
-      <div style={{ flexGrow: 1 }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '3px', color: 'var(--text-primary)' }}>{title}</h3>
-        <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '8px' }}>{body}</p>
-        <span style={{ 
-          fontSize: '11px', 
-          fontWeight: 500, 
-          padding: '2px 8px', 
-          borderRadius: '20px', 
-          backgroundColor: priorityBg, 
-          color: priorityColor 
+      <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+        <div style={{ 
+          width: '40px', 
+          height: '40px', 
+          borderRadius: '8px', 
+          backgroundColor: bg, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          flexShrink: 0,
+          fontSize: '20px'
         }}>
-          {priority}
-        </span>
-      </div>
-      
-      <div onClick={(e) => { e.stopPropagation(); setCompleted(!completed); }} style={{ padding: '4px' }}>
-        {completed ? (
-          <CheckCircle color="var(--success)" size={20} />
-        ) : (
-          <Circle style={{ opacity: 0.4 }} size={20} />
-        )}
+          {icon}
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px', color: 'var(--text-primary)' }}>{title}</h3>
+            <div onClick={(e) => { e.stopPropagation(); setCompleted(!completed); }} style={{ padding: '0', marginTop: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {completed ? (
+                <CheckCircle color="var(--success)" size={18} />
+              ) : (
+                <Circle style={{ opacity: 0.3 }} size={18} />
+              )}
+            </div>
+          </div>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '10px' }}>{body}</p>
+          <span style={{ 
+            fontSize: '11px', 
+            fontWeight: 500, 
+            padding: '4px 10px', 
+            borderRadius: '12px', 
+            backgroundColor: priorityBg, 
+            color: priorityColor 
+          }}>
+            {priority}
+          </span>
+        </div>
       </div>
     </Card>
   );
@@ -67,11 +72,11 @@ const Recommendations: React.FC = () => {
   return (
     <PageWrapper>
       <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Your Action Plan</h1>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>Your Action Plan</h1>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>4 personalized recommendations based on your SHAP analysis</p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '24px' }}>
         <RecCard 
           icon="🌙" 
           bg="var(--danger-light)" 
