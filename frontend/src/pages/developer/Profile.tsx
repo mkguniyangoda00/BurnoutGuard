@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  const fullName = user?.fullName ?? '';
 
   return (
     <PageWrapper>
@@ -19,7 +20,7 @@ const Profile: React.FC = () => {
         <div style={{ display: 'grid', gap: '16px', maxWidth: '400px' }}>
           <div>
             <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Full Name</label>
-            <input type="text" value={user?.name || ''} readOnly style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', backgroundColor: 'var(--soft-fill)' }} />
+            <input type="text" value={fullName} readOnly style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', backgroundColor: 'var(--soft-fill)' }} />
           </div>
           <div>
             <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Email</label>

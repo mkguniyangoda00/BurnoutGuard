@@ -19,7 +19,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Bell, LogOut, User } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext';
-import { adminService } from '../../services/admin.service';
 import { client } from '../../services/client';
 
 const Navbar: React.FC = () => {
@@ -96,10 +95,10 @@ const Navbar: React.FC = () => {
   if (!user) return null;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 flex items-center justify-between px-7 h-14">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-7 h-14" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
       {/* ── Left: Logo + Nav Links ─────────────────────────────────────── */}
       <div className="flex items-center gap-8">
-        <Link to="/" className="font-bold text-primary text-lg tracking-tight">
+        <Link to="/" style={{ fontFamily: 'DM Serif Display, serif', fontSize: '18px', color: 'var(--primary)', fontWeight: 600 }}>
           BurnoutGuard
         </Link>
 
@@ -110,11 +109,14 @@ const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-blue-50 text-primary'
-                    : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'
-                }`}
+                className="text-sm font-medium transition-colors"
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: '7px',
+                  color: isActive ? 'var(--primary)' : 'var(--text-muted)',
+                  background: isActive ? 'var(--primary-light)' : 'transparent',
+                  fontWeight: isActive ? 500 : 400,
+                }}
               >
                 {link.name}
               </Link>
@@ -195,7 +197,8 @@ const Navbar: React.FC = () => {
         <div className="relative">
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="w-8 h-8 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center hover:opacity-90"
+            className="flex items-center justify-center hover:opacity-90"
+            style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', color: 'white', fontSize: '12px', fontWeight: 600 }}
             aria-label="Profile menu"
           >
             {user.avatarInitials}

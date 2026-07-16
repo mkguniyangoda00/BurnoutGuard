@@ -5,7 +5,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { predictionService } from '../../services/prediction.service';
-import { Loader2, AlertTriangle, HelpCircle } from 'lucide-react';
+import { Loader2, HelpCircle } from 'lucide-react';
 
 const SHAPRow: React.FC<{ label: string; value: number; color: string; align: 'left' | 'right' }> = ({
   label,

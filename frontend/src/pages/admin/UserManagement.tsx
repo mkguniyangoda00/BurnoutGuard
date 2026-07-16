@@ -46,10 +46,10 @@ const UserManagement: React.FC = () => {
   // ── Fetch all users from the backend ──────────────────────────────────
   const { data, isLoading, isError } = useQuery({
     queryKey: ['admin', 'users'],
-    queryFn: adminService.getAllUsers,
+    queryFn: adminService.getUsers,
   });
 
-  const users: any[] = data?.users ?? [];
+  const users: any[] = Array.isArray(data) ? data : [];
 
   // ── Role change mutation ───────────────────────────────────────────────
   const roleMutation = useMutation({
@@ -64,7 +64,7 @@ const UserManagement: React.FC = () => {
 
   // ── Deactivate mutation (soft-delete) ─────────────────────────────────
   const deactivateMutation = useMutation({
-    mutationFn: (userId: string) => adminService.deactivateUser(userId),
+    mutationFn: (userId: string) => adminService.deactivate(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
       setDeactivateModalOpen(false);

@@ -17,7 +17,17 @@ export const analyticsService = {
     return res.data;
   },
 
+  getTeamHeatmap: async () => {
+    const res = await client.get('/analytics/heatmap');
+    return res.data;
+  },
+
   getDepartment: async () => {
+    const res = await client.get('/analytics/department');
+    return res.data;
+  },
+
+  getDepartmentOverview: async () => {
     const res = await client.get('/analytics/department');
     return res.data;
   },
