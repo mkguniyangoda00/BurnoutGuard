@@ -35,7 +35,8 @@ export class ReportService {
     const avgSleep = avg(checkIns.map((c: any) => c.sleepHours));
     const avgMood = avg(checkIns.map((c: any) => c.moodScore));
     const avgWorkHours = avg(checkIns.map((c: any) => c.workHours));
-    const exerciseDays = checkIns.filter((c: any) => c.exerciseDone).length;
+    // const exerciseDays = checkIns.filter((c: any) => c.exerciseDone).length;
+    const exerciseDays = checkIns.filter((c: any) => c.exerciseLevel >= 3).length;
     const totalCheckIns = checkIns.length;
 
     // Get risk score from latest prediction in this week
