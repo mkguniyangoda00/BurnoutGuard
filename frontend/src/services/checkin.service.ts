@@ -17,50 +17,54 @@ import client from './client';
  */
 export interface CheckInPayload {
   // Sleep & Rest
-  sleepHours: number;        // 0–24
-  sleepQuality: number;      // 1–5
-  
+  sleepHours: number;
+  sleepQuality: number;
+
   // Physical Activity
-  exerciseLevel: number;     // 1–5 (None to Intense)
-  screenTimeHours: number;   // 0–24
-  
+  exerciseLevel: number;
+  screenTimeHours: number;
+
   // Work & Productivity
-  workHours: number;         // 0–24
-  workloadRating: number;    // 1–5
-  overtimeHours: number;     // 0–24
-  breaksTaken: number;       // 0–20
-  commuteMinutes: number;    // 0–480
-  
+  workHours: number;
+  workloadRating: number;
+  overtimeHours: number;
+  breaksTaken: number;
+  commuteMinutes: number;
+
   // Mental & Emotional
-  stressLevel: number;       // 1–10
-  moodScore: number;         // 1–10
-  energyLevel: number;       // 1–5
-  workSatisfaction: number;  // 1–5
-  
+  stressLevel: number;
+  moodScore: number;
+  energyLevel: number;
+  workSatisfaction: number;
+
   // Lifestyle & Health
-  caffeineIntake: number;    // 0–10
-  mealQuality: number;       // 1–5
-  socialSupportLevel: number; // 1–5
-  
+  caffeineIntake: number;
+  mealQuality: number;
+  socialSupportLevel: number;
+
+  // Psychological Wellbeing
+  anxietyLevel: number;
+  emotionalFatigue: number;
+  motivationLevel: number;
+  concentrationIssues: number;
+  irritabilityLevel: number;
+  lonelinessLevel: number;
+  selfEfficacy: number;
+  copingAbility: number;
+
+  // Work Context (Sri Lankan & Global)
+  powerInternetDisruption: number;
+  wfhEnvironmentQuality: number;
+  familyResponsibilityLoad: number;
+  salaryWorkloadSatisfaction: number;
+  afterHoursMessaging: boolean;
+
   // Notes
-  notes?: string;            // optional, max 500 chars
+  notes?: string;
 }
 
-
-
 export const checkinService = {
-  submit: async (data: {
-    workHours: number;
-    stressLevel: number;
-    sleepHours: number;
-    sleepQuality: number;
-    exerciseDone: boolean;
-    screenTimeHours: number;
-    workloadRating: number;
-    moodScore: number;
-    energyLevel: number;
-    notes?: string;
-  }) => {
+  submit: async (data: CheckInPayload) => {
     const res = await client.post('/checkins', data);
     return res.data.checkIn;
   },

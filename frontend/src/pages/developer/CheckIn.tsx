@@ -100,6 +100,22 @@ const CheckIn: React.FC = () => {
     mealQuality: 3,
     socialSupportLevel: 3,
     
+    // Psychological Wellbeing
+    anxietyLevel: 4,
+    emotionalFatigue: 4,
+    motivationLevel: 3,
+    concentrationIssues: 2,
+    irritabilityLevel: 2,
+    lonelinessLevel: 2,
+    selfEfficacy: 3,
+    copingAbility: 3,
+
+    // Work Context (Sri Lankan & Global)
+    powerInternetDisruption: 2,
+    wfhEnvironmentQuality: 3,
+    familyResponsibilityLoad: 2,
+    salaryWorkloadSatisfaction: 3,
+    afterHoursMessaging: false,
     // Notes
     notes: '',
   });
@@ -383,6 +399,169 @@ const CheckIn: React.FC = () => {
                 value={formData.mealQuality}
                 onChange={(v) => setFormData({ ...formData, mealQuality: v })}
               />
+            </div>
+          </div>
+        </Card>
+        
+        {/* ── Psychological Wellbeing Section ────────────────────────── */}
+        <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>🧠 Psychological Wellbeing</h2>
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+            <div>
+              <ScaleInput
+                label="Anxiety level today"
+                description="1 = None, 10 = Severe"
+                max={10}
+                value={formData.anxietyLevel}
+                onChange={(v) => setFormData({ ...formData, anxietyLevel: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Emotional fatigue"
+                description="1 = None, 10 = Completely drained"
+                max={10}
+                value={formData.emotionalFatigue}
+                onChange={(v) => setFormData({ ...formData, emotionalFatigue: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Motivation level"
+                description="1 = Very low, 5 = Very high"
+                max={5}
+                value={formData.motivationLevel}
+                onChange={(v) => setFormData({ ...formData, motivationLevel: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Concentration issues"
+                description="1 = None, 5 = Severe difficulty focusing"
+                max={5}
+                value={formData.concentrationIssues}
+                onChange={(v) => setFormData({ ...formData, concentrationIssues: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Irritability level"
+                description="1 = Very calm, 5 = Very irritable"
+                max={5}
+                value={formData.irritabilityLevel}
+                onChange={(v) => setFormData({ ...formData, irritabilityLevel: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Loneliness level"
+                description="1 = Well connected, 5 = Very isolated"
+                max={5}
+                value={formData.lonelinessLevel}
+                onChange={(v) => setFormData({ ...formData, lonelinessLevel: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Self-efficacy"
+                description="1 = Very low confidence, 5 = Very confident"
+                max={5}
+                value={formData.selfEfficacy}
+                onChange={(v) => setFormData({ ...formData, selfEfficacy: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Coping ability"
+                description="1 = Struggling to cope, 5 = Coping very well"
+                max={5}
+                value={formData.copingAbility}
+                onChange={(v) => setFormData({ ...formData, copingAbility: v })}
+              />
+            </div>
+          </div>
+        </Card>
+
+        {/* ── Work Context Section (Sri Lankan & Global) ─────────────── */}
+        <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>🇱🇰 Work Context</h2>
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+            <div>
+              <ScaleInput
+                label="Power / internet disruption stress"
+                description="1 = No disruption, 5 = Severely disrupted my work"
+                max={5}
+                value={formData.powerInternetDisruption}
+                onChange={(v) => setFormData({ ...formData, powerInternetDisruption: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="WFH environment quality"
+                description="1 = Very poor setup, 5 = Excellent setup"
+                max={5}
+                value={formData.wfhEnvironmentQuality}
+                onChange={(v) => setFormData({ ...formData, wfhEnvironmentQuality: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Family responsibility load"
+                description="1 = Very light, 5 = Very heavy"
+                max={5}
+                value={formData.familyResponsibilityLoad}
+                onChange={(v) => setFormData({ ...formData, familyResponsibilityLoad: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Salary vs workload satisfaction"
+                description="1 = Very unsatisfied, 5 = Very satisfied"
+                max={5}
+                value={formData.salaryWorkloadSatisfaction}
+                onChange={(v) => setFormData({ ...formData, salaryWorkloadSatisfaction: v })}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                After-hours work messaging?
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, afterHoursMessaging: false })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: !formData.afterHoursMessaging ? 'var(--soft-fill)' : 'var(--bg)',
+                    borderColor: !formData.afterHoursMessaging ? 'var(--text-muted)' : 'var(--border)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, afterHoursMessaging: true })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: formData.afterHoursMessaging ? 'var(--success-light)' : 'var(--bg)',
+                    borderColor: formData.afterHoursMessaging ? 'var(--success)' : 'var(--border)',
+                    color: formData.afterHoursMessaging ? 'var(--success)' : 'var(--text-secondary)',
+                  }}
+                >
+                  Yes
+                </button>
+              </div>
             </div>
           </div>
         </Card>
