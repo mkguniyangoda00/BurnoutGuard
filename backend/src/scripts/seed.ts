@@ -151,6 +151,23 @@ async function main() {
           caffeineIntake: Math.floor(Math.random() * 6) + 1, // 1-6 cups
           mealQuality: Math.floor(Math.random() * 5) + 1, // 1-5
           socialSupportLevel: Math.floor(Math.random() * 5) + 1, // 1-5
+
+          // Psychological Wellbeing
+          anxietyLevel: Math.floor(Math.random() * 6) + 2,      // 2-7
+          emotionalFatigue: Math.floor(Math.random() * 6) + 2,  // 2-7
+          motivationLevel: Math.floor(Math.random() * 5) + 1,   // 1-5
+          concentrationIssues: Math.floor(Math.random() * 3) + 1, // 1-3
+          irritabilityLevel: Math.floor(Math.random() * 3) + 1,   // 1-3
+          lonelinessLevel: Math.floor(Math.random() * 3) + 1,     // 1-3
+          selfEfficacy: Math.floor(Math.random() * 5) + 1,        // 1-5
+          copingAbility: Math.floor(Math.random() * 5) + 1,       // 1-5
+
+          // Work Context (Sri Lankan & Global)
+          powerInternetDisruption: Math.floor(Math.random() * 3) + 1,   // 1-3
+          wfhEnvironmentQuality: Math.floor(Math.random() * 5) + 1,     // 1-5
+          familyResponsibilityLoad: Math.floor(Math.random() * 4) + 1,  // 1-4
+          salaryWorkloadSatisfaction: Math.floor(Math.random() * 5) + 1,// 1-5
+          afterHoursMessaging: Math.random() > 0.6,                     // ~40% true
           
           // Notes
           notes: Math.random() > 0.7 ? 'Had a productive day' : undefined,
