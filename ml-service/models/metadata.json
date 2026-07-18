@@ -1,0 +1,62 @@
+{
+  "version": "v1.1-logisticregression",
+  "algorithm": "LogisticRegression",
+  "modelFile": "model_v1.1-logisticregression.pkl",
+  "scalerFile": "scaler_v1.1-logisticregression.pkl",
+  "featureColumns": [
+    "sleepHours",
+    "sleepQuality",
+    "exerciseLevel",
+    "screenTimeHours",
+    "workHours",
+    "workloadRating",
+    "overtimeHours",
+    "breaksTaken",
+    "commuteMinutes",
+    "stressLevel",
+    "moodScore",
+    "energyLevel",
+    "workSatisfaction",
+    "caffeineIntake",
+    "mealQuality",
+    "socialSupportLevel",
+    "anxietyLevel",
+    "emotionalFatigue",
+    "motivationLevel",
+    "concentrationIssues",
+    "irritabilityLevel",
+    "lonelinessLevel",
+    "selfEfficacy",
+    "copingAbility",
+    "powerInternetDisruption",
+    "wfhEnvironmentQuality",
+    "familyResponsibilityLoad",
+    "salaryWorkloadSatisfaction",
+    "afterHoursMessaging"
+  ],
+  "riskLevels": [
+    "Low",
+    "Moderate",
+    "High",
+    "Critical"
+  ],
+  "trainedAt": "2026-07-18T04:14:20.834587",
+  "metrics": {
+    "LogisticRegression": {
+      "accuracy": 0.51,
+      "f1Score": 0.4838603575400638,
+      "auc": 0.7740111111111112
+    },
+    "RandomForest": {
+      "accuracy": 0.465,
+      "f1Score": 0.4547912570343837,
+      "auc": 0.7204833333333333
+    },
+    "XGBoost": {
+      "accuracy": 0.44333333333333336,
+      "f1Score": 0.4453092991105232,
+      "auc": 0.7336370370370371
+    }
+  },
+  "status": "Active"
+}

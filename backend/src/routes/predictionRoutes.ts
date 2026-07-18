@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { PredictionRepository } from '../repositories/PredictionRepository';
+import { CheckInRepository } from '../repositories/CheckInRepository';
 import { RecommendationRepository } from '../repositories/RecommendationRepository';
 import { AlertRepository } from '../repositories/AlertRepository';
 import { MlService } from '../services/MlService';
@@ -13,6 +14,7 @@ import { authorize } from '../middleware/authorize';
 const router = Router();
 
 const predictionRepo = new PredictionRepository();
+const checkInRepo = new CheckInRepository();
 const recRepo = new RecommendationRepository();
 const alertRepo = new AlertRepository();
 const mlService = new MlService();
@@ -22,7 +24,8 @@ const predictionService = new PredictionService(
     predictionRepo,
     mlService,
     recService,
-    alertService
+    alertService,
+    checkInRepo
 );
 const predictionController = new PredictionController(predictionService);
 

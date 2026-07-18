@@ -21,11 +21,11 @@ const mlService = new MlService();
 const recService = new RecommendationService(recRepo);
 const alertService = new AlertService(alertRepo);
 
-// Create CheckInService first
 const checkInService = new CheckInService(checkInRepo, mlService);
 
-// Create PredictionService and inject into CheckInService
-const predictionService = new PredictionService(predictionRepo, mlService, recService, alertService);
+const predictionService = new PredictionService(
+  predictionRepo, mlService, recService, alertService, checkInRepo
+);
 checkInService.setPredictionService(predictionService);
 
 const checkInController = new CheckInController(checkInService);

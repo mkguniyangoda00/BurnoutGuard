@@ -1,9 +1,11 @@
 import { PredictionRepository } from '../repositories/PredictionRepository';
+import { CheckInRepository } from '../repositories/CheckInRepository';
 import { MlService } from './MlService';
 import { RecommendationService } from './RecommendationService';
 import { Prediction } from '../models/Prediction';
 import { ShapExplanation } from '../models/ShapExplanation';
 import { AlertService } from './AlertService';
+import { aggregateCheckIns } from '../utils/FeatureAggregator';
 import prisma from '../config/db';
 
 export class PredictionService {
@@ -11,11 +13,15 @@ export class PredictionService {
     private predictionRepo: PredictionRepository,
     private mlService: MlService,
     private recommendationService: RecommendationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private checkInRepo: CheckInRepository
   ) {}
 
   async createPrediction(userId: string) {
-    const mlResult = await this.mlService.getPrediction(userId);
+    const checkIns = await this.checkInRepo.findLastSeven(userId);
+    const features = aggregateCheckIns(checkIns);
+
+    const mlResult = await this.mlService.getPrediction(userId, features);
 
     const previous = await this.predictionRepo.findLatestByUser(userId);
     const previousRiskScore = previous ? previous.riskScore : undefined;
@@ -34,12 +40,12 @@ export class PredictionService {
     const shapRows = mlResult.shapValues.map((s) => ({
       ...s,
       plainLanguageText:
-        s.direction === 'IncreasesRisk'
+        s.plainLanguageText ??
+        (s.direction === 'IncreasesRisk'
           ? `${s.featureName} is increasing your risk by ${s.shapValue.toFixed(2)} points`
-          : `${s.featureName} is helping reduce your risk by ${Math.abs(s.shapValue).toFixed(2)} points`,
+          : `${s.featureName} is helping reduce your risk by ${Math.abs(s.shapValue).toFixed(2)} points`),
     }));
 
-    // Calculate actual check-ins count dynamically
     const checkInsUsed = await prisma.dailyCheckIn.count({
       where: { userId },
     });
@@ -101,6 +107,8 @@ export class PredictionService {
   }
 
   async runWhatIf(userId: string, modifications: Record<string, number>) {
-    return this.mlService.getWhatIf(userId, modifications);
+    const checkIns = await this.checkInRepo.findLastSeven(userId);
+    const baseline = aggregateCheckIns(checkIns);
+    return this.mlService.getWhatIf(userId, baseline, modifications);
   }
 }
