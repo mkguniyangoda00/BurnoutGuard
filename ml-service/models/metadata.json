@@ -1,8 +1,8 @@
 {
-  "version": "v1.1-logisticregression",
-  "algorithm": "LogisticRegression",
-  "modelFile": "model_v1.1-logisticregression.pkl",
-  "scalerFile": "scaler_v1.1-logisticregression.pkl",
+  "version": "v1.3-xgboost",
+  "algorithm": "XGBoost",
+  "modelFile": "model_v1.3-xgboost.pkl",
+  "scalerFile": "scaler_v1.3-xgboost.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -40,22 +40,22 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-07-18T04:14:20.834587",
+  "trainedAt": "2026-07-18T16:15:16.493395+00:00",
   "metrics": {
     "LogisticRegression": {
-      "accuracy": 0.51,
-      "f1Score": 0.4838603575400638,
-      "auc": 0.7740111111111112
+      "accuracy": 0.8040303738317757,
+      "f1Score": 0.8039753760603616,
+      "auc": 0.9519301969806517
     },
     "RandomForest": {
-      "accuracy": 0.465,
-      "f1Score": 0.4547912570343837,
-      "auc": 0.7204833333333333
+      "accuracy": 0.8004478193146417,
+      "f1Score": 0.8001945177918792,
+      "auc": 0.9487649662310795
     },
     "XGBoost": {
-      "accuracy": 0.44333333333333336,
-      "f1Score": 0.4453092991105232,
-      "auc": 0.7336370370370371
+      "accuracy": 0.80523753894081,
+      "f1Score": 0.8047571532339287,
+      "auc": 0.9519201443478809
     }
   },
   "status": "Active"
