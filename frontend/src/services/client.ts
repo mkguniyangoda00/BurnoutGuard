@@ -1,32 +1,18 @@
-// src/services/client.ts — replace entire file with this
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: 'http://localhost:4000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 client.interceptors.request.use((config) => {
-  const token = localStorage.getItem('bg_token') || localStorage.getItem('token');
-  if (token) {
+  const token = localStorage.getItem('token'); // or however your auth token is stored
+  if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-client.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('bg_token');
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-    }
-    return Promise.reject(err);
-  }
-);
-
-// Export BOTH ways so any import style works
-export { client };           // named export  → import { client } from './client'
-export default client;       // default export → import client from './client'
+export default client;

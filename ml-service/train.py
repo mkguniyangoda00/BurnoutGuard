@@ -9,7 +9,7 @@ metadata (used later by main.py and the admin ModelManagement page).
 import os
 import json
 import joblib
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -46,7 +46,7 @@ def main():
     X_train, X_test, y_train, y_test, scaler = split_and_scale(df)
 
     candidates = {
-        "LogisticRegression": LogisticRegression(max_iter=1000, multi_class="ovr"),
+        "LogisticRegression": LogisticRegression(max_iter=1000),
         "RandomForest": RandomForestClassifier(n_estimators=200, random_state=42),
         "XGBoost": XGBClassifier(
             n_estimators=200, max_depth=5, learning_rate=0.1,
@@ -88,7 +88,7 @@ def main():
         "scalerFile": scaler_file,
         "featureColumns": FEATURE_COLUMNS,
         "riskLevels": RISK_LEVELS,
-        "trainedAt": datetime.utcnow().isoformat(),
+        "trainedAt": datetime.now(timezone.utc).isoformat(),
         "metrics": {k: v for k, v in results.items()},
         "status": "Active",
     }
