@@ -19,7 +19,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Bell, LogOut, User, Settings } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext';
-import { client } from '../../services/client';
+import client from '../../services/client';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
