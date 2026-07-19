@@ -7,6 +7,11 @@ import { ShapExplanation } from '../models/ShapExplanation';
 import { AlertService } from './AlertService';
 import { aggregateCheckIns } from '../utils/FeatureAggregator';
 import prisma from '../config/db';
+import { UserRepository } from '../repositories/UserRepository';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class PredictionService {
   constructor(
@@ -14,14 +19,29 @@ export class PredictionService {
     private mlService: MlService,
     private recommendationService: RecommendationService,
     private alertService: AlertService,
-    private checkInRepo: CheckInRepository
+    private checkInRepo: CheckInRepository,
+    private userRepo: UserRepository
   ) {}
 
-  async createPrediction(userId: string) {
-    const checkIns = await this.checkInRepo.findLastSeven(userId);
-    const features = aggregateCheckIns(checkIns);
+  private async getActor(userId: string) {
+    const actor = await this.userRepo.findById(userId);
+    return {
+      actorId: userId,
+      actorEmail: actor?.email ?? 'unknown',
+      actorRole: actor?.role ?? 'Unknown',
+    };
+  }
 
+  async createPrediction(userId: string) {
+    console.log(`[PredictionService] Starting prediction generation for user ${userId}.`);
+    const checkIns = await this.checkInRepo.findByUserId(userId);
+    console.log(`[PredictionService] Loaded ${checkIns.length} available check-in(s) for user ${userId}.`);
+    const features = aggregateCheckIns(checkIns);
+    console.log(`[PredictionService] Aggregated feature vector for user ${userId}:`, features);
+
+    console.log(`[PredictionService] Calling ML service for user ${userId}.`);
     const mlResult = await this.mlService.getPrediction(userId, features);
+    console.log(`[PredictionService] ML response for user ${userId}:`, mlResult);
 
     const previous = await this.predictionRepo.findLatestByUser(userId);
     const previousRiskScore = previous ? previous.riskScore : undefined;
@@ -50,35 +70,64 @@ export class PredictionService {
       where: { userId },
     });
 
-    const saved = await this.predictionRepo.createWithShap(
-      {
-        userId,
-        riskScore: mlResult.riskScore,
-        riskLevel: mlResult.riskLevel,
-        modelVersion: mlResult.modelVersion,
-        checkInsUsed: checkInsUsed || 1,
-        predictionDate: new Date(),
-        isLatest: true,
-        trendDirection,
-        previousRiskScore,
-        scoreChange,
-        createdBy: userId,
-        modifiedBy: userId,
-      } as any,
-      shapRows
+    console.log(
+      `[PredictionService] Saving prediction for user ${userId} with ${shapRows.length} SHAP row(s).`
     );
 
+    let saved;
+    try {
+      saved = await this.predictionRepo.createWithShap(
+        {
+          userId,
+          riskScore: mlResult.riskScore,
+          riskLevel: mlResult.riskLevel,
+          modelVersion: mlResult.modelVersion,
+          checkInsUsed,
+          predictionDate: new Date(),
+          isLatest: true,
+          trendDirection,
+          previousRiskScore,
+          scoreChange,
+          createdBy: userId,
+          modifiedBy: userId,
+        } as any,
+        shapRows
+      );
+      console.log(
+        `[PredictionService] Prediction saved for user ${userId} with predictionId ${saved.predictionId}.`
+      );
+    } catch (err) {
+      console.error(`[PredictionService] Prediction save failed for user ${userId}:`, err);
+      throw err;
+    }
+
+    console.log(`[PredictionService] Generating recommendations for prediction ${saved.predictionId}.`);
     await this.recommendationService.generateFromPrediction(
       userId,
       saved.predictionId,
       saved.shapExplanations as unknown as ShapExplanation[]
     );
+    console.log(`[PredictionService] Recommendation generation finished for prediction ${saved.predictionId}.`);
 
+    console.log(`[PredictionService] Checking whether alert is needed for prediction ${saved.predictionId}.`);
     await this.alertService.createIfHighRisk(
       userId,
       saved.predictionId,
       saved.riskLevel as any
     );
+    console.log(`[PredictionService] Alert check finished for prediction ${saved.predictionId}.`);
+
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'PREDICTION_CREATE',
+      entityType: 'Prediction',
+      entityId: saved.predictionId,
+      details: `Risk level ${saved.riskLevel}, score ${(saved.riskScore * 100).toFixed(0)}%`,
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue prediction create log:', err.message);
+    });
 
     return saved;
   }
@@ -107,8 +156,21 @@ export class PredictionService {
   }
 
   async runWhatIf(userId: string, modifications: Record<string, number>) {
-    const checkIns = await this.checkInRepo.findLastSeven(userId);
+    const checkIns = await this.checkInRepo.findByUserId(userId);
     const baseline = aggregateCheckIns(checkIns);
-    return this.mlService.getWhatIf(userId, baseline, modifications);
+    const result = await this.mlService.getWhatIf(userId, baseline, modifications);
+
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'WHAT_IF',
+      entityType: 'Prediction',
+      details: 'Ran what-if simulation',
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue what-if log:', err.message);
+    });
+
+    return result;
   }
 }
