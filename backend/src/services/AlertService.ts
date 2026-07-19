@@ -10,12 +10,18 @@ export class AlertService {
     predictionId: string,
     riskLevel: RiskLevel
   ): Promise<Alert | null> {
+    console.log(
+      `[AlertService] Evaluating alert for prediction ${predictionId} with risk level ${riskLevel}.`
+    );
     if (riskLevel !== 'High' && riskLevel !== 'Critical') {
+      console.log(`[AlertService] No alert created for prediction ${predictionId}.`);
       return null;
     }
 
     const severity = riskLevel === 'Critical' ? AlertSeverity.Critical : AlertSeverity.Warning;
     const message = `Your burnout risk has reached ${riskLevel} level. Please review your personalized recommendations immediately.`;
+
+    console.log(`[AlertService] Creating alert for prediction ${predictionId}.`);
 
     return this.alertRepo.create({
       userId,
