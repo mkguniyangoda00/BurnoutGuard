@@ -1,15 +1,30 @@
 import { ReportRepository } from '../repositories/ReportRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
+import { UserRepository } from '../repositories/UserRepository';
 import { WellnessReport } from '../models/WellnessReport';
 import prisma from '../config/db';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class ReportService {
   constructor(
     private reportRepo: ReportRepository,
-    private checkInRepo: CheckInRepository
+    private checkInRepo: CheckInRepository,
+    private userRepo: UserRepository
   ) { }
 
-  async generateForUser(
+  private async getActor(actorId: string) {
+    const actor = await this.userRepo.findById(actorId);
+    return {
+      actorId,
+      actorEmail: actor?.email ?? 'unknown',
+      actorRole: actor?.role ?? 'Unknown',
+    };
+  }
+
+  private async generateForWindow(
     userId: string,
     weekStart: Date,
     weekEnd: Date
@@ -21,9 +36,9 @@ export class ReportService {
       },
     });
 
-    if (checkIns.length < 3) {
+    if (checkIns.length === 0) {
       console.log(
-        `[ReportService] Skipping user ${userId} — only ${checkIns.length} check-ins this week`
+        `[ReportService] Skipping user ${userId} — no check-ins found for report window.`
       );
       return null;
     }
@@ -35,11 +50,9 @@ export class ReportService {
     const avgSleep = avg(checkIns.map((c: any) => c.sleepHours));
     const avgMood = avg(checkIns.map((c: any) => c.moodScore));
     const avgWorkHours = avg(checkIns.map((c: any) => c.workHours));
-    // const exerciseDays = checkIns.filter((c: any) => c.exerciseDone).length;
     const exerciseDays = checkIns.filter((c: any) => c.exerciseLevel >= 3).length;
     const totalCheckIns = checkIns.length;
 
-    // Get risk score from latest prediction in this week
     const latestPrediction = await prisma.burnoutPrediction.findFirst({
       where: {
         userId,
@@ -51,10 +64,7 @@ export class ReportService {
     const riskScoreAtEndOfWeek = latestPrediction?.riskScore ?? null;
     const riskLevel = latestPrediction?.riskLevel ?? 'Unknown';
 
-    // Get previous week's report for trend comparison
-    const prevWeekStart = new Date(weekStart);
-    prevWeekStart.setDate(prevWeekStart.getDate() - 7);
-    const prevReport = await this.reportRepo.findByWeek(userId, prevWeekStart);
+    const prevReport = await this.reportRepo.findPreviousByWeekStart(userId, weekStart);
 
     let overallTrend = 'Stable';
     if (prevReport) {
@@ -90,7 +100,6 @@ export class ReportService {
       modifiedBy: userId,
     };
 
-    // Update if exists, create if not
     const existingReport = await this.reportRepo.findByWeek(userId, weekStart);
     if (existingReport) {
       return this.reportRepo.update(existingReport.reportId, {
@@ -102,7 +111,27 @@ export class ReportService {
     return this.reportRepo.create(reportData);
   }
 
-  async generateForAllUsers(): Promise<number> {
+  async generateForUser(
+    userId: string,
+    weekStart: Date,
+    weekEnd: Date
+  ): Promise<WellnessReport | null> {
+    return this.generateForWindow(userId, weekStart, weekEnd);
+  }
+
+  async generateForRecentDays(
+    userId: string,
+    days = 7
+  ): Promise<WellnessReport | null> {
+    const weekEnd = new Date();
+    const weekStart = new Date(weekEnd);
+    weekStart.setDate(weekEnd.getDate() - (days - 1));
+    weekStart.setHours(0, 0, 0, 0);
+
+    return this.generateForWindow(userId, weekStart, weekEnd);
+  }
+
+  async generateForAllUsers(actorId?: string): Promise<number> {
     const users = await prisma.user.findMany({ where: { isActive: true } });
 
     // Last week: Monday to Sunday
@@ -131,6 +160,31 @@ export class ReportService {
     console.log(
       `[ReportService] Generated ${count} reports for week of ${weekStart.toDateString()}`
     );
+
+    if (actorId) {
+      const actor = await this.getActor(actorId);
+      void auditLogService.log({
+        ...actor,
+        action: 'REPORT_GENERATE_MANUAL',
+        entityType: 'WellnessReport',
+        details: `Generated ${count} report(s)`,
+        result: 'Success',
+      }).catch((err) => {
+        console.error('[AuditLog] Failed to queue manual report generation log:', err.message);
+      });
+    } else {
+      void auditLogService.log({
+        actorEmail: 'system',
+        actorRole: 'System',
+        action: 'REPORT_GENERATE_SCHEDULED',
+        entityType: 'WellnessReport',
+        details: `Generated ${count} report(s)`,
+        result: 'Success',
+      }).catch((err) => {
+        console.error('[AuditLog] Failed to queue scheduled report generation log:', err.message);
+      });
+    }
+
     return count;
   }
 

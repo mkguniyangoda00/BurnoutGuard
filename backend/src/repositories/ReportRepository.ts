@@ -46,4 +46,18 @@ export class ReportRepository {
       where: { userId, weekStart },
     }) as unknown as WellnessReport | null;
   }
+
+  async findPreviousByWeekStart(userId: string, weekStart: Date): Promise<WellnessReport | null> {
+    return prisma.wellnessReport.findFirst({
+      where: {
+        userId,
+        weekStart: {
+          lt: weekStart,
+        },
+      },
+      orderBy: {
+        weekStart: 'desc',
+      },
+    }) as unknown as WellnessReport | null;
+  }
 }
