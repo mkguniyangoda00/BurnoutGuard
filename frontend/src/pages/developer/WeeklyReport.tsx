@@ -1,5 +1,5 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -26,14 +26,45 @@ const MetricChip: React.FC<{ label: string; value: string; color: string }> = ({
 );
 
 const WeeklyReport: React.FC = () => {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const queryClient = useQueryClient();
+
   // Fetch weekly reports
   const { data, isLoading, isError } = useQuery({
     queryKey: ['reports'],
     queryFn: reportService.getAll,
   });
 
-  const reports = data?.reports ?? [];
+  const generateMutation = useMutation({
+    mutationFn: reportService.generate,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
+
+  const reports = data ?? [];
   const latestReport = reports[0]; // Reports are sorted desc
+
+  const handleDownloadPdf = async () => {
+    if (!latestReport?.reportId || isDownloading) {
+      return;
+    }
+
+    setIsDownloading(true);
+    try {
+      const blob = await reportService.downloadPdf(latestReport.reportId);
+      const objectUrl = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = objectUrl;
+      anchor.download = `burnoutguard-report-${latestReport.reportId}.pdf`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      window.URL.revokeObjectURL(objectUrl);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -54,6 +85,14 @@ const WeeklyReport: React.FC = () => {
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 20px' }}>
             Wellness reports are generated weekly. Complete your daily check-in to see your averages and trends here.
           </p>
+          <Button
+            variant="primary"
+            onClick={() => generateMutation.mutate()}
+            disabled={generateMutation.isPending}
+            style={{ padding: '10px 16px', fontSize: '13px' }}
+          >
+            {generateMutation.isPending ? 'Generating…' : "Generate This Week's Report"}
+          </Button>
         </div>
       </PageWrapper>
     );
@@ -89,7 +128,7 @@ const WeeklyReport: React.FC = () => {
             {formatWeekRange(latestReport.weekStart, latestReport.weekEnd)} · {latestReport.totalCheckIns} check-ins submitted
           </p>
         </div>
-        <Button variant="primary" onClick={() => window.print()} style={{ padding: '8px 16px', fontSize: '13px' }}>📥 Export / Print</Button>
+        <Button variant="primary" onClick={handleDownloadPdf} disabled={isDownloading} style={{ padding: '8px 16px', fontSize: '13px' }}>{isDownloading ? 'Downloading…' : '📥 Export / Print'}</Button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
