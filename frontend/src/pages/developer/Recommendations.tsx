@@ -99,7 +99,7 @@ const Recommendations: React.FC = () => {
           icon="🏃" 
           bg="var(--success-light)" 
           title="Add 20-minute walks on work days"
-          body="You exercised 0 of 7 days this week. Even a short walk during lunch lowers stress hormones. Start with 3 days this week — no gym required. Our model shows this can reduce your predicted score by ~0.06."
+          body="Even a short walk during lunch lowers stress hormones. Start with one walk this week — no gym required. Our model shows this can reduce your predicted score by ~0.06."
           priority="Medium priority"
           priorityColor="var(--warning)"
           priorityBg="var(--warning-light)"

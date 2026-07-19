@@ -1,22 +1,49 @@
 import { RecommendationRepository } from '../repositories/RecommendationRepository';
 import { Recommendation } from '../models/Recommendation';
 import { ShapExplanation } from '../models/ShapExplanation';
+import { UserRepository } from '../repositories/UserRepository';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class RecommendationService {
-  constructor(private recRepo: RecommendationRepository) { }
+  constructor(
+    private recRepo: RecommendationRepository,
+    private userRepo: UserRepository
+  ) { }
+
+  private async getActor(userId: string) {
+    const actor = await this.userRepo.findById(userId);
+    return {
+      actorId: userId,
+      actorEmail: actor?.email ?? 'unknown',
+      actorRole: actor?.role ?? 'Unknown',
+    };
+  }
 
   async generateFromPrediction(
     userId: string,
     predictionId: string,
     shapRows: ShapExplanation[]
   ): Promise<void> {
+    console.log(
+      `[RecommendationService] Generating recommendations for prediction ${predictionId} and user ${userId}.`
+    );
     // Get top risk-increasing features sorted by impact
     const riskIncreasing = shapRows
       .filter((s) => s.direction === 'IncreasesRisk')
       .sort((a, b) => Math.abs(b.shapValue) - Math.abs(a.shapValue))
       .slice(0, 3);
 
+    console.log(
+      `[RecommendationService] Found ${riskIncreasing.length} risk-increasing SHAP feature(s) for prediction ${predictionId}.`
+    );
+
     const dismissedTitles = await this.recRepo.findDismissedTitles(userId);
+    console.log(
+      `[RecommendationService] Loaded ${dismissedTitles.length} dismissed recommendation title(s) for user ${userId}.`
+    );
 
     const recommendationMap: Record<
       string,
@@ -132,7 +159,14 @@ export class RecommendationService {
     }
 
     if (toCreate.length > 0) {
+      console.log(
+        `[RecommendationService] Creating ${toCreate.length} recommendation(s) for prediction ${predictionId}.`
+      );
       await this.recRepo.createMany(toCreate);
+    } else {
+      console.log(
+        `[RecommendationService] No recommendations generated for prediction ${predictionId}.`
+      );
     }
   }
 
@@ -145,10 +179,32 @@ export class RecommendationService {
   }
 
   async complete(recId: string, userId: string): Promise<Recommendation> {
-    return this.recRepo.markComplete(recId, userId);
+    const rec = await this.recRepo.markComplete(recId, userId);
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'RECOMMENDATION_COMPLETE',
+      entityType: 'Recommendation',
+      entityId: recId,
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue recommendation complete log:', err.message);
+    });
+    return rec;
   }
 
   async dismiss(recId: string, userId: string): Promise<Recommendation> {
-    return this.recRepo.dismiss(recId, userId);
+    const rec = await this.recRepo.dismiss(recId, userId);
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'RECOMMENDATION_DISMISS',
+      entityType: 'Recommendation',
+      entityId: recId,
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue recommendation dismiss log:', err.message);
+    });
+    return rec;
   }
 }
