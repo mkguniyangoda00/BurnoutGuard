@@ -126,6 +126,7 @@ const CheckIn: React.FC = () => {
     onSuccess: () => {
       // Invalidate cached queries so all panels update immediately
       queryClient.invalidateQueries({ queryKey: ['checkin', 'streak'] });
+      queryClient.invalidateQueries({ queryKey: ['checkin', 'history'] });
       queryClient.invalidateQueries({ queryKey: ['prediction', 'latest'] });
       queryClient.invalidateQueries({ queryKey: ['prediction', 'history'] });
       queryClient.invalidateQueries({ queryKey: ['reports'] });
@@ -188,7 +189,7 @@ const CheckIn: React.FC = () => {
 
       {/* ── Motivational Banner ──────────────────────────────────────── */}
       <div style={{ backgroundColor: 'var(--primary-light)', border: '1px solid #C7D5FA', borderRadius: '12px', padding: '14px 16px', fontSize: '13px', color: 'var(--primary)', marginBottom: '24px', fontWeight: 500 }}>
-        💡 Complete your daily check-in to get a personalized burnout risk assessment.
+        💡 Submit today's check-in to get your updated burnout risk score.
       </div>
 
       <form onSubmit={handleSubmit}>

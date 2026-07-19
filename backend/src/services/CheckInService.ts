@@ -1,82 +1,93 @@
 import { CheckInRepository } from '../repositories/CheckInRepository';
+import { UserRepository } from '../repositories/UserRepository';
 import { MlService } from './MlService';
 import { PredictionService } from './PredictionService';
 import { CheckInDto } from '../middleware/validators/CheckInValidator';
-import { CheckIn } from '../models/CheckIn';
-import prisma from '../config/db';
+import { AuditLogRepository } from '../repositories/AuditLogRepository';
+import { AuditLogService } from './AuditLogService';
+
+const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class CheckInService {
+  private predictionService?: PredictionService;
+
   constructor(
     private checkInRepo: CheckInRepository,
     private mlService: MlService,
-    private predictionService?: PredictionService // optional to avoid circular deps at startup
-  ) { }
+    private userRepo: UserRepository
+  ) {}
 
-  setPredictionService(service: PredictionService) {
-    this.predictionService = service;
+  private async getActor(userId: string) {
+    const actor = await this.userRepo.findById(userId);
+    return {
+      actorId: userId,
+      actorEmail: actor?.email ?? 'unknown',
+      actorRole: actor?.role ?? 'Unknown',
+    };
   }
 
-  async submit(userId: string, dto: CheckInDto): Promise<CheckIn> {
+  /**
+   * Setter injection (rather than constructor injection) to avoid a
+   * circular dependency: PredictionService needs CheckInRepository,
+   * and CheckInService needs PredictionService. Wired together in
+   * checkinRoutes.ts after both are constructed.
+   */
+  setPredictionService(predictionService: PredictionService) {
+    this.predictionService = predictionService;
+  }
+
+  async submit(userId: string, dto: CheckInDto) {
+    console.log(`[CheckInService] Saving check-in for user ${userId}.`);
     const checkIn = await this.checkInRepo.create({
+      ...dto,
       userId,
       checkInDate: new Date(),
-      ...dto,
     });
 
-    const total = await this.checkInRepo.countByUser(userId);
-    const streak = await this.checkInRepo.getCurrentStreak(userId);
-
-    await prisma.developerProfile.updateMany({
-      where: { userId },
-      data: { totalCheckIns: total, currentStreak: streak },
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'CHECK_IN_SUBMIT',
+      entityType: 'CheckIn',
+      entityId: (checkIn as any).checkInId,
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue check-in submit log:', err.message);
     });
 
-    // Always trigger prediction generation (no 7-day minimum)
-    if (this.predictionService) {
-      this.predictionService.createPrediction(userId).catch((err) => {
-        console.error(
-          `[CheckInService] Failed to create prediction for user ${userId}:`,
-          err.message
-        );
-      });
+    console.log(`[CheckInService] Check-in saved for user ${userId} with id ${(checkIn as any).checkInId ?? 'unknown'}.`);
+    if (!this.predictionService) {
+      console.error(
+        '[CheckInService] predictionService not wired — check checkinRoutes.ts setup.'
+      );
+    } else {
+      try {
+        console.log(`[CheckInService] Triggering prediction for user ${userId}.`);
+        await this.predictionService.createPrediction(userId);
+        console.log(`[CheckInService] Prediction created successfully for user ${userId}.`);
+      } catch (err) {
+        // Don't fail the check-in submission if prediction generation fails —
+        // the user's check-in should still save successfully either way.
+        console.error(`[CheckInService] Prediction generation failed for user ${userId}:`, err);
+      }
     }
 
     return checkIn;
   }
-  // Auto-trigger prediction generation if predictionService is injected
-  async getHistory(userId: string): Promise<CheckIn[]> {
-    return this.checkInRepo.findByUserId(userId);
+
+  async getHistory(userId: string, limit?: number) {
+    return this.checkInRepo.findByUserId(userId, limit);
   }
 
-  async getStreak(userId: string): Promise<number> {
+  async getStreak(userId: string) {
     return this.checkInRepo.getCurrentStreak(userId);
   }
 
-  async editToday(userId: string, checkInId: string, dto: CheckInDto): Promise<CheckIn> {
-    const checkIn = await this.checkInRepo.findById(checkInId);
-    if (!checkIn) {
-      const err: any = new Error('Check-in not found');
-      err.statusCode = 404;
-      throw err;
-    }
-
-    if (checkIn.userId !== userId) {
-      const err: any = new Error('Forbidden');
-      err.statusCode = 403;
-      throw err;
-    }
-
-    const checkInDay = new Date(checkIn.checkInDate);
-    checkInDay.setHours(0, 0, 0, 0);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (checkInDay.getTime() !== today.getTime()) {
-      const err: any = new Error("You can only edit today's check-in");
-      err.statusCode = 400;
-      throw err;
-    }
-
+  async editToday(
+    checkInId: string,
+    userId: string,
+    dto: Partial<CheckInDto>
+  ) {
     return this.checkInRepo.update(checkInId, dto, userId);
   }
 }

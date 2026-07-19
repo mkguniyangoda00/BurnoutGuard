@@ -10,6 +10,7 @@ import { PredictionService } from '../services/PredictionService';
 import { CheckInService } from '../services/CheckInService';
 import { CheckInController } from '../controllers/checkinController';
 import { Authenticate } from '../middleware/authenticate';
+import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();
 
@@ -17,14 +18,15 @@ const checkInRepo = new CheckInRepository();
 const predictionRepo = new PredictionRepository();
 const recRepo = new RecommendationRepository();
 const alertRepo = new AlertRepository();
+const userRepo = new UserRepository();
 const mlService = new MlService();
-const recService = new RecommendationService(recRepo);
+const recService = new RecommendationService(recRepo, userRepo);
 const alertService = new AlertService(alertRepo);
 
-const checkInService = new CheckInService(checkInRepo, mlService);
+const checkInService = new CheckInService(checkInRepo, mlService, userRepo);
 
 const predictionService = new PredictionService(
-  predictionRepo, mlService, recService, alertService, checkInRepo
+  predictionRepo, mlService, recService, alertService, checkInRepo, userRepo
 );
 checkInService.setPredictionService(predictionService);
 
