@@ -16,18 +16,18 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, LogOut, User, Settings } from 'lucide-react';
+import { Bell, LogOut, User } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext';
 import client from '../../services/client';
+import { Dropdown } from '../ui/Dropdown';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, role, logout } = useAuth();
   const queryClient = useQueryClient();
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<'notifications' | 'profile' | null>(null);
 
   // ── Fetch real alerts from backend (only for Developers) ─────────────
   // WHY React Query here: It automatically refetches every 60 seconds,
@@ -91,6 +91,8 @@ const Navbar: React.FC = () => {
     navigate('/login');
   };
 
+  const profilePath = '/developer/profile';
+
   // Don't render the navbar on public pages (login/register)
   if (!user) return null;
 
@@ -129,109 +131,107 @@ const Navbar: React.FC = () => {
       <div className="flex items-center gap-3">
         {/* Alert Bell — only shown for Developers */}
         {role === 'Developer' && (
-          <div className="relative">
-            <button
-              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-100 relative"
-              aria-label="Notifications"
-            >
-              <Bell size={18} />
-              {/* Red badge showing unread count */}
-              {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-              )}
-            </button>
-
-            {/* Dropdown panel for notifications */}
-            {isNotificationsOpen && (
-              <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-                <div className="px-4 py-3 border-b border-gray-100 font-semibold text-sm text-gray-800">
-                  Notifications
-                  {unreadCount > 0 && (
-                    <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-xs">
-                      {unreadCount} new
-                    </span>
-                  )}
-                </div>
-                <div className="max-h-64 overflow-y-auto">
-                  {alerts.length === 0 ? (
-                    <p className="text-sm text-gray-400 p-4 text-center">No new notifications</p>
-                  ) : (
-                    alerts.slice(0, 5).map((alert: any) => (
-                      <div
-                        key={alert.alertId}
-                        className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-50 ${
-                          alert.isRead ? 'opacity-60' : ''
-                        }`}
-                        onClick={() => {
-                          if (!alert.isRead) markReadMutation.mutate(alert.alertId);
-                          setIsNotificationsOpen(false);
-                        }}
-                      >
-                        {/* Coloured dot: red for Critical, yellow for Warning */}
-                        <div
-                          className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${
-                            alert.severity === 'Critical'
-                              ? 'bg-red-500'
-                              : alert.severity === 'Warning'
-                              ? 'bg-yellow-500'
-                              : 'bg-blue-400'
-                          }`}
-                        />
-                        <div>
-                          <p className="text-sm text-gray-800">{alert.message}</p>
-                          <p className="text-xs text-gray-400 mt-0.5">
-                            {new Date(alert.sentAt).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
+          <Dropdown
+            isOpen={openDropdown === 'notifications'}
+            onClose={() => setOpenDropdown(null)}
+            width="320px"
+            trigger={
+              <button
+                onClick={() => setOpenDropdown((current) => (current === 'notifications' ? null : 'notifications'))}
+                className="p-2 rounded-md text-gray-500 hover:bg-gray-100 relative"
+                aria-label="Notifications"
+              >
+                <Bell size={18} />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                )}
+              </button>
+            }
+          >
+            <div className="overflow-hidden">
+              <div className="px-4 py-3 border-b border-[var(--border)] font-semibold text-sm text-[var(--text-primary)]">
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="ml-2 px-2 py-0.5 bg-[var(--danger-light)] text-[var(--danger)] rounded-full text-xs">
+                    {unreadCount} new
+                  </span>
+                )}
               </div>
-            )}
-          </div>
+              <div className="max-h-64 overflow-y-auto">
+                {alerts.length === 0 ? (
+                  <p className="text-sm text-[var(--text-muted)] p-4 text-center">No new notifications</p>
+                ) : (
+                  alerts.slice(0, 5).map((alert: any) => (
+                    <div
+                      key={alert.alertId}
+                      className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--surface)] border-b border-[var(--border)] ${
+                        alert.isRead ? 'opacity-60' : ''
+                      }`}
+                      onClick={() => {
+                        if (!alert.isRead) markReadMutation.mutate(alert.alertId);
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      <div
+                        className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${
+                          alert.severity === 'Critical'
+                            ? 'bg-red-500'
+                            : alert.severity === 'Warning'
+                            ? 'bg-yellow-500'
+                            : 'bg-blue-400'
+                        }`}
+                      />
+                      <div>
+                        <p className="text-sm text-[var(--text-primary)]">{alert.message}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                          {new Date(alert.sentAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </Dropdown>
         )}
 
         {/* Profile Avatar */}
-        <div className="relative">
-          <button
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center justify-center hover:opacity-90"
-            style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', color: 'white', fontSize: '12px', fontWeight: 600 }}
-            aria-label="Profile menu"
-          >
-            {user.avatarInitials}
-          </button>
-
-          {isProfileOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-              <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-semibold text-gray-800">{user.fullName}</p>
-                <p className="text-xs text-gray-400 mt-0.5 capitalize">{user.role}</p>
-              </div>
-              <Link
-                to="/developer/dashboard"
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                onClick={() => setIsProfileOpen(false)}
-              >
-                <User size={14} /> My Profile
-              </Link>
-              <Link to="/developer/dashboard"   // placeholder target until a Settings page exists
-                className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                onClick={() => setIsProfileOpen(false)}>
-                <Settings size={14} /> Settings
-              </Link>
-              <div className="h-px bg-gray-100 mx-3" />
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-500 hover:bg-red-50"
-              >
-                <LogOut size={14} /> Log out
-              </button>
+        <Dropdown
+          isOpen={openDropdown === 'profile'}
+          onClose={() => setOpenDropdown(null)}
+          width="240px"
+          trigger={
+            <button
+              onClick={() => setOpenDropdown((current) => (current === 'profile' ? null : 'profile'))}
+              className="flex items-center justify-center hover:opacity-90"
+              style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', color: 'white', fontSize: '12px', fontWeight: 600 }}
+              aria-label="Profile menu"
+            >
+              {user.avatarInitials}
+            </button>
+          }
+        >
+          <div className="overflow-hidden">
+            <div className="px-4 py-3 border-b border-[var(--border)]">
+              <p className="text-sm font-semibold text-[var(--text-primary)]">{user.fullName}</p>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5 capitalize">{user.role}</p>
             </div>
-          )}
-        </div>
+            <Link
+              to={profilePath}
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)]"
+              onClick={() => setOpenDropdown(null)}
+            >
+              <User size={14} /> My Profile
+            </Link>
+            <div className="h-px bg-[var(--border)] mx-3" />
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-[var(--danger)] hover:bg-[var(--danger-light)]"
+            >
+              <LogOut size={14} /> Log out
+            </button>
+          </div>
+        </Dropdown>
       </div>
     </nav>
   );

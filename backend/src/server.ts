@@ -10,6 +10,7 @@ import CheckInRoutes from './routes/checkinRoutes';
 import PredictionRoutes from './routes/predictionRoutes';
 import RecommendationRoutes from './routes/RecommendationRoutes';
 import ReportRoutes from './routes/ReportRoutes';
+import ChatRoutes from './routes/ChatRoutes';
 import AlertRoutes from './routes/AlertRoutes';
 import AnalyticsRoutes from './routes/AnalyticsRoutes';
 import AdminRoutes from './routes/AdminRoutes';
@@ -19,6 +20,7 @@ import { startWeeklyReportJob } from './jobs/WeeklyReportJob';
 import { ReportService } from './services/ReportService';
 import { ReportRepository } from './repositories/ReportRepository';
 import { CheckInRepository } from './repositories/CheckInRepository';
+import { UserRepository } from './repositories/UserRepository';
 
 const app = express();
 
@@ -53,6 +55,7 @@ app.use('/api/checkins', CheckInRoutes);
 app.use('/api/predictions', PredictionRoutes);
 app.use('/api/recommendations', RecommendationRoutes);
 app.use('/api/reports', ReportRoutes);
+app.use('/api/chat', ChatRoutes);
 app.use('/api/alerts', AlertRoutes);
 app.use('/api/analytics', AnalyticsRoutes);
 app.use('/api/admin', AdminRoutes);
@@ -72,7 +75,8 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 // ── Scheduled Jobs ────────────────────────────────────────────────────────────
 const reportService = new ReportService(
   new ReportRepository(),
-  new CheckInRepository()
+  new CheckInRepository(),
+  new UserRepository()
 );
 startWeeklyReportJob(reportService);
 

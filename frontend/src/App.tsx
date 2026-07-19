@@ -34,6 +34,7 @@ import Recommendations from './pages/developer/Recommendations';
 import WeeklyReport from './pages/developer/WeeklyReport';
 import Explanation from './pages/developer/Explanation';
 import WhatIfSimulator from './pages/developer/WhatIfSimulator';
+import Profile from './pages/developer/Profile';
 
 // Manager Pages
 import TeamDashboard from './pages/manager/TeamDashboard';
@@ -85,6 +86,7 @@ function App() {
         <Route path="/developer/reports" element={<WeeklyReport />} />
         <Route path="/developer/explanation" element={<Explanation />} />
         <Route path="/developer/what-if" element={<WhatIfSimulator />} />
+        <Route path="/developer/profile" element={<Profile />} />
 
         {/* Manager routes */}
         <Route path="/manager/dashboard" element={<TeamDashboard />} />

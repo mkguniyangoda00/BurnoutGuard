@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import ChatWidget from '../chat/ChatWidget';
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface PageWrapperProps {
 const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
   return (
     <div style={{ minHeight: '100vh', width: '100%', backgroundColor: 'var(--surface)' }}>
+      <ChatWidget />
       <Navbar />
       <main
         style={{

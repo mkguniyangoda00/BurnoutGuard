@@ -1,5 +1,9 @@
 import { PrismaClient, RiskLevel, WorkModel, TrendDirection, AlertType, AlertSeverity } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { ReportService } from '../services/ReportService';
+import { ReportRepository } from '../repositories/ReportRepository';
+import { CheckInRepository } from '../repositories/CheckInRepository';
+import { UserRepository } from '../repositories/UserRepository';
 
 const prisma = new PrismaClient();
 
@@ -115,7 +119,7 @@ async function main() {
   // ── Generate historical check-ins for all developers ──────────────
   console.log('Generating historical check-in data...');
   for (const dev of developers) {
-    // Generate 7 check-ins per dev (1 per day for a week)
+    // Generate historical check-ins per dev (1 per day for a week)
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -180,6 +184,19 @@ async function main() {
   }
 
   console.log('Database seeding complete with dummy history and check-ins.');
+
+  const reportService = new ReportService(
+    new ReportRepository(),
+    new CheckInRepository(),
+    new UserRepository()
+  );
+
+  for (const dev of developers) {
+    const report = await reportService.generateForRecentDays(dev.userId);
+    if (report) {
+      console.log(`Created/verified wellness report for ${dev.email} (${report.reportId})`);
+    }
+  }
 }
 
 main()
