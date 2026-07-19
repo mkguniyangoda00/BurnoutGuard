@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
+import { Loader2, HelpCircle } from 'lucide-react';
+import { predictionService } from '../../services/prediction.service';
 
 const WhatIfSimulator: React.FC = () => {
   const [sleep, setSleep] = useState(6);
   const [hours, setHours] = useState(9);
+  const [riskScore, setRiskScore] = useState<number | null>(null);
+  const [riskLevel, setRiskLevel] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  // Simple mock calculation: base risk 0.6, -0.08 per hour of sleep over 6, +0.06 per work hour over 8
-  const calculatedRisk = Math.max(0.1, Math.min(0.99, 0.6 - ((sleep - 6) * 0.08) + ((hours - 8) * 0.06))).toFixed(2);
+  useEffect(() => {
+    let cancelled = false;
+    const timeoutId = window.setTimeout(async () => {
+      setIsLoading(true);
+      setIsError(false);
+
+      try {
+        const result = await predictionService.whatIf({
+          sleepHours: sleep,
+          workHours: hours,
+        });
+
+        if (cancelled) return;
+
+        setRiskScore(result.riskScore);
+        setRiskLevel(result.riskLevel);
+      } catch {
+        if (cancelled) return;
+
+        setIsError(true);
+        setRiskScore(null);
+        setRiskLevel(null);
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }, 400);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [sleep, hours]);
+
+  const calculatedRisk = riskScore !== null ? riskScore.toFixed(2) : '0.00';
+  const displayRiskScore = riskScore ?? 0;
+  const displayRiskLevel = riskLevel ?? 'Unknown';
 
   return (
     <PageWrapper>
@@ -47,15 +89,29 @@ const WhatIfSimulator: React.FC = () => {
         </Card>
 
         <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-          <span style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>Predicted Risk Score</span>
-          <div style={{ fontSize: '48px', fontWeight: 'bold', color: parseFloat(calculatedRisk) > 0.6 ? 'var(--danger)' : 'var(--success)' }}>
-            {calculatedRisk}
-          </div>
-          <div style={{ marginTop: '12px' }}>
-            <Badge variant={parseFloat(calculatedRisk) > 0.6 ? 'danger' : 'success'}>
-              {parseFloat(calculatedRisk) > 0.6 ? 'High Risk' : 'Low Risk'}
-            </Badge>
-          </div>
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center gap-3 text-center">
+              <Loader2 className="animate-spin text-primary" size={40} />
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Calculating your what-if result...</span>
+            </div>
+          ) : isError ? (
+            <div className="flex flex-col items-center justify-center gap-3 text-center">
+              <HelpCircle size={40} style={{ color: 'var(--text-muted)', opacity: 0.5 }} />
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Unable to load what-if results right now.</span>
+            </div>
+          ) : (
+            <>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>Predicted Risk Score</span>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', color: displayRiskScore > 0.6 ? 'var(--danger)' : 'var(--success)' }}>
+                {calculatedRisk}
+              </div>
+              <div style={{ marginTop: '12px' }}>
+                <Badge variant={displayRiskScore > 0.6 ? 'danger' : 'success'}>
+                  {displayRiskScore > 0.6 ? displayRiskLevel || 'High Risk' : displayRiskLevel || 'Low Risk'}
+                </Badge>
+              </div>
+            </>
+          )}
         </Card>
       </div>
     </PageWrapper>
