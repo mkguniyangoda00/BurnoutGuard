@@ -17,15 +17,14 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { predictionService } from '../../services/prediction.service';
-import { checkinService } from '../../services/checkin.service';
 import { useAuth } from '../../context/AuthContext';
 import { Loader2, AlertTriangle, TrendingUp } from 'lucide-react';
+import { usePrediction } from '../../hooks/usePrediction';
+import { useCheckin } from '../../hooks/useCheckin';
 
 /** Maps backend RiskLevel enum values to display colours */
 const RISK_COLORS: Record<string, string> = {
@@ -38,27 +37,8 @@ const RISK_COLORS: Record<string, string> = {
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-
-  // ── Fetch latest prediction from backend ──────────────────────────
-  // queryKey: React Query uses this as a cache key.
-  // If another component also queries ['prediction', 'latest'], they share the cache.
-  const {
-    data: predictionData,
-    isLoading: predLoading,
-    isError: predError,
-  } = useQuery({
-    queryKey: ['prediction', 'latest'],
-    queryFn: predictionService.getLatest,
-  });
-
-  // ── Fetch streak from backend ─────────────────────────────────────
-  const { data: streakData } = useQuery({
-    queryKey: ['checkin', 'streak'],
-    queryFn: checkinService.getStreak,
-  });
-
-  const prediction = predictionData?.prediction;
-  const streak = streakData?.streak ?? 0;
+  const { prediction, isLoading: predLoading, isError: predError, isEmpty } = usePrediction();
+  const { streak } = useCheckin();
   const riskColor = prediction ? RISK_COLORS[prediction.riskLevel] ?? '#6B7280' : '#6B7280';
   const riskScore = prediction?.riskScore ?? 0;
 
@@ -119,12 +99,12 @@ const Dashboard: React.FC = () => {
             <Loader2 className="animate-spin" size={20} />
             <span>Loading your latest prediction...</span>
           </div>
-        ) : predError || !prediction ? (
+        ) : predError || isEmpty ? (
           // Friendly message when no prediction exists yet
           <div className="flex flex-col gap-2">
             <span className="text-xs text-white/50 uppercase tracking-wider">Burnout Risk</span>
             <p className="text-white/70 text-sm">
-              Ready to get your first risk assessment? Submit your first check-in today to generate a personalized burnout prediction.
+              No check-ins yet. Submit your first check-in to see your burnout risk.
             </p>
             <button
               className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full w-fit hover:bg-white/20 transition-colors mt-1"
