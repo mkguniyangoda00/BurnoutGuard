@@ -1,22 +1,15 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { predictionService } from '../../services/prediction.service';
 import { Loader2, HelpCircle, TrendingDown, TrendingUp } from 'lucide-react';
+import { usePrediction } from '../../hooks/usePrediction';
 
 const Explanation: React.FC = () => {
   const navigate = useNavigate();
 
-  // Fetch the latest prediction
-  const { data: predictionData, isLoading, isError } = useQuery({
-    queryKey: ['prediction', 'latest'],
-    queryFn: predictionService.getLatest,
-  });
-
-  const prediction = predictionData?.prediction;
+  const { prediction, isLoading, isError, isEmpty } = usePrediction();
 
   if (isLoading) {
     return (
@@ -28,7 +21,7 @@ const Explanation: React.FC = () => {
     );
   }
 
-  if (isError || !prediction) {
+  if (isError || isEmpty) {
     return (
       <PageWrapper>
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
