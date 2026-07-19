@@ -24,14 +24,6 @@ export class CheckInRepository {
     }) as unknown as CheckIn[];
   }
 
-  async findLastSeven(userId: string): Promise<CheckIn[]> {
-    return prisma.dailyCheckIn.findMany({
-      where: { userId },
-      orderBy: { checkInDate: 'desc' },
-      take: 7,
-    }) as unknown as CheckIn[];
-  }
-
   async findById(id: string): Promise<CheckIn | null> {
     return prisma.dailyCheckIn.findUnique({
       where: { checkInId: id },

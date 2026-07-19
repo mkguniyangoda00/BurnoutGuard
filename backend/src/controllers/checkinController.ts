@@ -33,17 +33,11 @@ export class CheckInController {
     }
   };
 
-  editToday = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const dto = checkInSchema.parse(req.body);
-      const checkIn = await this.checkInService.editToday(
-        req.user!.userId,
-        req.params.id,
-        dto
-      );
-      res.status(200).json({ checkIn });
-    } catch (err) {
-      next(err);
-    }
+  editToday = async (req: Request, res: Response) => {
+  const userId = req.user!.userId; // or however you extract it
+  const { id } = req.params;
+  const dto = req.body;
+  const updated = await this.checkInService.editToday(id, userId, dto);
+  res.json({ checkIn: updated });
   };
 }
