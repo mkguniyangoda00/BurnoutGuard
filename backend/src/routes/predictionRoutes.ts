@@ -7,9 +7,9 @@ import { MlService } from '../services/MlService';
 import { RecommendationService } from '../services/RecommendationService';
 import { AlertService } from '../services/AlertService';
 import { PredictionService } from '../services/PredictionService';
-import { PredictionController } from '../controllers/PredictionController';
-import { Authenticate } from '../middleware/Authenticate';
-import { authorize } from '../middleware/Authorize';
+import { PredictionController } from '../controllers/predictionController';
+import { Authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();
