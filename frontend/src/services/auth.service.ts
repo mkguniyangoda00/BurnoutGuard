@@ -21,6 +21,23 @@ export const authService = {
     return res.data;
   },
 
+  googleLogin: async (idToken: string) => {
+    const res = await client.post('/auth/google', { idToken });
+    const { token, user } = res.data;
+    localStorage.setItem('bg_token', token);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    return res.data;
+  },
+
+  updateSettings: async (emailNotificationsEnabled: boolean) => {
+    const res = await client.put('/auth/settings', { emailNotificationsEnabled });
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    user.emailNotificationsEnabled = emailNotificationsEnabled;
+    localStorage.setItem('user', JSON.stringify(user));
+    return res.data;
+  },
+
   me: async () => {
     const res = await client.get('/auth/me');
     return res.data.user;

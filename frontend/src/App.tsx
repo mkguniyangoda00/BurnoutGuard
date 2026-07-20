@@ -91,15 +91,18 @@ function App() {
         {/* Manager routes */}
         <Route path="/manager/dashboard" element={<TeamDashboard />} />
         <Route path="/manager/sprint-risk" element={<SprintRisk />} />
+        <Route path="/manager/profile" element={<Profile />} />
 
         {/* HR routes */}
         <Route path="/hr/department-overview" element={<DepartmentOverview />} />
         <Route path="/hr/trends" element={<Trends />} />
+        <Route path="/hr/profile" element={<Profile />} />
 
         {/* Admin routes */}
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/models" element={<ModelManagement />} />
         <Route path="/admin/audit-logs" element={<AuditLogs />} />
+        <Route path="/admin/profile" element={<Profile />} />
       </Route>
 
       {/* Fallback: redirect unknown URLs back to root */}

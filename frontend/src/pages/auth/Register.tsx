@@ -25,12 +25,15 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { authService } from '../../services/auth.service';
+import { useAuthStore } from '../../store/auth.store';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuthStore();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -237,6 +240,37 @@ const Register: React.FC = () => {
             >
               {isLoading ? 'Creating Account…' : 'Create Account'}
             </Button>
+
+            <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0', gap: '8px' }}>
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>or</span>
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  if (credentialResponse.credential) {
+                    setIsLoading(true);
+                    setError(null);
+                    try {
+                      const data = await authService.googleLogin(credentialResponse.credential);
+                      login(data.user, data.token);
+                      navigate('/');
+                    } catch (err: any) {
+                      const message = err.response?.data?.error || 'Google registration failed. Please try again.';
+                      setError(message);
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  }
+                }}
+                onError={() => {
+                  setError('Google Authentication failed.');
+                }}
+                useOneTap
+              />
+            </div>
 
             <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
               Already have an account?{' '}

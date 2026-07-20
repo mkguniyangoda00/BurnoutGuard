@@ -9,13 +9,15 @@ export const enum UserRole {
 export interface User {
   userId: string;
   email: string;
-  passwordHash: string;
+  passwordHash: string | null;
   fullName: string;
   role: UserRole;
   company: string | null;
   isActive: boolean;
   isEmailVerified: boolean;
   lastLoginAt: Date | null;
+  googleId: string | null;
+  emailNotificationsEnabled: boolean;
   createdBy: string;
   createdDateTime: Date;
   modifiedBy: string;

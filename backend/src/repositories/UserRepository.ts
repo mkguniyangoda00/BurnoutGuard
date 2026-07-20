@@ -4,10 +4,11 @@ import { User } from '../models/User';
 export class UserRepository {
   async create(data: {
     email: string;
-    passwordHash: string;
+    passwordHash?: string | null;
     fullName: string;
     role: string;
     company?: string;
+    googleId?: string | null;
     createdBy: string;
     modifiedBy: string;
   }): Promise<User> {
@@ -22,6 +23,10 @@ export class UserRepository {
 
   async findById(id: string): Promise<User | null> {
     return prisma.user.findUnique({ where: { userId: id } }) as unknown as User | null;
+  }
+
+  async findByGoogleId(googleId: string): Promise<User | null> {
+    return prisma.user.findUnique({ where: { googleId } }) as unknown as User | null;
   }
 
   async updateLastLogin(userId: string): Promise<void> {
@@ -46,6 +51,20 @@ export class UserRepository {
     return prisma.user.update({
       where: { userId },
       data: { role: role as any, modifiedBy: userId },
+    }) as unknown as User;
+  }
+
+  async updateGoogleId(userId: string, googleId: string): Promise<User> {
+    return prisma.user.update({
+      where: { userId },
+      data: { googleId, modifiedBy: userId },
+    }) as unknown as User;
+  }
+
+  async updateEmailNotifications(userId: string, enabled: boolean): Promise<User> {
+    return prisma.user.update({
+      where: { userId },
+      data: { emailNotificationsEnabled: enabled, modifiedBy: userId },
     }) as unknown as User;
   }
 }
