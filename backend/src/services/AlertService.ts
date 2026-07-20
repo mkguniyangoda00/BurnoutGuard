@@ -1,9 +1,16 @@
 import { AlertRepository } from '../repositories/AlertRepository';
 import { Alert } from '../models/Alert';
 import { RiskLevel, AlertType, AlertSeverity } from '@prisma/client';
+import { EmailService } from './EmailService';
+import { UserRepository } from '../repositories/UserRepository';
+import { Env } from '../config/env';
 
 export class AlertService {
-  constructor(private alertRepo: AlertRepository) {}
+  private userRepo: UserRepository;
+
+  constructor(private alertRepo: AlertRepository) {
+    this.userRepo = new UserRepository();
+  }
 
   async createIfHighRisk(
     userId: string,
@@ -23,7 +30,7 @@ export class AlertService {
 
     console.log(`[AlertService] Creating alert for prediction ${predictionId}.`);
 
-    return this.alertRepo.create({
+    const alert = await this.alertRepo.create({
       userId,
       predictionId,
       alertType: AlertType.InApp,
@@ -33,6 +40,26 @@ export class AlertService {
       createdBy: 'system',
       modifiedBy: 'system',
     });
+
+    // Fire-and-forget email notification (same resilience pattern as AuditLogService)
+    try {
+      const user = await this.userRepo.findById(userId);
+      if (user && user.emailNotificationsEnabled) {
+        EmailService.sendBurnoutAlertEmail(
+          user.email,
+          user.fullName,
+          riskLevel,
+          Env.FRONTEND_URL
+        ).catch((err: any) => {
+          console.error('[AlertService] Email send failed (caught):', err.message);
+        });
+      }
+    } catch (err: any) {
+      // Fire-and-forget: email failure must never break alert creation
+      console.error('[AlertService] Email notification error:', err.message);
+    }
+
+    return alert;
   }
 
   async getUnread(userId: string): Promise<Alert[]> {

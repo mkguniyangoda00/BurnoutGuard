@@ -73,13 +73,15 @@ enum AlertSeverity {
 model User {
   userId          String    @id @default(uuid())
   email           String    @unique
-  passwordHash    String
+  passwordHash    String?
   fullName        String
   role            UserRole
   company         String?
   isActive        Boolean   @default(true)
   isEmailVerified Boolean   @default(false)
   lastLoginAt     DateTime?
+  googleId        String?   @unique
+  emailNotificationsEnabled Boolean @default(true)
 
   // Relations
   developerProfile   DeveloperProfile?

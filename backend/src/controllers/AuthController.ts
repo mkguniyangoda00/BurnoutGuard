@@ -25,9 +25,37 @@ export class AuthController {
     }
   };
 
+  googleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { idToken } = req.body;
+      if (!idToken) {
+        res.status(400).json({ error: 'Google ID token is required' });
+        return;
+      }
+      const result = await this.authService.googleLogin(idToken);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
   me = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = await this.authService.me(req.user!.userId);
+      res.status(200).json({ user });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  updateSettings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { emailNotificationsEnabled } = req.body;
+      if (emailNotificationsEnabled === undefined) {
+        res.status(400).json({ error: 'emailNotificationsEnabled is required' });
+        return;
+      }
+      const user = await this.authService.updateSettings(req.user!.userId, emailNotificationsEnabled);
       res.status(200).json({ user });
     } catch (err) {
       next(err);

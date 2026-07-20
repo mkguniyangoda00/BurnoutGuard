@@ -7,6 +7,7 @@ interface User {
   role: string;
   company?: string;
   isActive: boolean;
+  emailNotificationsEnabled?: boolean;
 }
 
 interface AuthState {
