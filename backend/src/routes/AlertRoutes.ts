@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { AlertRepository } from '../repositories/AlertRepository';
 import { AlertService } from '../services/AlertService';
-import { Authenticate } from '../middleware/Authenticate';
+import { Authenticate } from '../middleware/authenticate';
 
 const router = Router();
 const alertRepo = new AlertRepository();

@@ -9,7 +9,7 @@ import { AlertService } from '../services/AlertService';
 import { PredictionService } from '../services/PredictionService';
 import { CheckInService } from '../services/CheckInService';
 import { CheckInController } from '../controllers/checkinController';
-import { Authenticate } from '../middleware/Authenticate';
+import { Authenticate } from '../middleware/authenticate';
 import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();

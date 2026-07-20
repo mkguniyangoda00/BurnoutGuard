@@ -28,6 +28,7 @@ export interface User {
   role: Role;
   company?: string;
   isActive: boolean;
+  emailNotificationsEnabled?: boolean; 
   // Computed field for display in the navbar avatar
   avatarInitials?: string;
 }

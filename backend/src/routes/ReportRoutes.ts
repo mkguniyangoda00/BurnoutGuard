@@ -4,8 +4,8 @@ import { CheckInRepository } from '../repositories/CheckInRepository';
 import { ReportService } from '../services/ReportService';
 import { PdfService } from '../services/PdfService';
 import { ReportController } from '../controllers/ReportController';
-import { Authenticate } from '../middleware/Authenticate';
-import { authorize } from '../middleware/Authorize';
+import { Authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();
