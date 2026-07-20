@@ -91,7 +91,20 @@ const Navbar: React.FC = () => {
     navigate('/login');
   };
 
-  const profilePath = '/developer/profile';
+  // BUG 2 FIX: Derive profile path from user role instead of hardcoding.
+  // Currently only /developer/profile is registered in App.tsx, so all roles
+  // point there. When role-specific profile pages are added, extend this map.
+  const getRolePrefix = (): string => {
+    switch (role) {
+      case 'Manager':     return '/manager';
+      case 'HRofficer':  return '/hr';
+      case 'Admin':
+      case 'ResearchAdmin': return '/admin';
+      case 'Developer':
+      default:            return '/developer';
+    }
+  };
+  const profilePath = `${getRolePrefix()}/profile`;
 
   // Don't render the navbar on public pages (login/register)
   if (!user) return null;

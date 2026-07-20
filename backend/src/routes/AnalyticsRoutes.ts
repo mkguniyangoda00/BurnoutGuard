@@ -3,8 +3,8 @@ import { AnalyticsService } from '../services/AnalyticsService';
 import { AnalyticsController } from '../controllers/AnalyticsController';
 import { PredictionRepository } from '../repositories/PredictionRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
-import { Authenticate } from '../middleware/authenticate';
-import { authorize } from '../middleware/authorize';
+import { Authenticate } from '../middleware/Authenticate';
+import { authorize } from '../middleware/Authorize';
 
 const router = Router();
 const predictionRepo = new PredictionRepository();

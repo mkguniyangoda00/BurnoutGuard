@@ -17,6 +17,7 @@
  */
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuthStore } from '../../store/auth.store';
@@ -176,6 +177,37 @@ const Login: React.FC = () => {
             >
               {isLoading ? 'Signing in…' : 'Sign In'}
             </Button>
+
+            <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0', gap: '8px' }}>
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>or</span>
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border)' }} />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  if (credentialResponse.credential) {
+                    setIsLoading(true);
+                    setError(null);
+                    try {
+                      const data = await authService.googleLogin(credentialResponse.credential);
+                      login(data.user, data.token);
+                      navigate('/');
+                    } catch (err: any) {
+                      const message = err.response?.data?.error || 'Google login failed. Please try again.';
+                      setError(message);
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  }
+                }}
+                onError={() => {
+                  setError('Google Authentication failed.');
+                }}
+                useOneTap
+              />
+            </div>
 
             <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
               Don't have an account?{' '}

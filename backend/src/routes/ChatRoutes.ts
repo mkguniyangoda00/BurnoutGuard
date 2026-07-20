@@ -3,7 +3,7 @@ import { ChatRepository } from '../repositories/ChatRepository';
 import { PredictionRepository } from '../repositories/PredictionRepository';
 import { ChatService } from '../services/ChatService';
 import { ChatController } from '../controllers/ChatController';
-import { Authenticate } from '../middleware/authenticate';
+import { Authenticate } from '../middleware/Authenticate';
 
 const router = Router();
 const chatRepo = new ChatRepository();

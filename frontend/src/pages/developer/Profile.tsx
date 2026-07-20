@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../context/AuthContext';
+import { authService } from '../../services/auth.service';
+import { useAuthStore } from '../../store/auth.store';
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  const { setUser } = useAuthStore();
   const fullName = user?.fullName ?? '';
+
+  const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(
+    user?.emailNotificationsEnabled ?? true
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  const handleSavePreferences = async () => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+    try {
+      const res = await authService.updateSettings(emailNotificationsEnabled);
+      if (res && res.user) {
+        setUser(res.user);
+      }
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to update email preferences', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <PageWrapper>
@@ -27,21 +53,38 @@ const Profile: React.FC = () => {
             <input type="email" value={user?.email || ''} readOnly style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', backgroundColor: 'var(--soft-fill)' }} />
           </div>
         </div>
-        <Button variant="primary" style={{ marginTop: '20px' }}>Save Changes</Button>
       </Card>
       
       <Card>
         <h2 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Notification Preferences</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-secondary)' }}>
             <input type="checkbox" defaultChecked /> Daily check-in reminders
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-secondary)' }}>
-            <input type="checkbox" defaultChecked /> Weekly risk report emails
+            <input 
+              type="checkbox" 
+              checked={emailNotificationsEnabled} 
+              onChange={(e) => setEmailNotificationsEnabled(e.target.checked)} 
+            /> Weekly risk report emails
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-secondary)' }}>
             <input type="checkbox" /> High-risk alerts to manager
           </label>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Button 
+            variant="primary" 
+            onClick={handleSavePreferences}
+            disabled={isSaving}
+          >
+            {isSaving ? 'Saving...' : 'Save Preferences'}
+          </Button>
+          {saveSuccess && (
+            <span style={{ fontSize: '13px', color: '#10B981' }}>
+              ✓ Preferences updated successfully
+            </span>
+          )}
         </div>
       </Card>
     </PageWrapper>

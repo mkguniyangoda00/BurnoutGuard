@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { RecommendationRepository } from '../repositories/RecommendationRepository';
 import { RecommendationService } from '../services/RecommendationService';
 import { RecommendationController } from '../controllers/RecommendationController';
-import { Authenticate } from '../middleware/authenticate';
-import { authorize } from '../middleware/authorize';
+import { Authenticate } from '../middleware/Authenticate';
+import { authorize } from '../middleware/Authorize';
 import { UserRepository } from '../repositories/UserRepository';
 
 const router = Router();
