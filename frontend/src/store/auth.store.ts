@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { queryClient } from '../lib/queryClient';
 
 interface User {
   userId: string;
@@ -21,10 +22,6 @@ interface AuthState {
 
 const getStoredToken = () => localStorage.getItem('bg_token') || localStorage.getItem('token');
 
-/**
- * Zustand global store for managing authentication state.
- * Syncs the JWT token with localStorage to persist logins across refreshes.
- */
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: getStoredToken(),
@@ -33,6 +30,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: (user, token) => {
     localStorage.setItem('bg_token', token);
     localStorage.setItem('token', token);
+    queryClient.clear(); // wipe any cached data from a previous session/user
     set({ user, token, isAuthenticated: true });
   },
 
@@ -40,6 +38,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     localStorage.removeItem('bg_token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    queryClient.clear(); // prevent this user's cached data leaking to the next login
     set({ user: null, token: null, isAuthenticated: false });
   },
 
@@ -48,7 +47,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 }));
 
-// Listen for the custom unauthorized event from the axios interceptor
 if (typeof window !== 'undefined') {
   window.addEventListener('bg_unauthorized', () => {
     useAuthStore.getState().logout();
