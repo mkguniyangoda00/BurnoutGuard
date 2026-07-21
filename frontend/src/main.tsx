@@ -18,28 +18,29 @@
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './context/AuthContext';
+import { queryClient } from './lib/queryClient';
 import './styles/index.css';
 import './App.css';
 import App from './App.tsx';
 
 // Configure the React Query client with sensible defaults
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // Don't re-fetch data when the user switches browser tabs —
-      // avoids unnecessary API load during a presentation or demo
-      refetchOnWindowFocus: false,
-      // Only retry failed requests once before showing an error
-      retry: 1,
-      // Keep cached data fresh for 5 minutes before background re-fetching
-      staleTime: 5 * 60 * 1000,
-    },
-  },
-});
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       // Don't re-fetch data when the user switches browser tabs —
+//       // avoids unnecessary API load during a presentation or demo
+//       refetchOnWindowFocus: false,
+//       // Only retry failed requests once before showing an error
+//       retry: 1,
+//       // Keep cached data fresh for 5 minutes before background re-fetching
+//       staleTime: 5 * 60 * 1000,
+//     },
+//   },
+// });
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
