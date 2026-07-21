@@ -1,4 +1,5 @@
 import client from './client';
+import { queryClient } from '../lib/queryClient';
 
 export const authService = {
   register: async (data: {
@@ -52,6 +53,7 @@ export const authService = {
     localStorage.removeItem('bg_token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    queryClient.clear();
     window.location.href = '/login';
   },
 
