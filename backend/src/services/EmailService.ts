@@ -106,6 +106,45 @@ class EmailServiceClass {
 
     return this.sendEmail(to, subject, html);
   }
+
+  /**
+   * Build and send a friendly daily check-in reminder email.
+   */
+  async sendCheckInReminderEmail(
+    to: string,
+    fullName: string,
+    frontendUrl: string
+  ): Promise<boolean> {
+    const subject = `👋 Don't forget your daily check-in`;
+
+    const html = `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f7f8fa; border-radius: 12px; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #0F1117 0%, #1E2236 100%); padding: 28px 32px; text-align: center;">
+          <h1 style="color: #fff; font-size: 24px; margin: 0;">
+            Burnout<span style="color: #D97706;">Guard</span>
+          </h1>
+        </div>
+        <div style="padding: 32px;">
+          <p style="font-size: 16px; color: #3B3D47; margin-bottom: 16px;">
+            Hi <strong>${fullName}</strong>,
+          </p>
+          <p style="font-size: 14px; color: #3B3D47; margin-bottom: 24px;">
+            We noticed you haven't logged today's check-in yet. It only takes about
+            90 seconds and helps keep your burnout risk prediction accurate and up to date.
+          </p>
+          <a href="${frontendUrl}/developer/check-in"
+             style="display: inline-block; background: #2F5FE0; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px;">
+            Submit Today's Check-in
+          </a>
+          <p style="font-size: 12px; color: #7B7E8C; margin-top: 24px;">
+            You can disable these reminder emails from your profile settings.
+          </p>
+        </div>
+      </div>
+    `;
+
+    return this.sendEmail(to, subject, html);
+  }
 }
 
 export const EmailService = new EmailServiceClass();
