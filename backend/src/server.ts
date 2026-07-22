@@ -23,6 +23,9 @@ import { CheckInRepository } from './repositories/CheckInRepository';
 import { UserRepository } from './repositories/UserRepository';
 import { startCheckInReminderJob } from './jobs/CheckInReminderJob';
 import { AlertRepository } from './repositories/AlertRepository';
+import { startDailyEncouragementJob } from './jobs/DailyEncouragementJob';
+import { PredictionRepository } from './repositories/PredictionRepository';
+import { EmailService } from './services/EmailService';
 
 const app = express();
 
@@ -87,6 +90,16 @@ startCheckInReminderJob(
   new CheckInRepository(),
   new AlertRepository()
 );
+
+startDailyEncouragementJob(
+  new UserRepository(),
+  new CheckInRepository(),
+  new PredictionRepository()
+);
+
+// Log clearly at startup whether SMTP is actually configured/reachable —
+// this is the #1 cause of "emails not working" reports.
+EmailService.verifyConnection();
 
 // ── Start Server ──────────────────────────────────────────────────────────────
 const PORT = Env.PORT;
