@@ -5,6 +5,8 @@ import { WellnessReport } from '../models/WellnessReport';
 import prisma from '../config/db';
 import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from './AuditLogService';
+import { Env } from '../config/env';
+import { EmailService } from './EmailService';
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
@@ -149,12 +151,20 @@ export class ReportService {
 
     let count = 0;
     for (const user of users) {
-      const report = await this.generateForUser(
-        (user as any).userId,
-        weekStart,
-        weekEnd
-      );
-      if (report) count++;
+      const report = await this.generateForUser((user as any).userId, weekStart, weekEnd);
+      if (report) {
+        count++;
+        if ((user as any).emailNotificationsEnabled) {
+          EmailService.sendWeeklyReportEmail(
+            (user as any).email,
+            (user as any).fullName,
+            report,
+            Env.FRONTEND_URL
+          ).catch((err: any) => {
+            console.error('[ReportService] Weekly report email failed (caught):', err.message);
+          });
+        }
+      }
     }
 
     console.log(

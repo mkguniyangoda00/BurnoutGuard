@@ -5,6 +5,18 @@ import { EmailService } from './EmailService';
 import { UserRepository } from '../repositories/UserRepository';
 import { Env } from '../config/env';
 
+interface PredictionContext {
+  predictionId: string;
+  riskScore: number;
+  riskLevel: RiskLevel;
+  previousRiskScore?: number | null;
+  scoreChange?: number | null;
+}
+
+// Matches the same 0.05 threshold PredictionService already uses to decide
+// trendDirection ('Improving'/'Worsening'/'Stable') — kept consistent.
+const WORSENING_THRESHOLD = 0.05;
+
 export class AlertService {
   private userRepo: UserRepository;
 
@@ -12,23 +24,55 @@ export class AlertService {
     this.userRepo = new UserRepository();
   }
 
-  async createIfHighRisk(
-    userId: string,
-    predictionId: string,
-    riskLevel: RiskLevel
-  ): Promise<Alert | null> {
+  /**
+   * Central decision point for whether a just-created prediction warrants
+   * notifying the user. Covers:
+   *  1. Absolute high risk (High/Critical level)
+   *  2. Worsening trend — risk score increased meaningfully vs the user's
+   *     last check-in, even if the level itself is still Low/Moderate
+   *     (early warning, not just a reaction to an already-bad number)
+   *  3. Meaningful improvement — positive reinforcement
+   */
+  async evaluateAndNotify(userId: string, prediction: PredictionContext): Promise<Alert | null> {
+    const { riskLevel, riskScore, scoreChange } = prediction;
+
+    const isHighRisk = riskLevel === 'High' || riskLevel === 'Critical';
+    const isWorsening = scoreChange !== undefined && scoreChange !== null && scoreChange > WORSENING_THRESHOLD;
+    const isImproving = scoreChange !== undefined && scoreChange !== null && scoreChange < -WORSENING_THRESHOLD;
+
     console.log(
-      `[AlertService] Evaluating alert for prediction ${predictionId} with risk level ${riskLevel}.`
+      `[AlertService] Evaluating prediction ${prediction.predictionId} — ` +
+      `level=${riskLevel}, score=${riskScore}, change=${scoreChange ?? 'n/a'}, ` +
+      `highRisk=${isHighRisk}, worsening=${isWorsening}, improving=${isImproving}`
     );
-    if (riskLevel !== 'High' && riskLevel !== 'Critical') {
-      console.log(`[AlertService] No alert created for prediction ${predictionId}.`);
-      return null;
+
+    if (isHighRisk || isWorsening) {
+      return this.sendRiskAlert(userId, prediction, isHighRisk, isWorsening);
     }
 
-    const severity = riskLevel === 'Critical' ? AlertSeverity.Critical : AlertSeverity.Warning;
-    const message = `Your burnout risk has reached ${riskLevel} level. Please review your personalized recommendations immediately.`;
+    if (isImproving) {
+      return this.sendImprovementAlert(userId, prediction);
+    }
 
-    console.log(`[AlertService] Creating alert for prediction ${predictionId}.`);
+    console.log(`[AlertService] No alert warranted for prediction ${prediction.predictionId}.`);
+    return null;
+  }
+
+  private async sendRiskAlert(
+    userId: string,
+    prediction: PredictionContext,
+    isHighRisk: boolean,
+    isWorsening: boolean
+  ): Promise<Alert> {
+    const { predictionId, riskLevel, riskScore } = prediction;
+
+    const severity = riskLevel === 'Critical' ? AlertSeverity.Critical : AlertSeverity.Warning;
+
+    const message = isHighRisk
+      ? `Your burnout risk has reached ${riskLevel} level. Please review your personalized recommendations.`
+      : `Your burnout risk has increased since your last check-in (now ${(riskScore * 100).toFixed(0)}%). Consider reviewing your recommendations.`;
+
+    console.log(`[AlertService] Creating risk alert for prediction ${predictionId}.`);
 
     const alert = await this.alertRepo.create({
       userId,
@@ -41,25 +85,59 @@ export class AlertService {
       modifiedBy: 'system',
     });
 
-    // Fire-and-forget email notification (same resilience pattern as AuditLogService)
-    try {
-      const user = await this.userRepo.findById(userId);
-      if (user && user.emailNotificationsEnabled) {
-        EmailService.sendBurnoutAlertEmail(
-          user.email,
-          user.fullName,
-          riskLevel,
-          Env.FRONTEND_URL
-        ).catch((err: any) => {
-          console.error('[AlertService] Email send failed (caught):', err.message);
-        });
-      }
-    } catch (err: any) {
-      // Fire-and-forget: email failure must never break alert creation
-      console.error('[AlertService] Email notification error:', err.message);
-    }
+    await this.sendEmailSafely(userId, (user) =>
+      EmailService.sendBurnoutAlertEmail(user.email, user.fullName, riskLevel, Env.FRONTEND_URL)
+    );
 
     return alert;
+  }
+
+  private async sendImprovementAlert(userId: string, prediction: PredictionContext): Promise<Alert> {
+    const { predictionId, riskScore } = prediction;
+
+    console.log(`[AlertService] Creating improvement alert for prediction ${predictionId}.`);
+
+    return this.alertRepo.create({
+      userId,
+      predictionId,
+      alertType: AlertType.InApp,
+      severity: AlertSeverity.Info,
+      message: `Nice work — your burnout risk has improved to ${(riskScore * 100).toFixed(0)}%. Keep up your current habits!`,
+      sentAt: new Date(),
+      createdBy: 'system',
+      modifiedBy: 'system',
+    });
+  }
+
+  /**
+   * Shared helper: looks up the user, checks their email preference, and
+   * calls the provided send function — never throws, so a failed email
+   * never breaks alert creation or the check-in flow around it.
+   */
+  private async sendEmailSafely(
+    userId: string,
+    sendFn: (user: { email: string; fullName: string }) => Promise<boolean>
+  ): Promise<void> {
+    try {
+      const user = await this.userRepo.findById(userId);
+      if (!user) {
+        console.warn(`[AlertService] User ${userId} not found — skipping email.`);
+        return;
+      }
+      if (!user.emailNotificationsEnabled) {
+        console.log(`[AlertService] User ${userId} has email notifications disabled — skipping.`);
+        return;
+      }
+      const sent = await sendFn(user);
+      if (!sent) {
+        console.warn(
+          `[AlertService] Email send returned false for user ${userId} — ` +
+          `most likely cause: EMAIL_HOST/EMAIL_USER/EMAIL_PASS are not set in backend/.env. See setup notes.`
+        );
+      }
+    } catch (err: any) {
+      console.error('[AlertService] Email notification error:', err.message);
+    }
   }
 
   async getUnread(userId: string): Promise<Alert[]> {

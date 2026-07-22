@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
     queryKey: ['alerts'],
     queryFn: () => client.get('/alerts').then(r => r.data),
     enabled: role === 'Developer', // Only developers have personal alerts
-    refetchInterval: 60_000, // Auto-refresh every 60 seconds
+    refetchInterval: 20_000, // Auto-refresh every 20 seconds — near-instant without needing websockets
   });
 
   const alerts = alertsData?.alerts ?? [];
