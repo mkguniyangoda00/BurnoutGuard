@@ -21,6 +21,8 @@ import { ReportService } from './services/ReportService';
 import { ReportRepository } from './repositories/ReportRepository';
 import { CheckInRepository } from './repositories/CheckInRepository';
 import { UserRepository } from './repositories/UserRepository';
+import { startCheckInReminderJob } from './jobs/CheckInReminderJob';
+import { AlertRepository } from './repositories/AlertRepository';
 
 const app = express();
 
@@ -79,6 +81,12 @@ const reportService = new ReportService(
   new UserRepository()
 );
 startWeeklyReportJob(reportService);
+
+startCheckInReminderJob(
+  new UserRepository(),
+  new CheckInRepository(),
+  new AlertRepository()
+);
 
 // ── Start Server ──────────────────────────────────────────────────────────────
 const PORT = Env.PORT;
