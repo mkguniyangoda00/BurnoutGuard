@@ -22,6 +22,10 @@ FEATURE_COLUMNS = [
     "selfEfficacy", "copingAbility", "powerInternetDisruption",
     "wfhEnvironmentQuality", "familyResponsibilityLoad",
     "salaryWorkloadSatisfaction", "afterHoursMessaging",
+    # Work Pattern Monitoring (new)
+    "meetingsCount", "urgentTasksCount", "sprintPressureRating",
+    "deadlineFrequency", "isWeekendWork", "bugFixingLoad",
+    "contextSwitchingFrequency", "isOnCallToday", "workModeEncoded",
 ]
 
 RISK_LEVELS = ["Low", "Moderate", "High", "Critical"]

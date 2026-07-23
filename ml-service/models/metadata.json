@@ -1,8 +1,8 @@
 {
-  "version": "v1.3-xgboost",
-  "algorithm": "XGBoost",
-  "modelFile": "model_v1.3-xgboost.pkl",
-  "scalerFile": "scaler_v1.3-xgboost.pkl",
+  "version": "v1.4-logisticregression",
+  "algorithm": "LogisticRegression",
+  "modelFile": "model_v1.4-logisticregression.pkl",
+  "scalerFile": "scaler_v1.4-logisticregression.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -32,7 +32,16 @@
     "wfhEnvironmentQuality",
     "familyResponsibilityLoad",
     "salaryWorkloadSatisfaction",
-    "afterHoursMessaging"
+    "afterHoursMessaging",
+    "meetingsCount",
+    "urgentTasksCount",
+    "sprintPressureRating",
+    "deadlineFrequency",
+    "isWeekendWork",
+    "bugFixingLoad",
+    "contextSwitchingFrequency",
+    "isOnCallToday",
+    "workModeEncoded"
   ],
   "riskLevels": [
     "Low",
@@ -40,22 +49,22 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-07-18T16:15:16.493395+00:00",
+  "trainedAt": "2026-07-23T08:44:02.573198+00:00",
   "metrics": {
     "LogisticRegression": {
-      "accuracy": 0.8040303738317757,
-      "f1Score": 0.8039753760603616,
-      "auc": 0.9519301969806517
+      "accuracy": 0.8333333333333334,
+      "f1Score": 0.8332342194751542,
+      "auc": 0.9667885927486792
     },
     "RandomForest": {
-      "accuracy": 0.8004478193146417,
-      "f1Score": 0.8001945177918792,
-      "auc": 0.9487649662310795
+      "accuracy": 0.8252141744548287,
+      "f1Score": 0.8251577168378058,
+      "auc": 0.9620274476603973
     },
     "XGBoost": {
-      "accuracy": 0.80523753894081,
-      "f1Score": 0.8047571532339287,
-      "auc": 0.9519201443478809
+      "accuracy": 0.8320093457943926,
+      "f1Score": 0.8318748109109483,
+      "auc": 0.9654608021119426
     }
   },
   "status": "Active"
