@@ -46,7 +46,7 @@ TARGET_COLUMNS = [
     "concentrationIssues", "irritabilityLevel", "lonelinessLevel",
     "selfEfficacy", "copingAbility", "powerInternetDisruption",
     "wfhEnvironmentQuality", "familyResponsibilityLoad",
-    "salaryWorkloadSatisfaction", "afterHoursMessaging",
+    "salaryWorkloadSatisfaction", "afterHoursMessaging", "workModeEncoded",
 ]
 
 
@@ -80,6 +80,9 @@ def harmonize_mental_health_burnout_tech(path):
     out["wfhEnvironmentQuality"] = df["work_mode"].map(
         {"Remote": 4, "Hybrid": 3, "On-site": 2, "Onsite": 2}
     ).fillna(3)
+    out["workModeEncoded"] = df["work_mode"].map(
+        {"Remote": 1, "Hybrid": 2, "On-site": 3, "Onsite": 3}
+    ).fillna(2)
 
     out["harmonized_risk_norm"] = minmax_norm(df["burnout_score"])
     out["source_dataset"] = "mental_health_burnout_tech_2026"

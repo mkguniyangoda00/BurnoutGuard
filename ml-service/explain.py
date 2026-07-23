@@ -41,6 +41,15 @@ FEATURE_LABELS = {
     "familyResponsibilityLoad": "family responsibilities",
     "salaryWorkloadSatisfaction": "salary-workload balance",
     "afterHoursMessaging": "after-hours work messaging",
+    "meetingsCount": "your number of meetings",
+    "urgentTasksCount": "your urgent/unplanned tasks",
+    "sprintPressureRating": "your sprint pressure",
+    "deadlineFrequency": "how often you face deadlines",
+    "isWeekendWork": "working on weekends",
+    "bugFixingLoad": "your bug-fixing load",
+    "contextSwitchingFrequency": "how often you switch context",
+    "isOnCallToday": "being on-call",
+    "workModeEncoded": "your work arrangement (remote/hybrid/onsite)",
 }
 
 

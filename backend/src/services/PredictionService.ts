@@ -36,7 +36,10 @@ export class PredictionService {
     console.log(`[PredictionService] Starting prediction generation for user ${userId}.`);
     const checkIns = await this.checkInRepo.findByUserId(userId);
     console.log(`[PredictionService] Loaded ${checkIns.length} available check-in(s) for user ${userId}.`);
-    const features = aggregateCheckIns(checkIns);
+    const developerProfile = await prisma.developerProfile.findUnique({
+    where: { userId },
+    });
+    const features = aggregateCheckIns(checkIns, developerProfile?.workModel);
     console.log(`[PredictionService] Aggregated feature vector for user ${userId}:`, features);
 
     console.log(`[PredictionService] Calling ML service for user ${userId}.`);
@@ -159,8 +162,12 @@ export class PredictionService {
 
   async runWhatIf(userId: string, modifications: Record<string, number>) {
     const checkIns = await this.checkInRepo.findByUserId(userId);
-    const baseline = aggregateCheckIns(checkIns);
-    const result = await this.mlService.getWhatIf(userId, baseline, modifications);
+    // const baseline = aggregateCheckIns(checkIns);
+    const developerProfile = await prisma.developerProfile.findUnique({
+      where: { userId },
+    });
+    const features = aggregateCheckIns(checkIns, developerProfile?.workModel);
+    const result = await this.mlService.getWhatIf(userId, features, modifications);
 
     const actor = await this.getActor(userId);
     void auditLogService.log({

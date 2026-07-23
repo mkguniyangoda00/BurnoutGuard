@@ -42,6 +42,10 @@ FEATURE_RANGES = {
     "lonelinessLevel": (1, 5), "selfEfficacy": (1, 5), "copingAbility": (1, 5),
     "powerInternetDisruption": (1, 5), "wfhEnvironmentQuality": (1, 5),
     "familyResponsibilityLoad": (1, 5), "salaryWorkloadSatisfaction": (1, 5),
+    "meetingsCount": (0, 10), "urgentTasksCount": (0, 10),
+    "sprintPressureRating": (1, 5), "deadlineFrequency": (1, 5),
+    "bugFixingLoad": (1, 5), "contextSwitchingFrequency": (1, 5),
+    "workModeEncoded": (1, 3),
 }
 
 # Same direction-of-effect weights as before: positive = increases risk.
@@ -56,6 +60,10 @@ WEIGHTS = {
     "lonelinessLevel": 0.5, "selfEfficacy": -0.5, "copingAbility": -0.5,
     "powerInternetDisruption": 0.4, "wfhEnvironmentQuality": -0.4,
     "familyResponsibilityLoad": 0.3, "salaryWorkloadSatisfaction": -0.4,
+    "meetingsCount": 0.6, "urgentTasksCount": 0.7,
+    "sprintPressureRating": 0.9, "deadlineFrequency": 0.7,
+    "bugFixingLoad": 0.5, "contextSwitchingFrequency": 0.6,
+    "workModeEncoded": 0.2,  # Onsite(3) slightly higher than Remote(1) — commute/rigidity burden
 }
 
 
@@ -116,6 +124,10 @@ def main():
     else:
         df["afterHoursMessaging"] = (np.random.rand(n) < (0.25 + 0.4 * risk_norm)).astype(int)
 
+    # New boolean work-pattern fields — same correlated-random approach
+    df["isWeekendWork"] = (np.random.rand(n) < (0.15 + 0.35 * risk_norm)).astype(int)
+    df["isOnCallToday"] = (np.random.rand(n) < (0.10 + 0.30 * risk_norm)).astype(int)
+
     # ---- Compute final weighted synthetic score across ALL 28 features ----
     synthetic_risk_raw = np.zeros(n)
     for col, weight in WEIGHTS.items():
@@ -123,6 +135,8 @@ def main():
         normalized = (df[col] - lo) / (hi - lo)
         synthetic_risk_raw += weight * normalized
     synthetic_risk_raw += 0.5 * df["afterHoursMessaging"]
+    synthetic_risk_raw += 0.4 * df["isWeekendWork"]
+    synthetic_risk_raw += 0.5 * df["isOnCallToday"]
     synthetic_risk_norm = pd.Series(sigmoid(synthetic_risk_raw))
     synthetic_risk_norm = (synthetic_risk_norm - synthetic_risk_norm.min()) / \
                            (synthetic_risk_norm.max() - synthetic_risk_norm.min())
