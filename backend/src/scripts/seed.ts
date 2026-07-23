@@ -173,6 +173,16 @@ async function main() {
           salaryWorkloadSatisfaction: Math.floor(Math.random() * 5) + 1,// 1-5
           afterHoursMessaging: Math.random() > 0.6,                     // ~40% true
           
+          // Work Pattern Monitoring
+          meetingsCount: Math.floor(Math.random() * 8),               // 0-7
+          urgentTasksCount: Math.floor(Math.random() * 5),            // 0-4
+          sprintPressureRating: Math.floor(Math.random() * 5) + 1,    // 1-5
+          deadlineFrequency: Math.floor(Math.random() * 5) + 1,       // 1-5
+          isWeekendWork: Math.random() > 0.8,                         // ~20% true
+          bugFixingLoad: Math.floor(Math.random() * 5) + 1,           // 1-5
+          contextSwitchingFrequency: Math.floor(Math.random() * 5) + 1, // 1-5
+          isOnCallToday: Math.random() > 0.85,                        // ~15% true
+
           // Notes
           notes: Math.random() > 0.7 ? 'Had a productive day' : undefined,
           

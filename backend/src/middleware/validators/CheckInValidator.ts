@@ -6,7 +6,7 @@ export const checkInSchema = z.object({
   sleepQuality: z.number().min(1).max(5),
 
   // Physical Activity
-  exerciseLevel: z.number().min(1).max(5), // 1=None, 5=Intense
+  exerciseLevel: z.number().min(1).max(5),
   screenTimeHours: z.number().min(0).max(24),
 
   // Work & Productivity
@@ -14,7 +14,7 @@ export const checkInSchema = z.object({
   workloadRating: z.number().min(1).max(5),
   overtimeHours: z.number().min(0).max(24),
   breaksTaken: z.number().min(0).max(20),
-  commuteMinutes: z.number().min(0).max(480), // max 8 hours
+  commuteMinutes: z.number().min(0).max(480),
 
   // Mental & Emotional
   stressLevel: z.number().min(1).max(10),
@@ -43,6 +43,16 @@ export const checkInSchema = z.object({
   familyResponsibilityLoad: z.number().min(1).max(5),
   salaryWorkloadSatisfaction: z.number().min(1).max(5),
   afterHoursMessaging: z.boolean(),
+
+  // Work Pattern Monitoring
+  meetingsCount: z.number().min(0).max(20),
+  urgentTasksCount: z.number().min(0).max(20),
+  sprintPressureRating: z.number().min(1).max(5),
+  deadlineFrequency: z.number().min(1).max(5),
+  isWeekendWork: z.boolean(),
+  bugFixingLoad: z.number().min(1).max(5),
+  contextSwitchingFrequency: z.number().min(1).max(5),
+  isOnCallToday: z.boolean(),
 
   // Notes
   notes: z.string().max(500).optional(),

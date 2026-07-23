@@ -116,6 +116,15 @@ const CheckIn: React.FC = () => {
     familyResponsibilityLoad: 2,
     salaryWorkloadSatisfaction: 3,
     afterHoursMessaging: false,
+    // Work Pattern Monitoring
+    meetingsCount: 3,
+    urgentTasksCount: 2,
+    sprintPressureRating: 3,
+    deadlineFrequency: 3,
+    isWeekendWork: false,
+    bugFixingLoad: 3,
+    contextSwitchingFrequency: 3,
+    isOnCallToday: false,
     // Notes
     notes: '',
   });
@@ -328,6 +337,157 @@ const CheckIn: React.FC = () => {
                 value={formData.workSatisfaction}
                 onChange={(v) => setFormData({ ...formData, workSatisfaction: v })}
               />
+            </div>
+          </div>
+        </Card>
+
+        {/* ── Work Patterns Section ──────────────────────────────────── */}
+        <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>📊 Work Patterns</h2>
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Meetings today
+              </label>
+              <input
+                type="number"
+                min={0}
+                max={20}
+                value={formData.meetingsCount}
+                onChange={(e) => setFormData({ ...formData, meetingsCount: parseInt(e.target.value) })}
+                style={{ width: '100%', padding: '10px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px' }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Urgent / unplanned tasks today
+              </label>
+              <input
+                type="number"
+                min={0}
+                max={20}
+                value={formData.urgentTasksCount}
+                onChange={(e) => setFormData({ ...formData, urgentTasksCount: parseInt(e.target.value) })}
+                style={{ width: '100%', padding: '10px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px' }}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Sprint pressure"
+                description="1 = Very relaxed, 5 = Extremely pressured"
+                max={5}
+                value={formData.sprintPressureRating}
+                onChange={(v) => setFormData({ ...formData, sprintPressureRating: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Deadline frequency this week"
+                description="1 = Rare, 5 = Constant"
+                max={5}
+                value={formData.deadlineFrequency}
+                onChange={(v) => setFormData({ ...formData, deadlineFrequency: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Bug-fixing load today"
+                description="1 = None, 5 = Heavy"
+                max={5}
+                value={formData.bugFixingLoad}
+                onChange={(v) => setFormData({ ...formData, bugFixingLoad: v })}
+              />
+            </div>
+            <div>
+              <ScaleInput
+                label="Context switching frequency"
+                description="1 = Focused on one task, 5 = Constantly switching"
+                max={5}
+                value={formData.contextSwitchingFrequency}
+                onChange={(v) => setFormData({ ...formData, contextSwitchingFrequency: v })}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Working this weekend?
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isWeekendWork: false })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: !formData.isWeekendWork ? 'var(--soft-fill)' : 'var(--bg)',
+                    borderColor: !formData.isWeekendWork ? 'var(--text-muted)' : 'var(--border)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isWeekendWork: true })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: formData.isWeekendWork ? 'var(--success-light)' : 'var(--bg)',
+                    borderColor: formData.isWeekendWork ? 'var(--success)' : 'var(--border)',
+                    color: formData.isWeekendWork ? 'var(--success)' : 'var(--text-secondary)',
+                  }}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                On-call today?
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isOnCallToday: false })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: !formData.isOnCallToday ? 'var(--soft-fill)' : 'var(--bg)',
+                    borderColor: !formData.isOnCallToday ? 'var(--text-muted)' : 'var(--border)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, isOnCallToday: true })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid',
+                    backgroundColor: formData.isOnCallToday ? 'var(--success-light)' : 'var(--bg)',
+                    borderColor: formData.isOnCallToday ? 'var(--success)' : 'var(--border)',
+                    color: formData.isOnCallToday ? 'var(--success)' : 'var(--text-secondary)',
+                  }}
+                >
+                  Yes
+                </button>
+              </div>
             </div>
           </div>
         </Card>

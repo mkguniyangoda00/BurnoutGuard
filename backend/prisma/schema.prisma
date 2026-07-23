@@ -141,6 +141,16 @@ model DailyCheckIn {
   breaksTaken         Int       // Number of breaks taken
   commuteMinutes      Int       // Commute duration in minutes
   
+  // Work Pattern Monitoring
+  meetingsCount             Int      @default(0)   // Number of meetings today (0-20)
+  urgentTasksCount          Int      @default(0)   // Number of urgent/unplanned tasks today (0-20)
+  sprintPressureRating      Int      @default(3)   // 1-5 scale
+  deadlineFrequency         Int      @default(3)   // 1-5 scale — how often deadlines occur this week
+  isWeekendWork             Boolean  @default(false)
+  bugFixingLoad             Int      @default(3)   // 1-5 scale
+  contextSwitchingFrequency Int      @default(3)   // 1-5 scale
+  isOnCallToday             Boolean  @default(false)
+
   // Mental & Emotional
   stressLevel         Int
   moodScore           Int

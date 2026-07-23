@@ -11,7 +11,14 @@ export const FEATURE_COLUMNS = [
   'selfEfficacy', 'copingAbility', 'powerInternetDisruption',
   'wfhEnvironmentQuality', 'familyResponsibilityLoad',
   'salaryWorkloadSatisfaction', 'afterHoursMessaging',
+  // Work Pattern Monitoring (new)
+  'meetingsCount', 'urgentTasksCount', 'sprintPressureRating',
+  'deadlineFrequency', 'isWeekendWork', 'bugFixingLoad',
+  'contextSwitchingFrequency', 'isOnCallToday', 'workModeEncoded',
 ] as const;
+
+// Boolean-typed fields need 0/1 conversion instead of straight averaging.
+const BOOLEAN_FIELDS = new Set(['afterHoursMessaging', 'isWeekendWork', 'isOnCallToday']);
 
 const NEUTRAL_DEFAULTS: Record<string, number> = {
   sleepHours: 7, sleepQuality: 3, exerciseLevel: 3, screenTimeHours: 5,
@@ -23,27 +30,59 @@ const NEUTRAL_DEFAULTS: Record<string, number> = {
   selfEfficacy: 3, copingAbility: 3, powerInternetDisruption: 2,
   wfhEnvironmentQuality: 3, familyResponsibilityLoad: 2,
   salaryWorkloadSatisfaction: 3, afterHoursMessaging: 0,
+  // Work Pattern Monitoring (new)
+  meetingsCount: 3, urgentTasksCount: 2, sprintPressureRating: 3,
+  deadlineFrequency: 3, isWeekendWork: 0, bugFixingLoad: 3,
+  contextSwitchingFrequency: 3, isOnCallToday: 0,
+  workModeEncoded: 2, // 2 = Hybrid (neutral default)
 };
+
+/**
+ * Encodes DeveloperProfile.workModel (Remote/Hybrid/Onsite) into a numeric
+ * value the ML model can consume. Ordered by typical isolation/autonomy
+ * trade-off: Remote=1, Hybrid=2 (neutral), Onsite=3.
+ */
+export function encodeWorkModel(workModel: string | null | undefined): number {
+  switch (workModel) {
+    case 'Remote':
+      return 1;
+    case 'Hybrid':
+      return 2;
+    case 'Onsite':
+      return 3;
+    default:
+      return NEUTRAL_DEFAULTS.workModeEncoded;
+  }
+}
 
 /**
  * Averages a user's recent check-ins into a single feature vector for the
  * ML service. Falls back to neutral defaults if no check-ins exist yet.
+ * workModel comes from the user's DeveloperProfile (not stored per
+ * check-in, since it rarely changes day-to-day) and is merged in separately.
  */
-export function aggregateCheckIns(checkIns: CheckIn[]): Record<string, number> {
+export function aggregateCheckIns(
+  checkIns: CheckIn[],
+  workModel?: string | null
+): Record<string, number> {
+  const workModeEncoded = encodeWorkModel(workModel);
+
   if (!checkIns || checkIns.length === 0) {
-    return { ...NEUTRAL_DEFAULTS };
+    return { ...NEUTRAL_DEFAULTS, workModeEncoded };
   }
 
   const sums: Record<string, number> = {};
   for (const col of FEATURE_COLUMNS) {
+    if (col === 'workModeEncoded') continue; // not a per-check-in field
     sums[col] = 0;
   }
 
   for (const c of checkIns) {
     const record = c as unknown as Record<string, number | boolean>;
     for (const col of FEATURE_COLUMNS) {
+      if (col === 'workModeEncoded') continue;
       const value = record[col];
-      if (col === 'afterHoursMessaging') {
+      if (BOOLEAN_FIELDS.has(col)) {
         sums[col] += value ? 1 : 0;
       } else {
         sums[col] += typeof value === 'number' ? value : NEUTRAL_DEFAULTS[col];
@@ -51,8 +90,9 @@ export function aggregateCheckIns(checkIns: CheckIn[]): Record<string, number> {
     }
   }
 
-  const averaged: Record<string, number> = {};
+  const averaged: Record<string, number> = { workModeEncoded };
   for (const col of FEATURE_COLUMNS) {
+    if (col === 'workModeEncoded') continue;
     averaged[col] = parseFloat((sums[col] / checkIns.length).toFixed(2));
   }
 
