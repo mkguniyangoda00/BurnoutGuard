@@ -110,11 +110,13 @@ export class PredictionService {
     console.log(`[PredictionService] Recommendation generation finished for prediction ${saved.predictionId}.`);
 
     console.log(`[PredictionService] Checking whether alert is needed for prediction ${saved.predictionId}.`);
-    await this.alertService.createIfHighRisk(
-      userId,
-      saved.predictionId,
-      saved.riskLevel as any
-    );
+    await this.alertService.evaluateAndNotify(userId, {
+      predictionId: saved.predictionId,
+      riskScore: saved.riskScore,
+      riskLevel: saved.riskLevel as any,
+      previousRiskScore: saved.previousRiskScore,
+      scoreChange: saved.scoreChange,
+    });
     console.log(`[PredictionService] Alert check finished for prediction ${saved.predictionId}.`);
 
     const actor = await this.getActor(userId);
