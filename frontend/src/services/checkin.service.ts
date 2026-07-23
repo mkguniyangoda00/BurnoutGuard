@@ -59,6 +59,16 @@ export interface CheckInPayload {
   salaryWorkloadSatisfaction: number;
   afterHoursMessaging: boolean;
 
+  // Work Pattern Monitoring
+  meetingsCount: number;
+  urgentTasksCount: number;
+  sprintPressureRating: number;
+  deadlineFrequency: number;
+  isWeekendWork: boolean;
+  bugFixingLoad: number;
+  contextSwitchingFrequency: number;
+  isOnCallToday: boolean;
+  
   // Notes
   notes?: string;
 }

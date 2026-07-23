@@ -8,7 +8,7 @@ export interface CheckIn {
   sleepQuality: number;
 
   // Physical Activity
-  exerciseLevel: number;       // 1-5 scale (None to Intense)
+  exerciseLevel: number;
   screenTimeHours: number;
 
   // Work & Productivity
@@ -45,6 +45,16 @@ export interface CheckIn {
   familyResponsibilityLoad: number;
   salaryWorkloadSatisfaction: number;
   afterHoursMessaging: boolean;
+
+  // Work Pattern Monitoring
+  meetingsCount: number;
+  urgentTasksCount: number;
+  sprintPressureRating: number;
+  deadlineFrequency: number;
+  isWeekendWork: boolean;
+  bugFixingLoad: number;
+  contextSwitchingFrequency: number;
+  isOnCallToday: boolean;
 
   // Meta
   notes: string | null;
