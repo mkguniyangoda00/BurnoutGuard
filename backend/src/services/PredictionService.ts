@@ -108,7 +108,8 @@ export class PredictionService {
     await this.recommendationService.generateFromPrediction(
       userId,
       saved.predictionId,
-      saved.shapExplanations as unknown as ShapExplanation[]
+      saved.shapExplanations as unknown as ShapExplanation[],
+      saved.riskLevel
     );
     console.log(`[PredictionService] Recommendation generation finished for prediction ${saved.predictionId}.`);
 
