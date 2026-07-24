@@ -41,4 +41,4 @@ env/
 /prisma/migrations/
 
 # Legacy
-legacy/
+legacy/ml-service/dataset.csv
