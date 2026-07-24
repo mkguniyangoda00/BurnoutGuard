@@ -60,4 +60,11 @@ export class RecommendationRepository {
     });
     return dismissed.map((r: { title: string }) => r.title);
   }
+
+  async findByPredictionId(predictionId: string, userId: string): Promise<Recommendation[]> {
+    return prisma.recommendation.findMany({
+      where: { predictionId, userId },
+      orderBy: { priority: 'asc' },
+    }) as unknown as Recommendation[];
+  }
 }
