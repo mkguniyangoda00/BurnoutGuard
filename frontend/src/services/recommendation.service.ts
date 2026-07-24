@@ -22,6 +22,11 @@ export const recommendationService = {
     return res.data.recommendations;
   },
 
+  getByPrediction: async (predictionId: string) => {
+    const res = await client.get(`/recommendations/by-prediction/${predictionId}`);
+    return res.data.recommendations;
+  },
+
   complete: async (id: string) => {
     const res = await client.put(`/recommendations/${id}/complete`);
     return res.data.recommendation;

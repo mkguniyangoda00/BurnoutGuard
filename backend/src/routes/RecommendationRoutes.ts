@@ -13,6 +13,7 @@ const recController = new RecommendationController(recService);
 
 router.get('/', Authenticate, recController.getActive);
 router.get('/all', Authenticate, recController.getAll);
+router.get('/by-prediction/:predictionId', Authenticate, recController.getByPrediction);
 router.put('/:id/complete', Authenticate, authorize(['Developer']), recController.complete);
 router.put('/:id/dismiss', Authenticate, authorize(['Developer']), recController.dismiss);
 

@@ -52,6 +52,7 @@ enum RecommendationCategory {
   WorkBoundary
   Social
   ScreenTime
+  Workload
 }
 
 enum AlertType {

@@ -22,6 +22,18 @@ export class RecommendationController {
     }
   };
 
+  getByPrediction = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const recommendations = await this.recService.getByPrediction(
+        req.params.predictionId,
+        req.user!.userId
+      );
+      res.status(200).json({ recommendations });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   complete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const rec = await this.recService.complete(req.params.id, req.user!.userId);
