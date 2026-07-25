@@ -6,12 +6,15 @@ import { Authenticate } from '../middleware/authenticate';
 import { authorize } from '../middleware/authorize';
 import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from '../services/AuditLogService';
+import { ResearchService } from '../services/ResearchService'; 
 
 const router = Router();
 const userRepo = new UserRepository();
 const adminService = new AdminService(userRepo);
-const adminController = new AdminController(adminService);
+const researchService = new ResearchService();
 const auditLogService = new AuditLogService(new AuditLogRepository());
+const adminController = new AdminController(adminService, researchService, auditLogService);
+
 
 router.use(Authenticate);
 router.use(authorize(['Admin', 'ResearchAdmin']));
@@ -20,6 +23,8 @@ router.get('/users', adminController.getAllUsers);
 router.put('/users/:id/role', adminController.updateRole);
 router.put('/users/:id/deactivate', adminController.deactivateUser);
 router.get('/models', adminController.getModelMetrics);
+router.get('/export', adminController.exportDataset);
+router.post('/models/retrain', authorize(['Admin', 'ResearchAdmin']), adminController.retrainModel);
 router.get('/audit', async (req: any, res: any, next: any) => {
   try {
     const { from, to } = req.query;

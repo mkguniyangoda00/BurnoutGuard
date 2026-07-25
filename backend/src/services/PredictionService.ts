@@ -104,24 +104,36 @@ export class PredictionService {
       throw err;
     }
 
-    console.log(`[PredictionService] Generating recommendations for prediction ${saved.predictionId}.`);
-    await this.recommendationService.generateFromPrediction(
-      userId,
-      saved.predictionId,
-      saved.shapExplanations as unknown as ShapExplanation[],
-      saved.riskLevel
-    );
-    console.log(`[PredictionService] Recommendation generation finished for prediction ${saved.predictionId}.`);
+    try {
+      await this.recommendationService.generateFromPrediction(
+        userId,
+        saved.predictionId,
+        saved.shapExplanations as unknown as ShapExplanation[],
+        saved.riskLevel
+      );
+    } catch (err) {
+      console.error(`[PredictionService] Recommendation generation failed for prediction ${saved.predictionId}:`, err);
+      // Do not rethrow — a recommendation failure must never block alerting.
+    }
 
-    console.log(`[PredictionService] Checking whether alert is needed for prediction ${saved.predictionId}.`);
-    await this.alertService.evaluateAndNotify(userId, {
-      predictionId: saved.predictionId,
-      riskScore: saved.riskScore,
-      riskLevel: saved.riskLevel as any,
-      previousRiskScore: saved.previousRiskScore,
-      scoreChange: saved.scoreChange,
-    });
-    console.log(`[PredictionService] Alert check finished for prediction ${saved.predictionId}.`);
+    try {
+      await this.alertService.evaluateAndNotify(userId, {
+        predictionId: saved.predictionId,
+        riskScore: saved.riskScore,
+        riskLevel: saved.riskLevel as any,
+        previousRiskScore: saved.previousRiskScore,
+        scoreChange: saved.scoreChange,
+      });
+    } catch (err) {
+      console.error(`[PredictionService] Alert evaluation failed for prediction ${saved.predictionId}:`, err);
+    }
+
+    try {
+      const recentCheckIns = await this.checkInRepo.findLastSeven(userId); // verify exact method name in your repo
+      await this.alertService.checkPoorSleepPattern(userId, recentCheckIns);
+    } catch (err) {
+      console.error(`[PredictionService] Poor sleep pattern check failed for user ${userId}:`, err);
+    }
 
     const actor = await this.getActor(userId);
     void auditLogService.log({

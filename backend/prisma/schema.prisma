@@ -72,17 +72,17 @@ enum AlertSeverity {
 // ==============================================
 
 model User {
-  userId          String    @id @default(uuid())
-  email           String    @unique
-  passwordHash    String?
-  fullName        String
-  role            UserRole
-  company         String?
-  isActive        Boolean   @default(true)
-  isEmailVerified Boolean   @default(false)
-  lastLoginAt     DateTime?
-  googleId        String?   @unique
-  emailNotificationsEnabled Boolean @default(true)
+  userId                    String    @id @default(uuid())
+  email                     String    @unique
+  passwordHash              String?
+  fullName                  String
+  role                      UserRole
+  company                   String?
+  isActive                  Boolean   @default(true)
+  isEmailVerified           Boolean   @default(false)
+  lastLoginAt               DateTime?
+  googleId                  String?   @unique
+  emailNotificationsEnabled Boolean   @default(true)
 
   // Relations
   developerProfile   DeveloperProfile?
@@ -92,12 +92,13 @@ model User {
   chatMessages       ChatMessage[]
   wellnessReports    WellnessReport[]
   alerts             Alert[]
+  journalEntries     JournalEntry[]
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model DeveloperProfile {
@@ -117,82 +118,82 @@ model DeveloperProfile {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model DailyCheckIn {
-  checkInId           String    @id @default(uuid())
-  userId              String
-  checkInDate         DateTime
-  
+  checkInId   String   @id @default(uuid())
+  userId      String
+  checkInDate DateTime
+
   // Sleep & Rest
-  sleepHours          Float
-  sleepQuality        Int
-  
+  sleepHours   Float
+  sleepQuality Int
+
   // Physical Activity
-  exerciseLevel       Int       // 1-5 scale (None to Intense)
-  screenTimeHours     Float
-  
+  exerciseLevel   Int // 1-5 scale (None to Intense)
+  screenTimeHours Float
+
   // Work & Productivity
-  workHours           Float
-  workloadRating      Int
-  overtimeHours       Float     // Additional hours beyond normal
-  breaksTaken         Int       // Number of breaks taken
-  commuteMinutes      Int       // Commute duration in minutes
-  
+  workHours      Float
+  workloadRating Int
+  overtimeHours  Float // Additional hours beyond normal
+  breaksTaken    Int // Number of breaks taken
+  commuteMinutes Int // Commute duration in minutes
+
   // Work Pattern Monitoring
-  meetingsCount             Int      @default(0)   // Number of meetings today (0-20)
-  urgentTasksCount          Int      @default(0)   // Number of urgent/unplanned tasks today (0-20)
-  sprintPressureRating      Int      @default(3)   // 1-5 scale
-  deadlineFrequency         Int      @default(3)   // 1-5 scale — how often deadlines occur this week
-  isWeekendWork             Boolean  @default(false)
-  bugFixingLoad             Int      @default(3)   // 1-5 scale
-  contextSwitchingFrequency Int      @default(3)   // 1-5 scale
-  isOnCallToday             Boolean  @default(false)
+  meetingsCount             Int     @default(0) // Number of meetings today (0-20)
+  urgentTasksCount          Int     @default(0) // Number of urgent/unplanned tasks today (0-20)
+  sprintPressureRating      Int     @default(3) // 1-5 scale
+  deadlineFrequency         Int     @default(3) // 1-5 scale — how often deadlines occur this week
+  isWeekendWork             Boolean @default(false)
+  bugFixingLoad             Int     @default(3) // 1-5 scale
+  contextSwitchingFrequency Int     @default(3) // 1-5 scale
+  isOnCallToday             Boolean @default(false)
 
   // Mental & Emotional
-  stressLevel         Int
-  moodScore           Int
-  energyLevel         Int
-  workSatisfaction    Int       // 1-5 scale
-  
+  stressLevel      Int
+  moodScore        Int
+  energyLevel      Int
+  workSatisfaction Int // 1-5 scale
+
   // Lifestyle & Health
-  caffeineIntake      Int       // mg or cups (0-10 scale)
-  mealQuality         Int       // 1-5 scale
-  socialSupportLevel  Int       // 1-5 scale
-  
+  caffeineIntake     Int // mg or cups (0-10 scale)
+  mealQuality        Int // 1-5 scale
+  socialSupportLevel Int // 1-5 scale
+
   // Psychological Wellbeing
-  anxietyLevel        Int       // 1-10 scale
-  emotionalFatigue    Int       // 1-10 scale
-  motivationLevel     Int       // 1-5 scale
-  concentrationIssues Int       // 1-5 scale
-  irritabilityLevel   Int       // 1-5 scale
-  lonelinessLevel     Int       // 1-5 scale
-  selfEfficacy        Int       // 1-5 scale
-  copingAbility       Int       // 1-5 scale
-  
+  anxietyLevel        Int // 1-10 scale
+  emotionalFatigue    Int // 1-10 scale
+  motivationLevel     Int // 1-5 scale
+  concentrationIssues Int // 1-5 scale
+  irritabilityLevel   Int // 1-5 scale
+  lonelinessLevel     Int // 1-5 scale
+  selfEfficacy        Int // 1-5 scale
+  copingAbility       Int // 1-5 scale
+
   // Work Context (Sri Lankan & Global)
-  powerInternetDisruption Int  // 1-5 scale (WFH disruption stress, SL-specific)
-  wfhEnvironmentQuality Int    // 1-5 scale
-  familyResponsibilityLoad Int // 1-5 scale
+  powerInternetDisruption    Int // 1-5 scale (WFH disruption stress, SL-specific)
+  wfhEnvironmentQuality      Int // 1-5 scale
+  familyResponsibilityLoad   Int // 1-5 scale
   salaryWorkloadSatisfaction Int // 1-5 scale
-  afterHoursMessaging Boolean  // Work communication outside hours
-  
+  afterHoursMessaging        Boolean // Work communication outside hours
+
   // Meta
-  notes               String?
-  isEdited            Boolean   @default(false)
-  editedAt            DateTime?
+  notes    String?
+  isEdited Boolean   @default(false)
+  editedAt DateTime?
 
   // Relations
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   // Audit Fields
-  createdBy           String
-  createdDateTime     DateTime  @default(now())
-  modifiedBy          String
-  modifiedDate        DateTime  @updatedAt
+  createdBy       String
+  createdDateTime DateTime @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime @updatedAt
 }
 
 model BurnoutPrediction {
@@ -217,9 +218,9 @@ model BurnoutPrediction {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model ShapExplanation {
@@ -237,9 +238,9 @@ model ShapExplanation {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model Recommendation {
@@ -262,27 +263,27 @@ model Recommendation {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model ChatMessage {
-  chatId              String               @id @default(uuid())
+  chatId              String  @id @default(uuid())
   userId              String
   role                String
-  content             String               @db.Text
-  relatedPredictionId  String?
+  content             String  @db.Text
+  relatedPredictionId String?
 
   // Relations
-  user                User                 @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  relatedPrediction   BurnoutPrediction?    @relation(fields: [relatedPredictionId], references: [predictionId], onDelete: SetNull)
+  user              User               @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  relatedPrediction BurnoutPrediction? @relation(fields: [relatedPredictionId], references: [predictionId], onDelete: SetNull)
 
   // Audit Fields
-  createdBy           String
-  createdDateTime     DateTime  @default(now())
-  modifiedBy          String
-  modifiedDate        DateTime  @updatedAt
+  createdBy       String
+  createdDateTime DateTime @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime @updatedAt
 }
 
 model WellnessReport {
@@ -305,9 +306,9 @@ model WellnessReport {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model Alert {
@@ -328,9 +329,9 @@ model Alert {
 
   // Audit Fields
   createdBy       String
-  createdDateTime DateTime  @default(now())
+  createdDateTime DateTime @default(now())
   modifiedBy      String
-  modifiedDate    DateTime  @updatedAt
+  modifiedDate    DateTime @updatedAt
 }
 
 model AuditLog {
@@ -345,4 +346,22 @@ model AuditLog {
   result          String   @default("Success")
   details         String?  @db.Text
   createdDateTime DateTime @default(now())
+}
+
+model JournalEntry {
+  entryId              String   @id @default(uuid())
+  userId               String
+  entryDate            DateTime @default(now())
+  reflectionText       String   @db.Text
+  stressTriggers       String?  @db.Text
+  workChallenges       String?  @db.Text
+  positiveEvents       String?  @db.Text
+  copingStrategiesUsed String?  @db.Text
+
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  createdBy       String
+  createdDateTime DateTime @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime @updatedAt
 }

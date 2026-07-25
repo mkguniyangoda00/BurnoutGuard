@@ -1,7 +1,33 @@
 import React from 'react';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { adminService } from '../../services/admin.service';
+import { useState } from 'react';
 
 const ModelManagement: React.FC = () => {
+  const queryClient = useQueryClient();
+  const [retrainMessage, setRetrainMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const { data: models } = useQuery({
+    queryKey: ['admin', 'models'],
+    queryFn: adminService.getModels, // verify this already exists in admin.service.ts; add if missing:
+    // getModels: async () => { const res = await client.get('/admin/models'); return res.data.metrics; }
+  });
+
+  const retrainMutation = useMutation({
+    mutationFn: adminService.retrainModel,
+    onSuccess: (data) => {
+      setRetrainMessage(
+        data.success
+          ? { type: 'success', text: 'Model retrained successfully. New version is now active.' }
+          : { type: 'error', text: 'Retrain finished with errors — check backend logs.' }
+      );
+      queryClient.invalidateQueries({ queryKey: ['admin', 'models'] });
+    },
+    onError: () => {
+      setRetrainMessage({ type: 'error', text: 'Failed to trigger retrain. Is ml-service running?' });
+    },
+  });
   return (
     <PageWrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
@@ -9,9 +35,18 @@ const ModelManagement: React.FC = () => {
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>ML Model Management</h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Manage prediction models, compare performance, and trigger retraining</p>
         </div>
-        <button style={{ backgroundColor: 'var(--primary)', color: 'white', fontSize: '13px', fontWeight: 500, padding: '9px 16px', borderRadius: '8px', border: 'none' }}>
-          Retrain Model
+        <button
+          onClick={() => { setRetrainMessage(null); retrainMutation.mutate(); }}
+          disabled={retrainMutation.isPending}
+          style={{ backgroundColor: 'var(--primary)', color: 'white', fontSize: '13px', fontWeight: 500, padding: '9px 16px', borderRadius: '8px', border: 'none', opacity: retrainMutation.isPending ? 0.6 : 1 }}
+        >
+          {retrainMutation.isPending ? 'Retraining… (may take a few minutes)' : 'Retrain Model'}
         </button>
+        {retrainMessage && (
+          <p style={{ fontSize: '12px', marginTop: '8px', color: retrainMessage.type === 'success' ? 'var(--success)' : 'var(--danger)' }}>
+            {retrainMessage.text}
+          </p>
+        )}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '24px' }}>

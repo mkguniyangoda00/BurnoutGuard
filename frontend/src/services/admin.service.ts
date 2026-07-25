@@ -43,9 +43,23 @@ export const adminService = {
     return res.data.metrics;
   },
 
+  retrainModel: async () => {
+    const res = await client.post('/admin/models/retrain');
+    return res.data;
+  },
+
   getAuditLogs: async (from?: string, to?: string) => {
     const params = from && to ? `?from=${from}&to=${to}` : '';
     const res = await client.get(`/admin/audit${params}`);
     return res.data.logs;
+  },
+
+  exportDataset: async (from?: string, to?: string, includeShap = true) => {
+    const params = new URLSearchParams();
+    if (from) params.append('from', from);
+    if (to) params.append('to', to);
+    params.append('includeShap', String(includeShap));
+    const res = await client.get(`/admin/export?${params.toString()}`, { responseType: 'blob' });
+    return res.data as Blob;
   },
 };

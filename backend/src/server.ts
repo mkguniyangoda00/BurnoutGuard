@@ -14,6 +14,7 @@ import ChatRoutes from './routes/ChatRoutes';
 import AlertRoutes from './routes/AlertRoutes';
 import AnalyticsRoutes from './routes/AnalyticsRoutes';
 import AdminRoutes from './routes/AdminRoutes';
+import JournalRoutes from './routes/JournalRoutes';
 
 // Jobs & Services
 import { startWeeklyReportJob } from './jobs/WeeklyReportJob';
@@ -26,6 +27,8 @@ import { AlertRepository } from './repositories/AlertRepository';
 import { startDailyEncouragementJob } from './jobs/DailyEncouragementJob';
 import { PredictionRepository } from './repositories/PredictionRepository';
 import { EmailService } from './services/EmailService';
+import { startRecommendationFollowUpJob } from './jobs/RecommendationFollowUpJob';
+import { startReassessmentReminderJob } from './jobs/CheckInReminderJob';
 
 const app = express();
 
@@ -64,6 +67,7 @@ app.use('/api/chat', ChatRoutes);
 app.use('/api/alerts', AlertRoutes);
 app.use('/api/analytics', AnalyticsRoutes);
 app.use('/api/admin', AdminRoutes);
+app.use('/api/journal', JournalRoutes);
 
 // ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -95,6 +99,17 @@ startDailyEncouragementJob(
   new UserRepository(),
   new CheckInRepository(),
   new PredictionRepository()
+);
+
+startRecommendationFollowUpJob(
+  new AlertRepository(), 
+  new UserRepository()
+);
+
+startReassessmentReminderJob(
+  new UserRepository(), 
+  new CheckInRepository(), 
+  new AlertRepository()
 );
 
 // Log clearly at startup whether SMTP is actually configured/reachable —

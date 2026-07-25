@@ -80,6 +80,7 @@ const Navbar: React.FC = () => {
             { name: 'My Risk', path: '/developer/my-risk' },
             { name: 'Recommendations', path: '/developer/recommendations' },
             { name: 'Reports', path: '/developer/reports' },
+            { name: 'Journal', path: '/developer/journal' },
           ];
     }
   };

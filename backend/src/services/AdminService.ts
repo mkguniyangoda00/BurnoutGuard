@@ -68,34 +68,39 @@ export class AdminService {
   }
 
   async getModelMetrics() {
-    return [
-      {
-        version: 'v1.0',
-        algorithm: 'XGBoost',
-        accuracy: '87.3%',
-        f1Score: '0.851',
-        auc: '0.912',
-        status: 'Retired',
-        trainedAt: '2026-03-01',
-      },
-      {
-        version: 'v1.1',
-        algorithm: 'XGBoost',
-        accuracy: '89.7%',
-        f1Score: '0.873',
-        auc: '0.934',
-        status: 'Active',
-        trainedAt: '2026-03-20',
-      },
-      {
-        version: 'v1.2',
-        algorithm: 'LightGBM',
-        accuracy: '88.1%',
-        f1Score: '0.862',
-        auc: '0.921',
-        status: 'Testing',
-        trainedAt: '2026-04-01',
-      },
-    ];
+  const fs = require('fs');
+  const path = require('path');
+  const metadataPath = path.join(__dirname, '../../../ml-service/models/metadata.json');
+
+  try {
+    const raw = fs.readFileSync(metadataPath, 'utf-8');
+    const metadata = JSON.parse(raw);
+
+    // metadata.metrics is keyed by algorithm name, e.g.
+    // { LogisticRegression: {...}, RandomForest: {...}, XGBoost: {...} }
+    const allModels = Object.entries(metadata.metrics || {}).map(([algo, m]: [string, any]) => ({
+      version: metadata.version,
+      algorithm: algo,
+      accuracy: `${(m.accuracy * 100).toFixed(1)}%`,
+      f1Score: m.f1Score.toFixed(3),
+      auc: m.auc ? m.auc.toFixed(3) : 'N/A',
+      status: algo === metadata.algorithm ? 'Active' : 'Benchmarked',
+      trainedAt: metadata.trainedAt,
+    }));
+
+    return allModels;
+  } catch (err: any) {
+    console.error('[AdminService] Failed to read ml-service/models/metadata.json:', err.message);
+    return [];
   }
+}
+
+async triggerRetrain() {
+  const axios = require('axios');
+  const { Env } = require('../config/env');
+
+  const response = await axios.post(`${Env.ML_SERVICE_URL}/retrain`, {}, { timeout: 300000 });
+  return response.data; // { success: boolean, log: string }
+}
+
 }

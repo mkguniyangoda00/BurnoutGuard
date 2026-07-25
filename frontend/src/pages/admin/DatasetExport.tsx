@@ -1,5 +1,16 @@
 import React from 'react';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { adminService } from '../../services/admin.service';
+
+const handleExport = async () => {
+  const blob = await adminService.exportDataset();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'burnoutguard-anonymized-export.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+};
 
 const DatasetExport: React.FC = () => {
   return (
@@ -55,7 +66,7 @@ const DatasetExport: React.FC = () => {
               </div>
             </div>
 
-            <button style={{ width: '100%', backgroundColor: 'var(--primary)', color: 'white', padding: '12px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, border: 'none', marginTop: '8px' }}>
+            <button onClick={handleExport} style={{ width: '100%', backgroundColor: 'var(--primary)', color: 'white', padding: '12px', borderRadius: '8px', fontSize: '13px', fontWeight: 500, border: 'none', marginTop: '8px', cursor: 'pointer',}}>
               Export Dataset
             </button>
           </div>

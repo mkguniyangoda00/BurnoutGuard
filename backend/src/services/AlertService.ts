@@ -151,4 +151,26 @@ export class AlertService {
   async dismiss(alertId: string, userId: string): Promise<Alert> {
     return this.alertRepo.dismiss(alertId, userId);
   }
+
+  async checkPoorSleepPattern(userId: string, recentCheckIns: { sleepHours: number }[]): Promise<Alert | null> {
+    const last3 = recentCheckIns.slice(0, 3);
+    if (last3.length < 3) return null;
+
+    const allBelowSix = last3.every((c) => c.sleepHours < 6);
+    if (!allBelowSix) return null;
+
+    console.log(`[AlertService] Poor sleep pattern detected for user ${userId} — creating alert.`);
+
+    return this.alertRepo.create({
+      userId,
+      predictionId: null,
+      alertType: AlertType.InApp,
+      severity: AlertSeverity.Warning,
+      message: 'Your sleep has been under 6 hours for 3+ days in a row. Poor sleep is one of the strongest burnout risk drivers — consider prioritizing rest this week.',
+      sentAt: new Date(),
+      createdBy: 'system',
+      modifiedBy: 'system',
+    });
+  }
+  
 }
