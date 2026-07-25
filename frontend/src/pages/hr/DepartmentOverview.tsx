@@ -40,6 +40,22 @@ const DepartmentOverview: React.FC = () => {
     totalLow = Math.round(totalLow / deptData.length);
   }
 
+  const { data: overtimeData, isLoading: overtimeLoading } = useQuery({
+    queryKey: ['analytics', 'overtime-patterns'],
+    queryFn: analyticsService.getOvertimePatterns,
+  });
+
+  const overtimeTrend = Array.isArray(overtimeData) ? overtimeData : [];
+
+  // Client-side ranking — reuses the same deptData already fetched via
+  // getDepartmentOverview(), sorted by combined High+Critical risk share.
+  const highRiskRanking = [...deptData]
+    .map((d: any) => ({
+      department: d.department,
+      combinedHighRisk: (d.highPct ?? 0) + (d.criticalPct ?? 0),
+    }))
+    .sort((a, b) => b.combinedHighRisk - a.combinedHighRisk); 
+    
   // Find the department with the highest "high risk" percentage
   const highestRiskDept = deptData.length > 0 
     ? [...deptData].sort((a, b) => b.highPct - a.highPct)[0]
@@ -154,6 +170,48 @@ const DepartmentOverview: React.FC = () => {
           </div>
         </>
       )}
+      {/* ── High-Risk Department Ranking ─────────────────────────── */}
+          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+            <h2 className="text-sm font-bold text-gray-800 mb-5">Highest-Risk Departments</h2>
+            {highRiskRanking.length === 0 ? (
+              <p className="text-sm text-gray-500 text-center py-6">Not enough data available.</p>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {highRiskRanking.map((row: any, idx: number) => (
+                  <div key={idx} className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">
+                      {idx + 1}. {row.department}
+                    </span>
+                    <span className="text-sm font-semibold text-red-500">
+                      {row.combinedHighRisk.toFixed(0)}% High/Critical
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ── Overtime Patterns ─────────────────────────────────────── */}
+          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+            <h2 className="text-sm font-bold text-gray-800 mb-5">Overtime Trend (Recent Weeks)</h2>
+            {overtimeLoading ? (
+              <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+                <Loader2 className="animate-spin" size={20} />
+                Loading overtime data...
+              </div>
+            ) : overtimeTrend.length === 0 ? (
+              <p className="text-sm text-gray-500 text-center py-6">Not enough data available.</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {overtimeTrend.map((row: any, idx: number) => (
+                  <div key={idx} className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">{row.week}</span>
+                    <span className="font-medium text-gray-800">{row.avgOvertimeHours}h avg</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
     </PageWrapper>
   );
 };

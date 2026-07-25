@@ -81,11 +81,22 @@ def main():
     joblib.dump(best_model, os.path.join(MODELS_DIR, model_file))
     joblib.dump(scaler, os.path.join(MODELS_DIR, scaler_file))
 
+    # Save a representative background sample (up to 100 scaled training
+    # rows) for SHAP explanations. Using the row being explained as its own
+    # background (a previous bug) forces every SHAP value to collapse to
+    # ~0 — SHAP measures a feature's contribution relative to this
+    # background distribution, so it must be a genuine sample of "typical"
+    # rows, not the single point being explained.
+    background_sample = X_train[:100] if len(X_train) >= 100 else X_train
+    background_file = f"background_{version}.pkl"
+    joblib.dump(background_sample, os.path.join(MODELS_DIR, background_file))
+    
     metadata = {
         "version": version,
         "algorithm": best_name,
         "modelFile": model_file,
         "scalerFile": scaler_file,
+        "backgroundFile": background_file,
         "featureColumns": FEATURE_COLUMNS,
         "riskLevels": RISK_LEVELS,
         "trainedAt": datetime.now(timezone.utc).isoformat(),

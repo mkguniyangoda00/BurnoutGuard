@@ -53,18 +53,31 @@ FEATURE_LABELS = {
 }
 
 
-def explain_prediction(model, scaler, feature_df, predicted_class: int) -> list:
+def explain_prediction(model, scaler, feature_df, predicted_class: int, background=None) -> list:
     """
     feature_df: single-row pandas DataFrame in FEATURE_COLUMNS order.
     predicted_class: the int label the model predicted (0=Low..3=Critical).
-    Returns a list of dicts matching ShapExplanation.ts's shape.
+    background: a representative sample of SCALED training rows (NOT the
+    row being explained) used as SHAP's reference distribution. Returns a
+    list of dicts matching ShapExplanation.ts's shape.
     """
     scaled = scaler.transform(feature_df)
 
-    explainer = shap.TreeExplainer(model) if hasattr(model, "get_booster") or hasattr(model, "estimators_") \
-        else shap.Explainer(model, scaled)
+    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_")
 
-    shap_values = explainer.shap_values(scaled)
+    if is_tree_model:
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(scaled)
+    else:
+        if background is None:
+            print(
+                "[explain.py] WARNING: no background sample available — "
+                "SHAP values will be unreliable (near-zero) until the model "
+                "is retrained with the updated train.py that saves one."
+            )
+            background = scaled  # old, buggy behavior — only used as a last resort
+        explainer = shap.Explainer(model, background)
+        shap_values = explainer.shap_values(scaled)
 
     # For multi-class tree models, shap_values is a list per class OR a 3D array
     if isinstance(shap_values, list):

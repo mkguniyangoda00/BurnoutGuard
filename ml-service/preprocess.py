@@ -91,7 +91,7 @@ def build_feature_vector(raw_features: dict) -> pd.DataFrame:
 
 
 def load_latest_artifacts():
-    """Loads the most recently trained model, scaler, and metadata."""
+    """Loads the most recently trained model, scaler, background sample, and metadata."""
     metadata_path = os.path.join(MODELS_DIR, "metadata.json")
     if not os.path.exists(metadata_path):
         return None
@@ -106,4 +106,11 @@ def load_latest_artifacts():
     model = joblib.load(model_path)
     scaler = joblib.load(scaler_path)
 
-    return {"model": model, "scaler": scaler, "metadata": metadata}
+    background = None
+    background_file = metadata.get("backgroundFile")
+    if background_file:
+        background_path = os.path.join(MODELS_DIR, background_file)
+        if os.path.exists(background_path):
+            background = joblib.load(background_path)
+
+    return {"model": model, "scaler": scaler, "metadata": metadata, "background": background}
