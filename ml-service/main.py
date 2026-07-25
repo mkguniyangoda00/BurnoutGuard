@@ -49,7 +49,8 @@ def predict():
     risk_score = float(proba[predicted_class])
     risk_level = INT_TO_RISK[predicted_class]
 
-    shap_values = explain_prediction(model, scaler, feature_df, predicted_class)
+    background = artifacts.get("background")
+    shap_values = explain_prediction(model, scaler, feature_df, predicted_class, background)
 
     return jsonify({
         "riskScore": round(risk_score, 4),

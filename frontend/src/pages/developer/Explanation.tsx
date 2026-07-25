@@ -74,7 +74,8 @@ const Explanation: React.FC = () => {
 
   // Calculate max impact for scaling bars
   const allFactors = [...riskDrivers, ...riskMitigators];
-  const maxImpact = allFactors.length > 0 ? Math.max(...allFactors.map((f: any) => Math.abs(f.shapValue))) : 1;
+  const rawMaxImpact = allFactors.length > 0 ? Math.max(...allFactors.map((f: any) => Math.abs(f.shapValue))) : 1;
+  const maxImpact = rawMaxImpact > 0 ? rawMaxImpact : 1; // guard against all-zero SHAP values producing NaN%
 
   // Get risk color based on level
   const getRiskColor = (level: string) => {
@@ -139,14 +140,14 @@ const Explanation: React.FC = () => {
               <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
                 {(prediction.riskScore * 100).toFixed(0)}%
               </p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>Risk</p>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>Risk</p>
             </div>
           </div>
 
           {/* Risk Details */}
           <div>
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>RISK LEVEL</p>
+              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px' }}>RISK LEVEL</p>
               <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
                 {prediction.riskLevel}
               </p>
@@ -154,7 +155,7 @@ const Explanation: React.FC = () => {
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
               <div>
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Trend</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Trend</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {prediction.trendDirection === 'Improving' && (
                     <>
@@ -175,7 +176,7 @@ const Explanation: React.FC = () => {
               </div>
               
               <div>
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Data Points</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Data Points</p>
                 <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {prediction.checkInsUsed || 1} check-in{prediction.checkInsUsed !== 1 ? 's' : ''}
                 </p>

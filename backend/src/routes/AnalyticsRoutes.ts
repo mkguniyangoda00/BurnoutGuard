@@ -15,5 +15,8 @@ const analyticsController = new AnalyticsController(analyticsService);
 router.get('/heatmap', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getTeamHeatmap);
 router.get('/department', Authenticate, authorize(['HRofficer', 'Admin']), analyticsController.getDepartmentOverview);
 router.get('/sprint', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getSprintRisk);
+router.get('/workload-hotspots', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getWorkloadHotspots);
+router.get('/overtime-patterns', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getOvertimePatterns);
+router.get('/manager-recommendations', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getManagerRecommendationSummary);
 
 export default router;

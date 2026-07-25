@@ -30,4 +30,31 @@ export class AnalyticsController {
       next(err);
     }
   };
+
+  getWorkloadHotspots = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getWorkloadHotspots();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getOvertimePatterns = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getOvertimePatterns();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getManagerRecommendationSummary = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getManagerRecommendationSummary();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
 }

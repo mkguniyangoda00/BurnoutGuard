@@ -117,13 +117,13 @@ const Dashboard: React.FC = () => {
           // Real prediction data from the backend
           <>
             <div>
-              <span className="text-xs text-white/50 uppercase tracking-wider">
+              <span className="text-xs text-white/70 uppercase tracking-wider">
                 Current Burnout Risk
               </span>
               <h2 className="text-4xl font-bold mt-2" style={{ color: riskColor }}>
                 {prediction.riskLevel}
               </h2>
-              <p className="text-sm text-white/60 mt-1 mb-4">
+              <p className="text-sm text-white/80 mt-1 mb-4">
                 {prediction.trendDirection === 'Improving'
                   ? '↓ Improving from last prediction'
                   : prediction.trendDirection === 'Worsening'
@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
                 <span className="text-lg font-bold" style={{ color: riskColor }}>
                   {(riskScore * 100).toFixed(0)}%
                 </span>
-                <span className="text-xs text-white/40">risk</span>
+                <span className="text-xs text-white/70">risk</span>
               </div>
             </div>
           </>

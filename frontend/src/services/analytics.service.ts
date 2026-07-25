@@ -36,4 +36,19 @@ export const analyticsService = {
     const res = await client.get('/analytics/sprint');
     return res.data;
   },
+
+  getWorkloadHotspots: async () => {
+    const res = await client.get('/analytics/workload-hotspots');
+    return res.data;
+  },
+
+  getOvertimePatterns: async () => {
+    const res = await client.get('/analytics/overtime-patterns');
+    return res.data;
+  },
+
+  getManagerRecommendationSummary: async () => {
+    const res = await client.get('/analytics/manager-recommendations');
+    return res.data;
+  },
 };

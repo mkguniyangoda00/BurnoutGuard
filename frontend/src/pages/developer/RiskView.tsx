@@ -77,27 +77,37 @@ const RiskView: React.FC = () => {
         <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Detailed breakdown of your risk score over time</p>
       </div>
 
-      <Card style={{ padding: '24px', marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '20px' }}>Risk Trend (Latest Prediction)</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-          <Card style={{ padding: '20px', backgroundColor: '#F0FDF4', border: '1px solid #BBFBBC' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Risk level</h3>
-            <p style={{ fontSize: '28px', fontWeight: 700, color: 'var(--primary)' }}>{prediction.riskLevel}</p>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '8px' }}>{(prediction.riskScore * 100).toFixed(0)}% risk score</p>
-          </Card>
-          <Card style={{ padding: '20px', backgroundColor: '#FEF2F2', border: '1px solid #FECACA' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Trend</h3>
-            <p style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
-              {prediction.trendDirection === 'Improving'
-                ? 'Improving'
-                : prediction.trendDirection === 'Worsening'
-                ? 'Worsening'
-                : 'Stable'}
-            </p>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '8px' }}>Latest comparison against the previous prediction</p>
-          </Card>
-        </div>
+      {(() => {
+  const RISK_CARD_STYLES: Record<string, { bg: string; border: string; color: string }> = {
+    Low: { bg: '#F0FDF4', border: '#BBFBBC', color: 'var(--success)' },
+    Moderate: { bg: '#FFFBEB', border: '#FDE68A', color: 'var(--warning)' },
+    High: { bg: '#FFF7ED', border: '#FDBA74', color: '#EA580C' },
+    Critical: { bg: '#FEF2F2', border: '#FECACA', color: 'var(--danger)' },
+  };
+  const riskStyle = RISK_CARD_STYLES[prediction.riskLevel] ?? RISK_CARD_STYLES.Moderate;
+
+  const TREND_STYLES: Record<string, { bg: string; border: string; color: string; label: string }> = {
+    Improving: { bg: '#F0FDF4', border: '#BBFBBC', color: 'var(--success)', label: '↓ Improving' },
+    Worsening: { bg: '#FEF2F2', border: '#FECACA', color: 'var(--danger)', label: '↑ Worsening' },
+    Stable: { bg: 'var(--soft-fill)', border: 'var(--border)', color: 'var(--text-secondary)', label: '→ Stable' },
+  };
+  const trendStyle = TREND_STYLES[prediction.trendDirection] ?? TREND_STYLES.Stable;
+
+  return (
+    <>
+      <Card style={{ padding: '20px', backgroundColor: riskStyle.bg, border: `1px solid ${riskStyle.border}` }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Risk level</h3>
+        <p style={{ fontSize: '28px', fontWeight: 700, color: riskStyle.color }}>{prediction.riskLevel}</p>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '8px' }}>{(prediction.riskScore * 100).toFixed(0)}% risk score</p>
       </Card>
+      <Card style={{ padding: '20px', backgroundColor: trendStyle.bg, border: `1px solid ${trendStyle.border}` }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Trend</h3>
+        <p style={{ fontSize: '18px', fontWeight: 600, color: trendStyle.color }}>{trendStyle.label}</p>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '8px' }}>Latest comparison against the previous prediction</p>
+      </Card>
+    </>
+  );
+  })()}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
         <Card>

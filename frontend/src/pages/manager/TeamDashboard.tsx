@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
+import { useQuery as useQueryHotspots } from '@tanstack/react-query';
 
 const TeamDashboard: React.FC = () => {
   // ── Fetch Heatmap Data from Backend ──────────────────────────────
@@ -29,6 +30,19 @@ const TeamDashboard: React.FC = () => {
   let moderateRiskCount = 0;
   let lowRiskCount = 0;
   let noDataCount = 0;
+
+  const { data: hotspotsData, isLoading: hotspotsLoading } = useQuery({
+    queryKey: ['analytics', 'workload-hotspots'],
+    queryFn: analyticsService.getWorkloadHotspots,
+  });
+
+  const { data: recSummaryData, isLoading: recSummaryLoading } = useQuery({
+    queryKey: ['analytics', 'manager-recommendations'],
+    queryFn: analyticsService.getManagerRecommendationSummary,
+  });
+
+  const hotspots = Array.isArray(hotspotsData) ? hotspotsData : [];
+  const recSummary = Array.isArray(recSummaryData) ? recSummaryData : [];
 
   // We look at the most recent week (index 0) for the current snapshot counts
   members.forEach((member: any) => {
@@ -159,7 +173,71 @@ const TeamDashboard: React.FC = () => {
           </div>
         )}
       </div>
+      
+      {/* ── Workload Hotspots ─────────────────────────────────────── */}
+      <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+        <h2 className="text-sm font-bold text-gray-800 mb-5">Workload Hotspots</h2>
+        {hotspotsLoading ? (
+          <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+            <Loader2 className="animate-spin" size={20} />
+            Loading workload data...
+          </div>
+        ) : hotspots.length === 0 ? (
+          <p className="text-sm text-gray-500 text-center py-6">Not enough data available for this department.</p>
+        ) : (
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-xs text-gray-500 uppercase tracking-wider">
+                <th className="pb-3">Department</th>
+                <th className="pb-3">Avg Meetings</th>
+                <th className="pb-3">Avg Urgent Tasks</th>
+                <th className="pb-3">Avg Overtime (hrs)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hotspots.map((row: any, idx: number) => (
+                <tr key={idx} className="border-t border-gray-100">
+                  <td className="py-3 text-sm font-medium text-gray-800">{row.department}</td>
+                  <td className="py-3 text-sm text-gray-600">{row.avgMeetingsCount}</td>
+                  <td className="py-3 text-sm text-gray-600">{row.avgUrgentTasksCount}</td>
+                  <td className="py-3 text-sm text-gray-600">{row.avgOvertimeHours}h</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
+      {/* ── Aggregated Recommendations Summary ───────────────────────── */}
+      <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
+        <h2 className="text-sm font-bold text-gray-800 mb-5">Team Recommendation Trends</h2>
+        {recSummaryLoading ? (
+          <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+            <Loader2 className="animate-spin" size={20} />
+            Loading recommendation data...
+          </div>
+        ) : recSummary.length === 0 ? (
+          <p className="text-sm text-gray-500 text-center py-6">Not enough data available for this department.</p>
+        ) : (
+          recSummary.map((dept: any, idx: number) => (
+            <div key={idx} className="mb-4 last:mb-0">
+              <p className="text-xs text-gray-500 font-medium mb-2">
+                {dept.department} · {dept.teamSize} developers
+              </p>
+              <div className="flex flex-col gap-2">
+                {dept.categories.map((cat: any, cidx: number) => (
+                  <div key={cidx} className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700">{cat.category}</span>
+                    <span className="text-gray-500">
+                      {cat.affectedUserCount} of {dept.teamSize} developers · {cat.activeCount} active
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </PageWrapper>
   );
 };
