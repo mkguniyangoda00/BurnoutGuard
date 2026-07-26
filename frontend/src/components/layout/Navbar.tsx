@@ -21,6 +21,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext';
 import client from '../../services/client';
 import { Dropdown } from '../ui/Dropdown';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+
+const { theme, toggleTheme } = useTheme();
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -35,8 +39,8 @@ const Navbar: React.FC = () => {
   const { data: alertsData } = useQuery({
     queryKey: ['alerts'],
     queryFn: () => client.get('/alerts').then(r => r.data),
-    enabled: role === 'Developer', // Only developers have personal alerts
-    refetchInterval: 20_000, // Auto-refresh every 20 seconds — near-instant without needing websockets
+    enabled: !!user, // All authenticated roles can have personal alerts
+    refetchInterval: 20_000,
   });
 
   const alerts = alertsData?.alerts ?? [];
@@ -59,11 +63,13 @@ const Navbar: React.FC = () => {
         return [
           { name: 'Team Overview', path: '/manager/dashboard' },
           { name: 'Sprint Risk', path: '/manager/sprint-risk' },
+          { name: 'Wellness Resources', path: '/wellness-resources' },
         ];
       case 'HRofficer':
         return [
           { name: 'Department Overview', path: '/hr/department-overview' },
           { name: 'Trends', path: '/hr/trends' },
+          { name: 'Wellness Resources', path: '/wellness-resources' },
         ];
       case 'Admin':
       case 'ResearchAdmin':
@@ -81,6 +87,7 @@ const Navbar: React.FC = () => {
             { name: 'Recommendations', path: '/developer/recommendations' },
             { name: 'Reports', path: '/developer/reports' },
             { name: 'Journal', path: '/developer/journal' },
+            { name: 'Wellness Resources', path: '/wellness-resources' },
           ];
     }
   };
@@ -143,8 +150,15 @@ const Navbar: React.FC = () => {
 
       {/* ── Right: Alerts Bell + Profile Avatar ───────────────────────── */}
       <div className="flex items-center gap-3">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
+          aria-label="Toggle dark mode"
+          title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+        >
+          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+        </button>
         {/* Alert Bell — only shown for Developers */}
-        {role === 'Developer' && (
           <Dropdown
             isOpen={openDropdown === 'notifications'}
             onClose={() => setOpenDropdown(null)}
@@ -207,7 +221,6 @@ const Navbar: React.FC = () => {
               </div>
             </div>
           </Dropdown>
-        )}
 
         {/* Profile Avatar */}
         <Dropdown

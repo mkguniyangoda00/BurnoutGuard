@@ -67,6 +67,15 @@ enum AlertSeverity {
   Critical
 }
 
+enum WellnessCategory {
+  Article
+  SleepHygiene
+  Exercise
+  Breathing
+  Meditation
+  Counseling
+}
+
 // ==============================================
 // MODELS
 // ==============================================
@@ -359,6 +368,20 @@ model JournalEntry {
   copingStrategiesUsed String?  @db.Text
 
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  createdBy       String
+  createdDateTime DateTime @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime @updatedAt
+}
+
+model WellnessResource {
+  resourceId  String            @id @default(uuid())
+  title       String
+  category    WellnessCategory
+  description String            @db.Text
+  contentUrl  String?
+  isActive    Boolean           @default(true)
 
   createdBy       String
   createdDateTime DateTime @default(now())

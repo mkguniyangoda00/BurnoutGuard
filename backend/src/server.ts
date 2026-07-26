@@ -15,6 +15,7 @@ import AlertRoutes from './routes/AlertRoutes';
 import AnalyticsRoutes from './routes/AnalyticsRoutes';
 import AdminRoutes from './routes/AdminRoutes';
 import JournalRoutes from './routes/JournalRoutes';
+import ResourceRoutes from './routes/ResourceRoutes';
 
 // Jobs & Services
 import { startWeeklyReportJob } from './jobs/WeeklyReportJob';
@@ -68,6 +69,7 @@ app.use('/api/alerts', AlertRoutes);
 app.use('/api/analytics', AnalyticsRoutes);
 app.use('/api/admin', AdminRoutes);
 app.use('/api/journal', JournalRoutes);
+app.use('/api/resources', ResourceRoutes);
 
 // ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

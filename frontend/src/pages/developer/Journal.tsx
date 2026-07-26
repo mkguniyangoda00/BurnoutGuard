@@ -45,12 +45,14 @@ const Journal: React.FC = () => {
   const textareaStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '80px',
-    padding: '10px 12px',
-    backgroundColor: 'var(--soft-fill)',
-    border: '1px solid var(--border)',
-    borderRadius: '8px',
-    fontSize: '13px',
-    fontFamily: 'var(--font-body)',
+    padding: '14px 16px',
+    backgroundColor: '#FBF7EE',
+    border: '1px solid #EDE0C8',
+    borderRadius: '14px',
+    fontSize: '13.5px',
+    fontFamily: "'DM Serif Display', Georgia, serif",
+    lineHeight: 1.7,
+    color: '#4A3F35',
     resize: 'vertical',
   };
 
@@ -67,11 +69,13 @@ const Journal: React.FC = () => {
   return (
     <PageWrapper>
       <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>Journal & Reflection</h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>A private space to reflect on your day, stress triggers, and coping strategies</p>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '26px', color: '#5A4A3A', marginBottom: '6px' }}>
+          🌿 Journal & Reflection
+        </h1>
+        <p style={{ fontSize: '13px', color: '#8A7B6C' }}>A private, quiet space to reflect on your day</p>
       </div>
 
-      <Card style={{ padding: '28px 32px', marginBottom: '24px' }}>
+      <Card style={{padding: '32px 36px',marginBottom: '24px',backgroundColor: '#FFFDF7',border: '1px solid #F0E6D2',borderRadius: '20px',boxShadow: '0 2px 12px rgba(180, 150, 100, 0.08)',}}>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '16px' }}>
             <label style={labelStyle}>Reflection *</label>
@@ -129,7 +133,7 @@ const Journal: React.FC = () => {
         </form>
       </Card>
 
-      <h2 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Past Entries</h2>
+      <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: 600, marginBottom: '16px', color: '#5A4A3A' }}>Past Reflections</h2>
 
       {isLoading ? (
         <div className="flex items-center justify-center py-10 text-gray-400 gap-2">
@@ -143,7 +147,7 @@ const Journal: React.FC = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {entries.map((entry: any) => (
-            <Card key={entry.entryId} style={{ padding: '20px' }}>
+            <Card key={entry.entryId} style={{padding: '22px 24px', backgroundColor: '#FFFDF7',border: '1px solid #F0E6D2',borderRadius: '16px',}}>
               <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px' }}>
                 {new Date(entry.entryDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </p>
