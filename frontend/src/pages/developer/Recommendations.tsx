@@ -194,7 +194,7 @@ const Recommendations: React.FC = () => {
         </div>
         <button
           type="button"
-          onClick={() => navigate('/developer/wellness-resources')}
+          onClick={() => navigate('/wellness-resources')}
           style={{
             display: 'flex',
             alignItems: 'center',

@@ -25,6 +25,7 @@ import { useAuth } from './context/AuthContext';
 // Public Pages (auth subfolder)
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import WellnessResources from './pages/WellnessResources';
 
 // Developer Pages
 import DevDashboard from './pages/developer/Dashboard';
@@ -73,7 +74,8 @@ function App() {
       {/* ─── Public Routes ──────────────────────────────────────────── */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
+      <Route path="/wellness-resources" element={<WellnessResources />} />
+      
       {/* ─── Protected Routes (require JWT token) ────────────────────── */}
       <Route element={<ProtectedRoute />}>
         {/* Root path → redirect to correct dashboard based on role */}

@@ -281,3 +281,47 @@ table { border-collapse: collapse; width: 100%; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
 ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+
+/* ============================================================
+   Dark Theme Overrides
+   Applied via document.documentElement[data-theme="dark"].
+   Every existing component already reads colors from these same
+   CSS variables, so no component styling needs to change.
+   ============================================================ */
+
+[data-theme="dark"] {
+  --primary: #5B82F0;
+  --primary-light: rgba(91, 130, 240, 0.16);
+  --primary-hover: #6F8FF2;
+
+  --navy: #05060A;
+  --navy-soft: #12141C;
+
+  --bg: #161821;
+  --background: var(--bg);
+  --surface: #0E0F15;
+  --soft-fill: #1E202B;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-color: var(--border);
+
+  --text-primary: #F2F3F8;
+  --text-secondary: #C6C8D6;
+  --text-muted: #8B8DA0;
+
+  --success: #34C795;
+  --success-light: rgba(52, 199, 149, 0.15);
+  --warning: #F0A93D;
+  --warning-light: rgba(240, 169, 61, 0.15);
+  --danger: #F16565;
+  --danger-light: rgba(241, 101, 101, 0.15);
+  --purple: #9089EE;
+  --purple-light: rgba(144, 137, 238, 0.15);
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #3A3D4A;
+}
