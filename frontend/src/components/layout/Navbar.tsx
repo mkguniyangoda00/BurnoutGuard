@@ -24,12 +24,11 @@ import { Dropdown } from '../ui/Dropdown';
 import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
-const { theme, toggleTheme } = useTheme();
-
 const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, role, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const queryClient = useQueryClient();
   const [openDropdown, setOpenDropdown] = useState<'notifications' | 'profile' | null>(null);
 

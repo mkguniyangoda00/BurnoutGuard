@@ -15,7 +15,6 @@
  * React Query handles all of that automatically. It also caches responses,
  * so if two components ask for the same data, only one network request is made.
  */
-
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -48,15 +47,15 @@ const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
-    <QueryClientProvider client={queryClient}>
-      <GoogleOAuthProvider clientId={googleClientId}>
-        <BrowserRouter>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </BrowserRouter>
-      </GoogleOAuthProvider>
-    </QueryClientProvider>
-  </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <GoogleOAuthProvider clientId={googleClientId}>
+          <BrowserRouter>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </BrowserRouter>
+        </GoogleOAuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>,
 );
