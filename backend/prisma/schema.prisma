@@ -258,7 +258,7 @@ model Recommendation {
   userId             String
   category           RecommendationCategory
   title              String
-  description        String
+  description        String                 @db.Text
   priority           Int
   isCompleted        Boolean                @default(false)
   completedAt        DateTime?
