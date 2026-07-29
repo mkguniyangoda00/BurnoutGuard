@@ -10,6 +10,7 @@ import prisma from '../config/db';
 import { UserRepository } from '../repositories/UserRepository';
 import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from './AuditLogService';
+import { computeDimensionBreakdown, DimensionScore } from '../utils/BurnoutDimensions';
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
@@ -194,5 +195,13 @@ export class PredictionService {
     });
 
     return result;
+  }
+
+  async getDimensionBreakdown(predictionId: string, userId: string): Promise<DimensionScore[]> {
+    const prediction = await this.getById(predictionId, userId); // reuses existing ownership check
+    const shapRows = (prediction as any).shapExplanations ?? [];
+    return computeDimensionBreakdown(
+      shapRows.map((s: any) => ({ featureName: s.featureName, shapValue: s.shapValue }))
+    );
   }
 }

@@ -15,7 +15,10 @@ import client from './client';
 export const predictionService = {
   getLatest: async () => {
     const res = await client.get('/predictions/latest');
-    return res.data.prediction;
+    return {
+      prediction: res.data.prediction,
+      dimensionBreakdown: res.data.dimensionBreakdown ?? []
+    };
   },
 
   getHistory: async () => {
