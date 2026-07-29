@@ -7,7 +7,10 @@ export class PredictionController {
   getLatest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const prediction = await this.predictionService.getLatest(req.user!.userId);
-      res.status(200).json({ prediction });
+      const dimensionBreakdown = prediction
+        ? await this.predictionService.getDimensionBreakdown((prediction as any).predictionId, req.user!.userId)
+        : [];
+      res.status(200).json({ prediction, dimensionBreakdown });
     } catch (err) {
       next(err);
     }
@@ -28,7 +31,11 @@ export class PredictionController {
         req.params.id,
         req.user!.userId
       );
-      res.status(200).json({ prediction });
+      const dimensionBreakdown = await this.predictionService.getDimensionBreakdown(
+        req.params.id,
+        req.user!.userId
+      );
+      res.status(200).json({ prediction, dimensionBreakdown });
     } catch (err) {
       next(err);
     }
