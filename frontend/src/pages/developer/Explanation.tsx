@@ -185,6 +185,53 @@ const Explanation: React.FC = () => {
           </div>
         </div>
       </Card>
+      
+      {/* ── Burnout Dimension Breakdown (WHO framework) ─────────────── */}
+      {prediction.dimensionBreakdown?.length > 0 && (
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '4px' }}>
+              🧭 Burnout Dimension Breakdown
+            </h2>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+              Based on the WHO's three-dimension burnout framework
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+            {[...prediction.dimensionBreakdown]
+              .sort((a: any, b: any) => b.normalizedPct - a.normalizedPct)
+              .map((dim: any, idx: number) => {
+                const isTop = idx === 0;
+                const barColor = dim.score > 0 ? 'var(--danger)' : 'var(--success)';
+                return (
+                  <Card
+                    key={dim.dimension}
+                    style={{
+                      padding: '18px',
+                      border: isTop ? `2px solid ${barColor}` : '1px solid var(--border)',
+                    }}
+                  >
+                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                      {dim.label}
+                    </p>
+                    <p style={{ fontSize: '22px', fontWeight: 700, color: barColor, marginBottom: '10px' }}>
+                      {dim.normalizedPct}%
+                    </p>
+                    <div style={{ width: '100%', height: '6px', backgroundColor: 'var(--soft-fill)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${dim.normalizedPct}%`, backgroundColor: barColor, borderRadius: '3px' }} />
+                    </div>
+                    {isTop && (
+                      <p style={{ fontSize: '11px', color: barColor, marginTop: '8px', fontWeight: 600 }}>
+                        Most elevated dimension
+                      </p>
+                    )}
+                  </Card>
+                );
+              })}
+          </div>
+        </div>
+      )}
 
       {/* ── Risk Drivers (Red Bars) ────────────────────────────────── */}
       <div style={{ marginBottom: '32px' }}>

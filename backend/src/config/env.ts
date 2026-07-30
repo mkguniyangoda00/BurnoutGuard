@@ -16,6 +16,9 @@ export interface EnvConfig {
   EMAIL_PORT: number;
   EMAIL_USER: string;
   EMAIL_PASS: string;
+  LLM_API_URL: string;
+  LLM_API_KEY: string;
+  LLM_MODEL: string;
 }
 
 const getEnvOrThrow = (key: string): string => {
@@ -46,4 +49,8 @@ export const Env: EnvConfig = {
   EMAIL_PORT: parseInt(getEnvOptional('EMAIL_PORT', '587'), 10),
   EMAIL_USER: getEnvOptional('EMAIL_USER'),
   EMAIL_PASS: getEnvOptional('EMAIL_PASS'),
+  LLM_API_URL: getEnvOptional('LLM_API_URL', 'https://api.anthropic.com/v1/messages'),
+  LLM_API_KEY: getEnvOptional('LLM_API_KEY'),
+  LLM_MODEL: getEnvOptional('LLM_MODEL', 'claude-sonnet-4-6'),
 };
+

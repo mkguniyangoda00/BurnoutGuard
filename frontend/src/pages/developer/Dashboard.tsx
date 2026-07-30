@@ -168,6 +168,25 @@ const Dashboard: React.FC = () => {
         )}
       </Card>
 
+      {prediction && prediction.dataCompletenessScore !== null && (
+        <div
+          style={{
+            marginBottom: '20px',
+            padding: '10px 16px',
+            borderRadius: '10px',
+            fontSize: '12px',
+            fontWeight: 500,
+            backgroundColor: prediction.dataCompletenessScore >= 70 ? 'var(--success-light)' : 'var(--warning-light)',
+            color: prediction.dataCompletenessScore >= 70 ? 'var(--success)' : 'var(--warning)',
+            border: `1px solid ${prediction.dataCompletenessScore >= 70 ? 'var(--success)' : 'var(--warning)'}`,
+          }}
+        >
+          {prediction.dataCompletenessScore >= 70
+            ? `✓ ${prediction.dataCompletenessScore.toFixed(0)}% data completeness — this prediction is well-supported by your check-in history.`
+            : `⚠ This prediction may be less reliable — only ${prediction.dataCompletenessScore.toFixed(0)}% of inputs came from real check-in data; the rest were estimated.`}
+        </div>
+      )}
+
       {/* ── Metric Chips ──────────────────────────────────────────────── */}
       {prediction && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '28px' }}>
