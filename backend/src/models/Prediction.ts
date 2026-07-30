@@ -13,6 +13,7 @@ export interface Prediction {
   trendDirection: TrendDirection;
   previousRiskScore: number | null;
   scoreChange: number | null;
+  dataCompletenessScore: number | null;
   createdBy: string;
   createdDateTime: Date;
   modifiedBy: string;

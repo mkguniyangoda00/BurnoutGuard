@@ -14,6 +14,7 @@ export class PredictionRepository {
       trendDirection: string;
       previousRiskScore?: number;
       scoreChange?: number;
+      dataCompletenessScore?: number;
       createdBy: string;
       modifiedBy: string;
     },

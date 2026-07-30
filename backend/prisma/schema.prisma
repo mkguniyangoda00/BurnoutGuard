@@ -212,6 +212,7 @@ model BurnoutPrediction {
   riskLevel         RiskLevel
   modelVersion      String
   checkInsUsed      Int
+  dataCompletenessScore Float?
   predictionDate    DateTime
   isLatest          Boolean        @default(true)
   trendDirection    TrendDirection @default(Stable)

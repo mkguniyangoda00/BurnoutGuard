@@ -61,27 +61,41 @@ export function encodeWorkModel(workModel: string | null | undefined): number {
  * workModel comes from the user's DeveloperProfile (not stored per
  * check-in, since it rarely changes day-to-day) and is merged in separately.
  */
+export interface AggregatedFeatures {
+  features: Record<string, number>;
+  dataCompletenessScore: number; // 0-100, % of fields backed by real check-in data
+}
+
 export function aggregateCheckIns(
   checkIns: CheckIn[],
   workModel?: string | null
-): Record<string, number> {
+): AggregatedFeatures {
   const workModeEncoded = encodeWorkModel(workModel);
 
   if (!checkIns || checkIns.length === 0) {
-    return { ...NEUTRAL_DEFAULTS, workModeEncoded };
+    // workModeEncoded still counts as "real" only if workModel was provided
+    const completeness = workModel ? (1 / FEATURE_COLUMNS.length) * 100 : 0;
+    return {
+      features: { ...NEUTRAL_DEFAULTS, workModeEncoded },
+      dataCompletenessScore: parseFloat(completeness.toFixed(1)),
+    };
   }
 
   const sums: Record<string, number> = {};
+  const presentCounts: Record<string, number> = {};
   for (const col of FEATURE_COLUMNS) {
-    if (col === 'workModeEncoded') continue; // not a per-check-in field
+    if (col === 'workModeEncoded') continue;
     sums[col] = 0;
+    presentCounts[col] = 0;
   }
 
   for (const c of checkIns) {
-    const record = c as unknown as Record<string, number | boolean>;
+    const record = c as unknown as Record<string, number | boolean | undefined>;
     for (const col of FEATURE_COLUMNS) {
       if (col === 'workModeEncoded') continue;
       const value = record[col];
+      const isPresent = value !== undefined && value !== null;
+      if (isPresent) presentCounts[col]++;
       if (BOOLEAN_FIELDS.has(col)) {
         sums[col] += value ? 1 : 0;
       } else {
@@ -91,10 +105,17 @@ export function aggregateCheckIns(
   }
 
   const averaged: Record<string, number> = { workModeEncoded };
+  let presentFieldCount = workModel ? 1 : 0; // workModeEncoded counted if real
   for (const col of FEATURE_COLUMNS) {
     if (col === 'workModeEncoded') continue;
     averaged[col] = parseFloat((sums[col] / checkIns.length).toFixed(2));
+    // A field counts as "real" for this user if at least one check-in had it present
+    if (presentCounts[col] > 0) presentFieldCount++;
   }
 
-  return averaged;
+  const dataCompletenessScore = parseFloat(
+    ((presentFieldCount / FEATURE_COLUMNS.length) * 100).toFixed(1)
+  );
+
+  return { features: averaged, dataCompletenessScore };
 }

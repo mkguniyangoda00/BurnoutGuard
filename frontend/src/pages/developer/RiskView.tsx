@@ -77,6 +77,25 @@ const RiskView: React.FC = () => {
         <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Detailed breakdown of your risk score over time</p>
       </div>
 
+      {prediction.dataCompletenessScore !== null && (
+        <div
+          style={{
+            marginBottom: '20px',
+            padding: '10px 16px',
+            borderRadius: '10px',
+            fontSize: '12px',
+            fontWeight: 500,
+            backgroundColor: prediction.dataCompletenessScore >= 70 ? 'var(--success-light)' : 'var(--warning-light)',
+            color: prediction.dataCompletenessScore >= 70 ? 'var(--success)' : 'var(--warning)',
+            border: `1px solid ${prediction.dataCompletenessScore >= 70 ? 'var(--success)' : 'var(--warning)'}`,
+          }}
+        >
+          {prediction.dataCompletenessScore >= 70
+            ? `✓ ${prediction.dataCompletenessScore.toFixed(0)}% data completeness`
+            : `⚠ Lower confidence prediction — ${prediction.dataCompletenessScore.toFixed(0)}% data completeness (some inputs estimated)`}
+        </div>
+      )}
+
       {(() => {
   const RISK_CARD_STYLES: Record<string, { bg: string; border: string; color: string }> = {
     Low: { bg: '#F0FDF4', border: '#BBFBBC', color: 'var(--success)' },

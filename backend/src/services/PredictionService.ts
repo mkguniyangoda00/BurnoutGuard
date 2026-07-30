@@ -40,7 +40,7 @@ export class PredictionService {
     const developerProfile = await prisma.developerProfile.findUnique({
     where: { userId },
     });
-    const features = aggregateCheckIns(checkIns, developerProfile?.workModel);
+    const { features, dataCompletenessScore } = aggregateCheckIns(checkIns, developerProfile?.workModel);
     console.log(`[PredictionService] Aggregated feature vector for user ${userId}:`, features);
 
     console.log(`[PredictionService] Calling ML service for user ${userId}.`);
@@ -92,6 +92,7 @@ export class PredictionService {
           trendDirection,
           previousRiskScore,
           scoreChange,
+          dataCompletenessScore, // NEW
           createdBy: userId,
           modifiedBy: userId,
         } as any,
@@ -180,7 +181,7 @@ export class PredictionService {
     const developerProfile = await prisma.developerProfile.findUnique({
       where: { userId },
     });
-    const features = aggregateCheckIns(checkIns, developerProfile?.workModel);
+    const { features } = aggregateCheckIns(checkIns, developerProfile?.workModel);
     const result = await this.mlService.getWhatIf(userId, features, modifications);
 
     const actor = await this.getActor(userId);
