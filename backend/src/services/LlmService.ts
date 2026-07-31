@@ -75,7 +75,7 @@ export class LlmService {
       return text ?? null;
     } catch (err: any) {
       // Do NOT log err.config/data — could echo back the user message.
-      console.error('[LlmService] LLM call failed:', err.message);
+      console.error('[LlmService] LLM call failed:', err.response?.status, err.response?.data ?? err.message);
       return null;
     }
   }

@@ -49,8 +49,13 @@ export const Env: EnvConfig = {
   EMAIL_PORT: parseInt(getEnvOptional('EMAIL_PORT', '587'), 10),
   EMAIL_USER: getEnvOptional('EMAIL_USER'),
   EMAIL_PASS: getEnvOptional('EMAIL_PASS'),
-  LLM_API_URL: getEnvOptional('LLM_API_URL', 'https://api.anthropic.com/v1/messages'),
-  LLM_API_KEY: getEnvOptional('LLM_API_KEY'),
-  LLM_MODEL: getEnvOptional('LLM_MODEL', 'claude-sonnet-4-6'),
+  LLM_API_URL: getEnvOptional( 'LLM_API_URL', 'https://api.anthropic.com/v1/messages' ), 
+  LLM_API_KEY: getEnvOptional('LLM_API_KEY'), 
+  LLM_MODEL: getEnvOptional( 'LLM_MODEL', 'claude-sonnet-5' ),
+  
 };
+
+console.log("Loaded .env from:", path.join(__dirname, "../../.env"));
+console.log("LLM_API_KEY exists:", !!process.env.LLM_API_KEY);
+console.log("LLM_MODEL:", process.env.LLM_MODEL);
 
