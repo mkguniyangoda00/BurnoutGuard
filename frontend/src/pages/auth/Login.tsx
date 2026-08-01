@@ -22,10 +22,12 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuthStore } from '../../store/auth.store';
 import { authService } from '../../services/auth.service';
+import { useTranslation } from 'react-i18next';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -92,10 +94,10 @@ const Login: React.FC = () => {
               marginBottom: '8px',
             }}
           >
-            Burnout<span style={{ color: 'var(--orange)' }}>Guard</span>
+            {t('auth.loginTitle')}<span style={{ color: 'var(--orange)' }}>Guard</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px' }}>
-            Sign in to continue to your dashboard
+            {t('auth.loginSubtitle')}
           </p>
         </div>
 
@@ -122,7 +124,7 @@ const Login: React.FC = () => {
                 htmlFor="loginEmail"
                 style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}
               >
-                Email Address
+                {t('auth.email')}
               </label>
               <input
                 id="loginEmail"
@@ -148,7 +150,7 @@ const Login: React.FC = () => {
                 htmlFor="loginPassword"
                 style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}
               >
-                Password
+                {t('auth.password')}
               </label>
               <input
                 id="loginPassword"
@@ -175,7 +177,7 @@ const Login: React.FC = () => {
               disabled={isLoading}
               style={{ marginTop: '8px', padding: '12px', opacity: isLoading ? 0.7 : 1 }}
             >
-              {isLoading ? 'Signing in…' : 'Sign In'}
+              {isLoading ? 'Signing in…' : t('auth.loginButton')}
             </Button>
 
             <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0', gap: '8px' }}>
@@ -210,9 +212,9 @@ const Login: React.FC = () => {
             </div>
 
             <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
-              Don't have an account?{' '}
+              {t('auth.loginPrompt')} {' '}
               <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 500 }}>
-                Register
+                {t('auth.registerLink')}
               </Link>
             </div>
           </form>

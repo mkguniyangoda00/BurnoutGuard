@@ -6,6 +6,8 @@ export const registerSchema = z.object({
   fullName: z.string().min(2),
   role: z.enum(['Developer', 'Manager', 'HRofficer', 'Admin', 'ResearchAdmin']),
   company: z.string().optional(),
+  consentGiven: z.boolean(),
+  researchParticipation: z.boolean().optional(),
 });
 
 export const loginSchema = z.object({

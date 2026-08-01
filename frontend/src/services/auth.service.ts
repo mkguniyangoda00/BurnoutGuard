@@ -8,6 +8,8 @@ export const authService = {
     fullName: string;
     role: string;
     company?: string;
+    consentGiven: boolean;
+    researchParticipation?: boolean;
   }) => {
     const res = await client.post('/auth/register', data);
     return res.data;
@@ -35,6 +37,14 @@ export const authService = {
     const res = await client.put('/auth/settings', { emailNotificationsEnabled });
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     user.emailNotificationsEnabled = emailNotificationsEnabled;
+    localStorage.setItem('user', JSON.stringify(user));
+    return res.data;
+  },
+
+  withdrawResearchParticipation: async () => {
+    const res = await client.put('/auth/consent', {});
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    user.researchParticipation = false;
     localStorage.setItem('user', JSON.stringify(user));
     return res.data;
   },

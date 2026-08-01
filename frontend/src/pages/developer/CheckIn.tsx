@@ -21,6 +21,7 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { checkinService, type CheckInPayload } from '../../services/checkin.service';
 import { Loader2, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * ScaleInput — reusable 1-to-N button scale selector.
@@ -71,6 +72,7 @@ const ScaleInput: React.FC<{
 const CheckIn: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   // ── Form state — each field mirrors the backend CheckInPayload interface ──
   const [formData, setFormData] = useState<CheckInPayload>({
@@ -163,17 +165,17 @@ const CheckIn: React.FC = () => {
           <div style={{ textAlign: 'center', maxWidth: '500px' }}>
             <CheckCircle size={64} style={{ color: 'var(--success)', margin: '0 auto 24px', display: 'block' }} />
             <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
-              Check-in Submitted!
+              {t('checkin.successTitle')}
             </h2>
             <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '32px' }}>
-              Great job. Your wellness data has been saved and used to update your burnout risk prediction, recommendations, and weekly wellness report immediately.
+              {t('checkin.successBody')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Button variant="secondary" onClick={() => navigate('/developer/dashboard')}>
-                Back to Dashboard
+                {t('checkin.backToDashboard')}
               </Button>
               <Button variant="primary" onClick={() => mutation.reset()}>
-                Submit Another
+                {t('checkin.submitAnother')}
               </Button>
             </div>
           </div>
@@ -187,24 +189,24 @@ const CheckIn: React.FC = () => {
       {/* ── Page Header ─────────────────────────────────────────────── */}
       <div className="flex justify-between items-start mb-7">
         <div>
-          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>Today's Check-in</h1>
+          <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>{t('checkin.title')}</h1>
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             {new Date().toLocaleDateString('en-US', {
               weekday: 'long', month: 'long', day: 'numeric',
-            })} · Takes about 90 seconds
+            })} · {t('checkin.subtitle')}
           </p>
         </div>
       </div>
 
       {/* ── Motivational Banner ──────────────────────────────────────── */}
       <div style={{ backgroundColor: 'var(--primary-light)', border: '1px solid #C7D5FA', borderRadius: '12px', padding: '14px 16px', fontSize: '13px', color: 'var(--primary)', marginBottom: '24px', fontWeight: 500 }}>
-        💡 Submit today's check-in to get your updated burnout risk score.
+        💡 {t('checkin.banner')}
       </div>
 
       <form onSubmit={handleSubmit}>
         {/* ── Sleep & Rest Section ──────────────────────────────────── */}
         <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>😴 Sleep & Rest</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>😴 {t('checkin.sleep')}</h2>
           <div className="grid grid-cols-2 gap-x-12 gap-y-6">
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -234,7 +236,7 @@ const CheckIn: React.FC = () => {
 
         {/* ── Physical Activity Section ──────────────────────────────── */}
         <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>🏃 Physical Activity</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>🏃 {t('checkin.physical')}</h2>
           <div className="grid grid-cols-2 gap-x-12 gap-y-6">
             <div>
               <ScaleInput
@@ -264,7 +266,7 @@ const CheckIn: React.FC = () => {
 
         {/* ── Work & Productivity Section ────────────────────────────── */}
         <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>💼 Work & Productivity</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>💼 {t('checkin.work')}</h2>
           <div className="grid grid-cols-2 gap-x-12 gap-y-6">
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -343,7 +345,7 @@ const CheckIn: React.FC = () => {
 
         {/* ── Work Patterns Section ──────────────────────────────────── */}
         <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>📊 Work Patterns</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>📊 {t('checkin.patterns')}</h2>
           <div className="grid grid-cols-2 gap-x-12 gap-y-6">
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>

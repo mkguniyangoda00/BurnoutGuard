@@ -29,6 +29,8 @@ export interface User {
   company?: string;
   isActive: boolean;
   emailNotificationsEnabled?: boolean; 
+  consentGivenAt?: string | null;
+  researchParticipation?: boolean;
   // Computed field for display in the navbar avatar
   avatarInitials?: string;
 }

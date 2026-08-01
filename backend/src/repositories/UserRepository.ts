@@ -9,6 +9,8 @@ export class UserRepository {
     role: string;
     company?: string;
     googleId?: string | null;
+    consentGivenAt?: Date | null;
+    researchParticipation?: boolean;
     createdBy: string;
     modifiedBy: string;
   }): Promise<User> {

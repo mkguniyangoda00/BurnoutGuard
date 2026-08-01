@@ -111,3 +111,42 @@ def explain_prediction(model, scaler, feature_df, predicted_class: int, backgrou
         del row["_absShap"]
 
     return rows
+
+
+def compute_global_feature_importance(model, X_sample, background=None):
+    """
+    Computes mean absolute SHAP value per feature across a representative
+    sample. Returns a list of {featureName, meanAbsShap} sorted descending.
+    """
+    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_")
+
+    if is_tree_model:
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(X_sample)
+    else:
+        if background is None:
+            background = X_sample
+        explainer = shap.Explainer(model, background)
+        shap_values = explainer.shap_values(X_sample)
+
+    if isinstance(shap_values, list):
+        # Average absolute SHAP across classes and samples.
+        arr = np.stack([np.abs(np.asarray(v)) for v in shap_values], axis=0)
+        feature_scores = arr.mean(axis=(0, 1))
+    else:
+        arr = np.asarray(shap_values)
+        if arr.ndim == 3:
+          # (samples, features, classes)
+            feature_scores = np.abs(arr).mean(axis=(0, 2))
+        else:
+            feature_scores = np.abs(arr).mean(axis=0)
+
+    rows = []
+    for idx, feature_name in enumerate(FEATURE_COLUMNS):
+        rows.append({
+            "featureName": feature_name,
+            "meanAbsShap": round(float(feature_scores[idx]), 6),
+        })
+
+    rows.sort(key=lambda row: row["meanAbsShap"], reverse=True)
+    return rows

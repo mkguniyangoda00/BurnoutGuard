@@ -25,6 +25,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Loader2, AlertTriangle, TrendingUp } from 'lucide-react';
 import { usePrediction } from '../../hooks/usePrediction';
 import { useCheckin } from '../../hooks/useCheckin';
+import { useTranslation } from 'react-i18next';
 
 /** Maps backend RiskLevel enum values to display colours */
 const RISK_COLORS: Record<string, string> = {
@@ -37,6 +38,7 @@ const RISK_COLORS: Record<string, string> = {
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useTranslation();
   const { prediction, isLoading: predLoading, isError: predError, isEmpty } = usePrediction();
   const { streak } = useCheckin();
   const riskColor = prediction ? RISK_COLORS[prediction.riskLevel] ?? '#6B7280' : '#6B7280';
@@ -52,9 +54,9 @@ const Dashboard: React.FC = () => {
   // Greeting based on time of day — a small but impactful UX detail
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return t('dashboard.hello');
+    if (hour < 17) return t('dashboard.afternoon');
+    return t('dashboard.evening');
   };
 
   return (
@@ -74,7 +76,7 @@ const Dashboard: React.FC = () => {
         </div>
         {/* Clicking this navigates to the Check-In form */}
         <Button variant="primary" onClick={() => navigate('/developer/check-in')}>
-          + Daily Check-in
+          + {t('navbar.checkIn')}
         </Button>
       </div>
 
@@ -97,20 +99,20 @@ const Dashboard: React.FC = () => {
           // Show a spinner while data is loading
           <div className="flex items-center gap-3 text-white/70">
             <Loader2 className="animate-spin" size={20} />
-            <span>Loading your latest prediction...</span>
+            <span>{t('dashboard.loading')}</span>
           </div>
         ) : predError || isEmpty ? (
           // Friendly message when no prediction exists yet
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-white/50 uppercase tracking-wider">Burnout Risk</span>
+            <span className="text-xs text-white/50 uppercase tracking-wider">{t('dashboard.currentRisk')}</span>
             <p className="text-white/70 text-sm">
-              No check-ins yet. Submit your first check-in to see your burnout risk.
+              {t('dashboard.noPrediction')}
             </p>
             <button
               className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full w-fit hover:bg-white/20 transition-colors mt-1"
               onClick={() => navigate('/developer/check-in')}
             >
-              Start Check-in →
+              {t('navbar.checkIn')} →
             </button>
           </div>
         ) : (
@@ -118,7 +120,7 @@ const Dashboard: React.FC = () => {
           <>
             <div>
               <span className="text-xs text-white/70 uppercase tracking-wider">
-                Current Burnout Risk
+                {t('dashboard.currentRisk')}
               </span>
               <h2 className="text-4xl font-bold mt-2" style={{ color: riskColor }}>
                 {prediction.riskLevel}
@@ -136,7 +138,7 @@ const Dashboard: React.FC = () => {
                 className="text-xs bg-white/10 text-white/80 px-4 py-1.5 rounded-full hover:bg-white/20 transition-colors"
                 onClick={() => navigate('/developer/explanation')}
               >
-                View explanation →
+                {t('dashboard.viewExplanation')}
               </button>
             </div>
 
@@ -222,7 +224,7 @@ const Dashboard: React.FC = () => {
         <Card style={{ marginBottom: '20px', padding: '20px' }}>
           <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 600 }}>
             <AlertTriangle size={15} className="text-amber-500" />
-            Top risk factors this week
+            {t('dashboard.topRiskFactors')}
           </h3>
           <div className="flex flex-col gap-3">
             {topRiskFactors.map((factor: any, i: number) => (
@@ -250,7 +252,7 @@ const Dashboard: React.FC = () => {
             className="mt-3 text-xs text-primary font-medium flex items-center gap-1 hover:underline"
             onClick={() => navigate('/developer/explanation')}
           >
-            <TrendingUp size={12} /> See full SHAP waterfall chart
+            <TrendingUp size={12} /> {t('dashboard.seeFullWaterfall')}
           </button>
         </Card>
       )}

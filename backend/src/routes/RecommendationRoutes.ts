@@ -16,5 +16,6 @@ router.get('/all', Authenticate, recController.getAll);
 router.get('/by-prediction/:predictionId', Authenticate, recController.getByPrediction);
 router.put('/:id/complete', Authenticate, authorize(['Developer']), recController.complete);
 router.put('/:id/dismiss', Authenticate, authorize(['Developer']), recController.dismiss);
+router.put('/:id/effectiveness', Authenticate, authorize(['Developer']), recController.updateEffectiveness);
 
 export default router;

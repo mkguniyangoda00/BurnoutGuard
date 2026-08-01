@@ -4,6 +4,7 @@ import { RiskLevel, AlertType, AlertSeverity } from '@prisma/client';
 import { EmailService } from './EmailService';
 import { UserRepository } from '../repositories/UserRepository';
 import { Env } from '../config/env';
+import { getAlertThresholdValue, ALERT_THRESHOLD_DEFAULTS } from '../utils/AlertThresholds';
 
 interface PredictionContext {
   predictionId: string;
@@ -12,10 +13,6 @@ interface PredictionContext {
   previousRiskScore?: number | null;
   scoreChange?: number | null;
 }
-
-// Matches the same 0.05 threshold PredictionService already uses to decide
-// trendDirection ('Improving'/'Worsening'/'Stable') — kept consistent.
-const WORSENING_THRESHOLD = 0.05;
 
 export class AlertService {
   private userRepo: UserRepository;
@@ -35,10 +32,14 @@ export class AlertService {
    */
   async evaluateAndNotify(userId: string, prediction: PredictionContext): Promise<Alert | null> {
     const { riskLevel, riskScore, scoreChange } = prediction;
+    const worseningThreshold = await getAlertThresholdValue(
+      'worseningTrendThreshold',
+      ALERT_THRESHOLD_DEFAULTS.worseningTrendThreshold.value
+    );
 
     const isHighRisk = riskLevel === 'High' || riskLevel === 'Critical';
-    const isWorsening = scoreChange !== undefined && scoreChange !== null && scoreChange > WORSENING_THRESHOLD;
-    const isImproving = scoreChange !== undefined && scoreChange !== null && scoreChange < -WORSENING_THRESHOLD;
+    const isWorsening = scoreChange !== undefined && scoreChange !== null && scoreChange > worseningThreshold;
+    const isImproving = scoreChange !== undefined && scoreChange !== null && scoreChange < -worseningThreshold;
 
     console.log(
       `[AlertService] Evaluating prediction ${prediction.predictionId} — ` +
@@ -153,11 +154,25 @@ export class AlertService {
   }
 
   async checkPoorSleepPattern(userId: string, recentCheckIns: { sleepHours: number }[]): Promise<Alert | null> {
-    const last3 = recentCheckIns.slice(0, 3);
-    if (last3.length < 3) return null;
+    const sleepThreshold = await getAlertThresholdValue(
+      'poorSleepHoursThreshold',
+      ALERT_THRESHOLD_DEFAULTS.poorSleepHoursThreshold.value
+    );
+    const windowDays = Math.max(
+      1,
+      Math.round(
+        await getAlertThresholdValue(
+          'poorSleepDaysWindow',
+          ALERT_THRESHOLD_DEFAULTS.poorSleepDaysWindow.value
+        )
+      )
+    );
 
-    const allBelowSix = last3.every((c) => c.sleepHours < 6);
-    if (!allBelowSix) return null;
+    const lastDays = recentCheckIns.slice(0, windowDays);
+    if (lastDays.length < windowDays) return null;
+
+    const allBelowThreshold = lastDays.every((c) => c.sleepHours < sleepThreshold);
+    if (!allBelowThreshold) return null;
 
     console.log(`[AlertService] Poor sleep pattern detected for user ${userId} — creating alert.`);
 
@@ -166,7 +181,7 @@ export class AlertService {
       predictionId: null,
       alertType: AlertType.InApp,
       severity: AlertSeverity.Warning,
-      message: 'Your sleep has been under 6 hours for 3+ days in a row. Poor sleep is one of the strongest burnout risk drivers — consider prioritizing rest this week.',
+      message: `Your sleep has been under ${sleepThreshold} hours for ${windowDays}+ days in a row. Poor sleep is one of the strongest burnout risk drivers — consider prioritizing rest this week.`,
       sentAt: new Date(),
       createdBy: 'system',
       modifiedBy: 'system',

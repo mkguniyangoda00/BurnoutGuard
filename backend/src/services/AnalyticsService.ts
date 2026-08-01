@@ -8,9 +8,30 @@ export class AnalyticsService {
     private checkInRepo: CheckInRepository
   ) {}
 
-  async getTeamHeatmap() {
+  async getTeamHeatmap(params?: { workMode?: string; riskPeriod?: string }) {
+    const { workMode, riskPeriod } = params ?? {};
+    const cutoff = (() => {
+      switch (riskPeriod) {
+        case 'This Week':
+          return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        case 'Last 4 Weeks':
+          return new Date(Date.now() - 28 * 24 * 60 * 60 * 1000);
+        case 'Last 3 Months':
+          return new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+        default:
+          return undefined;
+      }
+    })();
+
     const developers = await prisma.user.findMany({
-      where: { role: 'Developer', isActive: true },
+      where: {
+        role: 'Developer',
+        isActive: true,
+        ...(workMode && workMode !== 'All'
+          ? { developerProfile: { is: { workModel: workMode as any } } }
+          : {}),
+      },
+      include: { developerProfile: true },
       orderBy: { userId: 'asc' },
     });
 
@@ -19,7 +40,10 @@ export class AnalyticsService {
 
     for (const dev of developers) {
       const predictions = await prisma.burnoutPrediction.findMany({
-        where: { userId: dev.userId },
+        where: {
+          userId: dev.userId,
+          ...(cutoff ? { predictionDate: { gte: cutoff } } : {}),
+        },
         orderBy: { predictionDate: 'desc' },
         take: 4,
       });

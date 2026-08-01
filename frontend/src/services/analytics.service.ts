@@ -17,8 +17,12 @@ export const analyticsService = {
     return res.data;
   },
 
-  getTeamHeatmap: async () => {
-    const res = await client.get('/analytics/heatmap');
+  getTeamHeatmap: async (params?: { workMode?: string; riskPeriod?: string }) => {
+    const searchParams = new URLSearchParams();
+    if (params.workMode) searchParams.set('workMode', params.workMode);
+    if (params.riskPeriod) searchParams.set('riskPeriod', params.riskPeriod);
+    const queryString = searchParams.toString();
+    const res = await client.get(`/analytics/heatmap${queryString ? `?${queryString}` : ''}`);
     return res.data;
   },
 

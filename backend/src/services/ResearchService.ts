@@ -21,7 +21,10 @@ export class ResearchService {
     if (to) dateFilter.lte = to;
 
     const predictions = await prisma.burnoutPrediction.findMany({
-      where: from || to ? { predictionDate: dateFilter } : {},
+      where: {
+        ...(from || to ? { predictionDate: dateFilter } : {}),
+        user: { researchParticipation: true },
+      },
       include: includeShap ? { shapExplanations: true } : undefined,
       orderBy: { predictionDate: 'desc' },
     });

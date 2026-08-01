@@ -30,10 +30,12 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { authService } from '../../services/auth.service';
 import { useAuthStore } from '../../store/auth.store';
+import { useTranslation } from 'react-i18next';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -41,6 +43,8 @@ const Register: React.FC = () => {
     password: '',
     role: 'Developer',
     company: '',
+    consentGiven: false,
+    researchParticipation: true,
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -62,6 +66,10 @@ const Register: React.FC = () => {
     }
     if (formData.password.length < 8) {
       setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (!formData.consentGiven) {
+      setError('Please confirm consent before creating your account.');
       return;
     }
 
@@ -133,10 +141,10 @@ const Register: React.FC = () => {
               marginBottom: '8px',
             }}
           >
-            Join Burnout<span style={{ color: 'var(--orange)' }}>Guard</span>
+            {t('auth.registerTitle')}<span style={{ color: 'var(--orange)' }}>Guard</span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '13px' }}>
-            Create an account to start tracking
+            {t('auth.registerSubtitle')}
           </p>
         </div>
 
@@ -159,7 +167,7 @@ const Register: React.FC = () => {
             )}
 
             <div>
-              <label htmlFor="regFullName" style={labelStyle}>Full Name</label>
+              <label htmlFor="regFullName" style={labelStyle}>{t('auth.fullName')}</label>
               <input
                 id="regFullName"
                 name="fullName"
@@ -173,7 +181,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="regEmail" style={labelStyle}>Email Address</label>
+              <label htmlFor="regEmail" style={labelStyle}>{t('auth.email')}</label>
               <input
                 id="regEmail"
                 name="email"
@@ -187,7 +195,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="regPassword" style={labelStyle}>Password</label>
+              <label htmlFor="regPassword" style={labelStyle}>{t('auth.password')}</label>
               <input
                 id="regPassword"
                 name="password"
@@ -201,7 +209,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="regRole" style={labelStyle}>Role</label>
+              <label htmlFor="regRole" style={labelStyle}>{t('auth.role')}</label>
               <select
                 id="regRole"
                 name="role"
@@ -219,7 +227,7 @@ const Register: React.FC = () => {
 
             <div>
               <label htmlFor="regCompany" style={labelStyle}>
-                Company <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(optional)</span>
+                {t('auth.company')} <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>({t('auth.optional')})</span>
               </label>
               <input
                 id="regCompany"
@@ -232,13 +240,33 @@ const Register: React.FC = () => {
               />
             </div>
 
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              <input
+                type="checkbox"
+                checked={formData.consentGiven}
+                onChange={(e) => setFormData({ ...formData, consentGiven: e.target.checked })}
+                style={{ marginTop: '3px' }}
+              />
+              <span>{t('auth.consent')}</span>
+            </label>
+
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              <input
+                type="checkbox"
+                checked={formData.researchParticipation}
+                onChange={(e) => setFormData({ ...formData, researchParticipation: e.target.checked })}
+                style={{ marginTop: '3px' }}
+              />
+              <span>{t('auth.researchOptIn')}</span>
+            </label>
+
             <Button
               variant="primary"
               type="submit"
               disabled={isLoading}
               style={{ marginTop: '8px', padding: '12px', opacity: isLoading ? 0.7 : 1 }}
             >
-              {isLoading ? 'Creating Account…' : 'Create Account'}
+              {isLoading ? 'Creating Account…' : t('auth.registerButton')}
             </Button>
 
             <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0', gap: '8px' }}>
@@ -273,9 +301,9 @@ const Register: React.FC = () => {
             </div>
 
             <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
-              Already have an account?{' '}
+              {t('auth.registerPrompt')} {' '}
               <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 500 }}>
-                Sign In
+                {t('auth.loginLink')}
               </Link>
             </div>
           </form>

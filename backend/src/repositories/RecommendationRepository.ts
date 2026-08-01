@@ -53,6 +53,16 @@ export class RecommendationRepository {
     }) as unknown as Recommendation;
   }
 
+  async updateEffectiveness(recId: string, userId: string, score: number): Promise<Recommendation> {
+    return prisma.recommendation.update({
+      where: { recId },
+      data: {
+        effectivenessScore: score,
+        modifiedBy: userId,
+      },
+    }) as unknown as Recommendation;
+  }
+
   async findDismissedTitles(userId: string): Promise<string[]> {
     const dismissed = await prisma.recommendation.findMany({
       where: { userId, isDismissed: true },

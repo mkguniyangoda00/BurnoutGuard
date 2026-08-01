@@ -291,4 +291,26 @@ export class RecommendationService {
     });
     return rec;
   }
+
+  async updateEffectiveness(recId: string, userId: string, score: number): Promise<Recommendation> {
+    if (!Number.isFinite(score) || score < 1 || score > 5) {
+      const err: any = new Error('Effectiveness score must be between 1 and 5');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const rec = await this.recRepo.updateEffectiveness(recId, userId, score);
+    const actor = await this.getActor(userId);
+    void auditLogService.log({
+      ...actor,
+      action: 'RECOMMENDATION_EFFECTIVENESS',
+      entityType: 'Recommendation',
+      entityId: recId,
+      result: 'Success',
+      details: `Effectiveness score ${score}`,
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue recommendation effectiveness log:', err.message);
+    });
+    return rec;
+  }
 }
