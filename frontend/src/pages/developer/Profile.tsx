@@ -14,6 +14,9 @@ const Profile: React.FC = () => {
   const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(
     user?.emailNotificationsEnabled ?? true
   );
+  const [researchParticipation, setResearchParticipation] = useState(
+    user?.researchParticipation ?? true
+  );
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
@@ -29,6 +32,23 @@ const Profile: React.FC = () => {
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
       console.error('Failed to update email preferences', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleWithdrawResearchParticipation = async () => {
+    setIsSaving(true);
+    try {
+      const res = await authService.withdrawResearchParticipation();
+      if (res && res.user) {
+        setUser(res.user);
+      }
+      setResearchParticipation(false);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to withdraw research participation', err);
     } finally {
       setIsSaving(false);
     }
@@ -85,6 +105,35 @@ const Profile: React.FC = () => {
               ✓ Preferences updated successfully
             </span>
           )}
+        </div>
+      </Card>
+
+      <Card style={{ marginTop: '20px' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Research Participation</h2>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px' }}>
+          Your anonymized data may be included in research exports unless you withdraw participation.
+        </p>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-secondary)' }}>
+          <input
+            type="checkbox"
+            checked={researchParticipation}
+            onChange={async (e) => {
+              if (!e.target.checked && researchParticipation) {
+                await handleWithdrawResearchParticipation();
+              }
+            }}
+            disabled={researchParticipation === false}
+          />
+          Participate in anonymized research exports
+        </label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
+          <Button
+            variant="secondary"
+            onClick={handleWithdrawResearchParticipation}
+            disabled={isSaving || researchParticipation === false}
+          >
+            {researchParticipation === false ? 'Participation withdrawn' : 'Withdraw research participation'}
+          </Button>
         </div>
       </Card>
     </PageWrapper>

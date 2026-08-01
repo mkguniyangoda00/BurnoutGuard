@@ -7,12 +7,22 @@ import { useState } from 'react';
 const ModelManagement: React.FC = () => {
   const queryClient = useQueryClient();
   const [retrainMessage, setRetrainMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [thresholdDrafts, setThresholdDrafts] = useState<Record<string, { value: string; description: string }>>({});
 
   const { data: models } = useQuery({
     queryKey: ['admin', 'models'],
     queryFn: adminService.getModels, // verify this already exists in admin.service.ts; add if missing:
     // getModels: async () => { const res = await client.get('/admin/models'); return res.data.metrics; }
   });
+
+  const { data: thresholds } = useQuery({
+    queryKey: ['admin', 'alert-thresholds'],
+    queryFn: adminService.getAlertThresholds,
+  });
+
+  const globalFeatureImportance = Array.isArray(models?.[0]?.globalFeatureImportance)
+    ? models[0].globalFeatureImportance
+    : [];
 
   const retrainMutation = useMutation({
     mutationFn: adminService.retrainModel,
@@ -28,6 +38,19 @@ const ModelManagement: React.FC = () => {
       setRetrainMessage({ type: 'error', text: 'Failed to trigger retrain. Is ml-service running?' });
     },
   });
+
+  const thresholdUpdateMutation = useMutation({
+    mutationFn: ({ thresholdKey, value, description }: { thresholdKey: string; value: string; description: string }) =>
+      adminService.updateAlertThreshold(thresholdKey, {
+        value: Number(value),
+        description,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'alert-thresholds'] });
+    },
+  });
+
+  const thresholdRows = Array.isArray(thresholds) ? thresholds : [];
   return (
     <PageWrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
@@ -125,6 +148,79 @@ const ModelManagement: React.FC = () => {
             <div style={{ width: '12px', height: '12px', borderRadius: '2px', backgroundColor: 'var(--warning)' }}></div>
             <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>v1.2</span>
           </div>
+        </div>
+      </div>
+
+      {globalFeatureImportance.length > 0 && (
+        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginTop: '20px' }}>
+          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '14px' }}>Global feature importance</h2>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>Mean absolute SHAP contribution across the training sample</p>
+          <div style={{ display: 'grid', gap: '10px' }}>
+            {globalFeatureImportance.slice(0, 10).map((row: any, idx: number) => {
+              const maxImportance = globalFeatureImportance[0]?.meanAbsShap || 1;
+              const width = Math.max((row.meanAbsShap / maxImportance) * 100, 4);
+              const featureLabel = row.featureName.replace(/([A-Z])/g, ' $1').trim();
+              return (
+                <div key={row.featureName} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 72px', gap: '12px', alignItems: 'center' }}>
+                  <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{idx + 1}. {featureLabel}</span>
+                  <div style={{ height: '8px', borderRadius: '999px', backgroundColor: 'var(--soft-fill)', overflow: 'hidden' }}>
+                    <div style={{ width: `${width}%`, height: '100%', backgroundColor: 'var(--primary)', borderRadius: '999px' }} />
+                  </div>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', textAlign: 'right' }}>{row.meanAbsShap.toFixed(4)}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginTop: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Alert threshold settings</h2>
+        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>Edit the stored thresholds that drive alerts and prediction trend detection.</p>
+        <div style={{ display: 'grid', gap: '14px' }}>
+          {thresholdRows.map((threshold: any) => {
+            const draft = thresholdDrafts[threshold.thresholdKey] ?? {
+              value: String(threshold.value),
+              description: threshold.description,
+            };
+
+            return (
+              <div key={threshold.thresholdKey} style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '14px', display: 'grid', gap: '10px' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{threshold.thresholdKey}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{threshold.description}</div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr auto', gap: '10px', alignItems: 'center' }}>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={draft.value}
+                    onChange={(e) => setThresholdDrafts((current) => ({
+                      ...current,
+                      [threshold.thresholdKey]: { ...draft, value: e.target.value },
+                    }))}
+                    style={{ padding: '9px 10px', borderRadius: '8px', border: '1px solid var(--border)' }}
+                  />
+                  <input
+                    type="text"
+                    value={draft.description}
+                    onChange={(e) => setThresholdDrafts((current) => ({
+                      ...current,
+                      [threshold.thresholdKey]: { ...draft, description: e.target.value },
+                    }))}
+                    style={{ padding: '9px 10px', borderRadius: '8px', border: '1px solid var(--border)' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => thresholdUpdateMutation.mutate({ thresholdKey: threshold.thresholdKey, value: draft.value, description: draft.description })}
+                    style={{ padding: '9px 14px', borderRadius: '8px', backgroundColor: 'var(--primary)', color: 'white', border: 'none', fontSize: '13px', fontWeight: 500 }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </PageWrapper>

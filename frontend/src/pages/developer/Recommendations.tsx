@@ -34,8 +34,9 @@ const RecCard: React.FC<{
   rec: any;
   dayLabel?: string;
   onToggleComplete: (rec: any) => void;
+  onRateEffectiveness: (rec: any, score: number) => void;
   isPending: boolean;
-}> = ({ rec, dayLabel, onToggleComplete, isPending }) => {
+}> = ({ rec, dayLabel, onToggleComplete, onRateEffectiveness, isPending }) => {
   const iconMeta = CATEGORY_ICONS[rec.category] ?? { icon: '💡', bg: 'var(--soft-fill)' };
   const priorityMeta = getPriorityBand(rec.priority, !!dayLabel);
 
@@ -108,6 +109,33 @@ const RecCard: React.FC<{
           >
             {priorityMeta.label}
           </span>
+          {rec.isCompleted && rec.effectivenessScore == null && (
+            <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>Did this help?</p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {[1, 2, 3, 4, 5].map((score) => (
+                  <button
+                    key={score}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRateEffectiveness(rec, score);
+                    }}
+                    style={{
+                      padding: '6px 10px',
+                      borderRadius: '999px',
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg)',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {score}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>
@@ -135,6 +163,13 @@ const Recommendations: React.FC = () => {
     },
   });
 
+  const effectivenessMutation = useMutation({
+    mutationFn: ({ recId, score }: { recId: string; score: number }) => recommendationService.setEffectiveness(recId, score),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recommendations'] });
+    },
+  });
+
   const recommendations = Array.isArray(rawRecs) ? rawRecs : [];
   const isRecoveryPlan =
     (prediction?.riskLevel === 'High' || prediction?.riskLevel === 'Critical') &&
@@ -143,6 +178,10 @@ const Recommendations: React.FC = () => {
   const handleToggle = (rec: any) => {
     if (rec.isCompleted) return; // no "un-complete" action for now — keep it simple
     completeMutation.mutate(rec.recId);
+  };
+
+  const handleRateEffectiveness = (rec: any, score: number) => {
+    effectivenessMutation.mutate({ recId: rec.recId, score });
   };
 
   if (predLoading || isLoading) {
@@ -229,6 +268,7 @@ const Recommendations: React.FC = () => {
               rec={rec}
               dayLabel={isRecoveryPlan ? `Day ${idx + 1}` : undefined}
               onToggleComplete={handleToggle}
+              onRateEffectiveness={handleRateEffectiveness}
               isPending={completeMutation.isPending}
             />
           ))}

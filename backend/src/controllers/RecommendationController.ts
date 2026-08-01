@@ -51,4 +51,14 @@ export class RecommendationController {
       next(err);
     }
   };
+
+  updateEffectiveness = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const score = Number(req.body?.score);
+      const rec = await this.recService.updateEffectiveness(req.params.id, req.user!.userId, score);
+      res.status(200).json({ recommendation: rec });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

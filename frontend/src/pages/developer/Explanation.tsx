@@ -9,7 +9,7 @@ import { usePrediction } from '../../hooks/usePrediction';
 const Explanation: React.FC = () => {
   const navigate = useNavigate();
 
-  const { prediction, isLoading, isError, isEmpty } = usePrediction();
+  const { prediction, dimensionBreakdown, isLoading, isError, isEmpty } = usePrediction();
 
   if (isLoading) {
     return (
@@ -187,7 +187,7 @@ const Explanation: React.FC = () => {
       </Card>
       
       {/* ── Burnout Dimension Breakdown (WHO framework) ─────────────── */}
-      {prediction.dimensionBreakdown?.length > 0 && (
+      {dimensionBreakdown.length > 0 && (
         <div style={{ marginBottom: '32px' }}>
           <div style={{ marginBottom: '20px' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '4px' }}>
@@ -199,7 +199,7 @@ const Explanation: React.FC = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            {[...prediction.dimensionBreakdown]
+            {[...dimensionBreakdown]
               .sort((a: any, b: any) => b.normalizedPct - a.normalizedPct)
               .map((dim: any, idx: number) => {
                 const isTop = idx === 0;

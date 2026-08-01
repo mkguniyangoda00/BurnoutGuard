@@ -18,6 +18,8 @@ export interface User {
   lastLoginAt: Date | null;
   googleId: string | null;
   emailNotificationsEnabled: boolean;
+  consentGivenAt: Date | null;
+  researchParticipation: boolean;
   createdBy: string;
   createdDateTime: Date;
   modifiedBy: string;

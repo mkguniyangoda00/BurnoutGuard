@@ -9,6 +9,8 @@ interface User {
   company?: string;
   isActive: boolean;
   emailNotificationsEnabled?: boolean;
+  consentGivenAt?: string | null;
+  researchParticipation?: boolean;
 }
 
 interface AuthState {

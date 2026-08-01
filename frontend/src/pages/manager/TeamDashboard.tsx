@@ -9,18 +9,20 @@
  * allowing the manager to identify team-wide stress patterns.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
-import { useQuery as useQueryHotspots } from '@tanstack/react-query';
 
 const TeamDashboard: React.FC = () => {
+  const [workMode, setWorkMode] = useState('All');
+  const [riskPeriod, setRiskPeriod] = useState('This Week');
+
   // ── Fetch Heatmap Data from Backend ──────────────────────────────
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['analytics', 'heatmap'],
-    queryFn: analyticsService.getTeamHeatmap,
+    queryKey: ['analytics', 'heatmap', workMode, riskPeriod],
+    queryFn: () => analyticsService.getTeamHeatmap({ workMode, riskPeriod }),
   });
 
   const members = Array.isArray(data?.members) ? data.members : [];
@@ -72,11 +74,24 @@ const TeamDashboard: React.FC = () => {
         <select className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none">
           <option>Department: Engineering</option>
         </select>
-        <select className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none">
-          <option>Work Mode: All</option>
+        <select
+          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
+          value={workMode}
+          onChange={(e) => setWorkMode(e.target.value)}
+        >
+          <option value="All">Work Mode: All</option>
+          <option value="Remote">Work Mode: Remote</option>
+          <option value="Hybrid">Work Mode: Hybrid</option>
+          <option value="Onsite">Work Mode: Onsite</option>
         </select>
-        <select className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none">
-          <option>Risk Period: This Week</option>
+        <select
+          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
+          value={riskPeriod}
+          onChange={(e) => setRiskPeriod(e.target.value)}
+        >
+          <option value="This Week">Risk Period: This Week</option>
+          <option value="Last 4 Weeks">Risk Period: Last 4 Weeks</option>
+          <option value="Last 3 Months">Risk Period: Last 3 Months</option>
         </select>
       </div>
 

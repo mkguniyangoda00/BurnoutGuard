@@ -62,6 +62,37 @@ async function main() {
     }
   }
 
+  // ── Seed alert thresholds ─────────────────────────────────────────
+  console.log('Seeding alert thresholds...');
+  const thresholdSeed = [
+    {
+      thresholdKey: 'worseningTrendThreshold',
+      value: 0.05,
+      description: 'Minimum risk-score increase required before sending a worsening alert.',
+    },
+    {
+      thresholdKey: 'poorSleepHoursThreshold',
+      value: 6,
+      description: 'Sleep-hours threshold used when checking poor sleep patterns.',
+    },
+    {
+      thresholdKey: 'poorSleepDaysWindow',
+      value: 3,
+      description: 'Consecutive days below the sleep threshold required to trigger a sleep alert.',
+    },
+  ];
+
+  for (const threshold of thresholdSeed) {
+    await (prisma as any).alertThreshold.upsert({
+      where: { thresholdKey: threshold.thresholdKey },
+      update: {
+        value: threshold.value,
+        description: threshold.description,
+      },
+      create: threshold,
+    });
+  }
+
   // Generate historical dummy predictions for all developers
   const developers = createdUsers.filter(u => u.role === 'Developer');
   

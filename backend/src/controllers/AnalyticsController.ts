@@ -6,7 +6,10 @@ export class AnalyticsController {
 
   getTeamHeatmap = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.analyticsService.getTeamHeatmap();
+      const data = await this.analyticsService.getTeamHeatmap({
+        workMode: req.query.workMode as string | undefined,
+        riskPeriod: req.query.riskPeriod as string | undefined,
+      });
       res.status(200).json(data);
     } catch (err) {
       next(err);

@@ -26,6 +26,7 @@ import './styles/index.css';
 import './App.css';
 import App from './App.tsx';
 import { ThemeProvider } from './context/ThemeContext';
+import './i18n';
 
 // Configure the React Query client with sensible defaults
 // const queryClient = new QueryClient({

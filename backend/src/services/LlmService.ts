@@ -30,14 +30,19 @@ Rules:
 
 export class LlmService {
   private timeoutMs = 8000;
+  private providerDisabledReason: string | null = null;
 
   private isConfigured(): boolean {
-    return !!Env.LLM_API_KEY;
+    return !!Env.LLM_API_KEY && !this.providerDisabledReason;
   }
 
   async getChatReply(userMessage: string, context: LlmChatContext): Promise<string | null> {
     if (!this.isConfigured()) {
-      console.warn('[LlmService] LLM_API_KEY not set — falling back to canned replies.');
+      if (this.providerDisabledReason) {
+        console.warn(`[LlmService] LLM provider disabled — ${this.providerDisabledReason}. Falling back to canned replies.`);
+      } else {
+        console.warn('[LlmService] LLM_API_KEY not set — falling back to canned replies.');
+      }
       return null;
     }
 
@@ -75,7 +80,19 @@ export class LlmService {
       return text ?? null;
     } catch (err: any) {
       // Do NOT log err.config/data — could echo back the user message.
-      console.error('[LlmService] LLM call failed:', err.response?.status, err.response?.data ?? err.message);
+      const errorMessage = err.response?.data?.error?.message ?? err.response?.data?.message ?? err.message ?? '';
+      const statusCode = err.response?.status;
+
+      if (
+        statusCode === 400 &&
+        /credit balance is too low|out of credits|billing/i.test(String(errorMessage))
+      ) {
+        this.providerDisabledReason = 'Anthropic credit balance is too low';
+        console.warn('[LlmService] Anthropic credit balance is too low — switching to canned replies.');
+        return null;
+      }
+
+      console.error('[LlmService] LLM call failed:', statusCode, err.response?.data ?? err.message);
       return null;
     }
   }

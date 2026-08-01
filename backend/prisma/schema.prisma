@@ -92,6 +92,8 @@ model User {
   lastLoginAt               DateTime?
   googleId                  String?   @unique
   emailNotificationsEnabled Boolean   @default(true)
+  consentGivenAt            DateTime?
+  researchParticipation     Boolean   @default(true)
 
   // Relations
   developerProfile   DeveloperProfile?
@@ -342,6 +344,12 @@ model Alert {
   createdDateTime DateTime @default(now())
   modifiedBy      String
   modifiedDate    DateTime @updatedAt
+}
+
+model AlertThreshold {
+  thresholdKey String @id
+  value        Float
+  description  String
 }
 
 model AuditLog {

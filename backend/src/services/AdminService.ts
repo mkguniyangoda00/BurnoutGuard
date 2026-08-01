@@ -86,6 +86,7 @@ export class AdminService {
       auc: m.auc ? m.auc.toFixed(3) : 'N/A',
       status: algo === metadata.algorithm ? 'Active' : 'Benchmarked',
       trainedAt: metadata.trainedAt,
+      globalFeatureImportance: metadata.globalFeatureImportance || [],
     }));
 
     return allModels;

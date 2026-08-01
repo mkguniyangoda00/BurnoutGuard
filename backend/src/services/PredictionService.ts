@@ -11,6 +11,7 @@ import { UserRepository } from '../repositories/UserRepository';
 import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from './AuditLogService';
 import { computeDimensionBreakdown, DimensionScore } from '../utils/BurnoutDimensions';
+import { getAlertThresholdValue, ALERT_THRESHOLD_DEFAULTS } from '../utils/AlertThresholds';
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
@@ -53,10 +54,15 @@ export class PredictionService {
       ? mlResult.riskScore - previousRiskScore
       : undefined;
 
+    const worseningThreshold = await getAlertThresholdValue(
+      'worseningTrendThreshold',
+      ALERT_THRESHOLD_DEFAULTS.worseningTrendThreshold.value
+    );
+
     let trendDirection = 'Stable';
     if (scoreChange !== undefined) {
-      if (scoreChange < -0.05) trendDirection = 'Improving';
-      else if (scoreChange > 0.05) trendDirection = 'Worsening';
+      if (scoreChange < -worseningThreshold) trendDirection = 'Improving';
+      else if (scoreChange > worseningThreshold) trendDirection = 'Worsening';
     }
 
     await this.predictionRepo.markPreviousAsNotLatest(userId);

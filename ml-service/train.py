@@ -20,6 +20,7 @@ from preprocess import (
     load_dataset, encode_labels, split_and_scale,
     FEATURE_COLUMNS, RISK_LEVELS, MODELS_DIR,
 )
+from explain import compute_global_feature_importance
 
 os.makedirs(MODELS_DIR, exist_ok=True)
 
@@ -90,6 +91,13 @@ def main():
     background_sample = X_train[:100] if len(X_train) >= 100 else X_train
     background_file = f"background_{version}.pkl"
     joblib.dump(background_sample, os.path.join(MODELS_DIR, background_file))
+
+    print("Computing global feature importance...")
+    global_feature_importance = compute_global_feature_importance(
+        best_model,
+        X_train[:200] if len(X_train) >= 200 else X_train,
+        background_sample,
+    )
     
     metadata = {
         "version": version,
@@ -101,6 +109,7 @@ def main():
         "riskLevels": RISK_LEVELS,
         "trainedAt": datetime.now(timezone.utc).isoformat(),
         "metrics": {k: v for k, v in results.items()},
+        "globalFeatureImportance": global_feature_importance,
         "status": "Active",
     }
 

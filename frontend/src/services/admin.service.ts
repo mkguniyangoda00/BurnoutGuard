@@ -43,6 +43,16 @@ export const adminService = {
     return res.data.metrics;
   },
 
+  getAlertThresholds: async () => {
+    const res = await client.get('/admin/alert-thresholds');
+    return res.data.thresholds;
+  },
+
+  updateAlertThreshold: async (thresholdKey: string, data: { value?: number; description?: string }) => {
+    const res = await client.put(`/admin/alert-thresholds/${thresholdKey}`, data);
+    return res.data.threshold;
+  },
+
   retrainModel: async () => {
     const res = await client.post('/admin/models/retrain');
     return res.data;

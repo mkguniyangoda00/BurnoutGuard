@@ -36,4 +36,9 @@ export const recommendationService = {
     const res = await client.put(`/recommendations/${id}/dismiss`);
     return res.data.recommendation;
   },
+
+  setEffectiveness: async (id: string, score: number) => {
+    const res = await client.put(`/recommendations/${id}/effectiveness`, { score });
+    return res.data.recommendation;
+  },
 };

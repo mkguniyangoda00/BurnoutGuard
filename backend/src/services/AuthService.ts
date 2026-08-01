@@ -29,6 +29,8 @@ export class AuthService {
       fullName: dto.fullName,
       role: dto.role,
       company: dto.company,
+      consentGivenAt: dto.consentGiven ? new Date() : null,
+      researchParticipation: dto.researchParticipation ?? true,
       createdBy: dto.email,
       modifiedBy: dto.email,
     });
@@ -156,6 +158,8 @@ export class AuthService {
         fullName: name || email.split('@')[0],
         role: 'Developer',
         googleId,
+        consentGivenAt: new Date(),
+        researchParticipation: true,
         createdBy: email,
         modifiedBy: email,
       });
@@ -197,6 +201,19 @@ export class AuthService {
 
   async updateSettings(userId: string, emailNotificationsEnabled: boolean) {
     const user = await this.userRepository.updateEmailNotifications(userId, emailNotificationsEnabled);
+    const { passwordHash: _ph, ...safeUser } = user as any;
+    return safeUser;
+  }
+
+  async withdrawResearchParticipation(userId: string) {
+    const user = await prisma.user.update({
+      where: { userId },
+      data: {
+        researchParticipation: false,
+        modifiedBy: userId,
+      },
+    });
+
     const { passwordHash: _ph, ...safeUser } = user as any;
     return safeUser;
   }
