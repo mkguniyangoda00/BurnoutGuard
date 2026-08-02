@@ -37,10 +37,7 @@ export class MlService {
     );
   }
 
-  async getPrediction(
-    _userId: string,
-    features: Record<string, number>
-  ): Promise<PredictionResponse> {
+  async getPrediction(userId: string, features: Record<string, number>): Promise<PredictionResponse> {
     try {
       const response = await axios.post<PredictionResponse>(
         `${Env.ML_SERVICE_URL}/predict`,
@@ -49,7 +46,11 @@ export class MlService {
       );
       return response.data;
     } catch (err) {
-      console.warn('[MlService] ML service unavailable — using fallback response', err);
+      console.error(
+        `[MlService] ML service unreachable at ${Env.ML_SERVICE_URL} for user ${userId} — ` +
+        `falling back to modelVersion='fallback'. Check ml-service is running and a model ` +
+        `has been trained (python train.py after generate_dataset.py).`, err
+      );
       return FALLBACK_RESPONSE;
     }
   }

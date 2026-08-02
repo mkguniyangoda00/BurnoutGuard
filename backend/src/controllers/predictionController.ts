@@ -41,6 +41,15 @@ export class PredictionController {
     }
   };
 
+  getCounterfactual = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const result = await this.predictionService.getCounterfactual(req.user!.userId);
+      res.status(200).json({ counterfactual: result });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   runWhatIf = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const result = await this.predictionService.runWhatIf(

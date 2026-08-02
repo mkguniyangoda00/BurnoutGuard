@@ -52,6 +52,15 @@ export class AnalyticsController {
     }
   };
 
+  getFairnessReport = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getFairnessReport();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
   getManagerRecommendationSummary = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const data = await this.analyticsService.getManagerRecommendationSummary();

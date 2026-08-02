@@ -36,7 +36,7 @@ router.get('/latest', Authenticate, predictionController.getLatest);
 router.get('/history', Authenticate, predictionController.getHistory);
 router.post('/whatif', Authenticate, authorize(['Developer']), predictionController.runWhatIf);
 router.post('/trigger', Authenticate, authorize(['Developer']), predictionController.triggerManual);
-
+router.get('/counterfactual', Authenticate, predictionController.getCounterfactual);
 router.get('/:id', Authenticate, predictionController.getById);
 
 export default router;

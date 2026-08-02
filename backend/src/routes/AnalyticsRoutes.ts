@@ -18,5 +18,6 @@ router.get('/sprint', Authenticate, authorize(['Manager', 'Admin']), analyticsCo
 router.get('/workload-hotspots', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getWorkloadHotspots);
 router.get('/overtime-patterns', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getOvertimePatterns);
 router.get('/manager-recommendations', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getManagerRecommendationSummary);
+router.get('/fairness', Authenticate, authorize(['Admin', 'ResearchAdmin']), analyticsController.getFairnessReport);
 
 export default router;
