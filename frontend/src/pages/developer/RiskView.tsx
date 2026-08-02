@@ -5,6 +5,7 @@ import { Loader2, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { usePrediction } from '../../hooks/usePrediction';
+import { CounterfactualCard } from '../../components/predictions/CounterfactualCard';
 
 const RiskView: React.FC = () => {
   const navigate = useNavigate();
@@ -151,6 +152,10 @@ const RiskView: React.FC = () => {
         <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Summary</h3>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7 }}>{getPlainLanguageExplanation()}</p>
       </Card>
+      {/* counterfactual insight */}
+      <div style={{ marginTop: '16px' }}>
+        <CounterfactualCard />
+      </div>
     </PageWrapper>
   );
 };

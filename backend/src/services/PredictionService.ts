@@ -16,6 +16,8 @@ import { getAlertThresholdValue, ALERT_THRESHOLD_DEFAULTS } from '../utils/Alert
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class PredictionService {
+  private static readonly PREDICTION_WINDOW_DAYS = 14;
+  
   constructor(
     private predictionRepo: PredictionRepository,
     private mlService: MlService,
@@ -34,10 +36,59 @@ export class PredictionService {
     };
   }
 
+  async getCounterfactual(userId: string) {
+    const latest = await this.predictionRepo.findLatestByUser(userId);
+    if (!latest) return null;
+
+    const checkIns = await this.checkInRepo.findByUserId(userId, PredictionService.PREDICTION_WINDOW_DAYS);
+    const developerProfile = await prisma.developerProfile.findUnique({ where: { userId } });
+    const { features } = aggregateCheckIns(checkIns, developerProfile?.workModel);
+
+    // Pick the top 2 risk-increasing SHAP features that have a sensible
+    // "healthier" target value, and simulate improving them.
+    const IMPROVEMENT_TARGETS: Record<string, number> = {
+      sleepHours: 7.5,
+      sleepQuality: 4,
+      overtimeHours: 1,
+      workHours: 8,
+      stressLevel: 4,
+      breaksTaken: 5,
+      meetingsCount: 3,
+      contextSwitchingFrequency: 2,
+    };
+
+    const topDrivers = (latest.shapExplanations ?? [])
+      .filter((s: any) => s.direction === 'IncreasesRisk' && IMPROVEMENT_TARGETS[s.featureName] !== undefined)
+      .sort((a: any, b: any) => b.shapValue - a.shapValue)
+      .slice(0, 2);
+
+    if (topDrivers.length === 0) return null;
+
+    const modifications: Record<string, number> = {};
+    for (const d of topDrivers) modifications[d.featureName] = IMPROVEMENT_TARGETS[d.featureName];
+
+    const simulated = await this.mlService.getWhatIf(userId, features, modifications);
+
+    return {
+      currentRiskLevel: latest.riskLevel,
+      currentRiskScore: latest.riskScore,
+      simulatedRiskLevel: simulated.riskLevel,
+      simulatedRiskScore: simulated.riskScore,
+      changedFactors: topDrivers.map((d: any) => ({
+        featureName: d.featureName,
+        from: features[d.featureName],
+        to: modifications[d.featureName],
+      })),
+    };
+  }
+
   async createPrediction(userId: string) {
     console.log(`[PredictionService] Starting prediction generation for user ${userId}.`);
-    const checkIns = await this.checkInRepo.findByUserId(userId);
-    console.log(`[PredictionService] Loaded ${checkIns.length} available check-in(s) for user ${userId}.`);
+    const checkIns = await this.checkInRepo.findByUserId(
+      userId,
+      PredictionService.PREDICTION_WINDOW_DAYS
+    );
+    console.log(`[PredictionService] Loaded ${checkIns.length} recent check-in(s) for user ${userId}.`);
     const developerProfile = await prisma.developerProfile.findUnique({
     where: { userId },
     });
@@ -76,10 +127,8 @@ export class PredictionService {
           : `${s.featureName} is helping reduce your risk by ${Math.abs(s.shapValue).toFixed(2)} points`),
     }));
 
-    const checkInsUsed = await prisma.dailyCheckIn.count({
-      where: { userId },
-    });
-
+    const checkInsUsed = checkIns.length;
+    
     console.log(
       `[PredictionService] Saving prediction for user ${userId} with ${shapRows.length} SHAP row(s).`
     );
@@ -182,7 +231,8 @@ export class PredictionService {
   }
 
   async runWhatIf(userId: string, modifications: Record<string, number>) {
-    const checkIns = await this.checkInRepo.findByUserId(userId);
+     const checkIns = await this.checkInRepo.findByUserId(userId, PredictionService.PREDICTION_WINDOW_DAYS);
+  
     // const baseline = aggregateCheckIns(checkIns);
     const developerProfile = await prisma.developerProfile.findUnique({
       where: { userId },

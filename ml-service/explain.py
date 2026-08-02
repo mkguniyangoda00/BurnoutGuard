@@ -118,7 +118,7 @@ def compute_global_feature_importance(model, X_sample, background=None):
     Computes mean absolute SHAP value per feature across a representative
     sample. Returns a list of {featureName, meanAbsShap} sorted descending.
     """
-    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_")
+    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_") or hasattr(model, "booster_")
 
     if is_tree_model:
         explainer = shap.TreeExplainer(model)

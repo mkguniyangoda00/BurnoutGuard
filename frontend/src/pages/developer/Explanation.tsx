@@ -5,6 +5,7 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Loader2, HelpCircle, TrendingDown, TrendingUp } from 'lucide-react';
 import { usePrediction } from '../../hooks/usePrediction';
+import { CounterfactualCard } from '../../components/predictions/CounterfactualCard';
 
 const Explanation: React.FC = () => {
   const navigate = useNavigate();
@@ -355,6 +356,11 @@ const Explanation: React.FC = () => {
           {getPlainLanguageExplanation()}
         </p>
       </Card>
+
+      {/* counterfactual insight */}
+      <div style={{ marginBottom: '32px' }}>
+        <CounterfactualCard />
+      </div>
 
       {/* ── Action Buttons ───────────────────────────────────────── */}
       <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', paddingBottom: '20px' }}>

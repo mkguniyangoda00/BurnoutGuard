@@ -19,8 +19,8 @@ export const analyticsService = {
 
   getTeamHeatmap: async (params?: { workMode?: string; riskPeriod?: string }) => {
     const searchParams = new URLSearchParams();
-    if (params.workMode) searchParams.set('workMode', params.workMode);
-    if (params.riskPeriod) searchParams.set('riskPeriod', params.riskPeriod);
+    if (params?.workMode) searchParams.set('workMode', params.workMode);
+    if (params?.riskPeriod) searchParams.set('riskPeriod', params.riskPeriod);
     const queryString = searchParams.toString();
     const res = await client.get(`/analytics/heatmap${queryString ? `?${queryString}` : ''}`);
     return res.data;
@@ -43,6 +43,11 @@ export const analyticsService = {
 
   getWorkloadHotspots: async () => {
     const res = await client.get('/analytics/workload-hotspots');
+    return res.data;
+  },
+
+  getFairnessReport: async () => {
+    const res = await client.get('/analytics/fairness');
     return res.data;
   },
 

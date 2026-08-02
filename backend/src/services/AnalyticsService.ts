@@ -179,6 +179,60 @@ export class AnalyticsService {
     );
   }
 
+  async getFairnessReport() {
+    const developers = await prisma.user.findMany({
+      where: { role: 'Developer', isActive: true },
+      include: { developerProfile: true, burnoutPredictions: { where: { isLatest: true }, take: 1 } },
+    });
+
+    const groupBy = (
+      key: 'workModel' | 'experienceBand'
+    ) => {
+      const buckets: Record<string, { total: number; highRisk: number }> = {};
+
+      for (const dev of developers as any[]) {
+        const prediction = dev.burnoutPredictions[0];
+        if (!prediction) continue;
+
+        const groupValue =
+          key === 'workModel'
+            ? dev.developerProfile?.workModel ?? 'Unknown'
+            : (dev.developerProfile?.yearsExperience ?? 0) < 3
+            ? 'Junior (<3y)'
+            : 'Senior (3y+)';
+
+        if (!buckets[groupValue]) buckets[groupValue] = { total: 0, highRisk: 0 };
+        buckets[groupValue].total++;
+        if (prediction.riskLevel === 'High' || prediction.riskLevel === 'Critical') {
+          buckets[groupValue].highRisk++;
+        }
+      }
+
+      return Object.entries(buckets)
+        .filter(([, v]) => v.total >= 5) // privacy floor, same rule used elsewhere
+        .map(([group, v]) => ({
+          group,
+          sampleSize: v.total,
+          highRiskRate: parseFloat(((v.highRisk / v.total) * 100).toFixed(1)),
+        }));
+    };
+
+    const byWorkMode = groupBy('workModel');
+    const byExperience = groupBy('experienceBand');
+
+    const maxGap = (rows: { highRiskRate: number }[]) =>
+      rows.length < 2 ? 0 : Math.max(...rows.map((r) => r.highRiskRate)) - Math.min(...rows.map((r) => r.highRiskRate));
+
+    return {
+      byWorkMode,
+      byExperience,
+      gaps: {
+        workMode: parseFloat(maxGap(byWorkMode).toFixed(1)),
+        experience: parseFloat(maxGap(byExperience).toFixed(1)),
+      },
+    };
+  }
+  
   /**
    * Time-series trend of average overtime hours per week, following the
    * same weekly-grouping pattern already used in getSprintRisk().

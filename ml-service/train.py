@@ -15,6 +15,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
 
 from preprocess import (
     load_dataset, encode_labels, split_and_scale,
@@ -53,6 +54,11 @@ def main():
             n_estimators=200, max_depth=5, learning_rate=0.1,
             objective="multi:softprob", num_class=len(RISK_LEVELS),
             eval_metric="mlogloss", random_state=42,
+        ),
+        "LightGBM": LGBMClassifier(
+            n_estimators=200, max_depth=5, learning_rate=0.1,
+            objective="multiclass", num_class=len(RISK_LEVELS),
+            random_state=42, verbose=-1,
         ),
     }
 
