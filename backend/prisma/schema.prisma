@@ -76,6 +76,12 @@ enum WellnessCategory {
   Counseling
 }
 
+enum SurveyQuestionType {
+  Scale
+  Boolean
+  Text
+}
+
 // ==============================================
 // MODELS
 // ==============================================
@@ -391,6 +397,21 @@ model WellnessResource {
   description String            @db.Text
   contentUrl  String?
   isActive    Boolean           @default(true)
+
+  createdBy       String
+  createdDateTime DateTime @default(now())
+  modifiedBy      String
+  modifiedDate    DateTime @updatedAt
+}
+
+model SurveyQuestion {
+  questionId   String             @id @default(uuid())
+  questionText String
+  category     String             // e.g. "Sleep", "Workload", "Psychosocial" — freeform, matches your CheckIn section grouping
+  type         SurveyQuestionType @default(Scale)
+  scaleMax     Int?               // only relevant when type = Scale (e.g. 5 or 10)
+  displayOrder Int                @default(0)
+  isActive     Boolean            @default(true)
 
   createdBy       String
   createdDateTime DateTime @default(now())

@@ -1,9 +1,9 @@
 {
-  "version": "v1.7-logisticregression",
+  "version": "v1.8-logisticregression",
   "algorithm": "LogisticRegression",
-  "modelFile": "model_v1.7-logisticregression.pkl",
-  "scalerFile": "scaler_v1.7-logisticregression.pkl",
-  "backgroundFile": "background_v1.7-logisticregression.pkl",
+  "modelFile": "model_v1.8-logisticregression.pkl",
+  "scalerFile": "scaler_v1.8-logisticregression.pkl",
+  "backgroundFile": "background_v1.8-logisticregression.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -50,7 +50,7 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-07-24T15:40:39.124328+00:00",
+  "trainedAt": "2026-08-03T16:13:13.257803+00:00",
   "metrics": {
     "LogisticRegression": {
       "accuracy": 0.8347352024922119,
@@ -66,7 +66,166 @@
       "accuracy": 0.8314252336448598,
       "f1Score": 0.8313953376467031,
       "auc": 0.9657657874050135
+    },
+    "LightGBM": {
+      "accuracy": 0.8336643302180685,
+      "f1Score": 0.8336422238654451,
+      "auc": 0.9663422028812156
     }
   },
+  "globalFeatureImportance": [
+    {
+      "featureName": "emotionalFatigue",
+      "meanAbsShap": 0.688982
+    },
+    {
+      "featureName": "overtimeHours",
+      "meanAbsShap": 0.519263
+    },
+    {
+      "featureName": "stressLevel",
+      "meanAbsShap": 0.445695
+    },
+    {
+      "featureName": "moodScore",
+      "meanAbsShap": 0.380416
+    },
+    {
+      "featureName": "sleepQuality",
+      "meanAbsShap": 0.374611
+    },
+    {
+      "featureName": "sprintPressureRating",
+      "meanAbsShap": 0.374315
+    },
+    {
+      "featureName": "deadlineFrequency",
+      "meanAbsShap": 0.352439
+    },
+    {
+      "featureName": "urgentTasksCount",
+      "meanAbsShap": 0.349888
+    },
+    {
+      "featureName": "meetingsCount",
+      "meanAbsShap": 0.339473
+    },
+    {
+      "featureName": "afterHoursMessaging",
+      "meanAbsShap": 0.316898
+    },
+    {
+      "featureName": "contextSwitchingFrequency",
+      "meanAbsShap": 0.309256
+    },
+    {
+      "featureName": "lonelinessLevel",
+      "meanAbsShap": 0.301954
+    },
+    {
+      "featureName": "powerInternetDisruption",
+      "meanAbsShap": 0.298079
+    },
+    {
+      "featureName": "irritabilityLevel",
+      "meanAbsShap": 0.296922
+    },
+    {
+      "featureName": "energyLevel",
+      "meanAbsShap": 0.288369
+    },
+    {
+      "featureName": "copingAbility",
+      "meanAbsShap": 0.288173
+    },
+    {
+      "featureName": "motivationLevel",
+      "meanAbsShap": 0.285085
+    },
+    {
+      "featureName": "bugFixingLoad",
+      "meanAbsShap": 0.284168
+    },
+    {
+      "featureName": "concentrationIssues",
+      "meanAbsShap": 0.278252
+    },
+    {
+      "featureName": "mealQuality",
+      "meanAbsShap": 0.275932
+    },
+    {
+      "featureName": "salaryWorkloadSatisfaction",
+      "meanAbsShap": 0.271666
+    },
+    {
+      "featureName": "workloadRating",
+      "meanAbsShap": 0.270809
+    },
+    {
+      "featureName": "breaksTaken",
+      "meanAbsShap": 0.263765
+    },
+    {
+      "featureName": "familyResponsibilityLoad",
+      "meanAbsShap": 0.262673
+    },
+    {
+      "featureName": "commuteMinutes",
+      "meanAbsShap": 0.261562
+    },
+    {
+      "featureName": "isWeekendWork",
+      "meanAbsShap": 0.256926
+    },
+    {
+      "featureName": "selfEfficacy",
+      "meanAbsShap": 0.223211
+    },
+    {
+      "featureName": "isOnCallToday",
+      "meanAbsShap": 0.222529
+    },
+    {
+      "featureName": "wfhEnvironmentQuality",
+      "meanAbsShap": 0.196661
+    },
+    {
+      "featureName": "socialSupportLevel",
+      "meanAbsShap": 0.183394
+    },
+    {
+      "featureName": "workHours",
+      "meanAbsShap": 0.179237
+    },
+    {
+      "featureName": "anxietyLevel",
+      "meanAbsShap": 0.160869
+    },
+    {
+      "featureName": "caffeineIntake",
+      "meanAbsShap": 0.135958
+    },
+    {
+      "featureName": "exerciseLevel",
+      "meanAbsShap": 0.135451
+    },
+    {
+      "featureName": "workSatisfaction",
+      "meanAbsShap": 0.12677
+    },
+    {
+      "featureName": "sleepHours",
+      "meanAbsShap": 0.119337
+    },
+    {
+      "featureName": "screenTimeHours",
+      "meanAbsShap": 0.086781
+    },
+    {
+      "featureName": "workModeEncoded",
+      "meanAbsShap": 0.044632
+    }
+  ],
   "status": "Active"
 }
