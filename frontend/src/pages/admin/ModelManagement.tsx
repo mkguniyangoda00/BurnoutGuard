@@ -72,27 +72,32 @@ const ModelManagement: React.FC = () => {
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-        {[
-          { v: 'v1.0', name: 'XGBoost Classifier', date: '01 Mar 2026', status: 'Retired', statusClass: 'badge-muted', acc: '87.3%', f1: '0.851', auc: '0.912', size: '1,240', border: 'none' },
-          { v: 'v1.1', name: 'XGBoost Classifier', date: '20 Mar 2026', status: 'Active', statusClass: 'badge-success', acc: '89.7%', f1: '0.873', auc: '0.934', size: '1,580', border: '3px solid var(--success)' },
-          { v: 'v1.2', name: 'LightGBM Classifier', date: '01 Apr 2026', status: 'Testing', statusClass: 'badge-warning', acc: '88.1%', f1: '0.862', auc: '0.921', size: '1,580', border: 'none' },
-        ].map((mod, idx) => (
-          <div key={idx} style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '20px', backgroundColor: 'var(--background)', borderLeft: mod.border }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.max(models?.length ?? 1, 1)}, 1fr)`, gap: '16px', marginBottom: '24px' }}>
+        {(models ?? []).map((mod: any) => (
+          <div
+            key={mod.algorithm}
+            style={{
+              border: '1px solid var(--border-color)', borderRadius: '14px', padding: '20px',
+              backgroundColor: 'var(--background)',
+              borderLeft: mod.status === 'Active' ? '3px solid var(--success)' : 'none',
+            }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
               <div>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{mod.v}</div>
-                <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)' }}>{mod.name}</div>
-                <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Trained: {mod.date}</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{mod.version}</div>
+                <div style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)' }}>{mod.algorithm}</div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Trained: {new Date(mod.trainedAt).toLocaleDateString()}
+                </div>
               </div>
-              <span className={`badge ${mod.statusClass}`} style={{ borderRadius: '20px', padding: '3px 10px' }}>{mod.status}</span>
+              <span className={`badge ${mod.status === 'Active' ? 'badge-success' : 'badge-muted'}`} style={{ borderRadius: '20px', padding: '3px 10px' }}>
+                {mod.status}
+              </span>
             </div>
-            
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Accuracy</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.acc}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>F1 Score</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.f1}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Accuracy</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.accuracy}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>F1 Score</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.f1Score}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>AUC</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.auc}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Training size</span><span style={{ fontSize: '13px', fontWeight: 600 }}>{mod.size} samples</span></div>
             </div>
           </div>
         ))}

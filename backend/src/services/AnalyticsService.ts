@@ -8,19 +8,29 @@ export class AnalyticsService {
     private checkInRepo: CheckInRepository
   ) {}
 
-  async getTeamHeatmap(params?: { workMode?: string; riskPeriod?: string }) {
-    const { workMode, riskPeriod } = params ?? {};
+  async getTeamHeatmap(params?: {
+  workMode?: string;
+  riskPeriod?: string;
+  experienceBand?: string;   
+  jobTitle?: string;         
+  }) {
+    const { workMode, riskPeriod, experienceBand, jobTitle } = params ?? {};
     const cutoff = (() => {
-      switch (riskPeriod) {
-        case 'This Week':
-          return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-        case 'Last 4 Weeks':
-          return new Date(Date.now() - 28 * 24 * 60 * 60 * 1000);
-        case 'Last 3 Months':
-          return new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
-        default:
-          return undefined;
-      }
+      if (!riskPeriod || riskPeriod === 'All') return undefined;
+
+      const now = new Date();
+      const daysMap: Record<string, number> = {
+        'Last 7 days': 7,
+        'Last 30 days': 30,
+        'Last 90 days': 90,
+        'Last 6 months': 183,
+        'Last 12 months': 365,
+      };
+
+      const days = daysMap[riskPeriod];
+      if (days === undefined) return undefined;
+
+      return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     })();
 
     const developers = await prisma.user.findMany({
@@ -30,15 +40,27 @@ export class AnalyticsService {
         ...(workMode && workMode !== 'All'
           ? { developerProfile: { is: { workModel: workMode as any } } }
           : {}),
+        ...(jobTitle && jobTitle !== 'All'
+          ? { developerProfile: { is: { jobTitle } } }
+          : {}),
       },
       include: { developerProfile: true },
       orderBy: { userId: 'asc' },
     });
 
+    // Experience is a derived band (Junior/Senior), not a stored column, so it
+    // has to be filtered in JS after the query rather than in the Prisma `where`.
+    const filteredDevelopers = experienceBand && experienceBand !== 'All'
+      ? developers.filter((dev: any) => {
+          const years = dev.developerProfile?.yearsExperience ?? 0;
+          return experienceBand === 'Junior (<3y)' ? years < 3 : years >= 3;
+        })
+      : developers;
+
     const members = [];
     let counter = 1;
 
-    for (const dev of developers) {
+    for (const dev of filteredDevelopers) {
       const predictions = await prisma.burnoutPrediction.findMany({
         where: {
           userId: dev.userId,
@@ -60,6 +82,15 @@ export class AnalyticsService {
     }
 
     return { members };
+  }
+
+  async getHeatmapFilterOptions() {
+    const profiles = await prisma.developerProfile.findMany({
+      where: { jobTitle: { not: null } },
+      select: { jobTitle: true },
+      distinct: ['jobTitle'],
+    });
+    return { jobTitles: profiles.map((p: any) => p.jobTitle).filter(Boolean) };
   }
 
   async getDepartmentOverview() {

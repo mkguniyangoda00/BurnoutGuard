@@ -50,6 +50,7 @@ import Trends from './pages/hr/Trends';
 import UserManagement from './pages/admin/UserManagement';
 import ModelManagement from './pages/admin/ModelManagement';
 import AuditLogs from './pages/admin/AuditLogs';
+import Survey from './pages/admin/Survey';
 
 /**
  * RoleRouter: After login, redirects users to their role-appropriate homepage.
@@ -107,6 +108,7 @@ function App() {
         <Route path="/admin/models" element={<ModelManagement />} />
         <Route path="/admin/audit-logs" element={<AuditLogs />} />
         <Route path="/admin/profile" element={<Profile />} />
+        <Route path="/admin/survey" element={<Survey />} />
       </Route>
 
       {/* Fallback: redirect unknown URLs back to root */}

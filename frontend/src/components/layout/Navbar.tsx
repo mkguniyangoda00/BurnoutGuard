@@ -70,6 +70,7 @@ const Navbar: React.FC = () => {
         return [
           { name: t('navbar.users'), path: '/admin/users' },
           { name: t('navbar.modelMetrics'), path: '/admin/models' },
+          { name: 'Survey', path: '/admin/survey' },
           { name: t('navbar.auditLogs'), path: '/admin/audit-logs' },
         ];
       case 'Developer':
