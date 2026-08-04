@@ -206,6 +206,14 @@ model DailyCheckIn {
   // Relations
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
+  // Psychosocial / Work Design (new)
+  managerSupportLevel Int @default(3) // 1-5, 1=none, 5=very supportive
+  peerSupportLevel    Int @default(3) // 1-5
+  autonomyLevel       Int @default(3) // 1-5, 1=none, 5=full autonomy
+  roleAmbiguity       Int @default(2) // 1-5, 1=very clear role, 5=very ambiguous
+  taskComplexity      Int @default(3) // 1-5
+  interruptionsPerDay Int @default(3) // 0-20 count
+
   // Audit Fields
   createdBy       String
   createdDateTime DateTime @default(now())

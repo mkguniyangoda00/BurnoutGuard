@@ -5,16 +5,23 @@ export class AnalyticsController {
   constructor(private analyticsService: AnalyticsService) {}
 
   getTeamHeatmap = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const data = await this.analyticsService.getTeamHeatmap({
-        workMode: req.query.workMode as string | undefined,
-        riskPeriod: req.query.riskPeriod as string | undefined,
-      });
-      res.status(200).json(data);
-    } catch (err) {
-      next(err);
-    }
-  };
+  try {
+    const data = await this.analyticsService.getTeamHeatmap({
+      workMode: req.query.workMode as string | undefined,
+      riskPeriod: req.query.riskPeriod as string | undefined,
+      experienceBand: req.query.experienceBand as string | undefined, // NEW
+      jobTitle: req.query.jobTitle as string | undefined,             // NEW
+    });
+    res.status(200).json(data);
+  } catch (err) { next(err); }
+};
+
+getHeatmapFilterOptions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const data = await this.analyticsService.getHeatmapFilterOptions();
+    res.status(200).json(data);
+  } catch (err) { next(err); }
+};
 
   getDepartmentOverview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {

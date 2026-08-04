@@ -54,6 +54,13 @@ export const checkInSchema = z.object({
   contextSwitchingFrequency: z.number().min(1).max(5),
   isOnCallToday: z.boolean(),
 
+  managerSupportLevel: z.number().min(1).max(5),
+  peerSupportLevel: z.number().min(1).max(5),
+  autonomyLevel: z.number().min(1).max(5),
+  roleAmbiguity: z.number().min(1).max(5),
+  taskComplexity: z.number().min(1).max(5),
+  interruptionsPerDay: z.number().min(0).max(20),
+
   // Notes
   notes: z.string().max(500).optional(),
 });
