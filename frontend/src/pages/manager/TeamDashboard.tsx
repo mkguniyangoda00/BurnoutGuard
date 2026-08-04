@@ -18,12 +18,20 @@ import { Loader2, AlertCircle } from 'lucide-react';
 const TeamDashboard: React.FC = () => {
   const [workMode, setWorkMode] = useState('All');
   const [riskPeriod, setRiskPeriod] = useState('This Week');
-
+  const [experienceBand, setExperienceBand] = useState('All');   // NEW
+  const [jobTitle, setJobTitle] = useState('All');  
+  
   // ── Fetch Heatmap Data from Backend ──────────────────────────────
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['analytics', 'heatmap', workMode, riskPeriod],
-    queryFn: () => analyticsService.getTeamHeatmap({ workMode, riskPeriod }),
+    queryKey: ['analytics', 'heatmap', workMode, riskPeriod, experienceBand, jobTitle],
+    queryFn: () => analyticsService.getTeamHeatmap({ workMode, riskPeriod, experienceBand, jobTitle }),
   });
+
+  const { data: filterOptions } = useQuery({   // NEW
+    queryKey: ['analytics', 'heatmap-filters'],
+    queryFn: analyticsService.getHeatmapFilterOptions,
+  });
+  const jobTitles: string[] = filterOptions?.jobTitles ?? [];
 
   const members = Array.isArray(data?.members) ? data.members : [];
 
@@ -92,6 +100,26 @@ const TeamDashboard: React.FC = () => {
           <option value="This Week">Risk Period: This Week</option>
           <option value="Last 4 Weeks">Risk Period: Last 4 Weeks</option>
           <option value="Last 3 Months">Risk Period: Last 3 Months</option>
+        </select>
+        <select
+          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
+          value={experienceBand}
+          onChange={(e) => setExperienceBand(e.target.value)}
+        >
+          <option value="All">Experience: All</option>
+          <option value="Junior (<3y)">Junior (&lt;3y)</option>
+          <option value="Senior (3y+)">Senior (3y+)</option>
+        </select>
+
+        <select
+          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
+          value={jobTitle}
+          onChange={(e) => setJobTitle(e.target.value)}
+        >
+          <option value="All">Job Title: All</option>
+          {jobTitles.map((title) => (
+            <option key={title} value={title}>{title}</option>
+          ))}
         </select>
       </div>
 

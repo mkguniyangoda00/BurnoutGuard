@@ -56,6 +56,14 @@ export interface CheckIn {
   contextSwitchingFrequency: number;
   isOnCallToday: boolean;
 
+  // Psychosocial / Work Design
+  managerSupportLevel: number;
+  peerSupportLevel: number;
+  autonomyLevel: number;
+  roleAmbiguity: number;
+  taskComplexity: number;
+  interruptionsPerDay: number;
+  
   // Meta
   notes: string | null;
   isEdited: boolean;

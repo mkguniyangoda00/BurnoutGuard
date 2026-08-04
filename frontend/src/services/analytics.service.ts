@@ -17,12 +17,19 @@ export const analyticsService = {
     return res.data;
   },
 
-  getTeamHeatmap: async (params?: { workMode?: string; riskPeriod?: string }) => {
+  getTeamHeatmap: async (params?: { workMode?: string; riskPeriod?: string; experienceBand?: string; jobTitle?: string }) => {
     const searchParams = new URLSearchParams();
     if (params?.workMode) searchParams.set('workMode', params.workMode);
     if (params?.riskPeriod) searchParams.set('riskPeriod', params.riskPeriod);
+    if (params?.experienceBand) searchParams.set('experienceBand', params.experienceBand);
+    if (params?.jobTitle) searchParams.set('jobTitle', params.jobTitle);
     const queryString = searchParams.toString();
     const res = await client.get(`/analytics/heatmap${queryString ? `?${queryString}` : ''}`);
+    return res.data;
+  },
+
+  getHeatmapFilterOptions: async () => {
+    const res = await client.get('/analytics/heatmap-filters');
     return res.data;
   },
 
