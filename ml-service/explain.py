@@ -50,6 +50,12 @@ FEATURE_LABELS = {
     "contextSwitchingFrequency": "how often you switch context",
     "isOnCallToday": "being on-call",
     "workModeEncoded": "your work arrangement (remote/hybrid/onsite)",
+    "managerSupportLevel": "manager support",
+    "peerSupportLevel": "peer support",
+    "autonomyLevel": "autonomy at work",
+    "roleAmbiguity": "role clarity",
+    "taskComplexity": "task complexity",
+    "interruptionsPerDay": "daily interruptions",
 }
 
 

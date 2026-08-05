@@ -112,6 +112,14 @@ const CheckIn: React.FC = () => {
     selfEfficacy: 3,
     copingAbility: 3,
 
+    // in useState default formData:
+    managerSupportLevel: 3,
+    peerSupportLevel: 3,
+    autonomyLevel: 3,
+    roleAmbiguity: 2,
+    taskComplexity: 3,
+    interruptionsPerDay: 3,
+
     // Work Context (Sri Lankan & Global)
     powerInternetDisruption: 2,
     wfhEnvironmentQuality: 3,
@@ -641,6 +649,31 @@ const CheckIn: React.FC = () => {
                 value={formData.copingAbility}
                 onChange={(v) => setFormData({ ...formData, copingAbility: v })}
               />
+            </div>
+          </div>
+        </Card>
+
+        {/* ── Work Design Section (new) ──────────────────────────────── */}
+        <Card style={{ padding: '28px 32px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>🧩 Work Design</h2>
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+            <ScaleInput label="Manager support today" description="1 = None, 5 = Very supportive" max={5}
+              value={formData.managerSupportLevel} onChange={(v) => setFormData({ ...formData, managerSupportLevel: v })} />
+            <ScaleInput label="Peer support today" description="1 = None, 5 = Very supportive" max={5}
+              value={formData.peerSupportLevel} onChange={(v) => setFormData({ ...formData, peerSupportLevel: v })} />
+            <ScaleInput label="Autonomy at work" description="1 = None, 5 = Full autonomy" max={5}
+              value={formData.autonomyLevel} onChange={(v) => setFormData({ ...formData, autonomyLevel: v })} />
+            <ScaleInput label="Role clarity" description="1 = Very clear, 5 = Very ambiguous" max={5}
+              value={formData.roleAmbiguity} onChange={(v) => setFormData({ ...formData, roleAmbiguity: v })} />
+            <ScaleInput label="Task complexity today" description="1 = Simple, 5 = Very complex" max={5}
+              value={formData.taskComplexity} onChange={(v) => setFormData({ ...formData, taskComplexity: v })} />
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Interruptions today
+              </label>
+              <input type="number" min={0} max={20} value={formData.interruptionsPerDay}
+                onChange={(e) => setFormData({ ...formData, interruptionsPerDay: parseInt(e.target.value) })}
+                style={{ width: '100%', padding: '10px 12px', backgroundColor: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px' }} />
             </div>
           </div>
         </Card>

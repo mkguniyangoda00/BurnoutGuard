@@ -46,6 +46,9 @@ FEATURE_RANGES = {
     "sprintPressureRating": (1, 5), "deadlineFrequency": (1, 5),
     "bugFixingLoad": (1, 5), "contextSwitchingFrequency": (1, 5),
     "workModeEncoded": (1, 3),
+    "managerSupportLevel": (1, 5), "peerSupportLevel": (1, 5),
+    "autonomyLevel": (1, 5), "roleAmbiguity": (1, 5),
+    "taskComplexity": (1, 5), "interruptionsPerDay": (0, 20),
 }
 
 # Same direction-of-effect weights as before: positive = increases risk.
@@ -64,6 +67,12 @@ WEIGHTS = {
     "sprintPressureRating": 0.9, "deadlineFrequency": 0.7,
     "bugFixingLoad": 0.5, "contextSwitchingFrequency": 0.6,
     "workModeEncoded": 0.2,  # Onsite(3) slightly higher than Remote(1) — commute/rigidity burden
+    "managerSupportLevel": -0.7,  # more support -> lower risk
+    "peerSupportLevel": -0.5,
+    "autonomyLevel": -0.6,        # more autonomy -> lower risk
+    "roleAmbiguity": 0.6,         # more ambiguity -> higher risk
+    "taskComplexity": 0.5,
+    "interruptionsPerDay": 0.6,
 }
 
 

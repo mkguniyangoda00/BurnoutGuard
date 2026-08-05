@@ -18,7 +18,7 @@ import { Loader2, AlertCircle } from 'lucide-react';
 const TeamDashboard: React.FC = () => {
   const [workMode, setWorkMode] = useState('All');
   const [riskPeriod, setRiskPeriod] = useState('This Week');
-  const [experienceBand, setExperienceBand] = useState('All');   // NEW
+  const [experienceBand, setExperienceBand] = useState('All');  
   const [jobTitle, setJobTitle] = useState('All');  
   
   // ── Fetch Heatmap Data from Backend ──────────────────────────────

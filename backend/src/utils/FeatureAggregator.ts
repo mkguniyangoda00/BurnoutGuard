@@ -15,6 +15,9 @@ export const FEATURE_COLUMNS = [
   'meetingsCount', 'urgentTasksCount', 'sprintPressureRating',
   'deadlineFrequency', 'isWeekendWork', 'bugFixingLoad',
   'contextSwitchingFrequency', 'isOnCallToday', 'workModeEncoded',
+  'workModeEncoded',
+  'managerSupportLevel', 'peerSupportLevel', 'autonomyLevel',
+  'roleAmbiguity', 'taskComplexity', 'interruptionsPerDay',
 ] as const;
 
 // Boolean-typed fields need 0/1 conversion instead of straight averaging.
@@ -35,6 +38,8 @@ const NEUTRAL_DEFAULTS: Record<string, number> = {
   deadlineFrequency: 3, isWeekendWork: 0, bugFixingLoad: 3,
   contextSwitchingFrequency: 3, isOnCallToday: 0,
   workModeEncoded: 2, // 2 = Hybrid (neutral default)
+  managerSupportLevel: 3, peerSupportLevel: 3, autonomyLevel: 3,
+  roleAmbiguity: 2, taskComplexity: 3, interruptionsPerDay: 3,
 };
 
 /**

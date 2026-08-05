@@ -19,6 +19,7 @@ export interface EnvConfig {
   LLM_API_URL: string;
   LLM_API_KEY: string;
   LLM_MODEL: string;
+  JOURNAL_ENCRYPTION_KEY: string;
 }
 
 const getEnvOrThrow = (key: string): string => {
@@ -52,6 +53,7 @@ export const Env: EnvConfig = {
   LLM_API_URL: getEnvOptional( 'LLM_API_URL', 'https://api.anthropic.com/v1/messages' ), 
   LLM_API_KEY: getEnvOptional('LLM_API_KEY'), 
   LLM_MODEL: getEnvOptional( 'LLM_MODEL', 'claude-sonnet-5' ),
+  JOURNAL_ENCRYPTION_KEY: getEnvOptional('JOURNAL_ENCRYPTION_KEY', '')
   
 };
 
