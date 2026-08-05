@@ -26,6 +26,8 @@ FEATURE_COLUMNS = [
     "meetingsCount", "urgentTasksCount", "sprintPressureRating",
     "deadlineFrequency", "isWeekendWork", "bugFixingLoad",
     "contextSwitchingFrequency", "isOnCallToday", "workModeEncoded",
+    "managerSupportLevel", "peerSupportLevel", "autonomyLevel",
+    "roleAmbiguity", "taskComplexity", "interruptionsPerDay",
 ]
 
 RISK_LEVELS = ["Low", "Moderate", "High", "Critical"]
@@ -68,6 +70,8 @@ def split_and_scale(df: pd.DataFrame):
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
+    print(df.columns[df.columns.duplicated()].tolist())
+    
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)

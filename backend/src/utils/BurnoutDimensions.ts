@@ -42,6 +42,8 @@ export const FEATURE_TO_DIMENSION: Record<string, BurnoutDimension> = {
   salaryWorkloadSatisfaction: 'Cynicism',
   wfhEnvironmentQuality: 'Cynicism',
   workModeEncoded: 'Cynicism',
+  managerSupportLevel: 'Cynicism',      // lack of manager support drives disengagement
+  peerSupportLevel: 'Cynicism',
 
   // Reduced Professional Efficacy — confidence, capability, output quality
   exerciseLevel: 'ReducedEfficacy',
@@ -56,6 +58,10 @@ export const FEATURE_TO_DIMENSION: Record<string, BurnoutDimension> = {
   deadlineFrequency: 'ReducedEfficacy',
   bugFixingLoad: 'ReducedEfficacy',
   contextSwitchingFrequency: 'ReducedEfficacy',
+  autonomyLevel: 'ReducedEfficacy',     // low autonomy undermines sense of effectiveness
+  roleAmbiguity: 'ReducedEfficacy',
+  taskComplexity: 'ReducedEfficacy',
+  interruptionsPerDay: 'Exhaustion',    // constant interruption = depletion
 };
 
 // Fail loudly in dev if FeatureAggregator's column list drifts from this map.

@@ -52,6 +52,13 @@ export interface CheckInPayload {
   selfEfficacy: number;
   copingAbility: number;
 
+  managerSupportLevel: number;
+  peerSupportLevel: number;
+  autonomyLevel: number;
+  roleAmbiguity: number;
+  taskComplexity: number;
+  interruptionsPerDay: number;
+
   // Work Context (Sri Lankan & Global)
   powerInternetDisruption: number;
   wfhEnvironmentQuality: number;
@@ -68,7 +75,7 @@ export interface CheckInPayload {
   bugFixingLoad: number;
   contextSwitchingFrequency: number;
   isOnCallToday: boolean;
-  
+
   // Notes
   notes?: string;
 }
