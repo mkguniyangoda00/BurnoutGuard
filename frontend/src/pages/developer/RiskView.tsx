@@ -127,8 +127,12 @@ const RiskView: React.FC = () => {
       </Card>
     </>
   );
-  })()}
-
+      })()}
+          {prediction.modelVersion === 'fallback' && (
+      <div style={{ backgroundColor: 'var(--danger-light)', color: 'var(--danger)', padding: '10px 16px', borderRadius: '10px', marginBottom: '20px', fontSize: '12px', fontWeight: 500 }}>
+        ⚠ The ML service failed to score this check-in — this is a placeholder value, not a real prediction. See admin → Model Metrics.
+      </div>
+    )}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
         <Card>
           <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>Positive Factors</h3>

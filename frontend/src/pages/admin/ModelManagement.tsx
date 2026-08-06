@@ -30,7 +30,7 @@ const ModelManagement: React.FC = () => {
       setRetrainMessage(
         data.success
           ? { type: 'success', text: 'Model retrained successfully. New version is now active.' }
-          : { type: 'error', text: 'Retrain finished with errors — check backend logs.' }
+          : { type: 'error', text: `Retrain failed: ${data.log?.slice(-500) || 'check backend logs'}` }
       );
       queryClient.invalidateQueries({ queryKey: ['admin', 'models'] });
     },

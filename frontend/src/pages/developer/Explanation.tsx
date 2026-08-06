@@ -148,7 +148,7 @@ const Explanation: React.FC = () => {
           {/* Risk Details */}
           <div>
             <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px' }}>RISK LEVEL</p>
+              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}>RISK LEVEL</p>
               <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
                 {prediction.riskLevel}
               </p>
@@ -186,7 +186,12 @@ const Explanation: React.FC = () => {
           </div>
         </div>
       </Card>
-      
+      {prediction.modelVersion === 'fallback' && (
+        <div style={{ backgroundColor: 'var(--danger-light)', color: 'var(--danger)', padding: '10px 16px', borderRadius: '10px', marginBottom: '20px', fontSize: '12px', fontWeight: 500 }}>
+          ⚠ The ML service failed to score this check-in — this is a placeholder value, not a real prediction. See admin → Model Metrics.
+        </div>
+      )}
+
       {/* ── Burnout Dimension Breakdown (WHO framework) ─────────────── */}
       {dimensionBreakdown.length > 0 && (
         <div style={{ marginBottom: '32px' }}>

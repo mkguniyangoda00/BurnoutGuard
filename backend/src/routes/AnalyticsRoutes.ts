@@ -16,7 +16,7 @@ router.get('/heatmap', Authenticate, authorize(['Manager', 'Admin']), analyticsC
 router.get('/department', Authenticate, authorize(['HRofficer', 'Admin']), analyticsController.getDepartmentOverview);
 router.get('/sprint', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getSprintRisk);
 router.get('/workload-hotspots', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getWorkloadHotspots);
-router.get('/overtime-patterns', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getOvertimePatterns);
+router.get('/overtime-patterns', Authenticate, authorize(['Manager', 'Admin', 'HRofficer']), analyticsController.getOvertimePatterns);
 router.get('/manager-recommendations', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getManagerRecommendationSummary);
 router.get('/fairness', Authenticate, authorize(['Admin', 'ResearchAdmin']), analyticsController.getFairnessReport);
 router.get('/heatmap-filters', Authenticate, authorize(['Manager', 'Admin']), analyticsController.getHeatmapFilterOptions);

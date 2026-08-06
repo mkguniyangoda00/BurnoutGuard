@@ -79,7 +79,7 @@ export class AdminService {
     // metadata.metrics is keyed by algorithm name, e.g.
     // { LogisticRegression: {...}, RandomForest: {...}, XGBoost: {...} }
     const allModels = Object.entries(metadata.metrics || {}).map(([algo, m]: [string, any]) => ({
-      version: metadata.version,
+      version: algo === metadata.algorithm ? metadata.version : `benchmark · ${metadata.trainedAt?.slice(0, 10)}`,
       algorithm: algo,
       accuracy: `${(m.accuracy * 100).toFixed(1)}%`,
       f1Score: m.f1Score.toFixed(3),
