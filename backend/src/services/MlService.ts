@@ -37,6 +37,7 @@ export class MlService {
     );
   }
 
+  // backend/src/services/MlService.ts
   async getPrediction(userId: string, features: Record<string, number>): Promise<PredictionResponse> {
     try {
       const response = await axios.post<PredictionResponse>(
@@ -45,11 +46,13 @@ export class MlService {
         { timeout: 8000 }
       );
       return response.data;
-    } catch (err) {
+    } catch (err: any) {
+      const isNetworkError = !err.response;
       console.error(
-        `[MlService] ML service unreachable at ${Env.ML_SERVICE_URL} for user ${userId} — ` +
-        `falling back to modelVersion='fallback'. Check ml-service is running and a model ` +
-        `has been trained (python train.py after generate_dataset.py).`, err
+        `[MlService] Prediction failed for user ${userId} — ` +
+        (isNetworkError
+          ? `ml-service unreachable at ${Env.ML_SERVICE_URL}.`
+          : `ml-service returned ${err.response.status}: ${err.response?.data?.error ?? err.message}`)
       );
       return FALLBACK_RESPONSE;
     }

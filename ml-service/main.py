@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
+import sys
 
 from preprocess import build_feature_vector, load_latest_artifacts, INT_TO_RISK
 from explain import explain_prediction
@@ -30,7 +31,6 @@ def get_artifacts():
 def index():
     return jsonify({"status": "ML Service is running"})
 
-
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json or {}
@@ -42,7 +42,14 @@ def predict():
     metadata = artifacts["metadata"]
 
     feature_df = build_feature_vector(raw_features)
-    scaled = scaler.transform(feature_df)
+
+    try:
+        scaled = scaler.transform(feature_df)
+    except ValueError as e:
+        return jsonify({
+            "error": f"Model/feature mismatch: {str(e)}. FEATURE_COLUMNS changed since the "
+                     f"model was last trained — run `python generate_dataset.py && python train.py`."
+        }), 500
 
     predicted_class = int(model.predict(scaled)[0])
     proba = model.predict_proba(scaled)[0]
@@ -58,7 +65,6 @@ def predict():
         "modelVersion": metadata["version"],
         "shapValues": shap_values,
     })
-
 
 @app.route('/whatif', methods=['POST'])
 def whatif():
@@ -89,12 +95,20 @@ def whatif():
 @app.route('/retrain', methods=['POST'])
 def retrain():
     import subprocess
-    result = subprocess.run(["python", "train.py"], capture_output=True, text=True)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    result = subprocess.run(
+        [sys.executable, "train.py"],
+        capture_output=True, text=True,
+        cwd=script_dir,
+    )
     global _artifacts
-    _artifacts = None  # force reload of new artifacts on next request
+    _artifacts = None
+    if result.returncode != 0:
+        print("[retrain] STDOUT:", result.stdout)
+        print("[retrain] STDERR:", result.stderr)
     return jsonify({
         "success": result.returncode == 0,
-        "log": result.stdout + result.stderr,
+        "log": (result.stdout + result.stderr)[-4000:],
     })
 
 
