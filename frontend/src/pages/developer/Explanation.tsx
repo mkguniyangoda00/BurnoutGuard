@@ -102,11 +102,11 @@ const Explanation: React.FC = () => {
       </div>
 
       {/* ── Risk Score Hero Card ─────────────────────────────────────── */}
-      <Card style={{ 
-        padding: '32px 28px', 
-        marginBottom: '32px', 
-        background: `linear-gradient(135deg, ${getRiskColor(prediction.riskLevel)} 0%, ${getRiskColor(prediction.riskLevel)}22 100%)`,
-        border: `2px solid ${getRiskColor(prediction.riskLevel)}33`
+      <Card style={{
+        padding: '32px 28px',
+        marginBottom: '32px',
+        background: 'var(--navy-gradient)',
+        border: 'none',
       }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '32px', alignItems: 'center' }}>
           {/* Risk Score Circle */}
@@ -117,7 +117,7 @@ const Explanation: React.FC = () => {
                 cy="60"
                 r="50"
                 fill="none"
-                stroke="rgba(255,255,255,0.2)"
+                stroke="rgba(255,255,255,0.15)"
                 strokeWidth="8"
               />
               <circle
@@ -141,7 +141,7 @@ const Explanation: React.FC = () => {
               <p style={{ fontSize: '24px', fontWeight: 700, color: getRiskColor(prediction.riskLevel) }}>
                 {(prediction.riskScore * 100).toFixed(0)}%
               </p>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>Risk</p>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>Risk</p>
             </div>
           </div>
 
@@ -156,7 +156,7 @@ const Explanation: React.FC = () => {
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
               <div>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Trend</p>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Trend</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {prediction.trendDirection === 'Improving' && (
                     <>
@@ -171,14 +171,14 @@ const Explanation: React.FC = () => {
                     </>
                   )}
                   {prediction.trendDirection === 'Stable' && (
-                    <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>→ Stable</span>
+                    <span style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>→ Stable</span>
                   )}
                 </div>
               </div>
               
               <div>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Data Points</p>
-                <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>Data Points</p>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>
                   {prediction.checkInsUsed || 1} check-in{prediction.checkInsUsed !== 1 ? 's' : ''}
                 </p>
               </div>

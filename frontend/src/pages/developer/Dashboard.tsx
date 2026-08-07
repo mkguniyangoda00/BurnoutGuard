@@ -1,4 +1,4 @@
-  /**
+ /**
  * Developer Dashboard (pages/developer/Dashboard.tsx)
  * 
  * The main homepage for Developer-role users.
@@ -197,7 +197,7 @@ const Dashboard: React.FC = () => {
       {prediction && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '28px' }}>
           <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
-            <div style={{ fontSize: '18px', fontWeight: 600, color: '#fff', marginBottom: '4px' }}>
+            <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
               {prediction.shapExplanations?.filter((s: any) => s.direction === 'IncreasesRisk').length ?? 0}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Risk factors</div>

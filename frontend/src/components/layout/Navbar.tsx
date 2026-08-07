@@ -24,6 +24,7 @@ import { Dropdown } from '../ui/Dropdown';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
+import { HeartHandshake } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -270,7 +271,7 @@ const Navbar: React.FC = () => {
             </div>
             <Link
               to={profilePath}
-              className="flex items-center gap-2 px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)]"
+              className="flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)] rounded-lg"
               onClick={() => setOpenDropdown(null)}
             >
               <User size={14} /> {t('navbar.myProfile')}

@@ -148,6 +148,12 @@ table { border-collapse: collapse; width: 100%; }
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-dropdown);
   z-index: 60;
+  /* ADD: */
+  padding: 6px;
+  overflow: hidden;
+}
+.dropdown-menu > * + * {
+  margin-top: 2px;
 }
 
 /* ── Risk hero card (dashboard) ── */
