@@ -33,24 +33,13 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
         type="button"
         onClick={() => setHelpOpen(true)}
         style={{
-          position: 'fixed',
-          top: '76px',
-          right: '20px',
-          zIndex: 45,
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '10px 14px',
-          borderRadius: '999px',
-          border: '1px solid var(--danger)',
-          background: 'var(--danger-light)',
-          color: 'var(--danger)',
-          fontSize: '13px',
-          fontWeight: 600,
-          boxShadow: 'var(--shadow-card)',
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          padding: '6px 12px', borderRadius: '999px',
+          border: '1px solid var(--danger)', background: 'var(--danger-light)', color: 'var(--danger)',
+          fontSize: '12px', fontWeight: 600,
         }}
       >
-        <HeartHandshake size={16} />
+        <HeartHandshake size={14} />
         Need help now?
       </button>
       {helpOpen && (

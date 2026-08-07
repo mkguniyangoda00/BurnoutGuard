@@ -78,7 +78,7 @@ const TeamDashboard: React.FC = () => {
       </div>
 
       {/* ── Filter Controls (Mocked visually for now) ─────────────── */}
-      <div className="flex gap-3 mb-6">
+      <div className="flex gap-3 mb-6 flex-wrap">
         <select className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none">
           <option>Department: Engineering</option>
         </select>
@@ -124,14 +124,14 @@ const TeamDashboard: React.FC = () => {
       </div>
 
       {/* ── Summary Stats Cards ───────────────────────────────────── */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-4 gap-4 mb-6">
         {[
           { num: highRiskCount.toString(), label: 'High Risk', color: 'text-red-500' },
           { num: moderateRiskCount.toString(), label: 'Moderate Risk', color: 'text-amber-500' },
           { num: lowRiskCount.toString(), label: 'Low Risk', color: 'text-green-500' },
           { num: noDataCount.toString(), label: 'No Data', color: 'text-gray-400' },
         ].map((chip, idx) => (
-          <div key={idx} className="border border-gray-200 rounded-xl p-4 text-center bg-white shadow-sm">
+          <div key={idx} className="border border-gray-200 rounded-xl p-5 text-center bg-white shadow-sm">
             <div className={`text-3xl font-bold mb-1 ${chip.color}`}>{chip.num}</div>
             <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">{chip.label}</div>
           </div>
@@ -163,7 +163,7 @@ const TeamDashboard: React.FC = () => {
               <div className="w-16 mr-4">
                 <div className="h-5 mb-2"></div>
                 {members.map((member: any, idx: number) => (
-                  <div key={idx} className="h-7 mb-1.5 text-xs text-gray-500 flex items-center justify-end font-medium">
+                  <div key={idx} className="h-9 mb-2 text-xs text-gray-500 flex items-center justify-end font-medium">
                     {member.label}
                   </div>
                 ))}
@@ -188,7 +188,7 @@ const TeamDashboard: React.FC = () => {
                         return (
                           <div
                             key={mIdx}
-                            className={`h-7 rounded-md mb-1.5 w-full ${bgColor} transition-colors hover:opacity-80`}
+                            className={`h-9 rounded-md mb-2 w-full ${bgColor} transition-colors hover:opacity-80`}
                             title={weekData ? `${member.label} Risk: ${weekData.riskLevel}` : 'No Data'}
                           ></div>
                         );
