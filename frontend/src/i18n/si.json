@@ -17,6 +17,7 @@
     "myProfile": "මගේ පැතිකඩ",
     "language": "භාෂාව"
   },
+
   "auth": {
     "loginTitle": "Burnout",
     "loginSubtitle": "ඔබගේ ඩෑෂ්බෝඩ් වෙත පිවිසීමට ලොග් වන්න",
@@ -37,6 +38,7 @@
     "registerLink": "ලියාපදිංචි වන්න",
     "loginLink": "පිවිසෙන්න"
   },
+
   "dashboard": {
     "hello": "සුභ උදෑසනක්",
     "afternoon": "සුභ දහවල්",
@@ -49,6 +51,7 @@
     "topRiskFactors": "මෙම සතියේ ප්‍රධාන අවදානම් සාධක",
     "seeFullWaterfall": "සම්පූර්ණ SHAP විස්තරය බලන්න"
   },
+
   "checkin": {
     "title": "අද චෙක්-ඉන්",
     "subtitle": "තත්පර 90ක් පමණ ගතවේ",
@@ -80,5 +83,116 @@
     "weekend": "සතිඅන්තයේ වැඩ කරනවාද?",
     "onCall": "අද ඔන්-කෝල් ද?",
     "submit": "චෙක්-ඉන් යොමු කරන්න"
+  },
+
+  "common": {
+    "needHelp": "දැන් උදව් අවශ්‍යද?",
+    "close": "වසන්න",
+    "loading": "පූරණය වෙමින්...",
+    "backToDashboard": "ඩෑෂ්බෝඩ් වෙත"
+  },
+
+  "myRisk": {
+    "title": "මගේ බර්නවුට් අවදානම",
+    "subtitle": "ඔබගේ අවදානම් සාධක සහ ඔබට ඔරොත්තු දීමට උපකාර වන දේ තේරුම් ගන්න",
+    "riskLevel": "අවදානම් මට්ටම",
+    "trend": "ප්‍රවණතාව",
+    "positiveFactors": "ධනාත්මක සාධක",
+    "riskAreas": "අවදානම් ක්ෂේත්‍ර",
+    "summary": "සාරාංශය",
+    "dataCompleteness": "දත්ත සම්පූර්ණත්වය",
+    "lowConfidence": "අඩු විශ්වාසනීයත්වයේ පුරෝකථනය",
+    "noPrediction": "පුරෝකථන දත්ත නැත",
+    "noPredictionBody": "අවදානම් ලකුණක් ජනනය කිරීමට ඔබගේ දෛනික චෙක්-ඉන් සම්පූර්ණ කරන්න. SHAP විශ්ලේෂණය බැලීමටද මෙය උපකාරී වේ.",
+    "submitCheckIn": "චෙක්-ඉන් යොමු කරන්න",
+
+    "riskLabel": "අවදානම",
+    "dataPoints": "දත්ත ලකුණු",
+    "checkIn_one": "චෙක්-ඉන් {{count}}ක්",
+    "checkIn_other": "චෙක්-ඉන් {{count}}ක්",
+    "improving": "වැඩිදියුණු වෙමින්",
+    "worsening": "නරක අතට හැරෙමින්",
+    "stable": "ස්ථාවර",
+    "stableWithArrow": "→ ස්ථාවර",
+
+    "dataCompletenessMessage": "✓ දත්ත සම්පූර්ණත්වය {{value}}%",
+    "lowConfidenceMessage": "⚠ අඩු විශ්වාසනීයත්වයේ පුරෝකථනය — දත්ත සම්පූර්ණත්වය {{value}}% (සමහර ආදාන ඇස්තමේන්තු කර ඇත)",
+
+    "fallbackWarning": "⚠ මෙම චෙක්-ඉන් ලකුණු කිරීමට ML සේවාව අසමත් විය — මෙය සැබෑ පුරෝකථනයක් නොව තාවකාලික අගයකි. පරිපාලක → මාදිලි මිනුම් බලන්න.",
+
+    "stableSummary": "ඔබගේ මිනුම් දැනට සාමාන්‍ය පරාසයන් තුළ පවතින බැවින් ස්ථාවර බර්නවුට් අවදානම් පැතිකඩක් පෙන්නුම් කරයි.",
+    "riskDriverSummary": "ඔබගේ {{feature}} මේ මොහොතේ ඔබගේ බර්නවුට් අවදානමට ප්‍රධානතම බලපෑමක් ඇති කරයි.",
+    "secondRiskDriverSummary": " {{feature}} ඉහළ මට්ටමක පැවතීමද පීඩනය වැඩි කරයි.",
+    "noRiskFactorsSummary": "ඔබගේ දෛනික පුරුදු ප්‍රධාන බර්නවුට් අවදානම් සාධක නොපෙන්වයි.",
+    "protectiveSummary": " ධනාත්මක පැත්තෙන්, ඔබගේ {{feature}} අවදානම අඩු කිරීමට උපකාරී වේ — එය දිගටම පවත්වා ගන්න."
+  },
+
+  "explanation": {
+    "title": "මගේ බර්නවුට් අවදානම",
+    "subtitle": "ඔබගේ අවදානම් සාධක සහ ඔබට ඔරොත්තු දීමට උපකාර වන දේ තේරුම් ගන්න",
+
+    "dimensionBreakdown": "බර්නවුට් මානයන්ගේ විභජනය",
+    "dimensionSubtitle": "WHO හි ත්‍රි-මාන බර්නවුට් රාමුව මත පදනම්ව",
+    "mostElevated": "වඩාත් ඉහළ මානය",
+
+    "riskAreas": "අවදානම් ක්ෂේත්‍ර",
+    "riskAreasSubtitle": "ඔබගේ බර්නවුට් අවදානම වැඩි කරන සාධක",
+    "protectiveFactors": "ආරක්ෂාකාරී සාධක",
+    "protectiveSubtitle": "ඔබට ඔරොත්තු දීමට සහ සෞඛ්‍ය සම්පන්නව සිටීමට උපකාර වන දේ",
+
+    "noRiskAreas": "ප්‍රධාන අවදානම් ක්ෂේත්‍ර හඳුනාගැනුනේ නැත. හොඳ වැඩක්!",
+    "noProtective": "තවම ආරක්ෂාකාරී සාධක හඳුනාගැනුනේ නැත.",
+
+    "viewRecommendations": "නිර්දේශ බලන්න",
+    "viewRecommendationsArrow": "නිර්දේශ බලන්න →",
+
+    "risk": "අවදානම",
+    "riskLevel": "අවදානම් මට්ටම",
+    "trend": "ප්‍රවණතාව",
+    "dataPoints": "දත්ත ලකුණු",
+
+    "improving": "වැඩිදියුණු වෙමින්",
+    "worsening": "නරක අතට හැරෙමින්",
+    "stable": "ස්ථාවර",
+
+    "checkIn_one": "චෙක්-ඉන් {{count}}ක්",
+    "checkIn_other": "චෙක්-ඉන් {{count}}ක්",
+
+    "impact": "බලපෑම",
+
+    "riskArea": "අවදානම් ක්ෂේත්‍ර",
+    "protectiveFactor": "ආරක්ෂාකාරී සාධක",
+
+    "stableSummary": "ඔබගේ මිනුම් දැනට සාමාන්‍ය පරාසයන් තුළ පවතින බැවින් ස්ථාවර බර්නවුට් අවදානම් පැතිකඩක් පෙන්නුම් කරයි.",
+    "riskDriverSummary": "ඔබගේ {{feature}} මේ මොහොතේ ඔබගේ බර්නවුට් අවදානමට ප්‍රධානතම බලපෑමක් ඇති කරයි.",
+    "secondRiskDriverSummary": " {{feature}} ඉහළ මට්ටමක පැවතීමද පීඩනය වැඩි කරයි.",
+    "noRiskFactorsSummary": "ඔබගේ දෛනික පුරුදු ප්‍රධාන බර්නවුට් අවදානම් සාධක නොපෙන්වයි.",
+    "protectiveSummary": " ධනාත්මක පැත්තෙන්, ඔබගේ {{feature}} අවදානම අඩු කිරීමට උපකාරී වේ — එය දිගටම පවත්වා ගන්න.",
+
+    "backToDashboard": "ඩෑෂ්බෝඩ් වෙත",
+
+    "noPrediction": "පුරෝකථන දත්ත නැත",
+    "noPredictionBody": "අවදානම් ලකුණක් ජනනය කිරීමට ඔබගේ දෛනික චෙක්-ඉන් සම්පූර්ණ කර SHAP විශ්ලේෂණය බලන්න.",
+    "submitCheckIn": "චෙක්-ඉන් යොමු කරන්න"
+  },
+
+  "journal": {
+    "title": "ජර්නලය සහ පරාවර්තනය",
+    "subtitle": "ඔබගේ දිනය ගැන පරාවර්තනය කිරීමට පෞද්ගලික, නිශ්ශබ්ද අවකාශයක්",
+    "reflection": "පරාවර්තනය",
+    "reflectionPlaceholder": "ඔබගේ දිනය කෙසේද? ඔබගේ මනසේ ඇත්තේ කුමක්ද?",
+    "stressTriggers": "ආතති උත්ප්‍රේරක",
+    "stressTriggersPlaceholder": "අද ආතතියට හේතුව කුමක්ද?",
+    "workChallenges": "වැඩේ අභියෝග",
+    "workChallengesPlaceholder": "විශේෂිත වැඩ අභියෝග තිබුණාද?",
+    "positiveEvents": "ධනාත්මක සිදුවීම්",
+    "positiveEventsPlaceholder": "අද හොඳ දෙයක් වුණාද?",
+    "copingStrategies": "භාවිතා කළ මුහුණ දීමේ ක්‍රම",
+    "copingStrategiesPlaceholder": "අද ඔබට මුහුණ දීමට උපකාර වූයේ කුමක්ද?",
+    "save": "ඇතුළත් කිරීම සුරකින්න",
+    "saving": "සුරකිමින්...",
+    "pastReflections": "අතීත පරාවර්තන",
+    "empty": "තවම ජර්නල් ඇතුළත් කිරීම් නැත. ඉහත ඔබගේ පළමු පරාවර්තනය ලියන්න.",
+    "optional": "විකල්ප"
   }
 }

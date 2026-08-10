@@ -146,7 +146,7 @@ const Navbar: React.FC = () => {
       <div className="flex items-center gap-3">
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
+          className="icon-btn"
           aria-label="Toggle dark mode"
           title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
         >
@@ -160,50 +160,71 @@ const Navbar: React.FC = () => {
           trigger={
             <button
               onClick={() => setOpenDropdown((current) => (current === 'notifications' ? null : 'notifications'))}
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-100 relative"
+              className="icon-btn"
               aria-label="Notifications"
             >
               <Bell size={18} />
-              {unreadCount > 0 && <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />}
+              {unreadCount > 0 && (
+                <span
+                  style={{
+                    position: 'absolute', top: 6, right: 6, width: 8, height: 8,
+                    borderRadius: '50%', background: 'var(--danger)',
+                    border: '2px solid var(--bg)',
+                  }}
+                />
+              )}
             </button>
           }
         >
-          <div className="overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--border)] font-semibold text-sm text-[var(--text-primary)]">
-              Notifications
-              {unreadCount > 0 && (
-                <span className="ml-2 px-2 py-0.5 bg-[var(--danger-light)] text-[var(--danger)] rounded-full text-xs">
-                  {unreadCount} new
-                </span>
-              )}
-            </div>
-            <div className="max-h-64 overflow-y-auto">
-              {alerts.length === 0 ? (
-                <p className="text-sm text-[var(--text-muted)] p-4 text-center">No new notifications</p>
-              ) : (
-                alerts.slice(0, 5).map((alert: any) => (
-                  <div
-                    key={alert.alertId}
-                    className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--surface)] border-b border-[var(--border)] ${alert.isRead ? 'opacity-60' : ''}`}
-                    onClick={() => {
-                      if (!alert.isRead) markReadMutation.mutate(alert.alertId);
-                      setOpenDropdown(null);
-                    }}
-                  >
-                    <div
-                      className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${
-                        alert.severity === 'Critical' ? 'bg-red-500' : alert.severity === 'Warning' ? 'bg-yellow-500' : 'bg-blue-400'
-                      }`}
-                    />
-                    <div>
-                      <p className="text-sm text-[var(--text-primary)]">{alert.message}</p>
-                      <p className="text-xs text-[var(--text-muted)] mt-0.5">{new Date(alert.sentAt).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
+        <div className="overflow-hidden">
+          <div className="dd-header">
+            Notifications
+            {unreadCount > 0 && (
+              <span
+                style={{
+                  fontSize: 11, padding: '2px 8px', borderRadius: 999,
+                  background: 'var(--danger-light)', color: 'var(--danger)',
+                }}
+              >
+                {unreadCount} new
+              </span>
+            )}
           </div>
+          <div className="max-h-64 overflow-y-auto">
+            {alerts.length === 0 ? (
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', padding: '20px 16px', textAlign: 'center' }}>
+                No new notifications
+              </p>
+            ) : (
+              alerts.slice(0, 5).map((alert: any) => (
+                <div
+                  key={alert.alertId}
+                  className="dd-row"
+                  style={{ alignItems: 'flex-start', opacity: alert.isRead ? 0.6 : 1 }}
+                  onClick={() => {
+                    if (!alert.isRead) markReadMutation.mutate(alert.alertId);
+                    setOpenDropdown(null);
+                  }}
+                >
+                  <div
+                    style={{
+                      marginTop: 5, width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                      background:
+                        alert.severity === 'Critical' ? 'var(--danger)' :
+                        alert.severity === 'Warning' ? 'var(--warning)' : 'var(--primary)',
+                    }}
+                  />
+                  <div>
+                    <p style={{ fontSize: 13, color: 'var(--text-primary)' }}>{alert.message}</p>
+                    <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
+                      {new Date(alert.sentAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
         </Dropdown>
 
         <Dropdown
@@ -212,41 +233,38 @@ const Navbar: React.FC = () => {
           width="180px"
           trigger={
             <button
-              onClick={() => setOpenDropdown((current) => (current === 'language' ? null : 'language'))}
-              className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
-              aria-label={t('navbar.language')}
-              title={t('navbar.language')}
-            >
-              <Languages size={18} />
-            </button>
+            onClick={() => setOpenDropdown((current) => (current === 'language' ? null : 'language'))}
+            className="icon-btn"
+            aria-label={t('navbar.language')}
+            title={t('navbar.language')}
+          >
+            <Languages size={18} />
+          </button>
           }
         >
           <div className="overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--border)] font-semibold text-sm text-[var(--text-primary)]">
-              {t('navbar.language')}
-            </div>
-            {[
-              { code: 'en', label: 'English' },
-              { code: 'si', label: 'සිංහල' },
-              { code: 'ta', label: 'தமிழ்' },
-            ].map((language) => (
-              <button
-                key={language.code}
-                type="button"
-                className="w-full text-left px-4 py-2.5 text-sm hover:bg-[var(--surface)]"
-                style={{ color: i18n.language === language.code ? 'var(--primary)' : 'var(--text-secondary)' }}
-                onClick={() => {
-                  i18n.changeLanguage(language.code);
-                  if (typeof window !== 'undefined') {
-                    window.localStorage.setItem('bg_language', language.code);
-                  }
-                  setOpenDropdown(null);
-                }}
-              >
-                {language.label}
-              </button>
-            ))}
-          </div>
+          <div className="dd-header">{t('navbar.language')}</div>
+          {[
+            { code: 'en', label: 'English' },
+            { code: 'si', label: 'සිංහල' },
+            { code: 'ta', label: 'தமிழ்' },
+          ].map((language) => (
+            <button
+              key={language.code}
+              type="button"
+              className={`dd-row ${i18n.language === language.code ? 'active' : ''}`}
+              onClick={() => {
+                i18n.changeLanguage(language.code);
+                if (typeof window !== 'undefined') {
+                  window.localStorage.setItem('bg_language', language.code);
+                }
+                setOpenDropdown(null);
+              }}
+            >
+              {language.label}
+            </button>
+          ))}
+        </div>
         </Dropdown>
 
         <Dropdown
@@ -265,25 +283,21 @@ const Navbar: React.FC = () => {
           }
         >
           <div className="overflow-hidden">
-            <div className="px-4 py-3 border-b border-[var(--border)]">
-              <p className="text-sm font-semibold text-[var(--text-primary)]">{user.fullName}</p>
-              <p className="text-xs text-[var(--text-muted)] mt-0.5 capitalize">{user.role}</p>
-            </div>
-            <Link
-              to={profilePath}
-              className="flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)] rounded-lg"
-              onClick={() => setOpenDropdown(null)}
-            >
-              <User size={14} /> {t('navbar.myProfile')}
-            </Link>
-            <div className="h-px bg-[var(--border)] mx-3" />
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-[var(--danger)] hover:bg-[var(--danger-light)]"
-            >
-              <LogOut size={14} /> Log out
-            </button>
+          <div className="dd-header" style={{ display: 'block' }}>
+            <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{user.fullName}</p>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, textTransform: 'capitalize' }}>
+              {user.role}
+            </p>
           </div>
+          <div className="dd-divider" />
+          <Link to={profilePath} className="dd-row" onClick={() => setOpenDropdown(null)}>
+            <User size={14} /> {t('navbar.myProfile')}
+          </Link>
+          <div className="dd-divider" />
+          <button onClick={handleLogout} className="dd-row" style={{ color: 'var(--danger)' }}>
+            <LogOut size={14} /> Log out
+          </button>
+        </div>
         </Dropdown>
       </div>
     </nav>

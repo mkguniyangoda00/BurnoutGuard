@@ -17,6 +17,7 @@
     "myProfile": "My Profile",
     "language": "Language"
   },
+
   "auth": {
     "loginTitle": "Burnout",
     "loginSubtitle": "Sign in to continue to your dashboard",
@@ -37,6 +38,7 @@
     "registerLink": "Register",
     "loginLink": "Sign In"
   },
+
   "dashboard": {
     "hello": "Good morning",
     "afternoon": "Good afternoon",
@@ -49,6 +51,7 @@
     "topRiskFactors": "Top risk factors this week",
     "seeFullWaterfall": "See full SHAP waterfall chart"
   },
+
   "checkin": {
     "title": "Today's Check-in",
     "subtitle": "Takes about 90 seconds",
@@ -80,5 +83,116 @@
     "weekend": "Working this weekend?",
     "onCall": "On-call today?",
     "submit": "Submit Check-in"
+  },
+
+  "common": {
+    "needHelp": "Need help now?",
+    "close": "Close",
+    "loading": "Loading...",
+    "backToDashboard": "Back to Dashboard"
+  },
+
+  "myRisk": {
+    "title": "My Burnout Risk",
+    "subtitle": "Understand your risk factors and what's helping you stay resilient",
+    "riskLevel": "Risk level",
+    "trend": "Trend",
+    "positiveFactors": "Positive Factors",
+    "riskAreas": "Risk Areas",
+    "summary": "Summary",
+    "dataCompleteness": "data completeness",
+    "lowConfidence": "Lower confidence prediction",
+    "noPrediction": "No Prediction Data",
+    "noPredictionBody": "Complete your daily check-in to generate a risk score and view its SHAP analysis.",
+    "submitCheckIn": "Submit Check-in",
+
+    "riskLabel": "Risk",
+    "dataPoints": "Data Points",
+    "checkIn_one": "{{count}} check-in",
+    "checkIn_other": "{{count}} check-ins",
+    "improving": "Improving",
+    "worsening": "Worsening",
+    "stable": "Stable",
+    "stableWithArrow": "→ Stable",
+
+    "dataCompletenessMessage": "✓ {{value}}% data completeness",
+    "lowConfidenceMessage": "⚠ Lower confidence prediction — {{value}}% data completeness (some inputs estimated)",
+
+    "fallbackWarning": "⚠ The ML service failed to score this check-in — this is a placeholder value, not a real prediction. See Admin → Model Metrics.",
+
+    "stableSummary": "Your metrics are currently in standard ranges, leading to a stable burnout risk profile.",
+    "riskDriverSummary": "Your {{feature}} is the biggest driver of your burnout risk right now.",
+    "secondRiskDriverSummary": " Elevated {{feature}} is also increasing the pressure.",
+    "noRiskFactorsSummary": "Your daily habits show no major burnout risk factors.",
+    "protectiveSummary": " On the positive side, your {{feature}} is helping to buffer the risk — keep that up."
+  },
+
+  "explanation": {
+    "title": "My Burnout Risk",
+    "subtitle": "Understand your risk factors and what's helping you stay resilient",
+
+    "dimensionBreakdown": "Burnout Dimension Breakdown",
+    "dimensionSubtitle": "Based on the WHO's three-dimension burnout framework",
+    "mostElevated": "Most elevated dimension",
+
+    "riskAreas": "Risk Areas",
+    "riskAreasSubtitle": "Factors increasing your burnout risk",
+    "protectiveFactors": "Protective Factors",
+    "protectiveSubtitle": "What's helping you stay resilient and healthy",
+
+    "noRiskAreas": "No major risk areas identified. Great work!",
+    "noProtective": "No protective factors identified yet.",
+
+    "viewRecommendations": "View Recommendations",
+    "viewRecommendationsArrow": "View Recommendations →",
+
+    "risk": "Risk",
+    "riskLevel": "Risk Level",
+    "trend": "Trend",
+    "dataPoints": "Data Points",
+
+    "improving": "Improving",
+    "worsening": "Worsening",
+    "stable": "Stable",
+
+    "checkIn_one": "{{count}} check-in",
+    "checkIn_other": "{{count}} check-ins",
+
+    "impact": "impact",
+
+    "riskArea": "Risk Areas",
+    "protectiveFactor": "Protective Factors",
+
+    "stableSummary": "Your metrics are currently in standard ranges, leading to a stable burnout risk profile.",
+    "riskDriverSummary": "Your {{feature}} is the biggest driver of your burnout risk right now.",
+    "secondRiskDriverSummary": " Elevated {{feature}} is also increasing the pressure.",
+    "noRiskFactorsSummary": "Your daily habits show no major burnout risk factors.",
+    "protectiveSummary": " On the positive side, your {{feature}} is helping to buffer the risk — keep that up.",
+
+    "backToDashboard": "Back to Dashboard",
+
+    "noPrediction": "No Prediction Data",
+    "noPredictionBody": "Complete your daily check-in to generate a risk score and view its SHAP analysis.",
+    "submitCheckIn": "Submit Check-in"
+  },
+
+  "journal": {
+    "title": "Journal & Reflection",
+    "subtitle": "A private, quiet space to reflect on your day",
+    "reflection": "Reflection",
+    "reflectionPlaceholder": "How was your day? What's on your mind?",
+    "stressTriggers": "Stress triggers",
+    "stressTriggersPlaceholder": "What caused stress today?",
+    "workChallenges": "Work challenges",
+    "workChallengesPlaceholder": "Any specific work challenges?",
+    "positiveEvents": "Positive events",
+    "positiveEventsPlaceholder": "Anything good happen today?",
+    "copingStrategies": "Coping strategies used",
+    "copingStrategiesPlaceholder": "What helped you cope today?",
+    "save": "Save Entry",
+    "saving": "Saving...",
+    "pastReflections": "Past Reflections",
+    "empty": "No journal entries yet. Write your first reflection above.",
+    "optional": "optional"
   }
 }
