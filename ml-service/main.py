@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import sys
+from chat_engine import generate_reply
 
 from preprocess import build_feature_vector, load_latest_artifacts, INT_TO_RISK
 from explain import explain_prediction
@@ -110,6 +111,23 @@ def retrain():
         "success": result.returncode == 0,
         "log": (result.stdout + result.stderr)[-4000:],
     })
+    
+    
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.json or {}
+    history = data.get("history", [])
+    context_summary = data.get("contextSummary", "no prediction data available yet")
+
+    if not isinstance(history, list):
+        return jsonify({"error": "history must be a list"}), 400
+
+    try:
+        reply = generate_reply(history, context_summary)
+    except Exception as e:
+        return jsonify({"error": f"chat engine failed: {str(e)}"}), 500
+
+    return jsonify({"reply": reply, "engine": "tensorflow"})
 
 
 if __name__ == '__main__':

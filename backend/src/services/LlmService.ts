@@ -7,7 +7,7 @@ import { Env } from '../config/env';
  * CONFIDENTIALITY RULES (do not weaken these):
  * - Never pass userId, email, fullName, company, or freeform notes/journal text.
  * - Only pass de-identified aggregate signals (riskLevel, riskScore, top SHAP
- *   feature *names*, dimension breakdown) plus the user's own chat message.
+ *   feature *names*, dimension breakdown) plus the user's own chat messages.
  * - Never log the raw request/response bodies (may contain the user's own
  *   typed message, which could include sensitive personal disclosures).
  */
@@ -17,6 +17,12 @@ export interface LlmChatContext {
   riskScore: number | null;
   topFactors: string[]; // plain-language, already stripped of raw values
   dimensionBreakdown?: { dimension: string; score: number }[];
+}
+
+/** A single turn in the conversation, in chronological order. */
+export interface LlmConversationMessage {
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 const SYSTEM_PROMPT = `You are BurnoutGuard's supportive wellbeing assistant.
@@ -36,7 +42,19 @@ export class LlmService {
     return !!Env.LLM_API_KEY && !this.providerDisabledReason;
   }
 
-  async getChatReply(userMessage: string, context: LlmChatContext): Promise<string | null> {
+  /**
+   * Takes the full recent conversation (already capped by the caller — see
+   * ChatService.MAX_HISTORY_MESSAGES) plus sanitized aggregate context, and
+   * returns the assistant's next reply. The context summary is attached to
+   * the most recent user turn only, since that reflects the developer's
+   * current state most accurately; earlier turns are passed through as-is
+   * so the model can follow the conversation naturally, like a normal
+   * multi-turn chat rather than a single stateless Q&A.
+   */
+  async getChatReply(
+    history: LlmConversationMessage[],
+    context: LlmChatContext
+  ): Promise<string | null> {
     if (!this.isConfigured()) {
       if (this.providerDisabledReason) {
         console.warn(`[LlmService] LLM provider disabled — ${this.providerDisabledReason}. Falling back to canned replies.`);
@@ -46,7 +64,22 @@ export class LlmService {
       return null;
     }
 
+    if (history.length === 0) {
+      return null;
+    }
+
     const contextSummary = this.buildSanitizedContextSummary(context);
+
+    const messages = history.map((turn, idx) => {
+      const isLastUserTurn = idx === history.length - 1 && turn.role === 'user';
+      if (isLastUserTurn) {
+        return {
+          role: turn.role,
+          content: `User context (anonymized, aggregate only): ${contextSummary}\n\nUser message: ${turn.content}`,
+        };
+      }
+      return { role: turn.role, content: turn.content };
+    });
 
     try {
       const response = await axios.post(
@@ -55,12 +88,7 @@ export class LlmService {
           model: Env.LLM_MODEL,
           max_tokens: 300,
           system: SYSTEM_PROMPT,
-          messages: [
-            {
-              role: 'user',
-              content: `User context (anonymized, aggregate only): ${contextSummary}\n\nUser message: ${userMessage}`,
-            },
-          ],
+          messages,
         },
         {
           headers: {

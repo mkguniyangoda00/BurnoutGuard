@@ -6,6 +6,7 @@ export interface ChatMessage {
   role: ChatRole;
   content: string;
   relatedPredictionId: string | null;
+  engineUsed: string | null;
   createdBy: string;
   createdDateTime: Date;
   modifiedBy: string;

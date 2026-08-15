@@ -4,7 +4,9 @@ import { RecommendationRepository } from '../repositories/RecommendationReposito
 import { ResourceRepository } from '../repositories/ResourceRepository';
 import { ChatMessage } from '../models/ChatMessage';
 import { ShapExplanation } from '../models/ShapExplanation';
-import { LlmService } from './LlmService';
+import { LlmService, LlmConversationMessage } from './LlmService';
+import { TensorFlowChatService } from './TensorFlowChatService';
+import { Env } from '../config/env';
 
 interface ConversationContext {
   prediction: {
@@ -19,8 +21,11 @@ interface ConversationContext {
   }[];
 }
 
+const MAX_HISTORY_MESSAGES = 10;
+
 export class ChatService {
   private llmService = new LlmService();
+  private tensorFlowChatService = new TensorFlowChatService();
 
   constructor(
     private chatRepo: ChatRepository,
@@ -28,7 +33,7 @@ export class ChatService {
     private recommendationRepo: RecommendationRepository,
     private resourceRepo: ResourceRepository
   ) {}
-
+  
   private async buildContext(
     userId: string
   ): Promise<ConversationContext> {
@@ -273,48 +278,60 @@ export class ChatService {
       userId,
       role: 'user',
       content,
-      relatedPredictionId:
-        ctx.prediction?.predictionId ?? null,
+      relatedPredictionId: ctx.prediction?.predictionId ?? null,
       createdBy: userId,
       modifiedBy: userId,
     });
 
     const topFactors = ctx.topShapRows.map(
       (row: ShapExplanation) =>
-        row.featureName
-          .replace(/([A-Z])/g, ' $1')
-          .toLowerCase()
+        row.featureName.replace(/([A-Z])/g, ' $1').toLowerCase()
     );
 
-    let replyContent: string | null =
-      await this.llmService.getChatReply(content, {
+    const fullHistory = await this.chatRepo.findByUserId(userId);
+    const conversationHistory: LlmConversationMessage[] = fullHistory
+      .filter(
+        (m): m is ChatMessage & { role: 'user' | 'assistant' } =>
+          m.role === 'user' || m.role === 'assistant'
+      )
+      .slice(-MAX_HISTORY_MESSAGES)
+      .map((m) => ({ role: m.role, content: m.content }));
+
+    let replyContent: string | null = null;
+    let engineUsed: 'llm' | 'tensorflow' | 'rules';
+
+    if (Env.CHATBOT_ENGINE === 'tensorflow') {
+      const contextSummary = topFactors.length > 0
+        ? `riskLevel=${ctx.prediction?.riskLevel ?? 'unknown'}, topFactors=[${topFactors.join('; ')}]`
+        : 'no prediction data available yet';
+      replyContent = await this.tensorFlowChatService.getChatReply(conversationHistory, contextSummary);
+    } else if (Env.CHATBOT_ENGINE === 'llm') {
+      replyContent = await this.llmService.getChatReply(conversationHistory, {
         riskLevel: ctx.prediction?.riskLevel ?? null,
         riskScore: ctx.prediction?.riskScore ?? null,
         topFactors,
       });
+    }
 
     if (!replyContent) {
       replyContent = await this.buildReply(content, ctx);
+      engineUsed = 'rules';
+    } else {
+      engineUsed = Env.CHATBOT_ENGINE === 'tensorflow' ? 'tensorflow' : 'llm';
     }
 
-    const assistantMessage =
-      await this.chatRepo.create({
-        userId,
-        role: 'assistant',
-        content: replyContent,
-        relatedPredictionId:
-          ctx.prediction?.predictionId ?? null,
-        createdBy: 'system',
-        modifiedBy: 'system',
-      });
+    const assistantMessage = await this.chatRepo.create({
+      userId,
+      role: 'assistant',
+      content: replyContent,
+      relatedPredictionId: ctx.prediction?.predictionId ?? null,
+      engineUsed,
+      createdBy: 'system',
+      modifiedBy: 'system',
+    });
 
-    const messages =
-      await this.chatRepo.findByUserId(userId);
+    const messages = await this.chatRepo.findByUserId(userId);
 
-    return {
-      userMessage,
-      assistantMessage,
-      messages,
-    };
+    return { userMessage, assistantMessage, messages };
   }
 }
