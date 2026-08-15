@@ -300,7 +300,8 @@ model ChatMessage {
   role                String
   content             String  @db.Text
   relatedPredictionId String?
-
+  engineUsed          String? 
+  
   // Relations
   user              User               @relation(fields: [userId], references: [userId], onDelete: Cascade)
   relatedPrediction BurnoutPrediction? @relation(fields: [relatedPredictionId], references: [predictionId], onDelete: SetNull)

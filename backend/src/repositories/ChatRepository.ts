@@ -7,6 +7,7 @@ export class ChatRepository {
     role: string;
     content: string;
     relatedPredictionId?: string | null;
+    engineUsed?: string | null;
     createdBy: string;
     modifiedBy: string;
   }): Promise<ChatMessage> {
@@ -14,6 +15,7 @@ export class ChatRepository {
       data: {
         ...data,
         relatedPredictionId: data.relatedPredictionId ?? null,
+        engineUsed: data.engineUsed ?? null,
       },
     }) as unknown as ChatMessage;
   }
