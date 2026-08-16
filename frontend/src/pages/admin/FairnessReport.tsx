@@ -8,6 +8,7 @@ type FairnessGroupRow = {
   group: string;      // sample size, filtered for privacy (>=5)
   sampleSize: number;
   highRiskRate: number;
+  lowConfidenceHighRiskRate: number;
 };
 
 type FairnessReportData = {
@@ -123,7 +124,7 @@ const FairnessReport: React.FC = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead style={{ borderBottom: '1px solid var(--border-color)' }}>
               <tr>
-                {['Group', 'Highest-risk sub-group', 'Lowest-risk sub-group', 'Predicted High Risk (highest)', 'Predicted High Risk (lowest)', 'Gap', 'Status'].map((th) => (
+                {['Group', 'Highest-risk sub-group', 'Lowest-risk sub-group', 'Predicted High Risk (highest)', 'Predicted High Risk (lowest)', 'Gap', 'Borderline High-Risk Rate (highest)', 'Status'].map((th) => (
                   <th key={th} style={{ padding: '0 12px 12px 0', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>{th}</th>
                 ))}
               </tr>
@@ -145,6 +146,9 @@ const FairnessReport: React.FC = () => {
                     <td style={{ fontSize: '12px', color: 'var(--text-primary)' }}>{minMax.highest.highRiskRate}%</td>
                     <td style={{ fontSize: '12px', color: 'var(--text-primary)' }}>{minMax.lowest.highRiskRate}%</td>
                     <td style={{ fontSize: '12px', fontWeight: 600, color: status.color }}>{group.gap}%</td>
+                    <td style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                      {minMax.highest.lowConfidenceHighRiskRate}%
+                    </td>
                     <td style={{ fontSize: '12px', color: status.color }}>{status.label}</td>
                   </tr>
                 );
@@ -152,6 +156,11 @@ const FairnessReport: React.FC = () => {
             </tbody>
           </table>
         )}
+        <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '10px', fontStyle: 'italic' }}>
+          Borderline High-Risk Rate is a proxy for prediction instability (High/Critical calls with
+          probability under 60%) — not a ground-truth false-negative rate, since no clinically
+          labeled outcomes are available for validation.
+        </p>
       </div>
 
       {worstDimension && worstDimension.gap > 5 ? (

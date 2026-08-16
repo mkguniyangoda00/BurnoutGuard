@@ -1,9 +1,9 @@
 {
-  "version": "v1.10-logisticregression",
+  "version": "v1.11-logisticregression",
   "algorithm": "LogisticRegression",
-  "modelFile": "model_v1.10-logisticregression.pkl",
-  "scalerFile": "scaler_v1.10-logisticregression.pkl",
-  "backgroundFile": "background_v1.10-logisticregression.pkl",
+  "modelFile": "model_v1.11-logisticregression.pkl",
+  "scalerFile": "scaler_v1.11-logisticregression.pkl",
+  "backgroundFile": "background_v1.11-logisticregression.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -56,205 +56,205 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-08-06T13:01:02.672917+00:00",
+  "trainedAt": "2026-08-16T05:15:50.554514+00:00",
   "metrics": {
     "LogisticRegression": {
-      "accuracy": 0.832632398753894,
-      "f1Score": 0.832621796820496,
-      "auc": 0.965714022007421
+      "accuracy": 0.8348130841121495,
+      "f1Score": 0.8345895098829879,
+      "auc": 0.9666967740187563
     },
     "RandomForest": {
-      "accuracy": 0.8219431464174455,
-      "f1Score": 0.8217748145188638,
-      "auc": 0.960457411724055
+      "accuracy": 0.8212811526479751,
+      "f1Score": 0.820901861725082,
+      "auc": 0.9602704301261148
     },
     "XGBoost": {
-      "accuracy": 0.830101246105919,
-      "f1Score": 0.8298631941061969,
-      "auc": 0.9640561827330868
+      "accuracy": 0.8274922118380063,
+      "f1Score": 0.8272357905287095,
+      "auc": 0.9634453260716608
     },
     "LightGBM": {
-      "accuracy": 0.8306853582554518,
-      "f1Score": 0.8304296023220437,
-      "auc": 0.9645716697924449
+      "accuracy": 0.8281152647975077,
+      "f1Score": 0.8277811572400171,
+      "auc": 0.96417839490672
     }
   },
   "globalFeatureImportance": [
     {
-      "featureName": "emotionalFatigue",
-      "meanAbsShap": 0.609744
-    },
-    {
       "featureName": "overtimeHours",
-      "meanAbsShap": 0.440944
+      "meanAbsShap": 0.482969
     },
     {
       "featureName": "stressLevel",
-      "meanAbsShap": 0.405981
+      "meanAbsShap": 0.435622
     },
     {
-      "featureName": "sprintPressureRating",
-      "meanAbsShap": 0.357911
+      "featureName": "emotionalFatigue",
+      "meanAbsShap": 0.435596
     },
     {
       "featureName": "sleepQuality",
-      "meanAbsShap": 0.353751
+      "meanAbsShap": 0.381131
     },
     {
       "featureName": "moodScore",
-      "meanAbsShap": 0.341866
-    },
-    {
-      "featureName": "afterHoursMessaging",
-      "meanAbsShap": 0.331998
-    },
-    {
-      "featureName": "urgentTasksCount",
-      "meanAbsShap": 0.329059
-    },
-    {
-      "featureName": "managerSupportLevel",
-      "meanAbsShap": 0.328443
-    },
-    {
-      "featureName": "roleAmbiguity",
-      "meanAbsShap": 0.322592
-    },
-    {
-      "featureName": "meetingsCount",
-      "meanAbsShap": 0.313974
-    },
-    {
-      "featureName": "interruptionsPerDay",
-      "meanAbsShap": 0.312569
+      "meanAbsShap": 0.362322
     },
     {
       "featureName": "deadlineFrequency",
-      "meanAbsShap": 0.309116
+      "meanAbsShap": 0.345147
     },
     {
-      "featureName": "contextSwitchingFrequency",
-      "meanAbsShap": 0.286192
+      "featureName": "sprintPressureRating",
+      "meanAbsShap": 0.331239
+    },
+    {
+      "featureName": "afterHoursMessaging",
+      "meanAbsShap": 0.325705
+    },
+    {
+      "featureName": "urgentTasksCount",
+      "meanAbsShap": 0.309394
+    },
+    {
+      "featureName": "roleAmbiguity",
+      "meanAbsShap": 0.309313
+    },
+    {
+      "featureName": "managerSupportLevel",
+      "meanAbsShap": 0.305253
+    },
+    {
+      "featureName": "meetingsCount",
+      "meanAbsShap": 0.298581
     },
     {
       "featureName": "taskComplexity",
-      "meanAbsShap": 0.282444
+      "meanAbsShap": 0.295833
     },
     {
-      "featureName": "autonomyLevel",
-      "meanAbsShap": 0.28213
-    },
-    {
-      "featureName": "bugFixingLoad",
-      "meanAbsShap": 0.280496
-    },
-    {
-      "featureName": "lonelinessLevel",
-      "meanAbsShap": 0.26711
+      "featureName": "contextSwitchingFrequency",
+      "meanAbsShap": 0.292229
     },
     {
       "featureName": "copingAbility",
-      "meanAbsShap": 0.266384
+      "meanAbsShap": 0.288793
+    },
+    {
+      "featureName": "interruptionsPerDay",
+      "meanAbsShap": 0.287409
+    },
+    {
+      "featureName": "bugFixingLoad",
+      "meanAbsShap": 0.285557
     },
     {
       "featureName": "concentrationIssues",
-      "meanAbsShap": 0.263648
+      "meanAbsShap": 0.280968
     },
     {
-      "featureName": "motivationLevel",
-      "meanAbsShap": 0.262926
-    },
-    {
-      "featureName": "workloadRating",
-      "meanAbsShap": 0.254723
+      "featureName": "autonomyLevel",
+      "meanAbsShap": 0.27727
     },
     {
       "featureName": "peerSupportLevel",
-      "meanAbsShap": 0.254566
+      "meanAbsShap": 0.273427
     },
     {
-      "featureName": "energyLevel",
-      "meanAbsShap": 0.249024
+      "featureName": "motivationLevel",
+      "meanAbsShap": 0.270135
     },
     {
-      "featureName": "salaryWorkloadSatisfaction",
-      "meanAbsShap": 0.245342
-    },
-    {
-      "featureName": "mealQuality",
-      "meanAbsShap": 0.245051
-    },
-    {
-      "featureName": "irritabilityLevel",
-      "meanAbsShap": 0.241598
-    },
-    {
-      "featureName": "commuteMinutes",
-      "meanAbsShap": 0.239741
-    },
-    {
-      "featureName": "familyResponsibilityLoad",
-      "meanAbsShap": 0.23433
-    },
-    {
-      "featureName": "breaksTaken",
-      "meanAbsShap": 0.23094
+      "featureName": "lonelinessLevel",
+      "meanAbsShap": 0.265601
     },
     {
       "featureName": "powerInternetDisruption",
-      "meanAbsShap": 0.205796
+      "meanAbsShap": 0.256203
     },
     {
-      "featureName": "isOnCallToday",
-      "meanAbsShap": 0.201547
+      "featureName": "energyLevel",
+      "meanAbsShap": 0.253258
     },
     {
-      "featureName": "selfEfficacy",
-      "meanAbsShap": 0.191513
+      "featureName": "salaryWorkloadSatisfaction",
+      "meanAbsShap": 0.248292
     },
     {
-      "featureName": "wfhEnvironmentQuality",
-      "meanAbsShap": 0.190121
+      "featureName": "breaksTaken",
+      "meanAbsShap": 0.244689
+    },
+    {
+      "featureName": "irritabilityLevel",
+      "meanAbsShap": 0.244675
+    },
+    {
+      "featureName": "commuteMinutes",
+      "meanAbsShap": 0.23257
+    },
+    {
+      "featureName": "familyResponsibilityLoad",
+      "meanAbsShap": 0.226
+    },
+    {
+      "featureName": "mealQuality",
+      "meanAbsShap": 0.225793
+    },
+    {
+      "featureName": "workloadRating",
+      "meanAbsShap": 0.218727
     },
     {
       "featureName": "isWeekendWork",
-      "meanAbsShap": 0.185416
+      "meanAbsShap": 0.200355
     },
     {
-      "featureName": "socialSupportLevel",
-      "meanAbsShap": 0.182479
-    },
-    {
-      "featureName": "workHours",
-      "meanAbsShap": 0.168593
+      "featureName": "isOnCallToday",
+      "meanAbsShap": 0.193433
     },
     {
       "featureName": "anxietyLevel",
-      "meanAbsShap": 0.166943
+      "meanAbsShap": 0.187825
     },
     {
-      "featureName": "exerciseLevel",
-      "meanAbsShap": 0.154249
+      "featureName": "selfEfficacy",
+      "meanAbsShap": 0.175872
+    },
+    {
+      "featureName": "wfhEnvironmentQuality",
+      "meanAbsShap": 0.17585
+    },
+    {
+      "featureName": "socialSupportLevel",
+      "meanAbsShap": 0.173518
+    },
+    {
+      "featureName": "workHours",
+      "meanAbsShap": 0.16797
     },
     {
       "featureName": "caffeineIntake",
-      "meanAbsShap": 0.138233
+      "meanAbsShap": 0.136852
+    },
+    {
+      "featureName": "exerciseLevel",
+      "meanAbsShap": 0.133742
     },
     {
       "featureName": "workSatisfaction",
-      "meanAbsShap": 0.128922
+      "meanAbsShap": 0.128904
     },
     {
       "featureName": "sleepHours",
-      "meanAbsShap": 0.127115
+      "meanAbsShap": 0.121235
     },
     {
       "featureName": "screenTimeHours",
-      "meanAbsShap": 0.082184
+      "meanAbsShap": 0.101222
     },
     {
       "featureName": "workModeEncoded",
-      "meanAbsShap": 0.047219
+      "meanAbsShap": 0.050722
     }
   ],
   "status": "Active"

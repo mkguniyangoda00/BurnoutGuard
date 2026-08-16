@@ -68,6 +68,12 @@ export const CounterfactualCard: React.FC = () => {
           </>
         )}
       </p>
+      {counterfactual.proximity !== null && (
+        <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px' }}>
+          Change size: {(counterfactual.proximity * 100).toFixed(0)}% of feature range ·{' '}
+          {counterfactual.sparsity} factor{counterfactual.sparsity === 1 ? '' : 's'} adjusted
+        </p>
+      )}
     </Card>
   );
 };

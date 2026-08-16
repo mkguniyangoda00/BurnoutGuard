@@ -36,6 +36,14 @@ export class PredictionService {
     };
   }
 
+  /**
+   * Searches for the smallest feasible change across mutable features that
+   * moves the predicted risk level down at least one band, rather than
+   * jumping straight to a fixed target value. Reports validity (did it
+   * actually flip the risk band), proximity (normalized size of the
+   * change), and sparsity (how many features were touched) — standard
+   * counterfactual-recourse evaluation metrics.
+   */
   async getCounterfactual(userId: string) {
     const latest = await this.predictionRepo.findLatestByUser(userId);
     if (!latest) return null;
@@ -43,42 +51,125 @@ export class PredictionService {
     const checkIns = await this.checkInRepo.findByUserId(userId, PredictionService.PREDICTION_WINDOW_DAYS);
     const developerProfile = await prisma.developerProfile.findUnique({ where: { userId } });
     const { features } = aggregateCheckIns(checkIns, developerProfile?.workModel);
-
-    // Pick the top 2 risk-increasing SHAP features that have a sensible
-    // "healthier" target value, and simulate improving them.
-    const IMPROVEMENT_TARGETS: Record<string, number> = {
-      sleepHours: 7.5,
-      sleepQuality: 4,
-      overtimeHours: 1,
-      workHours: 8,
-      stressLevel: 4,
-      breaksTaken: 5,
-      meetingsCount: 3,
-      contextSwitchingFrequency: 2,
+    // Mutable feature bounds — same "actionable" set as before, now with a
+    // step size and valid range instead of a single fixed target, so the
+    // search can find the smallest change rather than the largest.
+    const MUTABLE_FEATURES: Record<string, { min: number; max: number; step: number; higherIsBetter: boolean }> = {
+      sleepHours: { min: 4, max: 9, step: 0.5, higherIsBetter: true },
+      sleepQuality: { min: 1, max: 5, step: 1, higherIsBetter: true },
+      overtimeHours: { min: 0, max: 8, step: 1, higherIsBetter: false },
+      workHours: { min: 6, max: 12, step: 0.5, higherIsBetter: false },
+      stressLevel: { min: 1, max: 10, step: 1, higherIsBetter: false },
+      breaksTaken: { min: 0, max: 8, step: 1, higherIsBetter: true },
+      meetingsCount: { min: 0, max: 10, step: 1, higherIsBetter: false },
+      contextSwitchingFrequency: { min: 1, max: 5, step: 1, higherIsBetter: false },
     };
 
+    const RISK_ORDER = ['Low', 'Moderate', 'High', 'Critical'];
+    const currentRiskIndex = RISK_ORDER.indexOf(latest.riskLevel);
+
     const topDrivers = (latest.shapExplanations ?? [])
-      .filter((s: any) => s.direction === 'IncreasesRisk' && IMPROVEMENT_TARGETS[s.featureName] !== undefined)
+      .filter((s: any) => s.direction === 'IncreasesRisk' && MUTABLE_FEATURES[s.featureName])
       .sort((a: any, b: any) => b.shapValue - a.shapValue)
-      .slice(0, 2);
+      .slice(0, 3); // consider up to 3 candidate features for the search
 
     if (topDrivers.length === 0) return null;
 
-    const modifications: Record<string, number> = {};
-    for (const d of topDrivers) modifications[d.featureName] = IMPROVEMENT_TARGETS[d.featureName];
+    // Try single-feature changes first (sparsest), then pairs, stopping at
+    // the first combination that flips the risk band — this naturally
+    // prefers smaller, simpler recourse over larger ones (sparsity-first
+    // search order).
+    const candidateSets: string[][] = [
+      ...topDrivers.map((d: any) => [d.featureName]),
+      ...(topDrivers.length >= 2 ? [[topDrivers[0].featureName, topDrivers[1].featureName]] : []),
+    ];
 
-    const simulated = await this.mlService.getWhatIf(userId, features, modifications);
+    let best: {
+      modifications: Record<string, number>;
+      simulated: { riskScore: number; riskLevel: string };
+      proximity: number;
+      sparsity: number;
+    } | null = null;
+
+    for (const featureSet of candidateSets) {
+      const bounds = featureSet.map((f) => MUTABLE_FEATURES[f]);
+      const currentValues = featureSet.map((f) => features[f] ?? 0);
+
+      // Walk each feature toward its "better" direction in step increments,
+      // testing after each step, up to a small number of steps (keeps the
+      // search cheap and favors small changes — proximity-preferring).
+      const MAX_STEPS = 6;
+      for (let step = 1; step <= MAX_STEPS; step++) {
+        const modifications: Record<string, number> = {};
+        featureSet.forEach((f, i) => {
+          const bound = bounds[i];
+          const direction = bound.higherIsBetter ? 1 : -1;
+          const candidate = currentValues[i] + direction * bound.step * step;
+          modifications[f] = Math.max(bound.min, Math.min(bound.max, candidate));
+        });
+
+        const simulated = await this.mlService.getWhatIf(userId, features, modifications);
+        const simulatedIndex = RISK_ORDER.indexOf(simulated.riskLevel);
+        const validity = simulatedIndex < currentRiskIndex;
+
+        if (validity) {
+          const proximity = featureSet.reduce((sum, f, i) => {
+            const bound = bounds[i];
+            const range = bound.max - bound.min || 1;
+            return sum + Math.abs(modifications[f] - currentValues[i]) / range;
+          }, 0) / featureSet.length;
+
+          const candidate = {
+            modifications,
+            simulated,
+            proximity,
+            sparsity: featureSet.length,
+          };
+
+          // Prefer sparser, and among equal sparsity, closer (lower proximity).
+          if (
+            !best ||
+            candidate.sparsity < best.sparsity ||
+            (candidate.sparsity === best.sparsity && candidate.proximity < best.proximity)
+          ) {
+            best = candidate;
+          }
+          break; // found the smallest valid change for this feature set — stop stepping further
+        }
+      }
+      if (best && best.sparsity === 1) break; // a single-feature valid recourse is already optimal enough to stop
+    }
+
+    if (!best) {
+      // No feasible recourse found within the search bounds — report this
+      // explicitly rather than falling back to a misleadingly "large" jump.
+      return {
+        currentRiskLevel: latest.riskLevel,
+        currentRiskScore: latest.riskScore,
+        simulatedRiskLevel: latest.riskLevel,
+        simulatedRiskScore: latest.riskScore,
+        changedFactors: [],
+        validity: false,
+        proximity: null,
+        sparsity: 0,
+      };
+    }
+
+    const changedFactors = Object.entries(best.modifications).map(([featureName, to]) => ({
+      featureName,
+      from: features[featureName],
+      to,
+    }));
 
     return {
       currentRiskLevel: latest.riskLevel,
       currentRiskScore: latest.riskScore,
-      simulatedRiskLevel: simulated.riskLevel,
-      simulatedRiskScore: simulated.riskScore,
-      changedFactors: topDrivers.map((d: any) => ({
-        featureName: d.featureName,
-        from: features[d.featureName],
-        to: modifications[d.featureName],
-      })),
+      simulatedRiskLevel: best.simulated.riskLevel,
+      simulatedRiskScore: best.simulated.riskScore,
+      changedFactors,
+      validity: true,
+      proximity: parseFloat(best.proximity.toFixed(3)),
+      sparsity: best.sparsity,
     };
   }
 

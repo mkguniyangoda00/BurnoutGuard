@@ -4,6 +4,7 @@ import { ReportService } from '../services/ReportService';
 import { ReportRepository } from '../repositories/ReportRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import { UserRepository } from '../repositories/UserRepository';
+import { DEFAULT_WELLNESS_RESOURCES } from '../data/wellnessResourcesSeedData';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +20,6 @@ async function main() {
     { email: 'hr@burnoutguard.com', fullName: 'Alice HR', role: 'HRofficer', company: 'TechCorp' },
     { email: 'admin@burnoutguard.com', fullName: 'Admin System', role: 'Admin', company: 'TechCorp' },
     { email: 'research@burnoutguard.com', fullName: 'Dr. Researcher', role: 'ResearchAdmin', company: 'University Lab' },
-    // A few extra developers for Analytics Heatmap and Department stats
     { email: 'dev2@burnoutguard.com', fullName: 'Jane Dev2', role: 'Developer', company: 'TechCorp' },
     { email: 'dev3@burnoutguard.com', fullName: 'Bob Dev3', role: 'Developer', company: 'TechCorp' },
     { email: 'dev4@burnoutguard.com', fullName: 'Sam Dev4', role: 'Developer', company: 'TechCorp' },
@@ -62,7 +62,6 @@ async function main() {
     }
   }
 
-  // ── Seed alert thresholds ─────────────────────────────────────────
   console.log('Seeding alert thresholds...');
   const thresholdSeed = [
     {
@@ -93,25 +92,22 @@ async function main() {
     });
   }
 
-  // Generate historical dummy predictions for all developers
   const developers = createdUsers.filter(u => u.role === 'Developer');
-  
-  for (const dev of developers) {
-    const existingPredictions = await prisma.burnoutPrediction.count({ where: { userId: dev.userId }});
-    if (existingPredictions > 0) continue; // Skip if already seeded
 
-    // Generate 4 weeks of predictions per dev
+  for (const dev of developers) {
+    const existingPredictions = await prisma.burnoutPrediction.count({ where: { userId: dev.userId } });
+    if (existingPredictions > 0) continue;
+
     for (let i = 4; i >= 1; i--) {
       const isLatest = i === 1;
       const riskLevels: RiskLevel[] = [RiskLevel.Low, RiskLevel.Moderate, RiskLevel.High, RiskLevel.Critical];
-      
-      // Randomize somewhat based on their index to get a mix of data
-      const riskIndex = (dev.email.length + i) % 4; 
+
+      const riskIndex = (dev.email.length + i) % 4;
       const riskLevel = riskLevels[riskIndex];
-      const riskScore = riskIndex * 0.25 + 0.15; // 0.15 to 0.90
+      const riskScore = riskIndex * 0.25 + 0.15;
 
       const d = new Date();
-      d.setDate(d.getDate() - (i * 7)); // 1 to 4 weeks ago
+      d.setDate(d.getDate() - (i * 7));
 
       const pred = await prisma.burnoutPrediction.create({
         data: {
@@ -128,7 +124,6 @@ async function main() {
         }
       });
 
-      // If High/Critical, create an Alert for realism
       if (riskLevel === 'High' || riskLevel === 'Critical') {
         await prisma.alert.create({
           data: {
@@ -138,7 +133,7 @@ async function main() {
             severity: riskLevel === 'Critical' ? AlertSeverity.Critical : AlertSeverity.Warning,
             message: `Mock Alert: Risk reached ${riskLevel} level.`,
             sentAt: d,
-            isRead: !isLatest, // read older ones
+            isRead: !isLatest,
             createdBy: 'system',
             modifiedBy: 'system'
           }
@@ -147,10 +142,8 @@ async function main() {
     }
   }
 
-  // ── Generate historical check-ins for all developers ──────────────
   console.log('Generating historical check-in data...');
   for (const dev of developers) {
-    // Generate historical check-ins per dev (1 per day for a week)
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -160,63 +153,44 @@ async function main() {
         data: {
           userId: dev.userId,
           checkInDate: d,
-          
-          // Sleep & Rest
-          sleepHours: 6 + Math.random() * 3, // 6-9 hours
-          sleepQuality: Math.floor(Math.random() * 5) + 1, // 1-5
-          
-          // Physical Activity
-          exerciseLevel: Math.floor(Math.random() * 5) + 1, // 1-5
-          screenTimeHours: 4 + Math.random() * 6, // 4-10 hours
-          
-          // Work & Productivity
-          workHours: 7 + Math.random() * 3, // 7-10 hours
-          workloadRating: Math.floor(Math.random() * 5) + 1, // 1-5
-          overtimeHours: Math.random() > 0.7 ? Math.random() * 4 : 0, // 30% have overtime
-          breaksTaken: Math.floor(Math.random() * 6) + 1, // 1-6 breaks
-          commuteMinutes: Math.floor(Math.random() * 60) + 15, // 15-75 minutes
-          
-          // Mental & Emotional
-          stressLevel: Math.floor(Math.random() * 8) + 2, // 2-10 scale
-          moodScore: Math.floor(Math.random() * 7) + 3, // 3-10 scale
-          energyLevel: Math.floor(Math.random() * 5) + 1, // 1-5
-          workSatisfaction: Math.floor(Math.random() * 5) + 1, // 1-5
-          
-          // Lifestyle & Health
-          caffeineIntake: Math.floor(Math.random() * 6) + 1, // 1-6 cups
-          mealQuality: Math.floor(Math.random() * 5) + 1, // 1-5
-          socialSupportLevel: Math.floor(Math.random() * 5) + 1, // 1-5
-
-          // Psychological Wellbeing
-          anxietyLevel: Math.floor(Math.random() * 6) + 2,      // 2-7
-          emotionalFatigue: Math.floor(Math.random() * 6) + 2,  // 2-7
-          motivationLevel: Math.floor(Math.random() * 5) + 1,   // 1-5
-          concentrationIssues: Math.floor(Math.random() * 3) + 1, // 1-3
-          irritabilityLevel: Math.floor(Math.random() * 3) + 1,   // 1-3
-          lonelinessLevel: Math.floor(Math.random() * 3) + 1,     // 1-3
-          selfEfficacy: Math.floor(Math.random() * 5) + 1,        // 1-5
-          copingAbility: Math.floor(Math.random() * 5) + 1,       // 1-5
-
-          // Work Context (Sri Lankan & Global)
-          powerInternetDisruption: Math.floor(Math.random() * 3) + 1,   // 1-3
-          wfhEnvironmentQuality: Math.floor(Math.random() * 5) + 1,     // 1-5
-          familyResponsibilityLoad: Math.floor(Math.random() * 4) + 1,  // 1-4
-          salaryWorkloadSatisfaction: Math.floor(Math.random() * 5) + 1,// 1-5
-          afterHoursMessaging: Math.random() > 0.6,                     // ~40% true
-          
-          // Work Pattern Monitoring
-          meetingsCount: Math.floor(Math.random() * 8),               // 0-7
-          urgentTasksCount: Math.floor(Math.random() * 5),            // 0-4
-          sprintPressureRating: Math.floor(Math.random() * 5) + 1,    // 1-5
-          deadlineFrequency: Math.floor(Math.random() * 5) + 1,       // 1-5
-          isWeekendWork: Math.random() > 0.8,                         // ~20% true
-          bugFixingLoad: Math.floor(Math.random() * 5) + 1,           // 1-5
-          contextSwitchingFrequency: Math.floor(Math.random() * 5) + 1, // 1-5
-          isOnCallToday: Math.random() > 0.85,                        // ~15% true
-
-          // Notes
+          sleepHours: 6 + Math.random() * 3,
+          sleepQuality: Math.floor(Math.random() * 5) + 1,
+          exerciseLevel: Math.floor(Math.random() * 5) + 1,
+          screenTimeHours: 4 + Math.random() * 6,
+          workHours: 7 + Math.random() * 3,
+          workloadRating: Math.floor(Math.random() * 5) + 1,
+          overtimeHours: Math.random() > 0.7 ? Math.random() * 4 : 0,
+          breaksTaken: Math.floor(Math.random() * 6) + 1,
+          commuteMinutes: Math.floor(Math.random() * 60) + 15,
+          stressLevel: Math.floor(Math.random() * 8) + 2,
+          moodScore: Math.floor(Math.random() * 7) + 3,
+          energyLevel: Math.floor(Math.random() * 5) + 1,
+          workSatisfaction: Math.floor(Math.random() * 5) + 1,
+          caffeineIntake: Math.floor(Math.random() * 6) + 1,
+          mealQuality: Math.floor(Math.random() * 5) + 1,
+          socialSupportLevel: Math.floor(Math.random() * 5) + 1,
+          anxietyLevel: Math.floor(Math.random() * 6) + 2,
+          emotionalFatigue: Math.floor(Math.random() * 6) + 2,
+          motivationLevel: Math.floor(Math.random() * 5) + 1,
+          concentrationIssues: Math.floor(Math.random() * 3) + 1,
+          irritabilityLevel: Math.floor(Math.random() * 3) + 1,
+          lonelinessLevel: Math.floor(Math.random() * 3) + 1,
+          selfEfficacy: Math.floor(Math.random() * 5) + 1,
+          copingAbility: Math.floor(Math.random() * 5) + 1,
+          powerInternetDisruption: Math.floor(Math.random() * 3) + 1,
+          wfhEnvironmentQuality: Math.floor(Math.random() * 5) + 1,
+          familyResponsibilityLoad: Math.floor(Math.random() * 4) + 1,
+          salaryWorkloadSatisfaction: Math.floor(Math.random() * 5) + 1,
+          afterHoursMessaging: Math.random() > 0.6,
+          meetingsCount: Math.floor(Math.random() * 8),
+          urgentTasksCount: Math.floor(Math.random() * 5),
+          sprintPressureRating: Math.floor(Math.random() * 5) + 1,
+          deadlineFrequency: Math.floor(Math.random() * 5) + 1,
+          isWeekendWork: Math.random() > 0.8,
+          bugFixingLoad: Math.floor(Math.random() * 5) + 1,
+          contextSwitchingFrequency: Math.floor(Math.random() * 5) + 1,
+          isOnCallToday: Math.random() > 0.85,
           notes: Math.random() > 0.7 ? 'Had a productive day' : undefined,
-          
           createdBy: 'system',
           modifiedBy: 'system',
         },
@@ -224,74 +198,10 @@ async function main() {
     }
   }
 
-  // ── Seed Wellness Resources ────────────────────────────────────────
   console.log('Seeding wellness resources...');
   const existingResources = await prisma.wellnessResource.count();
   if (existingResources === 0) {
-    const resources = [
-      {
-        title: 'Understanding Burnout: Signs and Early Warning Signals',
-        category: 'Article',
-        description: 'A practical overview of how burnout develops, the three core dimensions (exhaustion, cynicism, reduced efficacy), and how to recognize it early in yourself.',
-        contentUrl: 'https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon',
-      },
-      {
-        title: 'Setting Boundaries With After-Hours Work Messages',
-        category: 'Article',
-        description: 'Concrete strategies for negotiating and maintaining boundaries around evening and weekend work communication, without damaging team relationships.',
-        contentUrl: 'https://hbr.org/2021/03/how-to-stop-checking-your-phone',
-      },
-      {
-        title: 'The 10:30 PM Wind-Down Routine',
-        category: 'SleepHygiene',
-        description: 'A step-by-step guide to building a consistent pre-sleep routine that improves sleep quality — screen cutoffs, room temperature, and light exposure timing.',
-        contentUrl: 'https://www.sleepfoundation.org/sleep-hygiene',
-      },
-      {
-        title: 'Fixing an Irregular Sleep Schedule',
-        category: 'SleepHygiene',
-        description: 'How to gradually shift an inconsistent sleep pattern back to a stable rhythm, especially useful after periods of heavy overtime or on-call work.',
-        contentUrl: 'https://www.sleepfoundation.org/sleep-hygiene/sleep-schedule',
-      },
-      {
-        title: '20-Minute Desk-Break Workouts for Developers',
-        category: 'Exercise',
-        description: 'No-equipment stretches and movement routines designed for people who sit at a desk most of the day — can be done between meetings.',
-        contentUrl: 'https://www.nhs.uk/live-well/exercise/gym-free-workouts/',
-      },
-      {
-        title: 'Walking Meetings: A Simple Habit Change',
-        category: 'Exercise',
-        description: 'How to convert routine 1:1s or status calls into walking meetings, and the measurable stress-reduction benefits of doing so.',
-        contentUrl: 'https://www.health.harvard.edu/staying-healthy/is-a-walking-meeting-right-for-you',
-      },
-      {
-        title: '4-7-8 Breathing for Acute Stress',
-        category: 'Breathing',
-        description: 'A simple, evidence-informed breathing technique you can use in under 2 minutes before a stressful meeting or after a difficult conversation.',
-        contentUrl: 'https://www.healthline.com/health/4-7-8-breathing',
-      },
-      {
-        title: 'Box Breathing for Sustained Focus',
-        category: 'Breathing',
-        description: 'A technique used by high-performance professionals to regulate the nervous system during prolonged periods of pressure or context-switching.',
-        contentUrl: 'https://www.healthline.com/health/box-breathing',
-      },
-      {
-        title: 'Guided 10-Minute Mindfulness Session',
-        category: 'Meditation',
-        description: 'A beginner-friendly guided meditation for winding down after work. [Placeholder — audio playback not yet implemented; links to an external guided session.]',
-        contentUrl: 'https://www.headspace.com/meditation/10-minute-meditation',
-      },
-      {
-        title: 'Sri Lanka Sumithrayo — Confidential Emotional Support',
-        category: 'Counseling',
-        description: 'A free, confidential helpline offering emotional support for anyone experiencing distress, anxiety, or burnout-related difficulties.',
-        contentUrl: 'https://www.sumithrayo.org/',
-      },
-    ];
-
-    for (const r of resources) {
+    for (const r of DEFAULT_WELLNESS_RESOURCES) {
       await prisma.wellnessResource.create({
         data: {
           ...r,
@@ -301,11 +211,11 @@ async function main() {
         },
       });
     }
-    console.log(`Seeded ${resources.length} wellness resources.`);
+    console.log(`Seeded ${DEFAULT_WELLNESS_RESOURCES.length} wellness resources.`);
   } else {
-    console.log('Wellness resources already seeded — skipping.');
+    console.log('Wellness resources already seeded - skipping.');
   }
-  
+
   console.log('Database seeding complete with dummy history and check-ins.');
 
   const reportService = new ReportService(

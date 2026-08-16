@@ -10,7 +10,10 @@ export class PredictionController {
       const dimensionBreakdown = prediction
         ? await this.predictionService.getDimensionBreakdown((prediction as any).predictionId, req.user!.userId)
         : [];
-      res.status(200).json({ prediction, dimensionBreakdown });
+      const calibrationConfidence = prediction
+        ? this.computeCalibrationConfidence((prediction as any).riskScore)
+        : null;
+      res.status(200).json({ prediction, dimensionBreakdown, calibrationConfidence });
     } catch (err) {
       next(err);
     }
@@ -70,4 +73,20 @@ export class PredictionController {
       next(err);
     }
   };
+
+  /**
+   * Lightweight proxy for calibration confidence: predictions further from
+   * the 0.5 decision boundary within their class are treated as
+   * higher-confidence. This is a heuristic surfaced in the UI; the
+   * rigorous calibration analysis (Brier score, ECE, reliability curves)
+   * lives in ml-service/experiments/calibration.py for the thesis
+   * evaluation chapter — this heuristic exists so the finding is visible
+   * in the product, not because it replaces that analysis.
+   */
+  private computeCalibrationConfidence(riskScore: number): 'high' | 'moderate' | 'low' {
+    const distanceFromBoundary = Math.abs(riskScore - 0.5);
+    if (distanceFromBoundary > 0.3) return 'high';
+    if (distanceFromBoundary > 0.15) return 'moderate';
+    return 'low';
+  }
 }

@@ -12,6 +12,7 @@ import {
 import { usePrediction } from '../../hooks/usePrediction';
 import { CounterfactualCard } from '../../components/predictions/CounterfactualCard';
 import { useTranslation } from 'react-i18next';
+import { RiskDisclaimer } from '../../components/ui/RiskDisclaimer';
 
 const Explanation: React.FC = () => {
   const navigate = useNavigate();
@@ -354,6 +355,7 @@ const Explanation: React.FC = () => {
               >
                 {prediction.riskLevel}
               </p>
+              <RiskDisclaimer style={{ color: 'rgba(255,255,255,0.75)' }} />
             </div>
 
             <div

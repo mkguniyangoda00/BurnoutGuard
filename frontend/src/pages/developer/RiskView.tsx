@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePrediction } from '../../hooks/usePrediction';
 import { CounterfactualCard } from '../../components/predictions/CounterfactualCard';
 import { useTranslation } from 'react-i18next';
+import { RiskDisclaimer } from '../../components/ui/RiskDisclaimer';
 
 const RiskView: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const RiskView: React.FC = () => {
     isLoading,
     isError,
     isEmpty,
+    calibrationConfidence, // Add calibrationConfidence to destructuring
   } = usePrediction();
 
   if (isLoading) {
@@ -279,6 +281,12 @@ const RiskView: React.FC = () => {
         </div>
       )}
 
+      {calibrationConfidence === 'low' && (
+        <div style={{ marginTop: '8px', fontSize: '12px', color: 'var(--warning)' }}>
+          ⚠ This prediction sits close to a risk-level boundary — treat it as less certain.
+        </div>
+      )}
+
       <div
         style={{
           display: 'grid',
@@ -313,7 +321,7 @@ const RiskView: React.FC = () => {
           >
             {prediction.riskLevel}
           </p>
-
+          
           <p
             style={{
               fontSize: '13px',
@@ -324,6 +332,7 @@ const RiskView: React.FC = () => {
             {(prediction.riskScore * 100).toFixed(0)}%{' '}
             {t('myRisk.riskLabel')}
           </p>
+          <RiskDisclaimer />
         </Card>
 
         <Card

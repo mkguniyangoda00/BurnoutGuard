@@ -14,6 +14,9 @@ export interface CounterfactualResult {
   simulatedRiskLevel: string;
   simulatedRiskScore: number;
   changedFactors: CounterfactualChangedFactor[];
+  validity: boolean;
+  proximity: number | null;
+  sparsity: number;
 }
 
 export const counterfactualQueryKey = ['prediction', 'counterfactual'] as const;

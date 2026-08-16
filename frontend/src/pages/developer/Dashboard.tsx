@@ -26,6 +26,7 @@ import { Loader2, AlertTriangle, TrendingUp } from 'lucide-react';
 import { usePrediction } from '../../hooks/usePrediction';
 import { useCheckin } from '../../hooks/useCheckin';
 import { useTranslation } from 'react-i18next';
+import { RiskDisclaimer } from '../../components/ui/RiskDisclaimer';
 
 /** Maps backend RiskLevel enum values to display colours */
 const RISK_COLORS: Record<string, string> = {
@@ -125,6 +126,7 @@ const Dashboard: React.FC = () => {
               <h2 className="text-4xl font-bold mt-2" style={{ color: riskColor }}>
                 {prediction.riskLevel}
               </h2>
+              <RiskDisclaimer style={{ color: 'rgba(255,255,255,0.6)', marginTop: '4px' }} />
               <p className="text-sm text-white/80 mt-1 mb-4">
                 {prediction.trendDirection === 'Improving'
                   ? '↓ Improving from last prediction'
@@ -169,7 +171,7 @@ const Dashboard: React.FC = () => {
           </>
         )}
       </Card>
-      {prediction.modelVersion === 'fallback' && (
+      {prediction && prediction.modelVersion === 'fallback' && (
           <div style={{ backgroundColor: 'var(--danger-light)', color: 'var(--danger)', padding: '10px 16px', borderRadius: '10px', marginBottom: '20px', fontSize: '12px', fontWeight: 500 }}>
             ⚠ The ML service failed to score this check-in — this is a placeholder value, not a real prediction. See admin → Model Metrics.
           </div>
