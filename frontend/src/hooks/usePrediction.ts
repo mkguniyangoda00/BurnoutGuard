@@ -18,11 +18,13 @@ export const usePrediction = () => {
 
   const prediction = query.data?.prediction ?? null;
   const dimensionBreakdown = query.data?.dimensionBreakdown ?? [];
+  const calibrationConfidence = query.data?.calibrationConfidence ?? null;
 
   return {
     ...query,
     prediction,
     dimensionBreakdown,
+    calibrationConfidence,
     isEmpty: !query.isLoading && !query.isError && !prediction,
   };
 };

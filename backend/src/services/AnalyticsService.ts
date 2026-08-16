@@ -216,26 +216,40 @@ export class AnalyticsService {
       include: { developerProfile: true, burnoutPredictions: { where: { isLatest: true }, take: 1 } },
     });
 
-    const groupBy = (
-      key: 'workModel' | 'experienceBand'
-    ) => {
-      const buckets: Record<string, { total: number; highRisk: number }> = {};
+    const groupBy = (key: 'workModel' | 'experienceBand') => {
+      const buckets: Record<
+        string,
+        { total: number; highRisk: number; scores: number[]; lowConfidenceHighRisk: number }
+      > = {};
 
       for (const dev of developers as any[]) {
         const prediction = dev.burnoutPredictions[0];
         if (!prediction) continue;
 
-        const groupValue =
-          key === 'workModel'
-            ? dev.developerProfile?.workModel ?? 'Unknown'
-            : (dev.developerProfile?.yearsExperience ?? 0) < 3
-            ? 'Junior (<3y)'
-            : 'Senior (3y+)';
+        const groupValue = key === 'workModel'
+          ? dev.developerProfile?.workModel ?? 'Unknown'
+          : (dev.developerProfile?.yearsExperience ?? 0) < 3
+          ? 'Junior (<3y)'
+          : 'Senior (3y+)';
 
-        if (!buckets[groupValue]) buckets[groupValue] = { total: 0, highRisk: 0 };
+        if (!buckets[groupValue]) {
+          buckets[groupValue] = { total: 0, highRisk: 0, scores: [], lowConfidenceHighRisk: 0 };
+        }
         buckets[groupValue].total++;
-        if (prediction.riskLevel === 'High' || prediction.riskLevel === 'Critical') {
+        buckets[groupValue].scores.push(prediction.riskScore);
+
+        const isHighRisk = prediction.riskLevel === 'High' || prediction.riskLevel === 'Critical';
+        if (isHighRisk) {
           buckets[groupValue].highRisk++;
+          // Proxy "borderline/low-confidence" flag: a High/Critical call whose
+          // probability sits close to the decision boundary is more likely to
+          // be a disparity-prone edge case than a confidently correct one.
+          // This is a proxy for false-positive-prone predictions, NOT a
+          // ground-truth false-negative rate — we have no clinically
+          // labeled outcomes to compute true recall against.
+          if (prediction.riskScore < 0.6) {
+            buckets[groupValue].lowConfidenceHighRisk++;
+          }
         }
       }
 
@@ -245,6 +259,13 @@ export class AnalyticsService {
           group,
           sampleSize: v.total,
           highRiskRate: parseFloat(((v.highRisk / v.total) * 100).toFixed(1)),
+          avgRiskScore: parseFloat(
+            (v.scores.reduce((a, b) => a + b, 0) / v.scores.length).toFixed(3)
+          ),
+          lowConfidenceHighRiskRate:
+            v.highRisk > 0
+              ? parseFloat(((v.lowConfidenceHighRisk / v.highRisk) * 100).toFixed(1))
+              : 0,
         }));
     };
 
@@ -263,7 +284,6 @@ export class AnalyticsService {
       },
     };
   }
-  
   /**
    * Time-series trend of average overtime hours per week, following the
    * same weekly-grouping pattern already used in getSprintRisk().

@@ -17,7 +17,8 @@ export const predictionService = {
     const res = await client.get('/predictions/latest');
     return {
       prediction: res.data.prediction,
-      dimensionBreakdown: res.data.dimensionBreakdown ?? []
+      dimensionBreakdown: res.data.dimensionBreakdown ?? [],
+      calibrationConfidence: res.data.calibrationConfidence ?? null,
     };
   },
 

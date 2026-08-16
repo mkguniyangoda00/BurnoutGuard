@@ -31,6 +31,7 @@ import { PredictionRepository } from './repositories/PredictionRepository';
 import { EmailService } from './services/EmailService';
 import { startRecommendationFollowUpJob } from './jobs/RecommendationFollowUpJob';
 import { startReassessmentReminderJob } from './jobs/CheckInReminderJob';
+import { ensureWellnessResourcesSeeded } from './data/wellnessResourcesSeedData';
 
 const app = express();
 
@@ -118,6 +119,7 @@ startReassessmentReminderJob(
 
 // Log clearly at startup whether SMTP is actually configured/reachable —
 // this is the #1 cause of "emails not working" reports.
+ensureWellnessResourcesSeeded();
 EmailService.verifyConnection();
 
 // ── Start Server ──────────────────────────────────────────────────────────────

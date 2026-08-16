@@ -74,7 +74,6 @@ def harmonize_mental_health_burnout_tech(path):
     out["workSatisfaction"] = clip((df["job_satisfaction_score"] / 2).round(), 1, 5)
     out["socialSupportLevel"] = clip((df["social_support_score"] / 2).round(), 1, 5)
     out["anxietyLevel"] = clip(1 + (df["gad7_score"] / 21) * 9, 1, 10)
-    out["emotionalFatigue"] = clip(df["burnout_score"], 1, 10)
     out["selfEfficacy"] = clip((df["autonomy_score"] / 2).round(), 1, 5)
     out["exerciseLevel"] = clip(1 + (df["exercise_days_per_week"] / 7) * 4, 1, 5)
     out["wfhEnvironmentQuality"] = df["work_mode"].map(
@@ -123,7 +122,6 @@ def harmonize_indian_developer(path):
     out["workSatisfaction"] = clip((df["work_life_balance_rating"] / 2).round(), 1, 5)
     out["selfEfficacy"] = clip((df["job_security_confidence"] / 2).round(), 1, 5)
     out["exerciseLevel"] = clip(1 + (df["physical_activity_days_per_week"] / 7) * 4, 1, 5)
-    out["emotionalFatigue"] = clip(df["burnout_score"], 1, 10)
     out["afterHoursMessaging"] = df["weekend_work_frequency"].isin(["Often", "Always"]).astype(int)
 
     out["harmonized_risk_norm"] = minmax_norm(df["burnout_score"])
