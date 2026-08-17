@@ -1,65 +1,61 @@
 import axios from 'axios';
 import { Env } from '../config/env';
 
-/**
- * LlmService — thin wrapper around an external LLM API (Anthropic Messages API).
- *
- * CONFIDENTIALITY RULES (do not weaken these):
- * - Never pass userId, email, fullName, company, or freeform notes/journal text.
- * - Only pass de-identified aggregate signals (riskLevel, riskScore, top SHAP
- *   feature *names*, dimension breakdown) plus the user's own chat messages.
- * - Never log the raw request/response bodies (may contain the user's own
- *   typed message, which could include sensitive personal disclosures).
- */
-
 export interface LlmChatContext {
   riskLevel: string | null;
   riskScore: number | null;
-  topFactors: string[]; // plain-language, already stripped of raw values
+  topFactors: string[];
   dimensionBreakdown?: { dimension: string; score: number }[];
 }
 
-/** A single turn in the conversation, in chronological order. */
 export interface LlmConversationMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
 const SYSTEM_PROMPT = `You are BurnoutGuard's supportive wellbeing assistant.
-You help developers understand their burnout risk and recommendations.
-Rules:
-- Never ask for or repeat back personal identifiers (name, email, company).
+Be warm, natural, and conversational. Respond like a thoughtful teammate who can explain things clearly without sounding scripted.
+
+Safety and privacy rules:
+- Never ask for or repeat personal identifiers such as name, email, or company.
 - Do not provide medical or psychiatric diagnoses.
-- If the user expresses thoughts of self-harm, gently encourage them to
-  contact a crisis line or trusted person and do not attempt to counsel them yourself.
-- Keep responses concise (under 120 words) and supportive.`;
+- If the user mentions self-harm or feeling unsafe, respond with empathy and encourage immediate support from local emergency services, a crisis line, or a trusted person.
+- Use the provided anonymous context only as background awareness. Do not mention that it is anonymized context unless the user asks.
+- Avoid repeating the same phrasing across replies. Vary length naturally based on the user's message.`;
 
 export class LlmService {
   private timeoutMs = 8000;
   private providerDisabledReason: string | null = null;
+  private startupLogged = false;
 
   private isConfigured(): boolean {
     return !!Env.LLM_API_KEY && !this.providerDisabledReason;
   }
 
-  /**
-   * Takes the full recent conversation (already capped by the caller — see
-   * ChatService.MAX_HISTORY_MESSAGES) plus sanitized aggregate context, and
-   * returns the assistant's next reply. The context summary is attached to
-   * the most recent user turn only, since that reflects the developer's
-   * current state most accurately; earlier turns are passed through as-is
-   * so the model can follow the conversation naturally, like a normal
-   * multi-turn chat rather than a single stateless Q&A.
-   */
+  logStartupStatus(): void {
+    if (this.startupLogged) return;
+    this.startupLogged = true;
+
+    if (Env.LLM_API_KEY && !this.providerDisabledReason) {
+      console.log(`[LlmService] LLM path active using model ${Env.LLM_MODEL} at ${Env.LLM_API_URL}.`);
+    } else if (!Env.LLM_API_KEY) {
+      console.warn('[LlmService] LLM path is disabled because LLM_API_KEY is missing. Chat will fall back to rules when CHATBOT_ENGINE=llm.');
+    } else {
+      console.warn(`[LlmService] LLM path is temporarily disabled: ${this.providerDisabledReason}. Chat will fall back to rules until the provider recovers.`);
+    }
+  }
+
   async getChatReply(
     history: LlmConversationMessage[],
     context: LlmChatContext
   ): Promise<string | null> {
+    this.logStartupStatus();
+
     if (!this.isConfigured()) {
       if (this.providerDisabledReason) {
-        console.warn(`[LlmService] LLM provider disabled — ${this.providerDisabledReason}. Falling back to canned replies.`);
+        console.warn(`[LlmService] LLM provider disabled - ${this.providerDisabledReason}. Falling back to rules.`);
       } else {
-        console.warn('[LlmService] LLM_API_KEY not set — falling back to canned replies.');
+        console.warn('[LlmService] LLM_API_KEY not set - falling back to rules.');
       }
       return null;
     }
@@ -69,36 +65,40 @@ export class LlmService {
     }
 
     const contextSummary = this.buildSanitizedContextSummary(context);
+    const system = `${SYSTEM_PROMPT}\n\nBackground context for this conversation:\n${contextSummary}`;
 
-    const messages = history.map((turn, idx) => {
-      const isLastUserTurn = idx === history.length - 1 && turn.role === 'user';
-      if (isLastUserTurn) {
-        return {
-          role: turn.role,
-          content: `User context (anonymized, aggregate only): ${contextSummary}\n\nUser message: ${turn.content}`,
-        };
-      }
-      return { role: turn.role, content: turn.content };
-    });
+    const payload = {
+      model: Env.LLM_MODEL,
+      max_tokens: 700,
+      system,
+      messages: history.map((turn) => ({ role: turn.role, content: turn.content })),
+    };
 
+    const firstAttempt = await this.callProvider(payload);
+    if (firstAttempt) return firstAttempt;
+    if (this.providerDisabledReason) return null;
+
+    return await this.callProvider(payload, true);
+  }
+
+  private async callProvider(
+    payload: {
+      model: string;
+      max_tokens: number;
+      system: string;
+      messages: LlmConversationMessage[];
+    },
+    isRetry = false
+  ): Promise<string | null> {
     try {
-      const response = await axios.post(
-        Env.LLM_API_URL,
-        {
-          model: Env.LLM_MODEL,
-          max_tokens: 300,
-          system: SYSTEM_PROMPT,
-          messages,
+      const response = await axios.post(Env.LLM_API_URL, payload, {
+        headers: {
+          'x-api-key': Env.LLM_API_KEY,
+          'anthropic-version': '2023-06-01',
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'x-api-key': Env.LLM_API_KEY,
-            'anthropic-version': '2023-06-01',
-            'Content-Type': 'application/json',
-          },
-          timeout: this.timeoutMs,
-        }
-      );
+        timeout: this.timeoutMs,
+      });
 
       const content = response.data?.content;
       const text = Array.isArray(content)
@@ -107,7 +107,6 @@ export class LlmService {
 
       return text ?? null;
     } catch (err: any) {
-      // Do NOT log err.config/data — could echo back the user message.
       const errorMessage = err.response?.data?.error?.message ?? err.response?.data?.message ?? err.message ?? '';
       const statusCode = err.response?.status;
 
@@ -116,16 +115,20 @@ export class LlmService {
         /credit balance is too low|out of credits|billing/i.test(String(errorMessage))
       ) {
         this.providerDisabledReason = 'Anthropic credit balance is too low';
-        console.warn('[LlmService] Anthropic credit balance is too low — switching to canned replies.');
+        console.warn('[LlmService] Anthropic credit balance is too low - switching to rules.');
         return null;
       }
 
-      console.error('[LlmService] LLM call failed:', statusCode, err.response?.data ?? err.message);
+      if (!isRetry) {
+        console.warn('[LlmService] LLM call failed on first attempt - retrying once before falling back to rules.');
+        return null;
+      }
+
+      console.error('[LlmService] LLM call failed after retry - falling back to rules:', statusCode, errorMessage);
       return null;
     }
   }
 
-  /** Builds a strictly de-identified, aggregate-only context string. */
   private buildSanitizedContextSummary(context: LlmChatContext): string {
     const parts: string[] = [];
     if (context.riskLevel) parts.push(`riskLevel=${context.riskLevel}`);

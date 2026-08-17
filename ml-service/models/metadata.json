@@ -1,9 +1,9 @@
 {
-  "version": "v1.11-logisticregression",
+  "version": "v1.12-logisticregression",
   "algorithm": "LogisticRegression",
-  "modelFile": "model_v1.11-logisticregression.pkl",
-  "scalerFile": "scaler_v1.11-logisticregression.pkl",
-  "backgroundFile": "background_v1.11-logisticregression.pkl",
+  "modelFile": "model_v1.12-logisticregression.pkl",
+  "scalerFile": "scaler_v1.12-logisticregression.pkl",
+  "backgroundFile": "background_v1.12-logisticregression.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -56,7 +56,7 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-08-16T05:15:50.554514+00:00",
+  "trainedAt": "2026-08-16T15:29:25.990955+00:00",
   "metrics": {
     "LogisticRegression": {
       "accuracy": 0.8348130841121495,

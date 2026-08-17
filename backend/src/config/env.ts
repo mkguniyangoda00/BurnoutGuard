@@ -55,10 +55,17 @@ export const Env: EnvConfig = {
   LLM_API_KEY: getEnvOptional('LLM_API_KEY'), 
   LLM_MODEL: getEnvOptional( 'LLM_MODEL', 'claude-sonnet-5' ),
   JOURNAL_ENCRYPTION_KEY: getEnvOptional('JOURNAL_ENCRYPTION_KEY', ''),
-  CHATBOT_ENGINE: (getEnvOptional('CHATBOT_ENGINE', 'llm') as 'llm' | 'tensorflow' | 'rules'),
+  CHATBOT_ENGINE: (() => {
+    const configured = getEnvOptional('CHATBOT_ENGINE', '').trim().toLowerCase();
+    if (configured === 'tensorflow' || configured === 'rules' || configured === 'llm') {
+      return configured as 'llm' | 'tensorflow' | 'rules';
+    }
+    return getEnvOptional('LLM_API_KEY') ? 'llm' : 'tensorflow';
+  })(),
 };
 
 console.log("Loaded .env from:", path.join(__dirname, "../../.env"));
 console.log("LLM_API_KEY exists:", !!process.env.LLM_API_KEY);
 console.log("LLM_MODEL:", process.env.LLM_MODEL);
+console.log("CHATBOT_ENGINE:", Env.CHATBOT_ENGINE);
 

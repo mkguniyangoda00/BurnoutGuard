@@ -29,6 +29,7 @@ import { AlertRepository } from './repositories/AlertRepository';
 import { startDailyEncouragementJob } from './jobs/DailyEncouragementJob';
 import { PredictionRepository } from './repositories/PredictionRepository';
 import { EmailService } from './services/EmailService';
+import { LlmService } from './services/LlmService';
 import { startRecommendationFollowUpJob } from './jobs/RecommendationFollowUpJob';
 import { startReassessmentReminderJob } from './jobs/CheckInReminderJob';
 import { ensureWellnessResourcesSeeded } from './data/wellnessResourcesSeedData';
@@ -120,6 +121,7 @@ startReassessmentReminderJob(
 // Log clearly at startup whether SMTP is actually configured/reachable —
 // this is the #1 cause of "emails not working" reports.
 ensureWellnessResourcesSeeded();
+new LlmService().logStartupStatus();
 EmailService.verifyConnection();
 
 // ── Start Server ──────────────────────────────────────────────────────────────
