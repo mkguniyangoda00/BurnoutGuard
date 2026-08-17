@@ -1,22 +1,11 @@
-/**
- * DepartmentOverview.tsx (pages/hr/DepartmentOverview.tsx)
- * 
- * Overview for HR Officer role. Shows risk distribution by department.
- * 
- * DATA FLOW:
- * Fetches data from /api/analytics/department
- * Backend aggregates the latest prediction for all users, grouped by company/department.
- * Only departments with 5+ members are returned to protect anonymity.
- */
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
 
 const DepartmentOverview: React.FC = () => {
-  // ── Fetch Department Analytics ───────────────────────────────────────
   const { data: rawData, isLoading, isError } = useQuery({
     queryKey: ['analytics', 'department'],
     queryFn: analyticsService.getDepartmentOverview,
@@ -24,11 +13,10 @@ const DepartmentOverview: React.FC = () => {
 
   const deptData = Array.isArray(rawData) ? rawData : [];
 
-  // Calculate overall averages across all valid departments
   let totalHigh = 0;
   let totalMod = 0;
   let totalLow = 0;
-  
+
   if (deptData.length > 0) {
     deptData.forEach((d: any) => {
       totalHigh += d.highPct;
@@ -47,102 +35,103 @@ const DepartmentOverview: React.FC = () => {
 
   const overtimeTrend = Array.isArray(overtimeData) ? overtimeData : [];
 
-  // Client-side ranking — reuses the same deptData already fetched via
-  // getDepartmentOverview(), sorted by combined High+Critical risk share.
   const highRiskRanking = [...deptData]
     .map((d: any) => ({
       department: d.department,
       combinedHighRisk: (d.highPct ?? 0) + (d.criticalPct ?? 0),
     }))
-    .sort((a, b) => b.combinedHighRisk - a.combinedHighRisk); 
-    
-  // Find the department with the highest "high risk" percentage
-  const highestRiskDept = deptData.length > 0 
+    .sort((a, b) => b.combinedHighRisk - a.combinedHighRisk);
+
+  const highestRiskDept = deptData.length > 0
     ? [...deptData].sort((a, b) => b.highPct - a.highPct)[0]
     : null;
 
   return (
     <PageWrapper>
-      {/* ── Header ──────────────────────────────────────────────────────── */}
-      <div className="mb-7">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Organisation Burnout Overview</h1>
-        <p className="text-sm text-gray-500">
+      <div style={{ marginBottom: '28px' }}>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+          Organisation Burnout Overview
+        </h1>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
           All data anonymised and aggregated · Minimum 5 members per group shown
         </p>
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-          <Loader2 className="animate-spin mb-4" size={32} />
-          <span>Loading department analytics...</span>
+        <div className="flex flex-col items-center justify-center py-20 gap-3" style={{ color: 'var(--text-muted)' }}>
+          <Loader2 className="animate-spin" size={32} />
+          <span style={{ fontSize: '13px' }}>Loading department analytics...</span>
         </div>
       ) : isError ? (
-        <div className="flex flex-col items-center justify-center py-20 text-red-500">
-          <AlertCircle className="mb-4" size={32} />
-          <span>Failed to load organisation data.</span>
+        <div className="flex flex-col items-center justify-center py-20 gap-3" style={{ color: 'var(--danger)' }}>
+          <AlertCircle size={32} />
+          <span style={{ fontSize: '13px' }}>Failed to load organisation data.</span>
         </div>
       ) : deptData.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-          <p>Not enough data available.</p>
-          <p className="text-sm text-gray-400 mt-2">Departments must have at least 5 active users with predictions to be shown.</p>
+        <div className="flex flex-col items-center justify-center py-20 gap-3" style={{ color: 'var(--text-muted)' }}>
+          <AlertCircle size={32} />
+          <span style={{ fontSize: '13px', textAlign: 'center' }}>Not enough data available.</span>
+          <span style={{ fontSize: '13px', textAlign: 'center' }}>Departments must have at least 5 active users with predictions to be shown.</span>
         </div>
       ) : (
         <>
-          {/* ── Summary Stats ───────────────────────────────────────────────── */}
           <div className="grid grid-cols-4 gap-3 mb-6">
             {[
-              { num: `${totalHigh}%`, label: 'Avg High Risk Rate', color: 'text-red-500' },
-              { num: `${totalMod}%`, label: 'Avg Moderate Risk Rate', color: 'text-amber-500' },
-              { num: `${totalLow}%`, label: 'Avg Low Risk Rate', color: 'text-green-500' },
-              { num: highestRiskDept ? highestRiskDept.department : '—', label: 'Most Stressed Dept', color: 'text-gray-700' },
+              { num: `${totalHigh}%`, label: 'Avg High Risk Rate', color: 'var(--danger)' },
+              { num: `${totalMod}%`, label: 'Avg Moderate Risk Rate', color: 'var(--warning)' },
+              { num: `${totalLow}%`, label: 'Avg Low Risk Rate', color: 'var(--success)' },
+              { num: highestRiskDept ? highestRiskDept.department : '—', label: 'Most Stressed Dept', color: 'var(--text-primary)' },
             ].map((chip, idx) => (
-              <div key={idx} className="border border-gray-200 rounded-xl p-4 text-center bg-white shadow-sm">
-                <div className={`text-2xl font-bold mb-1 truncate ${chip.color}`}>{chip.num}</div>
-                <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">{chip.label}</div>
-              </div>
+              <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px' }}>
+                <div style={{ fontSize: '24px', fontWeight: 600, marginBottom: '4px', color: chip.color, lineHeight: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {chip.num}
+                </div>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  {chip.label}
+                </div>
+              </Card>
             ))}
           </div>
 
-          {/* ── Risk by Department Bar Chart ──────────────────────────────── */}
-          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-            <h2 className="text-sm font-bold text-gray-800 mb-5">Burnout Risk Distribution by Department</h2>
-            
+          <Card style={{ padding: '20px', marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+              Burnout Risk Distribution by Department
+            </h2>
+
             <div className="flex flex-col gap-4">
               {deptData.map((row: any, idx: number) => {
-                // Formatting percentages
                 const low = Math.round(row.lowPct);
                 const mod = Math.round(row.moderatePct);
                 const high = Math.round(row.highPct);
 
                 return (
                   <div key={idx} className="flex items-center">
-                    <div className="w-32 text-sm font-medium text-gray-700 truncate pr-2" title={row.department}>
+                    <div className="w-32 text-sm font-medium truncate pr-2" style={{ color: 'var(--text-secondary)' }} title={row.department}>
                       {row.department}
                     </div>
-                    {/* Stacked Progress Bar */}
-                    <div className="flex-1 flex h-4 rounded-full overflow-hidden bg-gray-100 border border-gray-200/50">
+                    <div className="flex-1 flex h-4 rounded-full overflow-hidden" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}>
                       {low > 0 && (
-                        <div 
-                          style={{ width: `${low}%` }} 
-                          className="bg-green-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                        <div
+                          style={{ width: `${low}%`, background: 'var(--success)' }}
+                          className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
                           title={`Low Risk: ${low}%`}
                         >
                           {low > 8 ? `${low}%` : ''}
                         </div>
                       )}
                       {mod > 0 && (
-                        <div 
-                          style={{ width: `${mod}%` }} 
-                          className="bg-amber-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                        <div
+                          style={{ width: `${mod}%`, background: 'var(--warning)' }}
+                          className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
                           title={`Moderate Risk: ${mod}%`}
                         >
                           {mod > 8 ? `${mod}%` : ''}
                         </div>
                       )}
                       {high > 0 && (
-                        <div 
-                          style={{ width: `${high}%` }} 
-                          className="bg-red-500 flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                        <div
+                          style={{ width: `${high}%`, background: 'var(--danger)' }}
+                          className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
                           title={`High/Critical Risk: ${high}%`}
                         >
                           {high > 8 ? `${high}%` : ''}
@@ -154,64 +143,72 @@ const DepartmentOverview: React.FC = () => {
               })}
             </div>
 
-            {/* Legend */}
-            <div className="flex gap-4 mt-6 pt-4 border-t border-gray-100 justify-center">
+            <div className="flex gap-4 mt-6 pt-4 justify-center" style={{ borderTop: '1px solid var(--border)' }}>
               {[
-                { color: 'bg-green-500', label: 'Low Risk' },
-                { color: 'bg-amber-500', label: 'Moderate Risk' },
-                { color: 'bg-red-500', label: 'High/Critical Risk' },
+                { color: 'var(--success)', label: 'Low Risk' },
+                { color: 'var(--warning)', label: 'Moderate Risk' },
+                { color: 'var(--danger)', label: 'High/Critical Risk' },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-sm ${item.color}`}></div>
-                  <span className="text-xs text-gray-500 font-medium">{item.label}</span>
+                  <div className="w-3 h-3 rounded-sm" style={{ background: item.color }} />
+                  <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
                 </div>
               ))}
             </div>
-          </div>
-        </>
-      )}
-      {/* ── High-Risk Department Ranking ─────────────────────────── */}
-          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-            <h2 className="text-sm font-bold text-gray-800 mb-5">Highest-Risk Departments</h2>
+          </Card>
+
+          <Card style={{ padding: '20px', marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+              Highest-Risk Departments
+            </h2>
             {highRiskRanking.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-6">Not enough data available.</p>
+              <div className="flex flex-col items-center justify-center py-10 gap-3" style={{ color: 'var(--text-muted)' }}>
+                <AlertCircle size={24} />
+                <span style={{ fontSize: '13px' }}>Not enough data available.</span>
+              </div>
             ) : (
               <div className="flex flex-col gap-3">
                 {highRiskRanking.map((row: any, idx: number) => (
                   <div key={idx} className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">
+                    <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)' }}>
                       {idx + 1}. {row.department}
                     </span>
-                    <span className="text-sm font-semibold text-red-500">
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--danger)' }}>
                       {row.combinedHighRisk.toFixed(0)}% High/Critical
                     </span>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </Card>
 
-          {/* ── Overtime Patterns ─────────────────────────────────────── */}
-          <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-            <h2 className="text-sm font-bold text-gray-800 mb-5">Overtime Trend (Recent Weeks)</h2>
+          <Card style={{ padding: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+              Overtime Trend (Recent Weeks)
+            </h2>
             {overtimeLoading ? (
-              <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+              <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
                 <Loader2 className="animate-spin" size={20} />
-                Loading overtime data...
+                <span style={{ fontSize: '13px' }}>Loading overtime data...</span>
               </div>
             ) : overtimeTrend.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-6">Not enough data available.</p>
+              <div className="flex flex-col items-center justify-center py-10 gap-3" style={{ color: 'var(--text-muted)' }}>
+                <AlertCircle size={24} />
+                <span style={{ fontSize: '13px' }}>Not enough data available.</span>
+              </div>
             ) : (
               <div className="flex flex-col gap-2">
                 {overtimeTrend.map((row: any, idx: number) => (
                   <div key={idx} className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">{row.week}</span>
-                    <span className="font-medium text-gray-800">{row.avgOvertimeHours}h avg</span>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{row.week}</span>
+                    <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '13px' }}>{row.avgOvertimeHours}h avg</span>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </Card>
+        </>
+      )}
     </PageWrapper>
   );
 };

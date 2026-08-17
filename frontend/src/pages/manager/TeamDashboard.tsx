@@ -1,33 +1,22 @@
-/**
- * TeamDashboard.tsx (pages/manager/TeamDashboard.tsx)
- * 
- * The main homepage for Manager-role users.
- * 
- * DATA FLOW:
- * Fetches the team heatmap data from /api/analytics/heatmap
- * This data is anonymised (e.g., "Dev 01") to preserve privacy while still
- * allowing the manager to identify team-wide stress patterns.
- */
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
+import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
 
 const TeamDashboard: React.FC = () => {
   const [workMode, setWorkMode] = useState('All');
   const [riskPeriod, setRiskPeriod] = useState('This Week');
-  const [experienceBand, setExperienceBand] = useState('All');  
-  const [jobTitle, setJobTitle] = useState('All');  
-  
-  // ── Fetch Heatmap Data from Backend ──────────────────────────────
+  const [experienceBand, setExperienceBand] = useState('All');
+  const [jobTitle, setJobTitle] = useState('All');
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['analytics', 'heatmap', workMode, riskPeriod, experienceBand, jobTitle],
     queryFn: () => analyticsService.getTeamHeatmap({ workMode, riskPeriod, experienceBand, jobTitle }),
   });
 
-  const { data: filterOptions } = useQuery({   // NEW
+  const { data: filterOptions } = useQuery({
     queryKey: ['analytics', 'heatmap-filters'],
     queryFn: analyticsService.getHeatmapFilterOptions,
   });
@@ -35,7 +24,6 @@ const TeamDashboard: React.FC = () => {
 
   const members = Array.isArray(data?.members) ? data.members : [];
 
-  // Calculate aggregated stats for the top cards
   let highRiskCount = 0;
   let moderateRiskCount = 0;
   let lowRiskCount = 0;
@@ -54,7 +42,6 @@ const TeamDashboard: React.FC = () => {
   const hotspots = Array.isArray(hotspotsData) ? hotspotsData : [];
   const recSummary = Array.isArray(recSummaryData) ? recSummaryData : [];
 
-  // We look at the most recent week (index 0) for the current snapshot counts
   members.forEach((member: any) => {
     if (!member.weeks || member.weeks.length === 0) {
       noDataCount++;
@@ -67,119 +54,111 @@ const TeamDashboard: React.FC = () => {
     else noDataCount++;
   });
 
+  const filterSelectStyle: React.CSSProperties = {
+    background: 'var(--soft-fill)',
+    border: '1px solid var(--border)',
+    borderRadius: 'var(--radius-btn)',
+    color: 'var(--text-primary)',
+    padding: '10px 12px',
+    fontSize: '13px',
+    outline: 'none',
+  };
+
   return (
     <PageWrapper>
-      {/* ── Page Header ───────────────────────────────────────────── */}
-      <div className="mb-7">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Team Burnout Overview</h1>
-        <p className="text-sm text-gray-500">
+      <div style={{ marginBottom: '28px' }}>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+          Team Burnout Overview
+        </h1>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
           Software Engineering Department · All data is anonymised to protect privacy
         </p>
       </div>
 
-      {/* ── Filter Controls (Mocked visually for now) ─────────────── */}
-      <div className="flex gap-3 mb-6 flex-wrap">
-        <select className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none">
-          <option>Department: Engineering</option>
-        </select>
-        <select
-          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
-          value={workMode}
-          onChange={(e) => setWorkMode(e.target.value)}
-        >
-          <option value="All">Work Mode: All</option>
-          <option value="Remote">Work Mode: Remote</option>
-          <option value="Hybrid">Work Mode: Hybrid</option>
-          <option value="Onsite">Work Mode: Onsite</option>
-        </select>
-        <select
-          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
-          value={riskPeriod}
-          onChange={(e) => setRiskPeriod(e.target.value)}
-        >
-          <option value="This Week">Risk Period: This Week</option>
-          <option value="Last 4 Weeks">Risk Period: Last 4 Weeks</option>
-          <option value="Last 3 Months">Risk Period: Last 3 Months</option>
-        </select>
-        <select
-          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
-          value={experienceBand}
-          onChange={(e) => setExperienceBand(e.target.value)}
-        >
-          <option value="All">Experience: All</option>
-          <option value="Junior (<3y)">Junior (&lt;3y)</option>
-          <option value="Senior (3y+)">Senior (3y+)</option>
-        </select>
+      <Card style={{ marginBottom: '20px', padding: '16px' }}>
+        <div className="flex gap-3 flex-wrap">
+          <select style={filterSelectStyle}>
+            <option>Department: Engineering</option>
+          </select>
+          <select value={workMode} onChange={(e) => setWorkMode(e.target.value)} style={filterSelectStyle}>
+            <option value="All">Work Mode: All</option>
+            <option value="Remote">Work Mode: Remote</option>
+            <option value="Hybrid">Work Mode: Hybrid</option>
+            <option value="Onsite">Work Mode: Onsite</option>
+          </select>
+          <select value={riskPeriod} onChange={(e) => setRiskPeriod(e.target.value)} style={filterSelectStyle}>
+            <option value="This Week">Risk Period: This Week</option>
+            <option value="Last 4 Weeks">Risk Period: Last 4 Weeks</option>
+            <option value="Last 3 Months">Risk Period: Last 3 Months</option>
+          </select>
+          <select value={experienceBand} onChange={(e) => setExperienceBand(e.target.value)} style={filterSelectStyle}>
+            <option value="All">Experience: All</option>
+            <option value="Junior (<3y)">Junior (&lt;3y)</option>
+            <option value="Senior (3y+)">Senior (3y+)</option>
+          </select>
+          <select value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} style={filterSelectStyle}>
+            <option value="All">Job Title: All</option>
+            {jobTitles.map((title) => (
+              <option key={title} value={title}>{title}</option>
+            ))}
+          </select>
+        </div>
+      </Card>
 
-        <select
-          className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none"
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-        >
-          <option value="All">Job Title: All</option>
-          {jobTitles.map((title) => (
-            <option key={title} value={title}>{title}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* ── Summary Stats Cards ───────────────────────────────────── */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          { num: highRiskCount.toString(), label: 'High Risk', color: 'text-red-500' },
-          { num: moderateRiskCount.toString(), label: 'Moderate Risk', color: 'text-amber-500' },
-          { num: lowRiskCount.toString(), label: 'Low Risk', color: 'text-green-500' },
-          { num: noDataCount.toString(), label: 'No Data', color: 'text-gray-400' },
+          { num: highRiskCount.toString(), label: 'High Risk', color: 'var(--danger)' },
+          { num: moderateRiskCount.toString(), label: 'Moderate Risk', color: 'var(--warning)' },
+          { num: lowRiskCount.toString(), label: 'Low Risk', color: 'var(--success)' },
+          { num: noDataCount.toString(), label: 'No Data', color: 'var(--text-muted)' },
         ].map((chip, idx) => (
-          <div key={idx} className="border border-gray-200 rounded-xl p-5 text-center bg-white shadow-sm">
-            <div className={`text-3xl font-bold mb-1 ${chip.color}`}>{chip.num}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">{chip.label}</div>
-          </div>
+          <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 600, color: chip.color, marginBottom: '4px', lineHeight: 1 }}>{chip.num}</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{chip.label}</div>
+          </Card>
         ))}
       </div>
 
-      {/* ── Main Heatmap View ─────────────────────────────────────── */}
-      <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-        <h2 className="text-sm font-bold text-gray-800 mb-5">Team Burnout Heatmap (Last 4 Weeks)</h2>
-        
+      <Card style={{ padding: '20px', marginBottom: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+          Team Burnout Heatmap (Last 4 Weeks)
+        </h2>
+
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+          <div className="flex flex-col items-center justify-center py-12" style={{ color: 'var(--text-muted)' }}>
             <Loader2 className="animate-spin mb-2" size={24} />
-            <span className="text-sm">Loading team analytics...</span>
+            <span style={{ fontSize: '13px' }}>Loading team analytics...</span>
           </div>
         ) : isError ? (
-          <div className="flex flex-col items-center justify-center py-12 text-red-500">
+          <div className="flex flex-col items-center justify-center py-12" style={{ color: 'var(--danger)' }}>
             <AlertCircle className="mb-2" size={24} />
-            <span className="text-sm">Failed to load heatmap data.</span>
+            <span style={{ fontSize: '13px' }}>Failed to load heatmap data.</span>
           </div>
         ) : members.length === 0 ? (
-          <div className="text-center py-10 text-gray-500 text-sm">
-            No team data available for this department yet.
+          <div className="flex flex-col items-center justify-center py-12" style={{ color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '13px' }}>No team data available for this department yet.</span>
           </div>
         ) : (
           <div>
             <div className="flex">
-              {/* Row Labels (Dev 01, Dev 02) */}
               <div className="w-16 mr-4">
                 <div className="h-5 mb-2"></div>
                 {members.map((member: any, idx: number) => (
-                  <div key={idx} className="h-9 mb-2 text-xs text-gray-500 flex items-center justify-end font-medium">
+                  <div key={idx} className="h-9 mb-2 text-xs flex items-center justify-end font-medium" style={{ color: 'var(--text-muted)' }}>
                     {member.label}
                   </div>
                 ))}
               </div>
 
-              {/* Grid Columns */}
               <div className="flex-1 flex gap-2">
                 {[0, 1, 2, 3].map((weekIndex) => {
-                  // We map columns to weeks, assuming member.weeks[weekIndex] exists
                   const label = `Week -${weekIndex}`;
                   return (
                     <div key={weekIndex} className="flex-1">
-                      <div className="text-xs text-gray-500 text-center mb-2 h-5 font-medium">{label}</div>
+                      <div className="text-xs text-center mb-2 h-5 font-medium" style={{ color: 'var(--text-muted)' }}>{label}</div>
                       {members.map((member: any, mIdx: number) => {
                         const weekData = member.weeks?.[weekIndex];
-                        let bgColor = 'bg-gray-100'; // No Data default
+                        let bgColor = 'bg-gray-100';
                         if (weekData) {
                           if (weekData.riskLevel === 'Low') bgColor = 'bg-green-500';
                           else if (weekData.riskLevel === 'Moderate') bgColor = 'bg-amber-500';
@@ -190,7 +169,7 @@ const TeamDashboard: React.FC = () => {
                             key={mIdx}
                             className={`h-9 rounded-md mb-2 w-full ${bgColor} transition-colors hover:opacity-80`}
                             title={weekData ? `${member.label} Risk: ${weekData.riskLevel}` : 'No Data'}
-                          ></div>
+                          />
                         );
                       })}
                     </div>
@@ -199,8 +178,7 @@ const TeamDashboard: React.FC = () => {
               </div>
             </div>
 
-            {/* Heatmap Legend */}
-            <div className="flex gap-4 mt-6">
+            <div className="flex gap-4 mt-6 flex-wrap">
               {[
                 { color: 'bg-green-500', label: 'Low Risk' },
                 { color: 'bg-amber-500', label: 'Moderate Risk' },
@@ -209,69 +187,71 @@ const TeamDashboard: React.FC = () => {
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <div className={`w-3 h-3 rounded-sm ${item.color}`}></div>
-                  <span className="text-xs text-gray-500 font-medium">{item.label}</span>
+                  <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
-      </div>
-      
-      {/* ── Workload Hotspots ─────────────────────────────────────── */}
-      <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-        <h2 className="text-sm font-bold text-gray-800 mb-5">Workload Hotspots</h2>
+      </Card>
+
+      <Card style={{ padding: '20px', marginBottom: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+          Workload Hotspots
+        </h2>
         {hotspotsLoading ? (
-          <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+          <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
             <Loader2 className="animate-spin" size={20} />
-            Loading workload data...
+            <span style={{ fontSize: '13px' }}>Loading workload data...</span>
           </div>
         ) : hotspots.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-6">Not enough data available for this department.</p>
+          <p className="text-sm text-center py-6" style={{ color: 'var(--text-muted)' }}>Not enough data available for this department.</p>
         ) : (
           <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-xs text-gray-500 uppercase tracking-wider">
-                <th className="pb-3">Department</th>
-                <th className="pb-3">Avg Meetings</th>
-                <th className="pb-3">Avg Urgent Tasks</th>
-                <th className="pb-3">Avg Overtime (hrs)</th>
+            <thead style={{ borderBottom: '1px solid var(--border)' }}>
+              <tr>
+                <th style={{ padding: '0 0 12px 0', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>Department</th>
+                <th style={{ padding: '0 0 12px 0', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>Avg Meetings</th>
+                <th style={{ padding: '0 0 12px 0', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>Avg Urgent Tasks</th>
+                <th style={{ padding: '0 0 12px 0', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)' }}>Avg Overtime (hrs)</th>
               </tr>
             </thead>
             <tbody>
               {hotspots.map((row: any, idx: number) => (
-                <tr key={idx} className="border-t border-gray-100">
-                  <td className="py-3 text-sm font-medium text-gray-800">{row.department}</td>
-                  <td className="py-3 text-sm text-gray-600">{row.avgMeetingsCount}</td>
-                  <td className="py-3 text-sm text-gray-600">{row.avgUrgentTasksCount}</td>
-                  <td className="py-3 text-sm text-gray-600">{row.avgOvertimeHours}h</td>
+                <tr key={idx} style={{ borderTop: '1px solid var(--border)' }}>
+                  <td style={{ padding: '12px 0', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>{row.department}</td>
+                  <td style={{ padding: '12px 0', fontSize: '13px', color: 'var(--text-muted)' }}>{row.avgMeetingsCount}</td>
+                  <td style={{ padding: '12px 0', fontSize: '13px', color: 'var(--text-muted)' }}>{row.avgUrgentTasksCount}</td>
+                  <td style={{ padding: '12px 0', fontSize: '13px', color: 'var(--text-muted)' }}>{row.avgOvertimeHours}h</td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
-      </div>
+      </Card>
 
-      {/* ── Aggregated Recommendations Summary ───────────────────────── */}
-      <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6 shadow-sm">
-        <h2 className="text-sm font-bold text-gray-800 mb-5">Team Recommendation Trends</h2>
+      <Card style={{ padding: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
+          Team Recommendation Trends
+        </h2>
         {recSummaryLoading ? (
-          <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+          <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
             <Loader2 className="animate-spin" size={20} />
-            Loading recommendation data...
+            <span style={{ fontSize: '13px' }}>Loading recommendation data...</span>
           </div>
         ) : recSummary.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-6">Not enough data available for this department.</p>
+          <p className="text-sm text-center py-6" style={{ color: 'var(--text-muted)' }}>Not enough data available for this department.</p>
         ) : (
           recSummary.map((dept: any, idx: number) => (
-            <div key={idx} className="mb-4 last:mb-0">
-              <p className="text-xs text-gray-500 font-medium mb-2">
+            <div key={idx} style={{ marginBottom: idx === recSummary.length - 1 ? 0 : '18px' }}>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500, marginBottom: '8px' }}>
                 {dept.department} · {dept.teamSize} developers
               </p>
               <div className="flex flex-col gap-2">
                 {dept.categories.map((cat: any, cidx: number) => (
                   <div key={cidx} className="flex items-center justify-between text-sm">
-                    <span className="text-gray-700">{cat.category}</span>
-                    <span className="text-gray-500">
+                    <span style={{ color: 'var(--text-primary)' }}>{cat.category}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>
                       {cat.affectedUserCount} of {dept.teamSize} developers · {cat.activeCount} active
                     </span>
                   </div>
@@ -280,7 +260,7 @@ const TeamDashboard: React.FC = () => {
             </div>
           ))
         )}
-      </div>
+      </Card>
     </PageWrapper>
   );
 };

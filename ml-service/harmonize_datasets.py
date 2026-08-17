@@ -100,8 +100,6 @@ def harmonize_tech_mental_health(path):
     out["caffeineIntake"] = clip(df["caffeine_intake"], 0, 10)
     out["socialSupportLevel"] = clip((df["social_support_score"] / 2).round(), 1, 5)
     out["anxietyLevel"] = clip(df["anxiety_score"], 1, 10)
-    dep_min, dep_max = df["depression_score"].min(), df["depression_score"].max()
-    out["emotionalFatigue"] = clip(1 + (df["depression_score"] - dep_min) / (dep_max - dep_min) * 9, 1, 10)
     out["exerciseLevel"] = clip(1 + (df["physical_activity_days"] / 7) * 4, 1, 5)
     out["screenTimeHours"] = clip(df["screen_time_hours"], 0, 24)
 

@@ -314,6 +314,9 @@ export class ChatService {
     }
 
     if (!replyContent) {
+      if (Env.CHATBOT_ENGINE === 'llm') {
+        console.warn('[ChatService] LLM reply was unavailable, so buildReply() handled the turn as a last resort.');
+      }
       replyContent = await this.buildReply(content, ctx);
       engineUsed = 'rules';
     } else {
