@@ -156,3 +156,14 @@ def compute_global_feature_importance(model, X_sample, background=None):
 
     rows.sort(key=lambda row: row["meanAbsShap"], reverse=True)
     return rows
+
+
+def apply_calibrated_probabilities(model, feature_df, calibrators=None):
+    scaled = feature_df
+    probs = model.predict_proba(scaled)
+    if not calibrators:
+        return probs[0]
+    calibrated = np.array([calibrators[idx].transform([probs[0][idx]])[0] for idx in range(probs.shape[1])], dtype=float)
+    calibrated = np.clip(calibrated, 1e-6, 1.0)
+    calibrated = calibrated / calibrated.sum()
+    return calibrated

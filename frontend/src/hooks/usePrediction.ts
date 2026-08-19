@@ -19,12 +19,14 @@ export const usePrediction = () => {
   const prediction = query.data?.prediction ?? null;
   const dimensionBreakdown = query.data?.dimensionBreakdown ?? [];
   const calibrationConfidence = query.data?.calibrationConfidence ?? null;
+  const uncertainty = (query.data as any)?.prediction?.uncertainty ?? null;
 
   return {
     ...query,
     prediction,
     dimensionBreakdown,
     calibrationConfidence,
+    uncertainty,
     isEmpty: !query.isLoading && !query.isError && !prediction,
   };
 };

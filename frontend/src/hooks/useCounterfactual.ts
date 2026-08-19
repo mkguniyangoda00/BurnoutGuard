@@ -17,6 +17,7 @@ export interface CounterfactualResult {
   validity: boolean;
   proximity: number | null;
   sparsity: number;
+  feasibility?: string;
 }
 
 export const counterfactualQueryKey = ['prediction', 'counterfactual'] as const;

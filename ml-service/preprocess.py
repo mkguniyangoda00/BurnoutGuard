@@ -51,12 +51,19 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
             df[col] = df[col].fillna(df[col].median())
     if "afterHoursMessaging" in df.columns:
         df["afterHoursMessaging"] = df["afterHoursMessaging"].astype(int)
+    if "source_dataset" in df.columns:
+        df["source_dataset"] = df["source_dataset"].fillna("unknown").astype(str)
     return df
 
 
 def encode_labels(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
+    if "riskLevel" not in df.columns:
+        raise ValueError("Missing required target column: riskLevel")
     df["riskLabel"] = df["riskLevel"].map(RISK_TO_INT)
+    if df["riskLabel"].isnull().any():
+        bad = sorted(df.loc[df["riskLabel"].isnull(), "riskLevel"].dropna().unique().tolist())
+        raise ValueError(f"Unrecognized riskLevel values: {bad}")
     return df
 
 
@@ -77,6 +84,13 @@ def split_and_scale(df: pd.DataFrame):
     X_test_scaled = scaler.transform(X_test)
 
     return X_train_scaled, X_test_scaled, y_train, y_test, scaler
+
+
+def source_split(df: pd.DataFrame, holdout_source: str = "sri_lankan_developer_burnout") -> tuple[pd.DataFrame, pd.DataFrame]:
+    if "source_dataset" not in df.columns:
+        return df, df.iloc[0:0].copy()
+    holdout_mask = df["source_dataset"].astype(str).str.lower().eq(holdout_source.lower())
+    return df.loc[~holdout_mask].copy(), df.loc[holdout_mask].copy()
 
 
 def build_feature_vector(raw_features: dict) -> pd.DataFrame:
@@ -109,6 +123,12 @@ def load_latest_artifacts():
 
     model = joblib.load(model_path)
     scaler = joblib.load(scaler_path)
+    calibrators = None
+    calibrator_file = metadata.get("calibratorFile")
+    if calibrator_file:
+        calibrator_path = os.path.join(MODELS_DIR, calibrator_file)
+        if os.path.exists(calibrator_path):
+            calibrators = joblib.load(calibrator_path)
 
     background = None
     background_file = metadata.get("backgroundFile")
@@ -117,4 +137,4 @@ def load_latest_artifacts():
         if os.path.exists(background_path):
             background = joblib.load(background_path)
 
-    return {"model": model, "scaler": scaler, "metadata": metadata, "background": background}
+    return {"model": model, "scaler": scaler, "metadata": metadata, "background": background, "calibrators": calibrators}
