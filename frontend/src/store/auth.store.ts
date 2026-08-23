@@ -11,6 +11,7 @@ interface User {
   emailNotificationsEnabled?: boolean;
   consentGivenAt?: string | null;
   researchParticipation?: boolean;
+  ageGroup?: string | null;
 }
 
 interface AuthState {

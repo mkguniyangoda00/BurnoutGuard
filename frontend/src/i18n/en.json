@@ -13,9 +13,43 @@
     "trends": "Trends",
     "users": "Users",
     "modelMetrics": "Model Metrics",
+    "factorAnalysis": "Factor Analysis",
     "auditLogs": "Audit Logs",
     "myProfile": "My Profile",
     "language": "Language"
+  },
+
+  "factorAnalysis": {
+    "title": "Factor Analysis",
+    "subtitle": "Observed associations in the dataset, grouped for research review",
+    "disclaimer": "This shows statistical association in the observed dataset, not causation, and it is distinct from the model's SHAP feature importance shown on the Model Metrics page.",
+    "tabs": {
+      "demographics": "Demographics",
+      "explorer": "Factor Explorer",
+      "interaction": "Interaction Analysis"
+    },
+    "labels": {
+      "ageGroup": "Age Group",
+      "experienceBand": "Experience",
+      "jobTitle": "Job Role",
+      "workModel": "Work Mode"
+    },
+    "insights": {
+      "title": "Auto-generated insights",
+      "loading": "Loading insights..."
+    }
+  },
+
+  "teamInsights": {
+    "teamRiskFactors": "Team Risk Factors",
+    "teamWhatIf": "Team What-If Simulation",
+    "simulationOnly": "Simulation only, not a guarantee",
+    "notGuarantee": "This applies a proposed change to the team's current feature vectors and estimates the distribution shift.",
+    "before": "Before",
+    "after": "After",
+    "insufficientData": "insufficient data",
+    "factorInsights": "Factor Insights",
+    "departmentFactorInsights": "Compact comparisons for department-scoped job role and work mode patterns"
   },
 
   "auth": {

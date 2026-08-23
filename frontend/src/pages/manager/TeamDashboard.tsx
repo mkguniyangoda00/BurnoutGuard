@@ -4,6 +4,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
+import TeamWhatIfPanel from '../../components/manager/TeamWhatIfPanel';
 
 const TeamDashboard: React.FC = () => {
   const [workMode, setWorkMode] = useState('All');
@@ -39,8 +40,14 @@ const TeamDashboard: React.FC = () => {
     queryFn: analyticsService.getManagerRecommendationSummary,
   });
 
+  const { data: shapSummaryData, isLoading: shapSummaryLoading } = useQuery({
+    queryKey: ['analytics', 'team-shap-summary', workMode, experienceBand, jobTitle],
+    queryFn: () => analyticsService.getTeamShapSummary({ workMode, experienceBand, jobTitle }),
+  });
+
   const hotspots = Array.isArray(hotspotsData) ? hotspotsData : [];
   const recSummary = Array.isArray(recSummaryData) ? recSummaryData : [];
+  const shapSummary = shapSummaryData ?? { teamSize: 0, totalDevelopers: 0, riskIncreasing: [], protective: [] };
 
   members.forEach((member: any) => {
     if (!member.weeks || member.weeks.length === 0) {
@@ -195,6 +202,8 @@ const TeamDashboard: React.FC = () => {
         )}
       </Card>
 
+      <TeamWhatIfPanel />
+
       <Card style={{ padding: '20px', marginBottom: '20px' }}>
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
           Workload Hotspots
@@ -227,6 +236,66 @@ const TeamDashboard: React.FC = () => {
               ))}
             </tbody>
           </table>
+        )}
+      </Card>
+
+      <Card style={{ padding: '20px', marginBottom: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>
+          Team Risk Factors
+        </h2>
+        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '18px' }}>
+          Team-wide SHAP summary for the currently filtered manager view
+        </p>
+
+        {shapSummaryLoading ? (
+          <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
+            <Loader2 className="animate-spin" size={20} />
+            <span style={{ fontSize: '13px' }}>Loading team risk factors...</span>
+          </div>
+        ) : shapSummary.teamSize === 0 ? (
+          <p className="text-sm text-center py-6" style={{ color: 'var(--text-muted)' }}>Not enough data available for this team yet.</p>
+        ) : (
+          <div style={{ display: 'grid', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div style={{ border: '1px solid #FECACA', backgroundColor: '#FEF2F2', borderRadius: '14px', padding: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--danger)', textTransform: 'uppercase', marginBottom: '10px' }}>Risk Increasing</div>
+                <div style={{ display: 'grid', gap: '10px' }}>
+                  {shapSummary.riskIncreasing.length === 0 ? (
+                    <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No positive team-wide SHAP factors found.</div>
+                  ) : (
+                    shapSummary.riskIncreasing.map((row: any, idx: number) => (
+                      <div key={row.featureName} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'baseline' }}>
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{idx + 1}. {row.featureName}</div>
+                          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{row.top3Count} of {shapSummary.totalDevelopers} developers in top 3</div>
+                        </div>
+                        <span className="badge badge-danger">+{row.meanShapValue.toFixed(3)}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <div style={{ border: '1px solid #BBFBBC', backgroundColor: '#F0FDF4', borderRadius: '14px', padding: '16px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--success)', textTransform: 'uppercase', marginBottom: '10px' }}>Protective</div>
+                <div style={{ display: 'grid', gap: '10px' }}>
+                  {shapSummary.protective.length === 0 ? (
+                    <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No protective team-wide SHAP factors found.</div>
+                  ) : (
+                    shapSummary.protective.map((row: any, idx: number) => (
+                      <div key={row.featureName} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', alignItems: 'baseline' }}>
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{idx + 1}. {row.featureName}</div>
+                          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{row.top3Count} of {shapSummary.totalDevelopers} developers in top 3</div>
+                        </div>
+                        <span className="badge badge-success">{row.meanShapValue.toFixed(3)}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </Card>
 

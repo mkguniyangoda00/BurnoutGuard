@@ -63,8 +63,41 @@ export const analyticsService = {
     return res.data;
   },
 
+  getOrgRiskTrend: async () => {
+    const res = await client.get('/analytics/org-risk-trend');
+    return res.data;
+  },
+
+  getOrgLifestyleTrend: async () => {
+    const res = await client.get('/analytics/org-lifestyle-trend');
+    return res.data;
+  },
+
   getManagerRecommendationSummary: async () => {
     const res = await client.get('/analytics/manager-recommendations');
+    return res.data;
+  },
+
+  getTeamShapSummary: async (params?: { workMode?: string; experienceBand?: string; jobTitle?: string }) => {
+    const searchParams = new URLSearchParams();
+    if (params?.workMode) searchParams.set('workMode', params.workMode);
+    if (params?.experienceBand) searchParams.set('experienceBand', params.experienceBand);
+    if (params?.jobTitle) searchParams.set('jobTitle', params.jobTitle);
+    const queryString = searchParams.toString();
+    const res = await client.get(`/analytics/team-shap-summary${queryString ? `?${queryString}` : ''}`);
+    return res.data;
+  },
+
+  teamWhatIf: async (
+    modifications: Record<string, number>,
+    params?: { workMode?: string; experienceBand?: string; jobTitle?: string }
+  ) => {
+    const searchParams = new URLSearchParams();
+    if (params?.workMode) searchParams.set('workMode', params.workMode);
+    if (params?.experienceBand) searchParams.set('experienceBand', params.experienceBand);
+    if (params?.jobTitle) searchParams.set('jobTitle', params.jobTitle);
+    const queryString = searchParams.toString();
+    const res = await client.post(`/analytics/team-whatif${queryString ? `?${queryString}` : ''}`, modifications);
     return res.data;
   },
 };

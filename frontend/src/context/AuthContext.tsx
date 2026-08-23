@@ -31,9 +31,18 @@ export interface User {
   emailNotificationsEnabled?: boolean; 
   consentGivenAt?: string | null;
   researchParticipation?: boolean;
+  ageGroup?: AgeGroup | null;
   // Computed field for display in the navbar avatar
   avatarInitials?: string;
 }
+
+export type AgeGroup =
+  | 'Under25'
+  | 'Age25to29'
+  | 'Age30to34'
+  | 'Age35to39'
+  | 'Age40Plus'
+  | 'PreferNotToSay';
 
 interface AuthContextType {
   user: User | null;

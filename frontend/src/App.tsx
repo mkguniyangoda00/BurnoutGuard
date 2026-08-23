@@ -49,6 +49,7 @@ import Trends from './pages/hr/Trends';
 // Admin Pages
 import UserManagement from './pages/admin/UserManagement';
 import ModelManagement from './pages/admin/ModelManagement';
+import FactorAnalysis from './pages/admin/FactorAnalysis';
 import AuditLogs from './pages/admin/AuditLogs';
 import Survey from './pages/admin/Survey';
 
@@ -106,6 +107,7 @@ function App() {
         {/* Admin routes */}
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/models" element={<ModelManagement />} />
+        <Route path="/admin/factor-analysis" element={<FactorAnalysis />} />
         <Route path="/admin/audit-logs" element={<AuditLogs />} />
         <Route path="/admin/profile" element={<Profile />} />
         <Route path="/admin/survey" element={<Survey />} />

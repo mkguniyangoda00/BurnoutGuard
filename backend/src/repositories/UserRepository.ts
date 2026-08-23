@@ -1,5 +1,6 @@
 import prisma from '../config/db';
 import { User } from '../models/User';
+import { AgeGroup } from '@prisma/client';
 
 export class UserRepository {
   async create(data: {
@@ -68,5 +69,26 @@ export class UserRepository {
       where: { userId },
       data: { emailNotificationsEnabled: enabled, modifiedBy: userId },
     }) as unknown as User;
+  }
+
+  async updateDeveloperProfile(
+    userId: string,
+    data: {
+      ageGroup?: AgeGroup | null;
+    }
+  ): Promise<void> {
+    await prisma.developerProfile.upsert({
+      where: { userId },
+      update: {
+        ...(data.ageGroup === undefined ? {} : { ageGroup: data.ageGroup }),
+        modifiedBy: userId,
+      },
+      create: {
+        userId,
+        ageGroup: data.ageGroup ?? null,
+        createdBy: userId,
+        modifiedBy: userId,
+      },
+    });
   }
 }

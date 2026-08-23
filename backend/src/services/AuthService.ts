@@ -7,11 +7,26 @@ import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from './AuditLogService';
 import { OAuth2Client } from 'google-auth-library';
 import { Env } from '../config/env';
+import { AgeGroup } from '@prisma/client';
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
 export class AuthService {
   constructor(private userRepository: UserRepository) {}
+
+  private async hydrateUser(user: any) {
+    if (!user) return user;
+    if (user.role !== 'Developer') return user;
+
+    const developerProfile = await prisma.developerProfile.findUnique({
+      where: { userId: user.userId },
+    });
+
+    return {
+      ...user,
+      ageGroup: developerProfile?.ageGroup ?? null,
+    };
+  }
 
   async register(dto: RegisterDto) {
     const existing = await this.userRepository.findByEmail(dto.email);
@@ -56,7 +71,7 @@ export class AuthService {
     });
 
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return safeUser;
+    return this.hydrateUser(safeUser);
   }
 
   async login(dto: LoginDto) {
@@ -96,7 +111,7 @@ export class AuthService {
 
     const token = generateToken((user as any).userId, user.role as string);
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return { user: safeUser, token };
+    return { user: await this.hydrateUser(safeUser), token };
   }
 
   /**
@@ -185,7 +200,7 @@ export class AuthService {
 
     const token = generateToken((user as any).userId, (user as any).role as string);
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return { user: safeUser, token };
+    return { user: await this.hydrateUser(safeUser), token };
   }
 
   async me(userId: string) {
@@ -196,13 +211,25 @@ export class AuthService {
       throw err;
     }
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return safeUser;
+    return this.hydrateUser(safeUser);
   }
 
   async updateSettings(userId: string, emailNotificationsEnabled: boolean) {
     const user = await this.userRepository.updateEmailNotifications(userId, emailNotificationsEnabled);
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return safeUser;
+    return this.hydrateUser(safeUser);
+  }
+
+  async updateDeveloperProfile(userId: string, ageGroup: AgeGroup | null) {
+    await this.userRepository.updateDeveloperProfile(userId, { ageGroup });
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      const err: any = new Error('User not found');
+      err.statusCode = 404;
+      throw err;
+    }
+    const { passwordHash: _ph, ...safeUser } = user as any;
+    return this.hydrateUser(safeUser);
   }
 
   async withdrawResearchParticipation(userId: string) {
@@ -215,6 +242,6 @@ export class AuthService {
     });
 
     const { passwordHash: _ph, ...safeUser } = user as any;
-    return safeUser;
+    return this.hydrateUser(safeUser);
   }
 }
