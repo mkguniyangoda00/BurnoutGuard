@@ -3,10 +3,11 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import sys
+import numpy as np
 from chat_engine import generate_reply
 
 from preprocess import build_feature_vector, load_latest_artifacts, INT_TO_RISK
-from explain import explain_prediction
+from explain import explain_prediction, apply_calibrated_probabilities
 
 load_dotenv()
 
@@ -41,6 +42,7 @@ def predict():
     model = artifacts["model"]
     scaler = artifacts["scaler"]
     metadata = artifacts["metadata"]
+    calibrators = artifacts.get("calibrators")
 
     feature_df = build_feature_vector(raw_features)
 
@@ -53,15 +55,19 @@ def predict():
         }), 500
 
     predicted_class = int(model.predict(scaled)[0])
-    proba = model.predict_proba(scaled)[0]
+    calibrated = apply_calibrated_probabilities(model, scaled, calibrators)
+    proba = calibrated if calibrated is not None else model.predict_proba(scaled)[0]
     risk_score = float(proba[predicted_class])
     risk_level = INT_TO_RISK[predicted_class]
 
     background = artifacts.get("background")
     shap_values = explain_prediction(model, scaler, feature_df, predicted_class, background)
+    uncertainty = float(1.0 - np.max(proba))
 
     return jsonify({
         "riskScore": round(risk_score, 4),
+        "probabilities": {level: round(float(proba[idx]), 4) for idx, level in enumerate(metadata.get("riskLevels", []))},
+        "uncertainty": round(uncertainty, 4),
         "riskLevel": risk_level,
         "modelVersion": metadata["version"],
         "shapValues": shap_values,
@@ -78,18 +84,20 @@ def whatif():
     artifacts = get_artifacts()
     model = artifacts["model"]
     scaler = artifacts["scaler"]
+    calibrators = artifacts.get("calibrators")
 
     feature_df = build_feature_vector(merged)
     scaled = scaler.transform(feature_df)
 
     predicted_class = int(model.predict(scaled)[0])
-    proba = model.predict_proba(scaled)[0]
+    proba = apply_calibrated_probabilities(model, scaled, calibrators)
     risk_score = float(proba[predicted_class])
     risk_level = INT_TO_RISK[predicted_class]
 
     return jsonify({
         "riskScore": round(risk_score, 4),
         "riskLevel": risk_level,
+        "probabilities": {level: round(float(proba[idx]), 4) for idx, level in enumerate(["Low", "Moderate", "High", "Critical"])},
     })
 
 

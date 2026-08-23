@@ -14,6 +14,7 @@ router.post('/login', authController.login);
 router.post('/google', authController.googleLogin);
 router.get('/me', Authenticate, authController.me);
 router.put('/settings', Authenticate, authController.updateSettings);
+router.put('/developer-profile', Authenticate, authController.updateDeveloperProfile);
 router.put('/consent', Authenticate, authController.updateConsent);
 
 export default router;

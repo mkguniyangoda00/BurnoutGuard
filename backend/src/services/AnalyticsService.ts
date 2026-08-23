@@ -1,12 +1,45 @@
 import { PredictionRepository } from '../repositories/PredictionRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import prisma from '../config/db';
+import { aggregateCheckIns } from '../utils/FeatureAggregator';
+import { MlService } from './MlService';
 
 export class AnalyticsService {
   constructor(
     private predictionRepo: PredictionRepository,
-    private checkInRepo: CheckInRepository
+    private checkInRepo: CheckInRepository,
+    private mlService: MlService = new MlService()
   ) {}
+
+  private async getFilteredDevelopers(managerFilter?: {
+    workMode?: string;
+    experienceBand?: string;
+    jobTitle?: string;
+  }) {
+    const { workMode, experienceBand, jobTitle } = managerFilter ?? {};
+
+    const developers = await prisma.user.findMany({
+      where: {
+        role: 'Developer',
+        isActive: true,
+        ...(workMode && workMode !== 'All'
+          ? { developerProfile: { is: { workModel: workMode as any } } }
+          : {}),
+        ...(jobTitle && jobTitle !== 'All'
+          ? { developerProfile: { is: { jobTitle } } }
+          : {}),
+      },
+      include: { developerProfile: true },
+      orderBy: { userId: 'asc' },
+    });
+
+    return experienceBand && experienceBand !== 'All'
+      ? developers.filter((dev: any) => {
+          const years = dev.developerProfile?.yearsExperience ?? 0;
+          return experienceBand === 'Junior (<3y)' ? years < 3 : years >= 3;
+        })
+      : developers;
+  }
 
   async getTeamHeatmap(params?: {
   workMode?: string;
@@ -33,29 +66,7 @@ export class AnalyticsService {
       return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     })();
 
-    const developers = await prisma.user.findMany({
-      where: {
-        role: 'Developer',
-        isActive: true,
-        ...(workMode && workMode !== 'All'
-          ? { developerProfile: { is: { workModel: workMode as any } } }
-          : {}),
-        ...(jobTitle && jobTitle !== 'All'
-          ? { developerProfile: { is: { jobTitle } } }
-          : {}),
-      },
-      include: { developerProfile: true },
-      orderBy: { userId: 'asc' },
-    });
-
-    // Experience is a derived band (Junior/Senior), not a stored column, so it
-    // has to be filtered in JS after the query rather than in the Prisma `where`.
-    const filteredDevelopers = experienceBand && experienceBand !== 'All'
-      ? developers.filter((dev: any) => {
-          const years = dev.developerProfile?.yearsExperience ?? 0;
-          return experienceBand === 'Junior (<3y)' ? years < 3 : years >= 3;
-        })
-      : developers;
+    const filteredDevelopers = await this.getFilteredDevelopers({ workMode, experienceBand, jobTitle });
 
     const members = [];
     let counter = 1;
@@ -82,6 +93,160 @@ export class AnalyticsService {
     }
 
     return { members };
+  }
+
+  /**
+   * Aggregates team-wide SHAP summaries for managers using each member's
+   * latest prediction only. This is descriptive reporting, not model explanation
+   * generation: it surfaces team-level patterns from already-computed SHAP values.
+   */
+  async getTeamShapSummary(managerFilter?: {
+    workMode?: string;
+    experienceBand?: string;
+    jobTitle?: string;
+  }) {
+    const developers = await this.getFilteredDevelopers(managerFilter);
+    const teamSize = developers.length;
+    if (teamSize === 0) {
+      return {
+        teamSize: 0,
+        topRiskFactors: [],
+        topProtectiveFactors: [],
+      };
+    }
+
+    const teamFeatureStats: Record<
+      string,
+      { total: number; members: Set<string>; top3Count: number }
+    > = {};
+
+    const teamDeveloperIds = developers.map((dev: any) => dev.userId);
+
+    const latestPredictions = await prisma.burnoutPrediction.findMany({
+      where: {
+        userId: { in: teamDeveloperIds },
+        isLatest: true,
+      },
+      include: {
+        shapExplanations: true,
+      },
+    });
+
+    const developerIdsWithPrediction = new Set(latestPredictions.map((p: any) => p.userId));
+    const eligibleDevelopers = developers.filter((dev: any) => developerIdsWithPrediction.has(dev.userId));
+    const eligibleTeamSize = eligibleDevelopers.length;
+
+    for (const prediction of latestPredictions as any[]) {
+      const ordered = [...(prediction.shapExplanations ?? [])].sort(
+        (a, b) => Math.abs(b.shapValue) - Math.abs(a.shapValue)
+      );
+      const top3 = ordered.slice(0, 3);
+
+      for (const shap of ordered) {
+        if (!teamFeatureStats[shap.featureName]) {
+          teamFeatureStats[shap.featureName] = {
+            total: 0,
+            members: new Set<string>(),
+            top3Count: 0,
+          };
+        }
+
+        teamFeatureStats[shap.featureName].total += shap.shapValue;
+        teamFeatureStats[shap.featureName].members.add(prediction.userId);
+      }
+
+      for (const shap of top3) {
+        if (!teamFeatureStats[shap.featureName]) {
+          teamFeatureStats[shap.featureName] = {
+            total: 0,
+            members: new Set<string>(),
+            top3Count: 0,
+          };
+        }
+        teamFeatureStats[shap.featureName].top3Count += 1;
+      }
+    }
+
+    const ranked = Object.entries(teamFeatureStats)
+      .map(([featureName, stats]) => ({
+        featureName,
+        meanShapValue: stats.total / Math.max(eligibleTeamSize, 1),
+        memberCount: stats.members.size,
+        top3Count: stats.top3Count,
+      }))
+      .sort((a, b) => Math.abs(b.meanShapValue) - Math.abs(a.meanShapValue));
+
+    const riskIncreasing = ranked
+      .filter((row) => row.meanShapValue > 0)
+      .slice(0, 5);
+
+    const protective = ranked
+      .filter((row) => row.meanShapValue < 0)
+      .sort((a, b) => a.meanShapValue - b.meanShapValue)
+      .slice(0, 3);
+
+    return {
+      teamSize: eligibleTeamSize,
+      totalDevelopers: teamSize,
+      riskIncreasing,
+      protective,
+    };
+  }
+
+  async getTeamWhatIf(
+    modifications: Record<string, number>,
+    managerFilter?: {
+      workMode?: string;
+      experienceBand?: string;
+      jobTitle?: string;
+    }
+  ) {
+    const developers = await this.getFilteredDevelopers(managerFilter);
+    const beforeCounts = { Low: 0, Moderate: 0, High: 0, Critical: 0 };
+    const afterCounts = { Low: 0, Moderate: 0, High: 0, Critical: 0 };
+    const results: Array<{
+      userId: string;
+      before: { riskLevel: string; riskScore: number };
+      after: { riskLevel: string; riskScore: number };
+    }> = [];
+
+    for (const dev of developers as any[]) {
+      const checkIns = await this.checkInRepo.findByUserId(dev.userId, 14);
+      const developerProfile = await prisma.developerProfile.findUnique({ where: { userId: dev.userId } });
+      const { features } = aggregateCheckIns(checkIns as any, developerProfile?.workModel);
+
+      const currentRiskPrediction = await prisma.burnoutPrediction.findFirst({
+        where: { userId: dev.userId, isLatest: true },
+        select: { riskLevel: true, riskScore: true },
+      });
+
+      if (currentRiskPrediction) {
+        beforeCounts[currentRiskPrediction.riskLevel as keyof typeof beforeCounts]++;
+      }
+
+      const simulated = await this.mlService.getWhatIf(dev.userId, features, modifications);
+      afterCounts[simulated.riskLevel as keyof typeof afterCounts]++;
+
+      results.push({
+        userId: dev.userId,
+        before: {
+          riskLevel: currentRiskPrediction?.riskLevel ?? 'Unknown',
+          riskScore: currentRiskPrediction?.riskScore ?? 0,
+        },
+        after: {
+          riskLevel: simulated.riskLevel,
+          riskScore: simulated.riskScore,
+        },
+      });
+    }
+
+    return {
+      teamSize: developers.length,
+      modifications,
+      before: beforeCounts,
+      after: afterCounts,
+      results,
+    };
   }
 
   async getHeatmapFilterOptions() {
@@ -310,6 +475,95 @@ export class AnalyticsService {
     return Object.entries(weeksMap).map(([week, data]) => ({
       week,
       avgOvertimeHours: parseFloat((data.total / data.count).toFixed(2)),
+    }));
+  }
+
+  async getOrgRiskTrend() {
+    const users = await prisma.user.findMany({
+      where: { isActive: true, role: 'Developer' },
+      select: { userId: true, company: true },
+    });
+
+    const companies = [...new Set(users.map((u: any) => u.company).filter(Boolean))];
+    const eligibleUserIds = companies.flatMap((company) => {
+      const companyUsers = users.filter((u: any) => u.company === company);
+      return companyUsers.length >= 5 ? companyUsers.map((u: any) => u.userId) : [];
+    });
+
+    const predictions = await prisma.burnoutPrediction.findMany({
+      where: {
+        userId: { in: eligibleUserIds },
+        predictionDate: {
+          gte: new Date(Date.now() - 84 * 24 * 60 * 60 * 1000),
+        },
+      },
+      orderBy: { predictionDate: 'asc' },
+    });
+
+    type OrgRiskCounts = { Low: number; Moderate: number; High: number; Critical: number };
+    const weeksMap: Record<string, OrgRiskCounts> = {};
+
+    predictions.forEach((p: any) => {
+      const date = new Date(p.predictionDate);
+      const weekString = `Week ${Math.ceil(date.getDate() / 7)} of ${date.toLocaleString('default', { month: 'short' })}`;
+
+      if (!weeksMap[weekString]) {
+        weeksMap[weekString] = { Low: 0, Moderate: 0, High: 0, Critical: 0 };
+      }
+
+      const key = p.riskLevel as keyof OrgRiskCounts;
+      weeksMap[weekString][key] += 1;
+    });
+
+    return Object.entries(weeksMap).map(([week, counts]) => ({
+      week,
+      ...counts,
+    }));
+  }
+
+  async getOrgLifestyleTrend() {
+    const users = await prisma.user.findMany({
+      where: { isActive: true, role: 'Developer' },
+      select: { userId: true, company: true },
+    });
+
+    const companies = [...new Set(users.map((u: any) => u.company).filter(Boolean))];
+    const eligibleUserIds = companies.flatMap((company) => {
+      const companyUsers = users.filter((u: any) => u.company === company);
+      return companyUsers.length >= 5 ? companyUsers.map((u: any) => u.userId) : [];
+    });
+
+    const checkIns = await prisma.dailyCheckIn.findMany({
+      where: {
+        userId: { in: eligibleUserIds },
+        checkInDate: {
+          gte: new Date(Date.now() - 84 * 24 * 60 * 60 * 1000),
+        },
+      },
+      orderBy: { checkInDate: 'asc' },
+    });
+
+    const weeksMap: Record<string, { sleepTotal: number; exerciseTotal: number; stressTotal: number; count: number }> = {};
+
+    checkIns.forEach((c: any) => {
+      const date = new Date(c.checkInDate);
+      const weekString = `Week ${Math.ceil(date.getDate() / 7)} of ${date.toLocaleString('default', { month: 'short' })}`;
+
+      if (!weeksMap[weekString]) {
+        weeksMap[weekString] = { sleepTotal: 0, exerciseTotal: 0, stressTotal: 0, count: 0 };
+      }
+
+      weeksMap[weekString].sleepTotal += c.sleepHours ?? 0;
+      weeksMap[weekString].exerciseTotal += c.exerciseLevel ?? 0;
+      weeksMap[weekString].stressTotal += c.stressLevel ?? 0;
+      weeksMap[weekString].count++;
+    });
+
+    return Object.entries(weeksMap).map(([week, data]) => ({
+      week,
+      avgSleepHours: parseFloat((data.sleepTotal / data.count).toFixed(2)),
+      avgExerciseLevel: parseFloat((data.exerciseTotal / data.count).toFixed(2)),
+      avgStressLevel: parseFloat((data.stressTotal / data.count).toFixed(2)),
     }));
   }
 

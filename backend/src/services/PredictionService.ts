@@ -54,7 +54,7 @@ export class PredictionService {
     // Mutable feature bounds — same "actionable" set as before, now with a
     // step size and valid range instead of a single fixed target, so the
     // search can find the smallest change rather than the largest.
-    const MUTABLE_FEATURES: Record<string, { min: number; max: number; step: number; higherIsBetter: boolean }> = {
+    const MUTABLE_FEATURES: Record<string, { min: number; max: number; step: number; higherIsBetter: boolean; immutable?: boolean }> = {
       sleepHours: { min: 4, max: 9, step: 0.5, higherIsBetter: true },
       sleepQuality: { min: 1, max: 5, step: 1, higherIsBetter: true },
       overtimeHours: { min: 0, max: 8, step: 1, higherIsBetter: false },
@@ -63,13 +63,14 @@ export class PredictionService {
       breaksTaken: { min: 0, max: 8, step: 1, higherIsBetter: true },
       meetingsCount: { min: 0, max: 10, step: 1, higherIsBetter: false },
       contextSwitchingFrequency: { min: 1, max: 5, step: 1, higherIsBetter: false },
+      workModeEncoded: { min: 1, max: 3, step: 1, higherIsBetter: false, immutable: true },
     };
 
     const RISK_ORDER = ['Low', 'Moderate', 'High', 'Critical'];
     const currentRiskIndex = RISK_ORDER.indexOf(latest.riskLevel);
 
     const topDrivers = (latest.shapExplanations ?? [])
-      .filter((s: any) => s.direction === 'IncreasesRisk' && MUTABLE_FEATURES[s.featureName])
+      .filter((s: any) => s.direction === 'IncreasesRisk' && MUTABLE_FEATURES[s.featureName] && !MUTABLE_FEATURES[s.featureName].immutable)
       .sort((a: any, b: any) => b.shapValue - a.shapValue)
       .slice(0, 3); // consider up to 3 candidate features for the search
 
@@ -152,6 +153,7 @@ export class PredictionService {
         validity: false,
         proximity: null,
         sparsity: 0,
+        feasibility: 'No feasible recourse found within constraints',
       };
     }
 
@@ -170,6 +172,7 @@ export class PredictionService {
       validity: true,
       proximity: parseFloat(best.proximity.toFixed(3)),
       sparsity: best.sparsity,
+      feasibility: 'Feasible',
     };
   }
 

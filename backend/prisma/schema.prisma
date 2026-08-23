@@ -28,6 +28,15 @@ enum WorkModel {
   Onsite
 }
 
+enum AgeGroup {
+  Under25
+  Age25to29
+  Age30to34
+  Age35to39
+  Age40Plus
+  PreferNotToSay
+}
+
 enum RiskLevel {
   Low
   Moderate
@@ -124,6 +133,7 @@ model DeveloperProfile {
   jobTitle          String?
   yearsExperience   Int?
   workModel         WorkModel @default(Onsite)
+  ageGroup          AgeGroup?
   teamSize          Int?
   avgDailyHours     Float?
   baselineRiskScore Float?

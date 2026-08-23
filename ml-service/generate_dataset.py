@@ -1,27 +1,12 @@
 """
-generate_dataset.py (v2 — hybrid real + synthetic)
+generate_dataset.py
 
-Takes harmonized_base.csv (real survey rows, partially populated across
-BurnoutGuard's 28-feature schema) and:
-  1. Keeps every real value exactly as harmonized.
-  2. Fills only the genuinely missing columns (features no source dataset
-     captured — mostly the psychosocial and Sri Lanka-specific ones) using
-     domain-informed synthetic generation, correlated with that row's real
-     harmonized_risk_norm so the synthetic values stay consistent with the
-     row's real burnout signal rather than being pure noise.
-  3. Blends harmonized_risk_norm (real, 70% weight) with a weighted score
-     computed across ALL 28 features (synthetic, 30% weight) to produce
-     final class labels — grounding labels primarily in real data while
-     still reflecting the full feature set.
-
-METHODOLOGY NOTE (for FYP report): No dataset used contains Sri Lankan
-respondents or the specific psychosocial/SL-context constructs this study
-introduces (anxietyLevel, emotionalFatigue, powerInternetDisruption, etc.).
-These fields are therefore necessarily synthetic in this iteration, grounded
-via correlation with real burnout signal from the harmonized base population.
-This is documented as a limitation; primary data collection from Sri Lankan
-developers is recommended as future work to validate/replace these fields.
+Builds dataset.csv from harmonized_base.csv with leakage-resistant labels.
+Labels are generated from observable feature patterns, not from any burnout
+score column or target-derived proxy.
 """
+
+import os
 
 import numpy as np
 import pandas as pd
@@ -30,6 +15,7 @@ np.random.seed(42)
 
 HARMONIZED_PATH = "harmonized_base.csv"
 OUTPUT_PATH = "dataset.csv"
+SL_HOLDOUT_PATH = "raw_datasets/sri_lankan_developer_burnout.csv"
 
 FEATURE_RANGES = {
     "sleepHours": (0, 12), "sleepQuality": (1, 5), "exerciseLevel": (1, 5),
@@ -51,7 +37,6 @@ FEATURE_RANGES = {
     "taskComplexity": (1, 5), "interruptionsPerDay": (0, 20),
 }
 
-# Same direction-of-effect weights as before: positive = increases risk.
 WEIGHTS = {
     "sleepHours": -1.4, "sleepQuality": -1.0, "exerciseLevel": -0.5,
     "screenTimeHours": 0.5, "workHours": 0.9, "workloadRating": 0.8,
@@ -66,11 +51,11 @@ WEIGHTS = {
     "meetingsCount": 0.6, "urgentTasksCount": 0.7,
     "sprintPressureRating": 0.9, "deadlineFrequency": 0.7,
     "bugFixingLoad": 0.5, "contextSwitchingFrequency": 0.6,
-    "workModeEncoded": 0.2,  # Onsite(3) slightly higher than Remote(1) — commute/rigidity burden
-    "managerSupportLevel": -0.7,  # more support -> lower risk
+    "workModeEncoded": 0.2,
+    "managerSupportLevel": -0.7,
     "peerSupportLevel": -0.5,
-    "autonomyLevel": -0.6,        # more autonomy -> lower risk
-    "roleAmbiguity": 0.6,         # more ambiguity -> higher risk
+    "autonomyLevel": -0.6,
+    "roleAmbiguity": 0.6,
     "taskComplexity": 0.5,
     "interruptionsPerDay": 0.6,
 }
@@ -80,22 +65,14 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def fill_synthetic_column(col, n, risk_norm):
-    """Generates a synthetic column correlated with risk_norm (0=low risk,
-    1=high risk), respecting the feature's real-world range and the
-    direction it should move with risk (from WEIGHTS' sign)."""
+def fill_synthetic_column(col, n, proxy):
     lo, hi = FEATURE_RANGES[col]
     weight = WEIGHTS.get(col, 0)
-
-    # Base value centered at range midpoint, shifted toward lo/hi by risk_norm
-    # depending on whether higher values of this feature increase risk.
     midpoint = (lo + hi) / 2
     span = (hi - lo) / 2
-
     direction = 1 if weight > 0 else -1
-    shift = direction * (risk_norm - 0.5) * span * 1.2  # correlated shift
-    noise = np.random.normal(0, span * 0.25, n)          # individual variance
-
+    shift = direction * (proxy - 0.5) * span * 1.2
+    noise = np.random.normal(0, span * 0.25, n)
     values = midpoint + shift + noise
     return np.clip(values, lo, hi)
 
@@ -105,70 +82,78 @@ def main():
     n = len(base)
     print(f"Loaded {n} harmonized base rows.")
 
-    risk_norm = base["harmonized_risk_norm"].values
-
     df = pd.DataFrame(index=base.index)
+
+    observed_proxy = np.zeros(n)
+    for col, weight in WEIGHTS.items():
+        if col in base.columns:
+            series = pd.to_numeric(base[col], errors="coerce")
+            fallback = series.median() if series.notna().any() else 0
+            filled = series.fillna(fallback)
+            lo, hi = FEATURE_RANGES[col]
+            observed_proxy += weight * ((filled - lo) / (hi - lo))
+    observed_proxy = sigmoid(observed_proxy)
 
     for col in FEATURE_RANGES:
         if col in base.columns and base[col].notna().any():
-            real_values = base[col].to_numpy(dtype=np.float64, copy=True)  # writable copy
+            real_values = base[col].to_numpy(dtype=np.float64, copy=True)
             missing_mask = np.isnan(real_values)
             if missing_mask.any():
-                synthetic_fill = fill_synthetic_column(col, n, risk_norm)
+                synthetic_fill = fill_synthetic_column(col, n, observed_proxy)
                 real_values[missing_mask] = synthetic_fill[missing_mask]
             df[col] = real_values
-            coverage = 100 * (1 - missing_mask.mean())
         else:
-            df[col] = fill_synthetic_column(col, n, risk_norm)
-            coverage = 0.0
-        print(f"  {col}: {coverage:.1f}% from real data, rest synthetic")
+            df[col] = fill_synthetic_column(col, n, observed_proxy)
 
-    # afterHoursMessaging is boolean — handle separately (not in FEATURE_RANGES)
     if "afterHoursMessaging" in base.columns and base["afterHoursMessaging"].notna().any():
         real_bool = base["afterHoursMessaging"].to_numpy(dtype=np.float64, copy=True)
         missing_mask = np.isnan(real_bool)
-        synthetic_bool = (np.random.rand(n) < (0.25 + 0.4 * risk_norm)).astype(float)
+        synthetic_bool = (np.random.rand(n) < (0.25 + 0.4 * observed_proxy)).astype(float)
         real_bool[missing_mask] = synthetic_bool[missing_mask]
         df["afterHoursMessaging"] = real_bool.astype(int)
     else:
-        df["afterHoursMessaging"] = (np.random.rand(n) < (0.25 + 0.4 * risk_norm)).astype(int)
+        df["afterHoursMessaging"] = (np.random.rand(n) < (0.25 + 0.4 * observed_proxy)).astype(int)
 
-    # New boolean work-pattern fields — same correlated-random approach
-    df["isWeekendWork"] = (np.random.rand(n) < (0.15 + 0.35 * risk_norm)).astype(int)
-    df["isOnCallToday"] = (np.random.rand(n) < (0.10 + 0.30 * risk_norm)).astype(int)
+    df["isWeekendWork"] = (np.random.rand(n) < (0.15 + 0.35 * observed_proxy)).astype(int)
+    df["isOnCallToday"] = (np.random.rand(n) < (0.10 + 0.30 * observed_proxy)).astype(int)
 
-    # ---- Compute final weighted synthetic score across ALL 28 features ----
-    synthetic_risk_raw = np.zeros(n)
+    feature_score_raw = np.zeros(n)
     for col, weight in WEIGHTS.items():
         lo, hi = FEATURE_RANGES[col]
         normalized = (df[col] - lo) / (hi - lo)
-        synthetic_risk_raw += weight * normalized
-    synthetic_risk_raw += 0.5 * df["afterHoursMessaging"]
-    synthetic_risk_raw += 0.4 * df["isWeekendWork"]
-    synthetic_risk_raw += 0.5 * df["isOnCallToday"]
-    synthetic_risk_norm = pd.Series(sigmoid(synthetic_risk_raw))
-    synthetic_risk_norm = (synthetic_risk_norm - synthetic_risk_norm.min()) / \
-                           (synthetic_risk_norm.max() - synthetic_risk_norm.min())
+        feature_score_raw += weight * normalized
+    feature_score_raw += 0.4 * df["afterHoursMessaging"]
+    feature_score_raw += 0.35 * df["isWeekendWork"]
+    feature_score_raw += 0.45 * df["isOnCallToday"]
+    feature_score_raw += 0.2 * (df["interruptionsPerDay"] / 20)
 
-    # ---- Blend: 70% real harmonized signal, 30% full-feature synthetic signal ----
-    final_risk = 0.7 * risk_norm + 0.3 * synthetic_risk_norm.values
-    final_risk += np.random.normal(0, 0.06, n)  # small realism noise
+    final_risk = sigmoid(feature_score_raw)
+    final_risk = 0.85 * final_risk + 0.15 * np.random.uniform(0, 1, n)
     final_risk = np.clip(final_risk, 0, 1)
 
-    quantiles = np.quantile(final_risk, [0.25, 0.5, 0.75])
-    q1, q2, q3 = quantiles
+    q1, q2, q3 = np.quantile(final_risk, [0.25, 0.5, 0.75])
 
     def label(x):
-        if x < q1: return "Low"
-        elif x < q2: return "Moderate"
-        elif x < q3: return "High"
+        if x < q1:
+            return "Low"
+        if x < q2:
+            return "Moderate"
+        if x < q3:
+            return "High"
         return "Critical"
 
     df["riskLevel"] = [label(x) for x in final_risk]
+    df["source_dataset"] = base.get("source_dataset", "harmonized_base")
 
     df.to_csv(OUTPUT_PATH, index=False)
-    print(f"\nSaved {len(df)} rows to {OUTPUT_PATH}")
+    print(f"Saved {len(df)} rows to {OUTPUT_PATH}")
     print(df["riskLevel"].value_counts())
+
+    if os.path.exists(SL_HOLDOUT_PATH):
+        sl = pd.read_csv(SL_HOLDOUT_PATH)
+        sl["source_dataset"] = "sri_lankan_developer_burnout"
+        sl.to_csv("sri_lankan_developer_holdout.csv", index=False)
+        print("Prepared Sri Lankan holdout at sri_lankan_developer_holdout.csv")
 
 
 if __name__ == "__main__":

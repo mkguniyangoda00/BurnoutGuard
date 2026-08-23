@@ -17,6 +17,8 @@ import AdminRoutes from './routes/AdminRoutes';
 import JournalRoutes from './routes/JournalRoutes';
 import ResourceRoutes from './routes/ResourceRoutes';
 import SurveyRoutes from './routes/SurveyRoutes';
+import FactorAnalysisRoutes from './routes/FactorAnalysisRoutes';
+import ResearchRoutes from './routes/ResearchRoutes';
 
 // Jobs & Services
 import { startWeeklyReportJob } from './jobs/WeeklyReportJob';
@@ -74,6 +76,8 @@ app.use('/api/admin', AdminRoutes);
 app.use('/api/journal', JournalRoutes);
 app.use('/api/resources', ResourceRoutes);
 app.use('/api/survey', SurveyRoutes);
+app.use('/api/research/factors', FactorAnalysisRoutes);
+app.use('/api/research', ResearchRoutes);
 
 // ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

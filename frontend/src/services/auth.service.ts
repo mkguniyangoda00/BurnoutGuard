@@ -41,6 +41,14 @@ export const authService = {
     return res.data;
   },
 
+  updateDeveloperProfile: async (ageGroup: string | null) => {
+    const res = await client.put('/auth/developer-profile', { ageGroup });
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    user.ageGroup = ageGroup;
+    localStorage.setItem('user', JSON.stringify(user));
+    return res.data;
+  },
+
   withdrawResearchParticipation: async () => {
     const res = await client.put('/auth/consent', {});
     const user = JSON.parse(localStorage.getItem('user') || '{}');

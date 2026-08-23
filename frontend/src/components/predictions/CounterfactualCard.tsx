@@ -43,7 +43,7 @@ export const CounterfactualCard: React.FC = () => {
     return null;
   }
 
-  const { currentRiskLevel, simulatedRiskLevel, changedFactors } = counterfactual;
+  const { currentRiskLevel, simulatedRiskLevel, changedFactors, feasibility } = counterfactual;
   const sameLevel = currentRiskLevel === simulatedRiskLevel;
 
   return (
@@ -72,6 +72,11 @@ export const CounterfactualCard: React.FC = () => {
         <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px' }}>
           Change size: {(counterfactual.proximity * 100).toFixed(0)}% of feature range ·{' '}
           {counterfactual.sparsity} factor{counterfactual.sparsity === 1 ? '' : 's'} adjusted
+        </p>
+      )}
+      {feasibility && (
+        <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
+          Feasibility: {feasibility}
         </p>
       )}
     </Card>

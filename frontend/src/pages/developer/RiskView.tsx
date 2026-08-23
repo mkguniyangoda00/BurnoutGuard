@@ -18,7 +18,8 @@ const RiskView: React.FC = () => {
     isLoading,
     isError,
     isEmpty,
-    calibrationConfidence, // Add calibrationConfidence to destructuring
+    calibrationConfidence,
+    uncertainty,
   } = usePrediction();
 
   if (isLoading) {
@@ -502,6 +503,13 @@ const RiskView: React.FC = () => {
       <div style={{ marginTop: '16px' }}>
         <CounterfactualCard />
       </div>
+      <Card style={{ padding: '20px', marginTop: '16px' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>RQ3 interface condition</h3>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+          This page supports three experimental conditions: prediction-only, prediction+SHAP, and prediction+SHAP+counterfactual/recommendation.
+          Keep the same underlying prediction and vary the explanation layer shown to the participant.
+        </p>
+      </Card>
     </PageWrapper>
   );
 };

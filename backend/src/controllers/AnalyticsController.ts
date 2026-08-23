@@ -59,6 +59,24 @@ getHeatmapFilterOptions = async (req: Request, res: Response, next: NextFunction
     }
   };
 
+  getOrgRiskTrend = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getOrgRiskTrend();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getOrgLifestyleTrend = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getOrgLifestyleTrend();
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
   getFairnessReport = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const data = await this.analyticsService.getFairnessReport();
@@ -72,6 +90,32 @@ getHeatmapFilterOptions = async (req: Request, res: Response, next: NextFunction
     try {
       const data = await this.analyticsService.getManagerRecommendationSummary();
       res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getTeamShapSummary = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const data = await this.analyticsService.getTeamShapSummary({
+        workMode: req.query.workMode as string | undefined,
+        experienceBand: req.query.experienceBand as string | undefined,
+        jobTitle: req.query.jobTitle as string | undefined,
+      });
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  teamWhatIf = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const result = await this.analyticsService.getTeamWhatIf(req.body ?? {}, {
+        workMode: req.query.workMode as string | undefined,
+        experienceBand: req.query.experienceBand as string | undefined,
+        jobTitle: req.query.jobTitle as string | undefined,
+      });
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }

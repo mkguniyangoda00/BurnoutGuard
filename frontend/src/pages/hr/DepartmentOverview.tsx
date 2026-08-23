@@ -4,6 +4,7 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
 import { Loader2, AlertCircle } from 'lucide-react';
+import { researchService } from '../../services/research.service';
 
 const DepartmentOverview: React.FC = () => {
   const { data: rawData, isLoading, isError } = useQuery({
@@ -45,6 +46,22 @@ const DepartmentOverview: React.FC = () => {
   const highestRiskDept = deptData.length > 0
     ? [...deptData].sort((a, b) => b.highPct - a.highPct)[0]
     : null;
+
+  const { data: factorData, isLoading: factorLoading, isError: factorError } = useQuery({
+    queryKey: ['research', 'factors', 'department-overview'],
+    queryFn: async () => {
+      const [jobRole, workMode] = await Promise.all([
+        researchService.getDemographicBreakdown('jobTitle'),
+        researchService.getDemographicBreakdown('workModel'),
+      ]);
+      return { jobRole, workMode };
+    },
+  });
+
+  const factorRows = [
+    { label: 'Job Role', rows: Array.isArray(factorData?.jobRole) ? factorData.jobRole : [] },
+    { label: 'Work Mode', rows: Array.isArray(factorData?.workMode) ? factorData.workMode : [] },
+  ];
 
   return (
     <PageWrapper>
@@ -155,6 +172,61 @@ const DepartmentOverview: React.FC = () => {
                 </div>
               ))}
             </div>
+          </Card>
+
+          <Card style={{ padding: '20px', marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>
+              Factor Insights
+            </h2>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px' }}>
+              Compact comparisons for department-scoped job role and work mode patterns
+            </p>
+
+            {factorLoading ? (
+              <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
+                <Loader2 className="animate-spin" size={20} />
+                <span style={{ fontSize: '13px' }}>Loading factor insights...</span>
+              </div>
+            ) : factorError ? (
+              <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--danger)' }}>
+                <AlertCircle size={20} />
+                <span style={{ fontSize: '13px' }}>Unable to load factor insights.</span>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gap: '16px' }}>
+                {factorRows.map((section) => {
+                  const maxValue = Math.max(...section.rows.map((row: any) => row.highRiskPct ?? 0), 1);
+                  return (
+                    <div key={section.label}>
+                      <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        {section.label}
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        {section.rows.map((row: any) => {
+                          const totalWidth = Math.max(((row.highRiskPct ?? 0) / maxValue) * 100, 8);
+                          return (
+                            <div key={row.group} className="flex items-center">
+                              <div className="w-32 text-sm font-medium truncate pr-2" style={{ color: 'var(--text-secondary)' }} title={row.group}>
+                                {row.group}
+                              </div>
+                              <div className="flex-1 flex h-4 rounded-full overflow-hidden" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}>
+                                <div
+                                  style={{ width: `${totalWidth}%`, background: 'var(--primary)' }}
+                                  className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                                  title={`${row.highRiskPct}% high-risk`}
+                                >
+                                  {row.highRiskPct > 8 ? `${Math.round(row.highRiskPct)}%` : ''}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </Card>
 
           <Card style={{ padding: '20px', marginBottom: '20px' }}>

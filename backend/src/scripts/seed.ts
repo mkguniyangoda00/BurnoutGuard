@@ -8,6 +8,17 @@ import { DEFAULT_WELLNESS_RESOURCES } from '../data/wellnessResourcesSeedData';
 
 const prisma = new PrismaClient();
 
+const ageGroups = [
+  'Under25',
+  'Age25to29',
+  'Age30to34',
+  'Age35to39',
+  'Age40Plus',
+  'PreferNotToSay',
+] as const;
+
+const randomAgeGroup = () => ageGroups[Math.floor(Math.random() * ageGroups.length)];
+
 async function main() {
   console.log('Starting database seed with historical dummy data...');
 
@@ -55,6 +66,7 @@ async function main() {
           jobTitle: 'Software Engineer',
           yearsExperience: 3,
           workModel: WorkModel.Hybrid,
+          ageGroup: randomAgeGroup(),
           createdBy: 'system',
           modifiedBy: 'system',
         },

@@ -25,3 +25,11 @@ export interface User {
   modifiedBy: string;
   modifiedDate: Date;
 }
+
+export type AgeGroup =
+  | 'Under25'
+  | 'Age25to29'
+  | 'Age30to34'
+  | 'Age35to39'
+  | 'Age40Plus'
+  | 'PreferNotToSay';

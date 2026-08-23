@@ -6,10 +6,20 @@ import { useAuth } from '../../context/AuthContext';
 import { authService } from '../../services/auth.service';
 import { useAuthStore } from '../../store/auth.store';
 
+const ageGroupOptions = [
+  { value: '', label: 'Prefer not to say' },
+  { value: 'Under25', label: 'Under 25' },
+  { value: 'Age25to29', label: '25 to 29' },
+  { value: 'Age30to34', label: '30 to 34' },
+  { value: 'Age35to39', label: '35 to 39' },
+  { value: 'Age40Plus', label: '40+' },
+] as const;
+
 const Profile: React.FC = () => {
   const { user } = useAuth();
   const { setUser } = useAuthStore();
   const fullName = user?.fullName ?? '';
+  const [ageGroup, setAgeGroup] = useState(user?.ageGroup ?? '');
 
   const [emailNotificationsEnabled, setEmailNotificationsEnabled] = useState(
     user?.emailNotificationsEnabled ?? true
@@ -24,7 +34,11 @@ const Profile: React.FC = () => {
     setIsSaving(true);
     setSaveSuccess(false);
     try {
-      const res = await authService.updateSettings(emailNotificationsEnabled);
+      const [settingsRes, profileRes] = await Promise.all([
+        authService.updateSettings(emailNotificationsEnabled),
+        authService.updateDeveloperProfile(ageGroup || null),
+      ]);
+      const res = profileRes ?? settingsRes;
       if (res && res.user) {
         setUser(res.user);
       }
@@ -71,6 +85,23 @@ const Profile: React.FC = () => {
           <div>
             <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Email</label>
             <input type="email" value={user?.email || ''} readOnly style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', backgroundColor: 'var(--soft-fill)' }} />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '6px' }}>Age group</label>
+            <select
+              value={ageGroup}
+              onChange={(e) => setAgeGroup(e.target.value)}
+              style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface)' }}
+            >
+              {ageGroupOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              Optional. We only use this in aggregated analytics, never to identify you individually.
+            </p>
           </div>
         </div>
       </Card>

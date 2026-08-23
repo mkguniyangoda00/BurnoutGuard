@@ -62,6 +62,16 @@ export class AuthController {
     }
   };
 
+  updateDeveloperProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { ageGroup } = req.body;
+      const user = await this.authService.updateDeveloperProfile(req.user!.userId, ageGroup ?? null);
+      res.status(200).json({ user });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   updateConsent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = await this.authService.withdrawResearchParticipation(req.user!.userId);
