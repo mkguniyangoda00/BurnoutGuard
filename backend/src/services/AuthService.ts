@@ -18,9 +18,9 @@ export class AuthService {
     if (!user) return user;
     if (user.role !== 'Developer') return user;
 
-    const developerProfile = await prisma.developerProfile.findUnique({
+    const developerProfile = (await prisma.developerProfile.findUnique({
       where: { userId: user.userId },
-    });
+    })) as { ageGroup?: AgeGroup | null } | null;
 
     return {
       ...user,

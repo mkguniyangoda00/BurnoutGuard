@@ -15,7 +15,7 @@
  * (--surface, --primary, --border-color, etc.) with the shared Card and Button
  * UI components for visual consistency with the rest of the application.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { Card } from '../../components/ui/Card';
@@ -24,15 +24,29 @@ import { useAuthStore } from '../../store/auth.store';
 import { authService } from '../../services/auth.service';
 import { useTranslation } from 'react-i18next';
 
+const dashboardByRole: Record<string, string> = {
+  Developer: '/developer/dashboard',
+  Manager: '/manager/dashboard',
+  HRofficer: '/hr/department-overview',
+  Admin: '/admin/users',
+  ResearchAdmin: '/admin/users',
+};
+
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { login, isAuthenticated, user } = useAuthStore();
   const { t } = useTranslation();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role) {
+      navigate(dashboardByRole[user.role] ?? '/developer/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate, user?.role]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +61,7 @@ const Login: React.FC = () => {
     try {
       const data = await authService.login({ email, password });
       login(data.user, data.token);
-      navigate('/');
+      navigate(dashboardByRole[data.user.role] ?? '/developer/dashboard', { replace: true });
     } catch (err: any) {
       const message = err.response?.data?.message || 'Invalid email or password.';
       setError(message);
@@ -195,7 +209,7 @@ const Login: React.FC = () => {
                     try {
                       const data = await authService.googleLogin(credentialResponse.credential);
                       login(data.user, data.token);
-                      navigate('/');
+                      navigate(dashboardByRole[data.user.role] ?? '/developer/dashboard', { replace: true });
                     } catch (err: any) {
                       const message = err.response?.data?.error || 'Google login failed. Please try again.';
                       setError(message);

@@ -31,7 +31,7 @@ export interface User {
   emailNotificationsEnabled?: boolean; 
   consentGivenAt?: string | null;
   researchParticipation?: boolean;
-  ageGroup?: AgeGroup | null;
+  ageGroup?: AgeGroup | string | null;
   // Computed field for display in the navbar avatar
   avatarInitials?: string;
 }

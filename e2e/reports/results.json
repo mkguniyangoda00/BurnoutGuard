@@ -1,0 +1,1794 @@
+{
+  "config": {
+    "argv": [
+      "C:\\nvm4w\\nodejs\\node.exe",
+      "C:\\BurnoutGuard\\e2e\\node_modules\\playwright\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\BurnoutGuard\\e2e\\playwright.config.ts",
+    "rootDir": "C:/BurnoutGuard/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "C:\\BurnoutGuard\\e2e\\playwright.global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/mguniyangoda/Documents/FYR/BurnoutGuard/e2e/reports/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/BurnoutGuard/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "C:/Users/mguniyangoda/Documents/FYR/BurnoutGuard/e2e/reports/playwright-html"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:/Users/mguniyangoda/Documents/FYR/BurnoutGuard/e2e/reports/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 6,
+    "webServer": {
+      "command": "node dev.js",
+      "cwd": "..",
+      "url": "http://localhost:5173",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "admin-existing.spec.ts",
+      "file": "admin-existing.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "existing admin pages",
+          "file": "admin-existing.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "user management role change and deactivate",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8956,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.422Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "70b6dfa6af11acd5e6db-72b9eacba627f459e5fd",
+              "file": "admin-existing.spec.ts",
+              "line": 5,
+              "column": 3
+            },
+            {
+              "title": "model management metrics and threshold edits render",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6154,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:00.292Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "70b6dfa6af11acd5e6db-4c99c21fbe9f8767f1c5",
+              "file": "admin-existing.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "fairness report gap cards render",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3386,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:06.481Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "70b6dfa6af11acd5e6db-36096fb9fa8356cb8609",
+              "file": "admin-existing.spec.ts",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "audit logs export triggers a download",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2614,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 2 elements:\n    1) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    2) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 2 elements:\n    1) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    2) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:29:49",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                          "column": 49,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m loginAs(page\u001b[33m,\u001b[39m \u001b[32m'Admin'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/audit-logs'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/audit logs/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mconst\u001b[39m downloadPromise \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mwaitForEvent(\u001b[32m'download'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/export/i\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m downloadPromise\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                            "column": 49,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 2 elements:\n    1) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    2) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n\n\n  27 |     await loginAs(page, 'Admin');\n  28 |     await page.goto('/admin/audit-logs');\n> 29 |     await expect(page.getByText(/audit logs/i)).toBeVisible();\n     |                                                 ^\n  30 |     const downloadPromise = page.waitForEvent('download');\n  31 |     await page.getByRole('button', { name: /export/i }).click();\n  32 |     await downloadPromise;\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:29:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:09.885Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                        "column": 49,
+                        "line": 29
+                      }
+                    },
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2629,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 3 elements:\n    1) <a data-discover=\"true\" href=\"/admin/audit-logs\" class=\"text-sm font-medium transition-colors\">Audit Logs</a> aka getByRole('link', { name: 'Audit Logs' })\n    2) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    3) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 3 elements:\n    1) <a data-discover=\"true\" href=\"/admin/audit-logs\" class=\"text-sm font-medium transition-colors\">Audit Logs</a> aka getByRole('link', { name: 'Audit Logs' })\n    2) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    3) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:29:49",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                          "column": 49,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m loginAs(page\u001b[33m,\u001b[39m \u001b[32m'Admin'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/audit-logs'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/audit logs/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mconst\u001b[39m downloadPromise \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mwaitForEvent(\u001b[32m'download'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/export/i\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m downloadPromise\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                            "column": 49,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/audit logs/i)\nExpected: visible\nError: strict mode violation: getByText(/audit logs/i) resolved to 3 elements:\n    1) <a data-discover=\"true\" href=\"/admin/audit-logs\" class=\"text-sm font-medium transition-colors\">Audit Logs</a> aka getByRole('link', { name: 'Audit Logs' })\n    2) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })\n    3) <td colspan=\"6\">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/audit logs/i)\u001b[22m\n\n\n  27 |     await loginAs(page, 'Admin');\n  28 |     await page.goto('/admin/audit-logs');\n> 29 |     await expect(page.getByText(/audit logs/i)).toBeVisible();\n     |                                                 ^\n  30 |     const downloadPromise = page.waitForEvent('download');\n  31 |     await page.getByRole('button', { name: /export/i }).click();\n  32 |     await downloadPromise;\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:29:49"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:13.254Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-ce624--export-triggers-a-download-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                        "column": 49,
+                        "line": 29
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "70b6dfa6af11acd5e6db-c046dca113d96d855897",
+              "file": "admin-existing.spec.ts",
+              "line": 26,
+              "column": 3
+            },
+            {
+              "title": "survey add question and toggle active",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8794,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:38:45",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                          "column": 45,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m loginAs(page\u001b[33m,\u001b[39m \u001b[32m'Admin'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/survey'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/survey/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/add new question/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                            "column": 45,
+                            "line": 38
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n\n\n  36 |     await loginAs(page, 'Admin');\n  37 |     await page.goto('/admin/survey');\n> 38 |     await expect(page.getByText(/survey/i)).toBeVisible();\n     |                                             ^\n  39 |     await expect(page.getByText(/add new question/i)).toBeVisible();\n  40 |   });\n  41 | });\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:38:45"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:17.496Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                        "column": 45,
+                        "line": 38
+                      }
+                    },
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 7432,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:38:45",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                          "column": 45,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m loginAs(page\u001b[33m,\u001b[39m \u001b[32m'Admin'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/survey'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/survey/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/add new question/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                            "column": 45,
+                            "line": 38
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/survey/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/survey/i)\u001b[22m\n\n\n  36 |     await loginAs(page, 'Admin');\n  37 |     await page.goto('/admin/survey');\n> 38 |     await expect(page.getByText(/survey/i)).toBeVisible();\n     |                                             ^\n  39 |     await expect(page.getByText(/add new question/i)).toBeVisible();\n  40 |   });\n  41 | });\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts:38:45"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:27.937Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-existing-existing-ad-fa60b--question-and-toggle-active-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-existing.spec.ts",
+                        "column": 45,
+                        "line": 38
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "70b6dfa6af11acd5e6db-5902f2d9a89c789b124e",
+              "file": "admin-existing.spec.ts",
+              "line": 35,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "admin-factor-analysis.spec.ts",
+      "file": "admin-factor-analysis.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "admin factor analysis",
+          "file": "admin-factor-analysis.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "all factor analysis tabs render and update",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 12442,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts:9:62",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                          "column": 62,
+                          "line": 9
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/factor-analysis'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  8 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/auto-generated insights/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/association in the observed dataset/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                            "column": 62,
+                            "line": 9
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n\n\n   7 |     await page.goto('/admin/factor-analysis');\n   8 |\n>  9 |     await expect(page.getByText(/auto-generated insights/i)).toBeVisible();\n     |                                                              ^\n  10 |     await expect(page.getByText(/association in the observed dataset/i)).toBeVisible();\n  11 |     await expect(page.locator('svg').first()).toBeVisible();\n  12 |\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts:9:62"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.386Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                        "column": 62,
+                        "line": 9
+                      }
+                    },
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 10077,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts:9:62",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                          "column": 62,
+                          "line": 9
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin/factor-analysis'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  8 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/auto-generated insights/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/association in the observed dataset/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                            "column": 62,
+                            "line": 9
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/auto-generated insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/auto-generated insights/i)\u001b[22m\n\n\n   7 |     await page.goto('/admin/factor-analysis');\n   8 |\n>  9 |     await expect(page.getByText(/auto-generated insights/i)).toBeVisible();\n     |                                                              ^\n  10 |     await expect(page.getByText(/association in the observed dataset/i)).toBeVisible();\n  11 |     await expect(page.locator('svg').first()).toBeVisible();\n  12 |\n    at C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts:9:62"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:04.743Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\admin-factor-analysis-admi-cd611-ysis-tabs-render-and-update-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\admin-factor-analysis.spec.ts",
+                        "column": 62,
+                        "line": 9
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "7cb40e31ede7cd00bc49-bf77007e8e223b68b004",
+              "file": "admin-factor-analysis.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "auth flows",
+          "file": "auth.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "successful login as Developer redirects to the correct dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8937,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.386Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-c2460494dba6f777502a",
+              "file": "auth.spec.ts",
+              "line": 14,
+              "column": 5
+            },
+            {
+              "title": "successful login as Manager redirects to the correct dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4986,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:00.285Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-683f8c2fdd524e84d21b",
+              "file": "auth.spec.ts",
+              "line": 14,
+              "column": 5
+            },
+            {
+              "title": "successful login as HRofficer redirects to the correct dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3489,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:05.300Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-7a4e3d5b1625f2224f63",
+              "file": "auth.spec.ts",
+              "line": 14,
+              "column": 5
+            },
+            {
+              "title": "successful login as Admin redirects to the correct dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2737,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:08.806Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-d67c0d75fdb0c0b3fe62",
+              "file": "auth.spec.ts",
+              "line": 14,
+              "column": 5
+            },
+            {
+              "title": "successful login as ResearchAdmin redirects to the correct dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2258,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:11.556Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-7f0c3b65e876f3185601",
+              "file": "auth.spec.ts",
+              "line": 14,
+              "column": 5
+            },
+            {
+              "title": "invalid credentials show the error banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2102,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:13.826Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-219fb234a36491c614b9",
+              "file": "auth.spec.ts",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "logout clears session and redirects to /login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2396,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:15.952Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-7d96fb535b2b25d2b5c6",
+              "file": "auth.spec.ts",
+              "line": 29,
+              "column": 3
+            },
+            {
+              "title": "developer direct navigation to /admin/users is currently allowed by route guards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "finding",
+                      "description": "ProtectedRoute only checks authentication; it does not enforce role-based access to /admin/users."
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3567,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:18.367Z",
+                      "annotations": [
+                        {
+                          "type": "finding",
+                          "description": "ProtectedRoute only checks authentication; it does not enforce role-based access to /admin/users."
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-2dcd66439718a07ac3b4",
+              "file": "auth.spec.ts",
+              "line": 37,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "checkin.spec.ts",
+      "file": "checkin.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "developer check-in flow",
+          "file": "checkin.spec.ts",
+          "line": 4,
+          "column": 15,
+          "specs": [
+            {
+              "title": "submits a full check-in and surfaces updated developer views",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 30351,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts",
+                            "column": 30,
+                            "line": 28
+                          },
+                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[type=\"number\"]').nth(9)\u001b[22m\n\n\n  26 |     // Work patterns\n  27 |     await workNumbers.nth(8).fill('4');\n> 28 |     await workNumbers.nth(9).fill('2');\n     |                              ^\n  29 |     await page.locator('button', { hasText: '3' }).nth(1).click().catch(() => {});\n  30 |     await page.locator('button', { hasText: '4' }).nth(1).click().catch(() => {});\n  31 |     await page.locator('button', { hasText: 'Yes' }).first().click();\n    at C:\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts:28:30"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.422Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\error-context.md"
+                        }
+                      ]
+                    },
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 3,
+                      "status": "timedOut",
+                      "duration": 30378,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts",
+                            "column": 30,
+                            "line": 28
+                          },
+                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[type=\"number\"]').nth(9)\u001b[22m\n\n\n  26 |     // Work patterns\n  27 |     await workNumbers.nth(8).fill('4');\n> 28 |     await workNumbers.nth(9).fill('2');\n     |                              ^\n  29 |     await page.locator('button', { hasText: '3' }).nth(1).click().catch(() => {});\n  30 |     await page.locator('button', { hasText: '4' }).nth(1).click().catch(() => {});\n  31 |     await page.locator('button', { hasText: 'Yes' }).first().click();\n    at C:\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts:28:30"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:22.642Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium-retry1\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "aa38a869995c4c08644d-136ffd133a070bf7b49d",
+              "file": "checkin.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "hr.spec.ts",
+      "file": "hr.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "hr analytics",
+          "file": "hr.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "department overview and trends render real charts",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 15200,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts:10:54",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                          "column": 54,
+                          "line": 10
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/hr/department-overview'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/burnout risk distribution by department/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/factor insights/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/job role/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/work mode/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                            "column": 54,
+                            "line": 10
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n\n\n   8 |     await page.goto('/hr/department-overview');\n   9 |     await expect(page.getByText(/burnout risk distribution by department/i)).toBeVisible();\n> 10 |     await expect(page.getByText(/factor insights/i)).toBeVisible();\n     |                                                      ^\n  11 |     await expect(page.getByText(/job role/i)).toBeVisible();\n  12 |     await expect(page.getByText(/work mode/i)).toBeVisible();\n  13 |\n    at C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts:10:54"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.448Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                        "column": 54,
+                        "line": 10
+                      }
+                    },
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 10219,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts:10:54",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                          "column": 54,
+                          "line": 10
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/hr/department-overview'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/burnout risk distribution by department/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/factor insights/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/job role/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/work mode/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                            "column": 54,
+                            "line": 10
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/factor insights/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/factor insights/i)\u001b[22m\n\n\n   8 |     await page.goto('/hr/department-overview');\n   9 |     await expect(page.getByText(/burnout risk distribution by department/i)).toBeVisible();\n> 10 |     await expect(page.getByText(/factor insights/i)).toBeVisible();\n     |                                                      ^\n  11 |     await expect(page.getByText(/job role/i)).toBeVisible();\n  12 |     await expect(page.getByText(/work mode/i)).toBeVisible();\n  13 |\n    at C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts:10:54"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:07.550Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\hr-hr-analytics-department-ec08c-d-trends-render-real-charts-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\hr.spec.ts",
+                        "column": 54,
+                        "line": 10
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f17589ad66aaf90cef8f-f948621e2311b01794bc",
+              "file": "hr.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "manager.spec.ts",
+      "file": "manager.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "manager analytics",
+          "file": "manager.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "team overview shows core panels and team what-if updates comparison",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 12414,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:11:56",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                          "column": 56,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team burnout heatmap/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/workload hotspots/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team risk factors/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m teamRiskSection \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team risk factors/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(teamRiskSection)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/of \\d+ developers/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                            "column": 56,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n\n\n   9 |     await expect(page.getByText(/team burnout heatmap/i)).toBeVisible();\n  10 |     await expect(page.getByText(/workload hotspots/i)).toBeVisible();\n> 11 |     await expect(page.getByText(/team risk factors/i)).toBeVisible();\n     |                                                        ^\n  12 |\n  13 |     const teamRiskSection = page.getByText(/team risk factors/i).locator('..');\n  14 |     await expect(teamRiskSection).toContainText(/of \\d+ developers/i);\n    at C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:11:56"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:50:50.422Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                        "column": 56,
+                        "line": 11
+                      }
+                    },
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 9986,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:11:56",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                          "column": 56,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team burnout heatmap/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/workload hotspots/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team risk factors/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m teamRiskSection \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByText(\u001b[35m/team risk factors/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(teamRiskSection)\u001b[33m.\u001b[39mtoContainText(\u001b[35m/of \\d+ developers/i\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                            "column": 56,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/team risk factors/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/team risk factors/i)\u001b[22m\n\n\n   9 |     await expect(page.getByText(/team burnout heatmap/i)).toBeVisible();\n  10 |     await expect(page.getByText(/workload hotspots/i)).toBeVisible();\n> 11 |     await expect(page.getByText(/team risk factors/i)).toBeVisible();\n     |                                                        ^\n  12 |\n  13 |     const teamRiskSection = page.getByText(/team risk factors/i).locator('..');\n  14 |     await expect(teamRiskSection).toContainText(/of \\d+ developers/i);\n    at C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:11:56"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:04.911Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
+                        "column": 56,
+                        "line": 11
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "15338c29f870e53fba3b-0159c0af82207068456e",
+              "file": "manager.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "recommendations.spec.ts",
+      "file": "recommendations.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "developer recommendations",
+          "file": "recommendations.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "completes a recommendation and persists effectiveness rating",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 8035,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts:9:53",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                          "column": 53,
+                          "line": 9
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/developer/recommendations'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  8 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.rec-card'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m firstCard \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.rec-card'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m firstCard\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                            "column": 53,
+                            "line": 9
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n\n\n   7 |     await page.goto('/developer/recommendations');\n   8 |\n>  9 |     await expect(page.locator('.rec-card').first()).toBeVisible();\n     |                                                     ^\n  10 |\n  11 |     const firstCard = page.locator('.rec-card').first();\n  12 |     await firstCard.getByRole('button').click();\n    at C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts:9:53"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:16.426Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                        "column": 53,
+                        "line": 9
+                      }
+                    },
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 7513,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts:9:53",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                          "column": 53,
+                          "line": 9
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/developer/recommendations'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  8 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.rec-card'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m firstCard \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'.rec-card'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m firstCard\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                            "column": 53,
+                            "line": 9
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.rec-card').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.rec-card').first()\u001b[22m\n\n\n   7 |     await page.goto('/developer/recommendations');\n   8 |\n>  9 |     await expect(page.locator('.rec-card').first()).toBeVisible();\n     |                                                     ^\n  10 |\n  11 |     const firstCard = page.locator('.rec-card').first();\n  12 |     await firstCard.getByRole('button').click();\n    at C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts:9:53"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:25.970Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\recommendations-developer--6bea5-rsists-effectiveness-rating-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\recommendations.spec.ts",
+                        "column": 53,
+                        "line": 9
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0653e77a13219686089d-44dc94ec1593d194252e",
+              "file": "recommendations.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "reports-journal.spec.ts",
+      "file": "reports-journal.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "developer reports and journal",
+          "file": "reports-journal.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "weekly report downloads and journal entry persists",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 5,
+                      "status": "timedOut",
+                      "duration": 30940,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts",
+                            "column": 34,
+                            "line": 12
+                          },
+                          "message": "Error: page.waitForEvent: Test timeout of 30000ms exceeded.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================\n\n  10 |     await expect(page.getByText(/risk score trend/i)).toBeVisible();\n  11 |\n> 12 |     const downloadPromise = page.waitForEvent('download');\n     |                                  ^\n  13 |     await page.getByRole('button', { name: /export \\/ print/i }).click();\n  14 |     const download = await downloadPromise;\n  15 |     await expect(download.suggestedFilename()).toContain('.pdf');\n    at C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts:12:34"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts",
+                            "column": 66,
+                            "line": 13
+                          },
+                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /export \\/ print/i })\u001b[22m\n\u001b[2m    - locator resolved to <button class=\"btn btn-primary \">📥 Export / Print</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    53 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n  11 |\n  12 |     const downloadPromise = page.waitForEvent('download');\n> 13 |     await page.getByRole('button', { name: /export \\/ print/i }).click();\n     |                                                                  ^\n  14 |     const download = await downloadPromise;\n  15 |     await expect(download.suggestedFilename()).toContain('.pdf');\n  16 |\n    at C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts:13:66"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:16.521Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium\\video.webm"
+                        }
+                      ]
+                    },
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 31028,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts",
+                            "column": 34,
+                            "line": 12
+                          },
+                          "message": "Error: page.waitForEvent: Test timeout of 30000ms exceeded.\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================\n\n  10 |     await expect(page.getByText(/risk score trend/i)).toBeVisible();\n  11 |\n> 12 |     const downloadPromise = page.waitForEvent('download');\n     |                                  ^\n  13 |     await page.getByRole('button', { name: /export \\/ print/i }).click();\n  14 |     const download = await downloadPromise;\n  15 |     await expect(download.suggestedFilename()).toContain('.pdf');\n    at C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts:12:34"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts",
+                            "column": 66,
+                            "line": 13
+                          },
+                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /export \\/ print/i })\u001b[22m\n\u001b[2m    - locator resolved to <button class=\"btn btn-primary \">📥 Export / Print</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    54 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button type=\"button\">…</button> intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n  11 |\n  12 |     const downloadPromise = page.waitForEvent('download');\n> 13 |     await page.getByRole('button', { name: /export \\/ print/i }).click();\n     |                                                                  ^\n  14 |     const download = await downloadPromise;\n  15 |     await expect(download.suggestedFilename()).toContain('.pdf');\n  16 |\n    at C:\\BurnoutGuard\\e2e\\tests\\reports-journal.spec.ts:13:66"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:48.521Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\reports-journal-developer--52457--and-journal-entry-persists-chromium-retry1\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f6f2594fc413b7842c40-fd322043c72dd81bd9c5",
+              "file": "reports-journal.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "whatif-counterfactual.spec.ts",
+      "file": "whatif-counterfactual.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "developer what-if and counterfactual",
+          "file": "whatif-counterfactual.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "what-if updates risk score and my risk renders counterfactual state",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 9074,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts:14:73",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                          "column": 73,
+                          "line": 14
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m sliders\u001b[33m.\u001b[39mnth(\u001b[35m1\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'12'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/predicted risk score/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m))\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveText(initialScore \u001b[33m?\u001b[39m\u001b[33m?\u001b[39m \u001b[32m''\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/predicted risk score/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/%/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 |\u001b[39m\n \u001b[90m 16 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/developer/my-risk'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 17 |\u001b[39m     \u001b[36mconst\u001b[39m counterfactual \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Counterfactual'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                            "column": 73,
+                            "line": 14
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n\n\n  12 |     await sliders.nth(1).fill('12');\n  13 |     await expect(page.getByText(/predicted risk score/i).locator('..')).not.toHaveText(initialScore ?? '');\n> 14 |     await expect(page.getByText(/predicted risk score/i).locator('..')).toContainText(/%/);\n     |                                                                         ^\n  15 |\n  16 |     await page.goto('/developer/my-risk');\n  17 |     const counterfactual = page.locator('text=Counterfactual').first();\n    at C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts:14:73"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-23T15:51:19.422Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                        "column": 73,
+                        "line": 14
+                      }
+                    },
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 8303,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n\n    at C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts:14:73",
+                        "location": {
+                          "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                          "column": 73,
+                          "line": 14
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m sliders\u001b[33m.\u001b[39mnth(\u001b[35m1\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'12'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/predicted risk score/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m))\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveText(initialScore \u001b[33m?\u001b[39m\u001b[33m?\u001b[39m \u001b[32m''\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/predicted risk score/i\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/%/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 |\u001b[39m\n \u001b[90m 16 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/developer/my-risk'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 17 |\u001b[39m     \u001b[36mconst\u001b[39m counterfactual \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Counterfactual'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                            "column": 73,
+                            "line": 14
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/predicted risk score/i).locator('..')\nExpected pattern: \u001b[32m/%/\u001b[39m\nReceived string:  \u001b[31m\"Predicted Risk Score0.92High\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/predicted risk score/i).locator('..')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"card \">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"Predicted Risk Score0.92High\"\u001b[22m\n\n\n  12 |     await sliders.nth(1).fill('12');\n  13 |     await expect(page.getByText(/predicted risk score/i).locator('..')).not.toHaveText(initialScore ?? '');\n> 14 |     await expect(page.getByText(/predicted risk score/i).locator('..')).toContainText(/%/);\n     |                                                                         ^\n  15 |\n  16 |     await page.goto('/developer/my-risk');\n  17 |     const counterfactual = page.locator('text=Counterfactual').first();\n    at C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts:14:73"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-23T15:51:29.719Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\whatif-counterfactual-deve-ed896-enders-counterfactual-state-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\BurnoutGuard\\e2e\\tests\\whatif-counterfactual.spec.ts",
+                        "column": 73,
+                        "line": 14
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2db38f439947a9df9eb8-24788574a85a01d3d8b9",
+              "file": "whatif-counterfactual.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-23T15:50:48.286Z",
+    "duration": 91750.586,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 9,
+    "flaky": 0
+  }
+}

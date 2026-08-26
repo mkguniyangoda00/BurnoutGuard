@@ -105,7 +105,7 @@ export class FactorAnalysisService {
 
       groups[groupValue].sampleSize++;
       groups[groupValue].riskScores.push(subject.riskScore);
-      groups[groupValue].riskCounts[subject.riskLevel]++;
+      groups[groupValue].riskCounts[subject.riskLevel as RiskLevel]++;
     }
 
     return Object.entries(groups)

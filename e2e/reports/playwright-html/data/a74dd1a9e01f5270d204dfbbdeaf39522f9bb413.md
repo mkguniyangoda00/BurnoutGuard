@@ -1,0 +1,928 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: admin-existing.spec.ts >> existing admin pages >> audit logs export triggers a download
+- Location: tests\admin-existing.spec.ts:26:3
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText(/audit logs/i)
+Expected: visible
+Error: strict mode violation: getByText(/audit logs/i) resolved to 3 elements:
+    1) <a data-discover="true" href="/admin/audit-logs" class="text-sm font-medium transition-colors">Audit Logs</a> aka getByRole('link', { name: 'Audit Logs' })
+    2) <h1>Audit Logs</h1> aka getByRole('heading', { name: 'Audit Logs' })
+    3) <td colspan="6">Loading audit logs...</td> aka getByRole('cell', { name: 'Loading audit logs...' })
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByText(/audit logs/i)
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f1e3]:
+  - button "Open wellbeing chat" [ref=f1e5] [cursor=pointer]
+  - navigation [ref=f1e8]:
+    - generic [ref=f1e9]:
+      - link "BurnoutGuard" [ref=f1e10] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f1e11]:
+        - link "Users" [ref=f1e12] [cursor=pointer]:
+          - /url: /admin/users
+        - link "Model Metrics" [ref=f1e13] [cursor=pointer]:
+          - /url: /admin/models
+        - link "Audit Logs" [ref=f1e14] [cursor=pointer]:
+          - /url: /admin/audit-logs
+    - generic [ref=f1e15]:
+      - button "Toggle dark mode" [ref=f1e16] [cursor=pointer]
+      - button "Notifications" [ref=f1e21] [cursor=pointer]
+      - button "Language" [ref=f1e27] [cursor=pointer]
+      - button "Profile menu" [ref=f1e34] [cursor=pointer]: AS
+  - button "Need help now?" [ref=f1e35] [cursor=pointer]
+  - main [ref=f1e38]:
+    - generic [ref=f1e39]:
+      - generic [ref=f1e40]:
+        - heading "Audit Logs" [level=1] [ref=f1e41]
+        - paragraph [ref=f1e42]: Complete record of all system actions · Retained for 90 days
+      - generic [ref=f1e43]:
+        - combobox [ref=f1e44]:
+          - option "All Users" [selected]
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "research@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "research@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "research@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "research@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "research@burnoutguard.com"
+          - option "admin@burnoutguard.com"
+          - option "hr@burnoutguard.com"
+          - option "manager@burnoutguard.com"
+          - option "dev@burnoutguard.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "mkguniyangoda@gmail.com"
+          - option "anandagodadanushi@gmail.com"
+          - option "chamu@gmail.com"
+          - option "chamu@gmail.com"
+          - option "chamu@gmail.com"
+          - option "chamu@gmail.com"
+          - option "anandagodadanushi@gmail.com"
+          - option "dvdsilva@gmail.com"
+          - option "fashionmalithi@gmail.com"
+          - option "fashionmalithi@gmail.com"
+          - option "fashionmalithi@gmail.com"
+          - option "kavishkaguniyangoda@gmail.com"
+          - option "kavishkaguniyangoda@gmail.com"
+          - option "kavishkaguniyangoda@gmail.com"
+          - option "anandagodadanushi@gmail.com"
+          - option "guniyangodasm@gmail.com"
+        - combobox [ref=f1e45]:
+          - option "All Actions" [selected]
+          - option "LOGIN"
+          - option "WHAT_IF"
+          - option "PREDICTION_CREATE"
+          - option "CHECK_IN_SUBMIT"
+          - option "REGISTER"
+          - option "GOOGLE_REGISTER"
+          - option "GOOGLE_LOGIN"
+        - button "Export CSV" [ref=f1e46] [cursor=pointer]
+      - table [ref=f1e48]:
+        - rowgroup [ref=f1e49]:
+          - row [ref=f1e50]:
+            - columnheader "Timestamp" [ref=f1e51]
+            - columnheader "Actor" [ref=f1e52]
+            - columnheader "Action" [ref=f1e53]
+            - columnheader "Entity" [ref=f1e54]
+            - columnheader "Result" [ref=f1e55]
+            - columnheader "Details" [ref=f1e56]
+        - rowgroup [ref=f1e57]:
+          - row [ref=f1e58]:
+            - cell "8/23/2026, 9:21:15 PM" [ref=f1e59]
+            - cell "dev@burnoutguard.com" [ref=f1e60]
+            - cell "LOGIN" [ref=f1e61]
+            - cell "User" [ref=f1e62]
+            - cell "Failed" [ref=f1e63]
+            - cell "Invalid credentials" [ref=f1e64]
+          - row [ref=f1e65]:
+            - cell "8/23/2026, 9:21:15 PM" [ref=f1e66]
+            - cell "admin@burnoutguard.com" [ref=f1e67]
+            - cell "LOGIN" [ref=f1e68]
+            - cell "User" [ref=f1e69]
+            - cell "Success" [ref=f1e70]
+            - cell "—" [ref=f1e71]
+          - row [ref=f1e72]:
+            - cell "8/23/2026, 9:21:13 PM" [ref=f1e73]
+            - cell "research@burnoutguard.com" [ref=f1e74]
+            - cell "LOGIN" [ref=f1e75]
+            - cell "User" [ref=f1e76]
+            - cell "Success" [ref=f1e77]
+            - cell "—" [ref=f1e78]
+          - row [ref=f1e79]:
+            - cell "8/23/2026, 9:21:12 PM" [ref=f1e80]
+            - cell "admin@burnoutguard.com" [ref=f1e81]
+            - cell "LOGIN" [ref=f1e82]
+            - cell "User" [ref=f1e83]
+            - cell "Success" [ref=f1e84]
+            - cell "—" [ref=f1e85]
+          - row [ref=f1e86]:
+            - cell "8/23/2026, 9:21:11 PM" [ref=f1e87]
+            - cell "hr@burnoutguard.com" [ref=f1e88]
+            - cell "LOGIN" [ref=f1e89]
+            - cell "User" [ref=f1e90]
+            - cell "Success" [ref=f1e91]
+            - cell "—" [ref=f1e92]
+          - row [ref=f1e93]:
+            - cell "8/23/2026, 9:21:11 PM" [ref=f1e94]
+            - cell "admin@burnoutguard.com" [ref=f1e95]
+            - cell "LOGIN" [ref=f1e96]
+            - cell "User" [ref=f1e97]
+            - cell "Success" [ref=f1e98]
+            - cell "—" [ref=f1e99]
+          - row [ref=f1e100]:
+            - cell "8/23/2026, 9:21:09 PM" [ref=f1e101]
+            - cell "admin@burnoutguard.com" [ref=f1e102]
+            - cell "LOGIN" [ref=f1e103]
+            - cell "User" [ref=f1e104]
+            - cell "Success" [ref=f1e105]
+            - cell "—" [ref=f1e106]
+          - row [ref=f1e107]:
+            - cell "8/23/2026, 9:21:09 PM" [ref=f1e108]
+            - cell "manager@burnoutguard.com" [ref=f1e109]
+            - cell "LOGIN" [ref=f1e110]
+            - cell "User" [ref=f1e111]
+            - cell "Success" [ref=f1e112]
+            - cell "—" [ref=f1e113]
+          - row [ref=f1e114]:
+            - cell "8/23/2026, 9:21:09 PM" [ref=f1e115]
+            - cell "admin@burnoutguard.com" [ref=f1e116]
+            - cell "LOGIN" [ref=f1e117]
+            - cell "User" [ref=f1e118]
+            - cell "Success" [ref=f1e119]
+            - cell "—" [ref=f1e120]
+          - row [ref=f1e121]:
+            - cell "8/23/2026, 9:21:08 PM" [ref=f1e122]
+            - cell "hr@burnoutguard.com" [ref=f1e123]
+            - cell "LOGIN" [ref=f1e124]
+            - cell "User" [ref=f1e125]
+            - cell "Success" [ref=f1e126]
+            - cell "—" [ref=f1e127]
+          - row [ref=f1e128]:
+            - cell "8/23/2026, 9:21:02 PM" [ref=f1e129]
+            - cell "admin@burnoutguard.com" [ref=f1e130]
+            - cell "LOGIN" [ref=f1e131]
+            - cell "User" [ref=f1e132]
+            - cell "Success" [ref=f1e133]
+            - cell "—" [ref=f1e134]
+          - row [ref=f1e135]:
+            - cell "8/23/2026, 9:21:02 PM" [ref=f1e136]
+            - cell "manager@burnoutguard.com" [ref=f1e137]
+            - cell "LOGIN" [ref=f1e138]
+            - cell "User" [ref=f1e139]
+            - cell "Success" [ref=f1e140]
+            - cell "—" [ref=f1e141]
+          - row [ref=f1e142]:
+            - cell "8/23/2026, 9:20:58 PM" [ref=f1e143]
+            - cell "dev@burnoutguard.com" [ref=f1e144]
+            - cell "LOGIN" [ref=f1e145]
+            - cell "User" [ref=f1e146]
+            - cell "Success" [ref=f1e147]
+            - cell "—" [ref=f1e148]
+          - row [ref=f1e149]:
+            - cell "8/23/2026, 9:20:58 PM" [ref=f1e150]
+            - cell "hr@burnoutguard.com" [ref=f1e151]
+            - cell "LOGIN" [ref=f1e152]
+            - cell "User" [ref=f1e153]
+            - cell "Success" [ref=f1e154]
+            - cell "—" [ref=f1e155]
+          - row [ref=f1e156]:
+            - cell "8/23/2026, 9:20:58 PM" [ref=f1e157]
+            - cell "dev@burnoutguard.com" [ref=f1e158]
+            - cell "LOGIN" [ref=f1e159]
+            - cell "User" [ref=f1e160]
+            - cell "Success" [ref=f1e161]
+            - cell "—" [ref=f1e162]
+          - row [ref=f1e163]:
+            - cell "8/23/2026, 9:20:58 PM" [ref=f1e164]
+            - cell "admin@burnoutguard.com" [ref=f1e165]
+            - cell "LOGIN" [ref=f1e166]
+            - cell "User" [ref=f1e167]
+            - cell "Success" [ref=f1e168]
+            - cell "—" [ref=f1e169]
+          - row [ref=f1e170]:
+            - cell "8/23/2026, 9:20:58 PM" [ref=f1e171]
+            - cell "manager@burnoutguard.com" [ref=f1e172]
+            - cell "LOGIN" [ref=f1e173]
+            - cell "User" [ref=f1e174]
+            - cell "Success" [ref=f1e175]
+            - cell "—" [ref=f1e176]
+          - row [ref=f1e177]:
+            - cell "8/23/2026, 9:20:57 PM" [ref=f1e178]
+            - cell "admin@burnoutguard.com" [ref=f1e179]
+            - cell "LOGIN" [ref=f1e180]
+            - cell "User" [ref=f1e181]
+            - cell "Success" [ref=f1e182]
+            - cell "—" [ref=f1e183]
+          - row [ref=f1e184]:
+            - cell "8/23/2026, 3:31:54 PM" [ref=f1e185]
+            - cell "dev@burnoutguard.com" [ref=f1e186]
+            - cell "LOGIN" [ref=f1e187]
+            - cell "User" [ref=f1e188]
+            - cell "Success" [ref=f1e189]
+            - cell "—" [ref=f1e190]
+          - row [ref=f1e191]:
+            - cell "8/23/2026, 3:31:51 PM" [ref=f1e192]
+            - cell "admin@burnoutguard.com" [ref=f1e193]
+            - cell "LOGIN" [ref=f1e194]
+            - cell "User" [ref=f1e195]
+            - cell "Success" [ref=f1e196]
+            - cell "—" [ref=f1e197]
+          - row [ref=f1e198]:
+            - cell "8/23/2026, 3:31:41 PM" [ref=f1e199]
+            - cell "admin@burnoutguard.com" [ref=f1e200]
+            - cell "LOGIN" [ref=f1e201]
+            - cell "User" [ref=f1e202]
+            - cell "Success" [ref=f1e203]
+            - cell "—" [ref=f1e204]
+          - row [ref=f1e205]:
+            - cell "8/23/2026, 3:31:40 PM" [ref=f1e206]
+            - cell "dev@burnoutguard.com" [ref=f1e207]
+            - cell "LOGIN" [ref=f1e208]
+            - cell "User" [ref=f1e209]
+            - cell "Success" [ref=f1e210]
+            - cell "—" [ref=f1e211]
+          - row [ref=f1e212]:
+            - cell "8/23/2026, 3:31:39 PM" [ref=f1e213]
+            - cell "dev@burnoutguard.com" [ref=f1e214]
+            - cell "WHAT_IF" [ref=f1e215]
+            - cell "Prediction" [ref=f1e216]
+            - cell "Success" [ref=f1e217]
+            - cell "Ran what-if simulation" [ref=f1e218]
+          - row [ref=f1e219]:
+            - cell "8/23/2026, 3:31:37 PM" [ref=f1e220]
+            - cell "dev@burnoutguard.com" [ref=f1e221]
+            - cell "LOGIN" [ref=f1e222]
+            - cell "User" [ref=f1e223]
+            - cell "Success" [ref=f1e224]
+            - cell "—" [ref=f1e225]
+          - row [ref=f1e226]:
+            - cell "8/23/2026, 3:31:37 PM" [ref=f1e227]
+            - cell "dev@burnoutguard.com" [ref=f1e228]
+            - cell "LOGIN" [ref=f1e229]
+            - cell "User" [ref=f1e230]
+            - cell "Success" [ref=f1e231]
+            - cell "—" [ref=f1e232]
+          - row [ref=f1e233]:
+            - cell "8/23/2026, 3:31:35 PM" [ref=f1e234]
+            - cell "admin@burnoutguard.com" [ref=f1e235]
+            - cell "LOGIN" [ref=f1e236]
+            - cell "User" [ref=f1e237]
+            - cell "Success" [ref=f1e238]
+            - cell "—" [ref=f1e239]
+          - row [ref=f1e240]:
+            - cell "8/23/2026, 3:31:35 PM" [ref=f1e241]
+            - cell "dev@burnoutguard.com" [ref=f1e242]
+            - cell "LOGIN" [ref=f1e243]
+            - cell "User" [ref=f1e244]
+            - cell "Success" [ref=f1e245]
+            - cell "—" [ref=f1e246]
+          - row [ref=f1e247]:
+            - cell "8/23/2026, 3:31:33 PM" [ref=f1e248]
+            - cell "dev@burnoutguard.com" [ref=f1e249]
+            - cell "LOGIN" [ref=f1e250]
+            - cell "User" [ref=f1e251]
+            - cell "Failed" [ref=f1e252]
+            - cell "Invalid credentials" [ref=f1e253]
+          - row [ref=f1e254]:
+            - cell "8/23/2026, 3:31:31 PM" [ref=f1e255]
+            - cell "research@burnoutguard.com" [ref=f1e256]
+            - cell "LOGIN" [ref=f1e257]
+            - cell "User" [ref=f1e258]
+            - cell "Success" [ref=f1e259]
+            - cell "—" [ref=f1e260]
+          - row [ref=f1e261]:
+            - cell "8/23/2026, 3:31:30 PM" [ref=f1e262]
+            - cell "admin@burnoutguard.com" [ref=f1e263]
+            - cell "LOGIN" [ref=f1e264]
+            - cell "User" [ref=f1e265]
+            - cell "Success" [ref=f1e266]
+            - cell "—" [ref=f1e267]
+          - row [ref=f1e268]:
+            - cell "8/23/2026, 3:31:29 PM" [ref=f1e269]
+            - cell "admin@burnoutguard.com" [ref=f1e270]
+            - cell "LOGIN" [ref=f1e271]
+            - cell "User" [ref=f1e272]
+            - cell "Success" [ref=f1e273]
+            - cell "—" [ref=f1e274]
+          - row [ref=f1e275]:
+            - cell "8/23/2026, 3:31:27 PM" [ref=f1e276]
+            - cell "admin@burnoutguard.com" [ref=f1e277]
+            - cell "LOGIN" [ref=f1e278]
+            - cell "User" [ref=f1e279]
+            - cell "Success" [ref=f1e280]
+            - cell "—" [ref=f1e281]
+          - row [ref=f1e282]:
+            - cell "8/23/2026, 3:31:26 PM" [ref=f1e283]
+            - cell "hr@burnoutguard.com" [ref=f1e284]
+            - cell "LOGIN" [ref=f1e285]
+            - cell "User" [ref=f1e286]
+            - cell "Success" [ref=f1e287]
+            - cell "—" [ref=f1e288]
+          - row [ref=f1e289]:
+            - cell "8/23/2026, 3:31:25 PM" [ref=f1e290]
+            - cell "dev@burnoutguard.com" [ref=f1e291]
+            - cell "WHAT_IF" [ref=f1e292]
+            - cell "Prediction" [ref=f1e293]
+            - cell "Success" [ref=f1e294]
+            - cell "Ran what-if simulation" [ref=f1e295]
+          - row [ref=f1e296]:
+            - cell "8/23/2026, 3:31:24 PM" [ref=f1e297]
+            - cell "dev@burnoutguard.com" [ref=f1e298]
+            - cell "LOGIN" [ref=f1e299]
+            - cell "User" [ref=f1e300]
+            - cell "Success" [ref=f1e301]
+            - cell "—" [ref=f1e302]
+          - row [ref=f1e303]:
+            - cell "8/23/2026, 3:31:24 PM" [ref=f1e304]
+            - cell "dev@burnoutguard.com" [ref=f1e305]
+            - cell "LOGIN" [ref=f1e306]
+            - cell "User" [ref=f1e307]
+            - cell "Success" [ref=f1e308]
+            - cell "—" [ref=f1e309]
+          - row [ref=f1e310]:
+            - cell "8/23/2026, 3:31:23 PM" [ref=f1e311]
+            - cell "dev@burnoutguard.com" [ref=f1e312]
+            - cell "LOGIN" [ref=f1e313]
+            - cell "User" [ref=f1e314]
+            - cell "Success" [ref=f1e315]
+            - cell "—" [ref=f1e316]
+          - row [ref=f1e317]:
+            - cell "8/23/2026, 3:31:23 PM" [ref=f1e318]
+            - cell "manager@burnoutguard.com" [ref=f1e319]
+            - cell "LOGIN" [ref=f1e320]
+            - cell "User" [ref=f1e321]
+            - cell "Success" [ref=f1e322]
+            - cell "—" [ref=f1e323]
+          - row [ref=f1e324]:
+            - cell "8/23/2026, 3:31:22 PM" [ref=f1e325]
+            - cell "admin@burnoutguard.com" [ref=f1e326]
+            - cell "LOGIN" [ref=f1e327]
+            - cell "User" [ref=f1e328]
+            - cell "Success" [ref=f1e329]
+            - cell "—" [ref=f1e330]
+          - row [ref=f1e331]:
+            - cell "8/23/2026, 3:31:14 PM" [ref=f1e332]
+            - cell "manager@burnoutguard.com" [ref=f1e333]
+            - cell "LOGIN" [ref=f1e334]
+            - cell "User" [ref=f1e335]
+            - cell "Success" [ref=f1e336]
+            - cell "—" [ref=f1e337]
+          - row [ref=f1e338]:
+            - cell "8/23/2026, 3:31:14 PM" [ref=f1e339]
+            - cell "dev@burnoutguard.com" [ref=f1e340]
+            - cell "LOGIN" [ref=f1e341]
+            - cell "User" [ref=f1e342]
+            - cell "Success" [ref=f1e343]
+            - cell "—" [ref=f1e344]
+          - row [ref=f1e345]:
+            - cell "8/23/2026, 3:31:11 PM" [ref=f1e346]
+            - cell "hr@burnoutguard.com" [ref=f1e347]
+            - cell "LOGIN" [ref=f1e348]
+            - cell "User" [ref=f1e349]
+            - cell "Success" [ref=f1e350]
+            - cell "—" [ref=f1e351]
+          - row [ref=f1e352]:
+            - cell "8/23/2026, 3:31:11 PM" [ref=f1e353]
+            - cell "admin@burnoutguard.com" [ref=f1e354]
+            - cell "LOGIN" [ref=f1e355]
+            - cell "User" [ref=f1e356]
+            - cell "Success" [ref=f1e357]
+            - cell "—" [ref=f1e358]
+          - row [ref=f1e359]:
+            - cell "8/23/2026, 3:31:11 PM" [ref=f1e360]
+            - cell "dev@burnoutguard.com" [ref=f1e361]
+            - cell "LOGIN" [ref=f1e362]
+            - cell "User" [ref=f1e363]
+            - cell "Success" [ref=f1e364]
+            - cell "—" [ref=f1e365]
+          - row [ref=f1e366]:
+            - cell "8/23/2026, 3:31:11 PM" [ref=f1e367]
+            - cell "admin@burnoutguard.com" [ref=f1e368]
+            - cell "LOGIN" [ref=f1e369]
+            - cell "User" [ref=f1e370]
+            - cell "Success" [ref=f1e371]
+            - cell "—" [ref=f1e372]
+          - row [ref=f1e373]:
+            - cell "8/23/2026, 3:30:59 PM" [ref=f1e374]
+            - cell "dev@burnoutguard.com" [ref=f1e375]
+            - cell "LOGIN" [ref=f1e376]
+            - cell "User" [ref=f1e377]
+            - cell "Success" [ref=f1e378]
+            - cell "—" [ref=f1e379]
+          - row [ref=f1e380]:
+            - cell "8/23/2026, 3:30:59 PM" [ref=f1e381]
+            - cell "admin@burnoutguard.com" [ref=f1e382]
+            - cell "LOGIN" [ref=f1e383]
+            - cell "User" [ref=f1e384]
+            - cell "Success" [ref=f1e385]
+            - cell "—" [ref=f1e386]
+          - row [ref=f1e387]:
+            - cell "8/23/2026, 3:30:59 PM" [ref=f1e388]
+            - cell "manager@burnoutguard.com" [ref=f1e389]
+            - cell "LOGIN" [ref=f1e390]
+            - cell "User" [ref=f1e391]
+            - cell "Success" [ref=f1e392]
+            - cell "—" [ref=f1e393]
+          - row [ref=f1e394]:
+            - cell "8/23/2026, 3:30:59 PM" [ref=f1e395]
+            - cell "admin@burnoutguard.com" [ref=f1e396]
+            - cell "LOGIN" [ref=f1e397]
+            - cell "User" [ref=f1e398]
+            - cell "Success" [ref=f1e399]
+            - cell "—" [ref=f1e400]
+          - row [ref=f1e401]:
+            - cell "8/23/2026, 3:30:56 PM" [ref=f1e402]
+            - cell "hr@burnoutguard.com" [ref=f1e403]
+            - cell "LOGIN" [ref=f1e404]
+            - cell "User" [ref=f1e405]
+            - cell "Success" [ref=f1e406]
+            - cell "—" [ref=f1e407]
+          - row [ref=f1e408]:
+            - cell "8/23/2026, 3:30:53 PM" [ref=f1e409]
+            - cell "dev@burnoutguard.com" [ref=f1e410]
+            - cell "LOGIN" [ref=f1e411]
+            - cell "User" [ref=f1e412]
+            - cell "Success" [ref=f1e413]
+            - cell "—" [ref=f1e414]
+          - row [ref=f1e415]:
+            - cell "8/23/2026, 3:29:40 PM" [ref=f1e416]
+            - cell "dev@burnoutguard.com" [ref=f1e417]
+            - cell "LOGIN" [ref=f1e418]
+            - cell "User" [ref=f1e419]
+            - cell "Success" [ref=f1e420]
+            - cell "—" [ref=f1e421]
+          - row [ref=f1e422]:
+            - cell "8/23/2026, 3:29:37 PM" [ref=f1e423]
+            - cell "dev@burnoutguard.com" [ref=f1e424]
+            - cell "LOGIN" [ref=f1e425]
+            - cell "User" [ref=f1e426]
+            - cell "Success" [ref=f1e427]
+            - cell "—" [ref=f1e428]
+          - row [ref=f1e429]:
+            - cell "8/23/2026, 3:29:35 PM" [ref=f1e430]
+            - cell "dev@burnoutguard.com" [ref=f1e431]
+            - cell "LOGIN" [ref=f1e432]
+            - cell "User" [ref=f1e433]
+            - cell "Failed" [ref=f1e434]
+            - cell "Invalid credentials" [ref=f1e435]
+          - row [ref=f1e436]:
+            - cell "8/23/2026, 3:29:32 PM" [ref=f1e437]
+            - cell "research@burnoutguard.com" [ref=f1e438]
+            - cell "LOGIN" [ref=f1e439]
+            - cell "User" [ref=f1e440]
+            - cell "Success" [ref=f1e441]
+            - cell "—" [ref=f1e442]
+          - row [ref=f1e443]:
+            - cell "8/23/2026, 3:29:30 PM" [ref=f1e444]
+            - cell "admin@burnoutguard.com" [ref=f1e445]
+            - cell "LOGIN" [ref=f1e446]
+            - cell "User" [ref=f1e447]
+            - cell "Success" [ref=f1e448]
+            - cell "—" [ref=f1e449]
+          - row [ref=f1e450]:
+            - cell "8/23/2026, 3:29:27 PM" [ref=f1e451]
+            - cell "hr@burnoutguard.com" [ref=f1e452]
+            - cell "LOGIN" [ref=f1e453]
+            - cell "User" [ref=f1e454]
+            - cell "Success" [ref=f1e455]
+            - cell "—" [ref=f1e456]
+          - row [ref=f1e457]:
+            - cell "8/23/2026, 3:29:25 PM" [ref=f1e458]
+            - cell "manager@burnoutguard.com" [ref=f1e459]
+            - cell "LOGIN" [ref=f1e460]
+            - cell "User" [ref=f1e461]
+            - cell "Success" [ref=f1e462]
+            - cell "—" [ref=f1e463]
+          - row [ref=f1e464]:
+            - cell "8/23/2026, 3:29:23 PM" [ref=f1e465]
+            - cell "dev@burnoutguard.com" [ref=f1e466]
+            - cell "LOGIN" [ref=f1e467]
+            - cell "User" [ref=f1e468]
+            - cell "Success" [ref=f1e469]
+            - cell "—" [ref=f1e470]
+          - row [ref=f1e471]:
+            - cell "8/23/2026, 3:28:54 PM" [ref=f1e472]
+            - cell "dev@burnoutguard.com" [ref=f1e473]
+            - cell "LOGIN" [ref=f1e474]
+            - cell "User" [ref=f1e475]
+            - cell "Success" [ref=f1e476]
+            - cell "—" [ref=f1e477]
+          - row [ref=f1e478]:
+            - cell "8/23/2026, 3:28:20 PM" [ref=f1e479]
+            - cell "dev@burnoutguard.com" [ref=f1e480]
+            - cell "LOGIN" [ref=f1e481]
+            - cell "User" [ref=f1e482]
+            - cell "Success" [ref=f1e483]
+            - cell "—" [ref=f1e484]
+          - row [ref=f1e485]:
+            - cell "8/23/2026, 3:27:45 PM" [ref=f1e486]
+            - cell "dev@burnoutguard.com" [ref=f1e487]
+            - cell "LOGIN" [ref=f1e488]
+            - cell "User" [ref=f1e489]
+            - cell "Success" [ref=f1e490]
+            - cell "—" [ref=f1e491]
+          - row [ref=f1e492]:
+            - cell "8/23/2026, 3:27:43 PM" [ref=f1e493]
+            - cell "dev@burnoutguard.com" [ref=f1e494]
+            - cell "LOGIN" [ref=f1e495]
+            - cell "User" [ref=f1e496]
+            - cell "Failed" [ref=f1e497]
+            - cell "Invalid credentials" [ref=f1e498]
+          - row [ref=f1e499]:
+            - cell "8/23/2026, 3:27:41 PM" [ref=f1e500]
+            - cell "research@burnoutguard.com" [ref=f1e501]
+            - cell "LOGIN" [ref=f1e502]
+            - cell "User" [ref=f1e503]
+            - cell "Success" [ref=f1e504]
+            - cell "—" [ref=f1e505]
+          - row [ref=f1e506]:
+            - cell "8/23/2026, 3:27:38 PM" [ref=f1e507]
+            - cell "admin@burnoutguard.com" [ref=f1e508]
+            - cell "LOGIN" [ref=f1e509]
+            - cell "User" [ref=f1e510]
+            - cell "Success" [ref=f1e511]
+            - cell "—" [ref=f1e512]
+          - row [ref=f1e513]:
+            - cell "8/23/2026, 3:27:35 PM" [ref=f1e514]
+            - cell "hr@burnoutguard.com" [ref=f1e515]
+            - cell "LOGIN" [ref=f1e516]
+            - cell "User" [ref=f1e517]
+            - cell "Success" [ref=f1e518]
+            - cell "—" [ref=f1e519]
+          - row [ref=f1e520]:
+            - cell "8/23/2026, 3:27:33 PM" [ref=f1e521]
+            - cell "manager@burnoutguard.com" [ref=f1e522]
+            - cell "LOGIN" [ref=f1e523]
+            - cell "User" [ref=f1e524]
+            - cell "Success" [ref=f1e525]
+            - cell "—" [ref=f1e526]
+          - row [ref=f1e527]:
+            - cell "8/23/2026, 3:27:30 PM" [ref=f1e528]
+            - cell "dev@burnoutguard.com" [ref=f1e529]
+            - cell "LOGIN" [ref=f1e530]
+            - cell "User" [ref=f1e531]
+            - cell "Success" [ref=f1e532]
+            - cell "—" [ref=f1e533]
+          - row [ref=f1e534]:
+            - cell "8/23/2026, 3:27:04 PM" [ref=f1e535]
+            - cell "dev@burnoutguard.com" [ref=f1e536]
+            - cell "LOGIN" [ref=f1e537]
+            - cell "User" [ref=f1e538]
+            - cell "Success" [ref=f1e539]
+            - cell "—" [ref=f1e540]
+          - row [ref=f1e541]:
+            - cell "8/23/2026, 3:26:30 PM" [ref=f1e542]
+            - cell "dev@burnoutguard.com" [ref=f1e543]
+            - cell "LOGIN" [ref=f1e544]
+            - cell "User" [ref=f1e545]
+            - cell "Success" [ref=f1e546]
+            - cell "—" [ref=f1e547]
+          - row [ref=f1e548]:
+            - cell "8/23/2026, 3:25:56 PM" [ref=f1e549]
+            - cell "dev@burnoutguard.com" [ref=f1e550]
+            - cell "LOGIN" [ref=f1e551]
+            - cell "User" [ref=f1e552]
+            - cell "Success" [ref=f1e553]
+            - cell "—" [ref=f1e554]
+          - row [ref=f1e555]:
+            - cell "8/23/2026, 3:25:53 PM" [ref=f1e556]
+            - cell "dev@burnoutguard.com" [ref=f1e557]
+            - cell "LOGIN" [ref=f1e558]
+            - cell "User" [ref=f1e559]
+            - cell "Failed" [ref=f1e560]
+            - cell "Invalid credentials" [ref=f1e561]
+          - row [ref=f1e562]:
+            - cell "8/23/2026, 3:25:51 PM" [ref=f1e563]
+            - cell "research@burnoutguard.com" [ref=f1e564]
+            - cell "LOGIN" [ref=f1e565]
+            - cell "User" [ref=f1e566]
+            - cell "Success" [ref=f1e567]
+            - cell "—" [ref=f1e568]
+          - row [ref=f1e569]:
+            - cell "8/23/2026, 3:25:48 PM" [ref=f1e570]
+            - cell "admin@burnoutguard.com" [ref=f1e571]
+            - cell "LOGIN" [ref=f1e572]
+            - cell "User" [ref=f1e573]
+            - cell "Success" [ref=f1e574]
+            - cell "—" [ref=f1e575]
+          - row [ref=f1e576]:
+            - cell "8/23/2026, 3:25:46 PM" [ref=f1e577]
+            - cell "hr@burnoutguard.com" [ref=f1e578]
+            - cell "LOGIN" [ref=f1e579]
+            - cell "User" [ref=f1e580]
+            - cell "Success" [ref=f1e581]
+            - cell "—" [ref=f1e582]
+          - row [ref=f1e583]:
+            - cell "8/23/2026, 3:25:43 PM" [ref=f1e584]
+            - cell "manager@burnoutguard.com" [ref=f1e585]
+            - cell "LOGIN" [ref=f1e586]
+            - cell "User" [ref=f1e587]
+            - cell "Success" [ref=f1e588]
+            - cell "—" [ref=f1e589]
+          - row [ref=f1e590]:
+            - cell "8/23/2026, 3:25:41 PM" [ref=f1e591]
+            - cell "dev@burnoutguard.com" [ref=f1e592]
+            - cell "LOGIN" [ref=f1e593]
+            - cell "User" [ref=f1e594]
+            - cell "Success" [ref=f1e595]
+            - cell "—" [ref=f1e596]
+          - row [ref=f1e597]:
+            - cell "8/19/2026, 10:34:32 PM" [ref=f1e598]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e599]
+            - cell "LOGIN" [ref=f1e600]
+            - cell "User" [ref=f1e601]
+            - cell "Success" [ref=f1e602]
+            - cell "—" [ref=f1e603]
+          - row [ref=f1e604]:
+            - cell "8/19/2026, 10:34:25 PM" [ref=f1e605]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e606]
+            - cell "LOGIN" [ref=f1e607]
+            - cell "User" [ref=f1e608]
+            - cell "Failed" [ref=f1e609]
+            - cell "Invalid credentials" [ref=f1e610]
+          - row [ref=f1e611]:
+            - cell "8/19/2026, 10:34:15 PM" [ref=f1e612]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e613]
+            - cell "LOGIN" [ref=f1e614]
+            - cell "User" [ref=f1e615]
+            - cell "Failed" [ref=f1e616]
+            - cell "Invalid credentials" [ref=f1e617]
+          - row [ref=f1e618]:
+            - cell "8/19/2026, 10:34:02 PM" [ref=f1e619]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e620]
+            - cell "LOGIN" [ref=f1e621]
+            - cell "User" [ref=f1e622]
+            - cell "Failed" [ref=f1e623]
+            - cell "Invalid credentials" [ref=f1e624]
+          - row [ref=f1e625]:
+            - cell "8/19/2026, 10:33:50 PM" [ref=f1e626]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e627]
+            - cell "LOGIN" [ref=f1e628]
+            - cell "User" [ref=f1e629]
+            - cell "Failed" [ref=f1e630]
+            - cell "Invalid credentials" [ref=f1e631]
+          - row [ref=f1e632]:
+            - cell "8/19/2026, 10:33:42 PM" [ref=f1e633]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e634]
+            - cell "LOGIN" [ref=f1e635]
+            - cell "User" [ref=f1e636]
+            - cell "Failed" [ref=f1e637]
+            - cell "Invalid credentials" [ref=f1e638]
+          - row [ref=f1e639]:
+            - cell "8/19/2026, 10:32:42 PM" [ref=f1e640]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e641]
+            - cell "LOGIN" [ref=f1e642]
+            - cell "User" [ref=f1e643]
+            - cell "Failed" [ref=f1e644]
+            - cell "Invalid credentials" [ref=f1e645]
+          - row [ref=f1e646]:
+            - cell "8/19/2026, 10:32:34 PM" [ref=f1e647]
+            - cell "mkguniyangoda@gmail.com" [ref=f1e648]
+            - cell "LOGIN" [ref=f1e649]
+            - cell "User" [ref=f1e650]
+            - cell "Failed" [ref=f1e651]
+            - cell "Invalid credentials" [ref=f1e652]
+          - row [ref=f1e653]:
+            - cell "8/19/2026, 10:31:48 PM" [ref=f1e654]
+            - cell "anandagodadanushi@gmail.com" [ref=f1e655]
+            - cell "LOGIN" [ref=f1e656]
+            - cell "User" [ref=f1e657]
+            - cell "Success" [ref=f1e658]
+            - cell "—" [ref=f1e659]
+          - row [ref=f1e660]:
+            - cell "8/19/2026, 10:31:22 PM" [ref=f1e661]
+            - cell "chamu@gmail.com" [ref=f1e662]
+            - cell "PREDICTION_CREATE" [ref=f1e663]
+            - cell "Prediction" [ref=f1e664]
+            - cell "Success" [ref=f1e665]
+            - cell "Risk level High, score 75%" [ref=f1e666]
+          - row [ref=f1e667]:
+            - cell "8/19/2026, 10:31:16 PM" [ref=f1e668]
+            - cell "chamu@gmail.com" [ref=f1e669]
+            - cell "CHECK_IN_SUBMIT" [ref=f1e670]
+            - cell "CheckIn" [ref=f1e671]
+            - cell "Success" [ref=f1e672]
+            - cell "—" [ref=f1e673]
+          - row [ref=f1e674]:
+            - cell "8/19/2026, 10:31:11 PM" [ref=f1e675]
+            - cell "chamu@gmail.com" [ref=f1e676]
+            - cell "LOGIN" [ref=f1e677]
+            - cell "User" [ref=f1e678]
+            - cell "Success" [ref=f1e679]
+            - cell "—" [ref=f1e680]
+          - row [ref=f1e681]:
+            - cell "8/19/2026, 10:30:52 PM" [ref=f1e682]
+            - cell "chamu@gmail.com" [ref=f1e683]
+            - cell "REGISTER" [ref=f1e684]
+            - cell "User" [ref=f1e685]
+            - cell "Success" [ref=f1e686]
+            - cell "—" [ref=f1e687]
+          - row [ref=f1e688]:
+            - cell "8/19/2026, 10:30:03 PM" [ref=f1e689]
+            - cell "anandagodadanushi@gmail.com" [ref=f1e690]
+            - cell "LOGIN" [ref=f1e691]
+            - cell "User" [ref=f1e692]
+            - cell "Success" [ref=f1e693]
+            - cell "—" [ref=f1e694]
+          - row [ref=f1e695]:
+            - cell "8/19/2026, 10:29:49 PM" [ref=f1e696]
+            - cell "dvdsilva@gmail.com" [ref=f1e697]
+            - cell "REGISTER" [ref=f1e698]
+            - cell "User" [ref=f1e699]
+            - cell "Success" [ref=f1e700]
+            - cell "—" [ref=f1e701]
+          - row [ref=f1e702]:
+            - cell "8/19/2026, 10:28:55 PM" [ref=f1e703]
+            - cell "fashionmalithi@gmail.com" [ref=f1e704]
+            - cell "PREDICTION_CREATE" [ref=f1e705]
+            - cell "Prediction" [ref=f1e706]
+            - cell "Success" [ref=f1e707]
+            - cell "Risk level High, score 75%" [ref=f1e708]
+          - row [ref=f1e709]:
+            - cell "8/19/2026, 10:28:50 PM" [ref=f1e710]
+            - cell "fashionmalithi@gmail.com" [ref=f1e711]
+            - cell "CHECK_IN_SUBMIT" [ref=f1e712]
+            - cell "CheckIn" [ref=f1e713]
+            - cell "Success" [ref=f1e714]
+            - cell "—" [ref=f1e715]
+          - row [ref=f1e716]:
+            - cell "8/19/2026, 10:28:21 PM" [ref=f1e717]
+            - cell "fashionmalithi@gmail.com" [ref=f1e718]
+            - cell "GOOGLE_REGISTER" [ref=f1e719]
+            - cell "User" [ref=f1e720]
+            - cell "Success" [ref=f1e721]
+            - cell "—" [ref=f1e722]
+          - row [ref=f1e723]:
+            - cell "8/19/2026, 10:27:27 PM" [ref=f1e724]
+            - cell "kavishkaguniyangoda@gmail.com" [ref=f1e725]
+            - cell "PREDICTION_CREATE" [ref=f1e726]
+            - cell "Prediction" [ref=f1e727]
+            - cell "Success" [ref=f1e728]
+            - cell "Risk level High, score 75%" [ref=f1e729]
+          - row [ref=f1e730]:
+            - cell "8/19/2026, 10:27:17 PM" [ref=f1e731]
+            - cell "kavishkaguniyangoda@gmail.com" [ref=f1e732]
+            - cell "CHECK_IN_SUBMIT" [ref=f1e733]
+            - cell "CheckIn" [ref=f1e734]
+            - cell "Success" [ref=f1e735]
+            - cell "—" [ref=f1e736]
+          - row [ref=f1e737]:
+            - cell "8/19/2026, 10:27:11 PM" [ref=f1e738]
+            - cell "kavishkaguniyangoda@gmail.com" [ref=f1e739]
+            - cell "GOOGLE_LOGIN" [ref=f1e740]
+            - cell "User" [ref=f1e741]
+            - cell "Success" [ref=f1e742]
+            - cell "—" [ref=f1e743]
+          - row [ref=f1e744]:
+            - cell "8/19/2026, 10:26:38 PM" [ref=f1e745]
+            - cell "anandagodadanushi@gmail.com" [ref=f1e746]
+            - cell "LOGIN" [ref=f1e747]
+            - cell "User" [ref=f1e748]
+            - cell "Success" [ref=f1e749]
+            - cell "—" [ref=f1e750]
+          - row [ref=f1e751]:
+            - cell "8/19/2026, 10:25:48 PM" [ref=f1e752]
+            - cell "guniyangodasm@gmail.com" [ref=f1e753]
+            - cell "LOGIN" [ref=f1e754]
+            - cell "User" [ref=f1e755]
+            - cell "Success" [ref=f1e756]
+            - cell "—" [ref=f1e757]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | import { loginAs } from '../fixtures/auth';
+  3  | 
+  4  | test.describe('existing admin pages', () => {
+  5  |   test('user management role change and deactivate', async ({ page }) => {
+  6  |     await loginAs(page, 'Admin');
+  7  |     await page.goto('/admin/users');
+  8  |     await expect(page.getByText(/user management/i)).toBeVisible();
+  9  |     await expect(page.locator('button').filter({ has: page.locator('svg') }).first()).toBeVisible();
+  10 |   });
+  11 | 
+  12 |   test('model management metrics and threshold edits render', async ({ page }) => {
+  13 |     await loginAs(page, 'Admin');
+  14 |     await page.goto('/admin/models');
+  15 |     await expect(page.getByText(/model metrics/i)).toBeVisible();
+  16 |     await expect(page.getByText(/alert threshold settings/i)).toBeVisible();
+  17 |     await expect(page.locator('input').first()).toBeVisible();
+  18 |   });
+  19 | 
+  20 |   test('fairness report gap cards render', async ({ page }) => {
+  21 |     await loginAs(page, 'Admin');
+  22 |     await page.goto('/admin/models');
+  23 |     await expect(page.getByText(/global feature importance/i)).toBeVisible();
+  24 |   });
+  25 | 
+  26 |   test('audit logs export triggers a download', async ({ page }) => {
+  27 |     await loginAs(page, 'Admin');
+  28 |     await page.goto('/admin/audit-logs');
+> 29 |     await expect(page.getByText(/audit logs/i)).toBeVisible();
+     |                                                 ^ Error: expect(locator).toBeVisible() failed
+  30 |     const downloadPromise = page.waitForEvent('download');
+  31 |     await page.getByRole('button', { name: /export/i }).click();
+  32 |     await downloadPromise;
+  33 |   });
+  34 | 
+  35 |   test('survey add question and toggle active', async ({ page }) => {
+  36 |     await loginAs(page, 'Admin');
+  37 |     await page.goto('/admin/survey');
+  38 |     await expect(page.getByText(/survey/i)).toBeVisible();
+  39 |     await expect(page.getByText(/add new question/i)).toBeVisible();
+  40 |   });
+  41 | });
+  42 | 
+```
