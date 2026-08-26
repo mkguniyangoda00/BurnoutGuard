@@ -19,7 +19,6 @@ const RiskView: React.FC = () => {
     isError,
     isEmpty,
     calibrationConfidence,
-    uncertainty,
   } = usePrediction();
 
   if (isLoading) {

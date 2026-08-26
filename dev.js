@@ -7,28 +7,31 @@ const os = require('os');
 const isWindows = os.platform() === 'win32';
 const NPM_CMD = isWindows ? 'npm.cmd' : 'npm';
 const PYTHON_CMD = isWindows ? 'python' : 'python3';
+const NODE_CMD = path.join('C:\\nvm4w\\nodejs', 'node.exe');
 
 const services = [
   {
     name: 'BACKEND',
     color: '\x1b[36m',
     cwd: path.join(__dirname, 'backend'),
-    command: NPM_CMD,
-    args: ['run', 'dev'],
+    command: NODE_CMD,
+    args: [path.join(__dirname, 'backend', 'dist', 'server.js')],
+    env: { PORT: '5000' },
   },
   {
     name: 'FRONTEND',
     color: '\x1b[35m',
     cwd: path.join(__dirname, 'frontend'),
-    command: NPM_CMD,
-    args: ['run', 'dev'],
+    command: 'python',
+    args: [path.join(__dirname, 'frontend', 'spa_server.py')],
   },
   {
     name: 'ML-SERVICE',
     color: '\x1b[33m',
     cwd: path.join(__dirname, 'ml-service'),
-    command: PYTHON_CMD,
+    command: path.join(__dirname, 'ml-service', '.venv', 'Scripts', 'python.exe'),
     args: ['main.py'],
+    env: { PORT: '5001' },
   },
 ];
 
@@ -46,8 +49,15 @@ function startService(service) {
   console.log(`${service.color}[${service.name}]${RESET} Starting: ${service.command} ${service.args.join(' ')} (cwd: ${service.cwd})`);
   const child = spawn(service.command, service.args, {
     cwd: service.cwd,
-    shell: isWindows,
-    env: process.env,
+    shell: false,
+    env: {
+      ...process.env,
+      ...service.env,
+      HOME: path.join(__dirname),
+      USERPROFILE: path.join(__dirname),
+      HOMEDRIVE: 'C:',
+      HOMEPATH: '\\BurnoutGuard',
+    },
   });
 
   child.stdout.on('data', (data) => prefixOutput(service.name, service.color, data));
@@ -67,7 +77,7 @@ services.forEach(startService);
 function shutdown() {
   console.log('\nShutting down all services...');
   for (const child of children) {
-    if (isWindows) spawn('taskkill', ['/pid', child.pid, '/T', '/F']);
+    if (isWindows) spawn('taskkill', ['/pid', child.pid, '/T', '/F'], { shell: true });
     else child.kill('SIGTERM');
   }
   process.exit(0);

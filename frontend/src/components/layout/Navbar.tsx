@@ -24,7 +24,6 @@ import { Dropdown } from '../ui/Dropdown';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
-import { HeartHandshake } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const location = useLocation();

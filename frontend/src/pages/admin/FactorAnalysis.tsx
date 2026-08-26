@@ -3,7 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import RiskDisclaimer from '../../components/ui/RiskDisclaimer';
-import { researchService, DemographicDimension } from '../../services/research.service';
+import { researchService } from '../../services/research.service';
+import type { DemographicDimension } from '../../services/research.service';
 
 type DemographicRow = {
   group: string;
