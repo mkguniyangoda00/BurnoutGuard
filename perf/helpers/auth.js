@@ -16,8 +16,8 @@ export function login(role = 'Developer') {
 
   check(res, {
     'login status is 200': (r) => r.status === 200,
-    'login returned token': (r) => !!r.json('token'),
+    'login returned token': (r) => !!(r.json('token') || r.json('accessToken')),
   }) || fail(`Login failed for ${role}: ${res.status} ${res.body}`);
 
-  return res.json('token');
+  return res.json('token') || res.json('accessToken');
 }

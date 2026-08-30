@@ -1,0 +1,9 @@
+{
+  "scenario": "soak-test.js",
+  "vus": 1,
+  "durationSeconds": 10,
+  "iterations": 23,
+  "failures": 0,
+  "baseUrl": "http://localhost:5000/api",
+  "mlBaseUrl": "http://localhost:5001"
+}

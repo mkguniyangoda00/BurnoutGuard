@@ -1,7 +1,6 @@
 import { sleep } from 'k6';
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
-import { buildMlFeaturePayload } from '../helpers/requests.js';
-import { mlPredict, mlWhatIf } from '../helpers/requests.js';
+import { buildMlFeaturePayload, mlPredict, mlWhatIf } from '../helpers/requests.js';
+import { ensureOk, scenarioSummary } from './_shared.js';
 
 export const options = {
   scenarios: {
@@ -18,17 +17,18 @@ export const options = {
 
 export default function () {
   const payload = buildMlFeaturePayload(__ITER);
-  if (__ITER % 2 === 0) {
-    mlPredict(payload);
-  } else {
-    mlWhatIf(payload, { overtimeHours: 0, meetingsCount: -2 });
-  }
+  const res = __ITER % 2 === 0
+    ? mlPredict(payload)
+    : mlWhatIf(payload, {
+        overtimeHours: 0,
+        stressLevel: 1,
+        meetingsCount: 2,
+      });
+
+  ensureOk(res, 'ml-service', [200]);
   sleep(1);
 }
 
 export function handleSummary(data) {
-  return {
-    'reports/ml-service-isolated.json': JSON.stringify(data, null, 2),
-    'reports/ml-service-isolated.html': htmlReport(data),
-  };
+  return scenarioSummary('ml-service-isolated', data);
 }

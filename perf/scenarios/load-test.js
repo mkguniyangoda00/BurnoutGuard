@@ -1,9 +1,5 @@
-import http from 'k6/http';
 import { sleep } from 'k6';
-import { SharedArray } from 'k6/data';
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
 import { sharedThresholds } from '../config.js';
-import { login } from '../helpers/auth.js';
 import {
   latestPrediction,
   checkInHistory,
@@ -14,6 +10,7 @@ import {
   adminDemographic,
   buildCheckInPayload,
 } from '../helpers/requests.js';
+import { ensureOk, makeTokens, pickWeightedRequest, scenarioSummary } from './_shared.js';
 
 export const options = {
   thresholds: sharedThresholds,
@@ -29,30 +26,23 @@ export const options = {
   },
 };
 
-const managerToken = login('Manager');
-const adminToken = login('Admin');
-const developerToken = login('Developer');
-
-const tokenPool = new SharedArray('tokens', () => [developerToken, managerToken, adminToken]);
+const tokens = makeTokens();
 
 export default function () {
-  const token = tokenPool[__ITER % tokenPool.length];
-  const r = Math.random();
+  const request = pickWeightedRequest(Math.random());
+  const iteration = __ITER;
 
-  if (r < 0.30) latestPrediction(token);
-  else if (r < 0.45) checkInHistory(token);
-  else if (r < 0.55) submitCheckIn(token, buildCheckInPayload(__ITER));
-  else if (r < 0.70) recommendations(token);
-  else if (r < 0.80) reports(token);
-  else if (r < 0.90) managerHeatmap(managerToken);
-  else adminDemographic(adminToken);
+  if (request === 'latestPrediction') ensureOk(latestPrediction(tokens.developer), request);
+  else if (request === 'checkInHistory') ensureOk(checkInHistory(tokens.developer), request);
+  else if (request === 'submitCheckIn') ensureOk(submitCheckIn(tokens.developer, buildCheckInPayload(iteration)), request);
+  else if (request === 'recommendations') ensureOk(recommendations(tokens.developer), request);
+  else if (request === 'reports') ensureOk(reports(tokens.developer), request);
+  else if (request === 'managerHeatmap') ensureOk(managerHeatmap(tokens.manager), request);
+  else ensureOk(adminDemographic(tokens.admin), request);
 
   sleep(1);
 }
 
 export function handleSummary(data) {
-  return {
-    'reports/load-test.json': JSON.stringify(data, null, 2),
-    'reports/load-test.html': htmlReport(data),
-  };
+  return scenarioSummary('load-test', data);
 }
