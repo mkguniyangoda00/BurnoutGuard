@@ -26,16 +26,16 @@ test.describe('existing admin pages', () => {
   test('audit logs export triggers a download', async ({ page }) => {
     await loginAs(page, 'Admin');
     await page.goto('/admin/audit-logs');
-    await expect(page.getByText(/audit logs/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Audit Logs' })).toBeVisible();
     const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('button', { name: /export/i }).click();
+    await page.getByRole('button', { name: /export csv/i }).click();
     await downloadPromise;
   });
 
   test('survey add question and toggle active', async ({ page }) => {
     await loginAs(page, 'Admin');
     await page.goto('/admin/survey');
-    await expect(page.getByText(/survey/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Survey Management' })).toBeVisible();
     await expect(page.getByText(/add new question/i)).toBeVisible();
   });
 });

@@ -1,0 +1,12 @@
+{
+  "name": "burnoutguard-perf",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "load": "k6 run perf/scenarios/load-test.js",
+    "stress": "k6 run perf/scenarios/stress-test.js",
+    "spike": "k6 run perf/scenarios/spike-test.js",
+    "soak": "k6 run perf/scenarios/soak-test.js",
+    "ml": "k6 run perf/scenarios/ml-service-isolated.js"
+  }
+}

@@ -6,17 +6,18 @@ test.describe('developer what-if and counterfactual', () => {
     await loginAs(page, 'Developer');
 
     await page.goto('/developer/what-if');
-    const initialScore = await page.getByText(/predicted risk score/i).locator('..').textContent();
+    const riskCard = page.locator('text=Predicted Risk Score').locator('..');
+    const initialScore = await riskCard.textContent();
     const sliders = page.locator('input[type="range"]');
     await sliders.nth(0).fill('8');
     await sliders.nth(1).fill('12');
-    await expect(page.getByText(/predicted risk score/i).locator('..')).not.toHaveText(initialScore ?? '');
-    await expect(page.getByText(/predicted risk score/i).locator('..')).toContainText(/%/);
+    await expect(riskCard).not.toHaveText(initialScore ?? '');
+    await expect(riskCard).toContainText(/0\.\d{2}/);
 
     await page.goto('/developer/my-risk');
-    const counterfactual = page.locator('text=Counterfactual').first();
-    if (await counterfactual.count()) {
-      await expect(counterfactual).toBeVisible();
+    const counterfactualHeading = page.getByRole('heading', { name: /what could change your risk/i });
+    if (await counterfactualHeading.count()) {
+      await expect(counterfactualHeading).toBeVisible();
     } else {
       await expect(page.getByText(/counterfactual/i)).toHaveCount(0);
     }

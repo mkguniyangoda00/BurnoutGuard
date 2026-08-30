@@ -1,7 +1,7 @@
-import { sleep, check } from 'k6';
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
-import { login } from '../helpers/auth.js';
-import { submitCheckIn, triggerPrediction, buildCheckInPayload } from '../helpers/requests.js';
+import { sleep } from 'k6';
+import { check } from 'k6';
+import { latestPrediction, submitCheckIn, triggerPrediction, buildCheckInPayload } from '../helpers/requests.js';
+import { ensureOk, makeTokens, scenarioSummary } from './_shared.js';
 
 export const options = {
   scenarios: {
@@ -18,30 +18,46 @@ export const options = {
   },
 };
 
-const token = login('Developer');
+const tokens = makeTokens();
+let spikeCount = 0;
+let spikeRecoveryStart = null;
 let baselineP95 = null;
-let spikeStart = null;
 
 export default function () {
-  const checkInRes = submitCheckIn(token, buildCheckInPayload(__ITER));
-  check(checkInRes, { 'checkin status ok': (r) => r.status === 201 || r.status === 200 });
-  const triggerRes = triggerPrediction(token);
-  check(triggerRes, { 'trigger status ok': (r) => r.status >= 200 && r.status < 500 });
+  const isSpike = __VU > 20;
+  const start = Date.now();
 
-  if (__VU <= 20 && baselineP95 === null) baselineP95 = Date.now();
-  if (__VU >= 300 && spikeStart === null) spikeStart = Date.now();
-  if (spikeStart && __VU <= 20) {
-    const recovery = Date.now() - spikeStart;
-    console.log(`Recovered after ${Math.round(recovery / 1000)}s from spike`);
-    spikeStart = null;
+  if (isSpike) {
+    spikeCount += 1;
+    if (spikeRecoveryStart === null) spikeRecoveryStart = Date.now();
+  }
+
+  const checkInRes = submitCheckIn(tokens.developer, buildCheckInPayload(__ITER));
+  ensureOk(checkInRes, 'submitCheckIn', [200, 201]);
+  const triggerRes = triggerPrediction(tokens.developer);
+  check(triggerRes, {
+    'trigger accepted': (r) => r.status >= 200 && r.status < 500,
+  });
+
+  const latestRes = latestPrediction(tokens.developer);
+  ensureOk(latestRes, 'latestPrediction');
+
+  if (!isSpike && baselineP95 === null) {
+    baselineP95 = Date.now() - start;
+  }
+  if (!isSpike && spikeRecoveryStart !== null) {
+    console.log(`Recovered to baseline after ${Math.round((Date.now() - spikeRecoveryStart) / 1000)}s`);
+    spikeRecoveryStart = null;
   }
 
   sleep(1);
 }
 
 export function handleSummary(data) {
-  return {
-    'reports/spike-test.json': JSON.stringify(data, null, 2),
-    'reports/spike-test.html': htmlReport(data),
-  };
+  return scenarioSummary('spike-test', data, {
+    recovery: {
+      baselineObserved: baselineP95 !== null,
+      spikeCount,
+    },
+  });
 }

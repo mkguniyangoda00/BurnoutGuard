@@ -1,20 +1,9 @@
 import { sleep } from 'k6';
-import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
-import { sharedThresholds } from '../config.js';
-import { login } from '../helpers/auth.js';
-import {
-  latestPrediction,
-  checkInHistory,
-  submitCheckIn,
-  recommendations,
-  reports,
-  managerHeatmap,
-  adminDemographic,
-  buildCheckInPayload,
-} from '../helpers/requests.js';
+import { Trend } from 'k6/metrics';
+import { latestPrediction, checkInHistory, submitCheckIn, recommendations, reports, managerHeatmap, adminDemographic, buildCheckInPayload } from '../helpers/requests.js';
+import { ensureOk, makeTokens, pickWeightedRequest, scenarioSummary } from './_shared.js';
 
 export const options = {
-  thresholds: {},
   scenarios: {
     stress: {
       executor: 'ramping-vus',
@@ -29,51 +18,59 @@ export const options = {
   },
 };
 
-const managerToken = login('Manager');
-const adminToken = login('Admin');
-const developerToken = login('Developer');
-
-let crossed1s = false;
-let crossed3s = false;
-let error5Logged = false;
+const tokens = makeTokens();
+const stressBucketLatency = new Trend('stress_bucket_latency', true);
+const bucketDurations = [[], [], [], [], [], [], [], [], [], [], []];
+const bucketErrors = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const bucketMinutes = 1;
+const stressStart = Date.now();
 
 export default function () {
-  const token = __ITER % 3 === 0 ? developerToken : __ITER % 3 === 1 ? managerToken : adminToken;
-  const r = Math.random();
+  const request = pickWeightedRequest(Math.random());
   const start = Date.now();
   let res;
 
-  if (r < 0.30) res = latestPrediction(token);
-  else if (r < 0.45) res = checkInHistory(token);
-  else if (r < 0.55) res = submitCheckIn(token, buildCheckInPayload(__ITER));
-  else if (r < 0.70) res = recommendations(token);
-  else if (r < 0.80) res = reports(token);
-  else if (r < 0.90) res = managerHeatmap(managerToken);
-  else res = adminDemographic(adminToken);
+  if (request === 'latestPrediction') res = latestPrediction(tokens.developer);
+  else if (request === 'checkInHistory') res = checkInHistory(tokens.developer);
+  else if (request === 'submitCheckIn') res = submitCheckIn(tokens.developer, buildCheckInPayload(__ITER));
+  else if (request === 'recommendations') res = recommendations(tokens.developer);
+  else if (request === 'reports') res = reports(tokens.developer);
+  else if (request === 'managerHeatmap') res = managerHeatmap(tokens.manager);
+  else res = adminDemographic(tokens.admin);
 
-  const elapsed = Date.now() - start;
-  if (!crossed1s && elapsed > 1000) {
-    crossed1s = true;
-    console.log(`p95 latency crossed 1s at VU ${__VU}`);
+  ensureOk(res, request, [200, 201, 400, 401, 403, 404, 409]);
+  const bucketIndex = Math.min(10, Math.floor((Date.now() - stressStart) / (bucketMinutes * 60 * 1000)));
+  const safeBucketIndex = Math.min(bucketDurations.length - 1, bucketIndex);
+  if (res.status >= 400) {
+    bucketErrors[safeBucketIndex] += 1;
   }
-  if (!crossed3s && elapsed > 3000) {
-    crossed3s = true;
-    console.log(`p95 latency crossed 3s at VU ${__VU}`);
-  }
-  if (!error5Logged && res.status >= 400 && __ITER > 0) {
-    const errRate = __ITER / (__ITER + 1);
-    if (errRate > 0.05) {
-      error5Logged = true;
-      console.log(`error rate exceeded 5% near VU ${__VU}`);
-    }
-  }
+  bucketDurations[safeBucketIndex].push(Date.now() - start);
+  stressBucketLatency.add(Date.now() - start, { bucket: `${safeBucketIndex + 1}` });
 
   sleep(1);
 }
 
 export function handleSummary(data) {
-  return {
-    'reports/stress-test.json': JSON.stringify(data, null, 2),
-    'reports/stress-test.html': htmlReport(data),
-  };
+  const buckets = bucketDurations.map((values, idx) => {
+    const sorted = [...values].sort((a, b) => a - b);
+    const p95 = sorted.length ? sorted[Math.min(sorted.length - 1, Math.ceil(sorted.length * 0.95) - 1)] : null;
+    const errorRate = values.length ? bucketErrors[idx] / values.length : null;
+    return { bucket: idx + 1, sampleCount: values.length, p95LatencyMs: p95, errorRate };
+  }).filter((bucket) => bucket.sampleCount > 0);
+
+  const firstOver1sBucket = buckets.find((bucket) => bucket.p95LatencyMs !== null && bucket.p95LatencyMs > 1000)?.bucket ?? null;
+  const firstOver3sBucket = buckets.find((bucket) => bucket.p95LatencyMs !== null && bucket.p95LatencyMs > 3000)?.bucket ?? null;
+
+  return scenarioSummary('stress-test', data, {
+    p95Buckets: buckets,
+    thresholdsCrossed: {
+      p95Over1sAtBucket: firstOver1sBucket,
+      p95Over3sAtBucket: firstOver3sBucket,
+      errorRateOver5PctAtBucket: buckets.find((bucket) => bucket.errorRate !== null && bucket.errorRate > 0.05)?.bucket ?? null,
+    },
+    notes: [
+      'Stress test is exploratory; no hard failure threshold enforced.',
+      'Review k6 summary p95 and error-rate output to identify breaking points.',
+    ],
+  });
 }

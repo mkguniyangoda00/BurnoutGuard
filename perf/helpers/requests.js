@@ -1,65 +1,56 @@
 import http from 'k6/http';
-import { check } from 'k6';
-import { BASE_URL, defaultHeaders, ML_BASE_URL } from '../config.js';
+import { BASE_URL, ML_BASE_URL, defaultHeaders } from '../config.js';
 
-export function managerHeatmap(token) {
-  return http.get(`${BASE_URL}/analytics/heatmap`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
-  });
-}
-
-export function adminDemographic(token) {
-  return http.get(`${BASE_URL}/research/factors/demographic?dimension=jobTitle`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
-  });
+function authHeaders(token, extra = {}) {
+  return {
+    ...defaultHeaders,
+    ...extra,
+    Authorization: `Bearer ${token}`,
+  };
 }
 
 export function latestPrediction(token) {
-  return http.get(`${BASE_URL}/predictions/latest`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
-  });
+  return http.get(`${BASE_URL}/predictions/latest`, { headers: authHeaders(token) });
 }
 
 export function checkInHistory(token) {
-  return http.get(`${BASE_URL}/checkins/history`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
+  return http.get(`${BASE_URL}/checkins/history`, { headers: authHeaders(token) });
+}
+
+export function submitCheckIn(token, payload) {
+  return http.post(`${BASE_URL}/checkins`, JSON.stringify(payload), {
+    headers: authHeaders(token),
   });
 }
 
 export function recommendations(token) {
-  return http.get(`${BASE_URL}/recommendations`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
-  });
+  return http.get(`${BASE_URL}/recommendations`, { headers: authHeaders(token) });
 }
 
 export function reports(token) {
-  return http.get(`${BASE_URL}/reports`, {
-    headers: { ...defaultHeaders, Authorization: `Bearer ${token}` },
+  return http.get(`${BASE_URL}/reports`, { headers: authHeaders(token) });
+}
+
+export function managerHeatmap(token) {
+  return http.get(`${BASE_URL}/analytics/heatmap`, { headers: authHeaders(token) });
+}
+
+export function adminDemographic(token) {
+  return http.get(`${BASE_URL}/research/factors/demographic?dimension=jobTitle`, {
+    headers: authHeaders(token),
   });
 }
 
 export function triggerPrediction(token) {
-  return http.post(
-    `${BASE_URL}/predictions/trigger`,
-    null,
-    { headers: { ...defaultHeaders, Authorization: `Bearer ${token}` } }
-  );
-}
-
-export function submitCheckIn(token, payload) {
-  return http.post(
-    `${BASE_URL}/checkins`,
-    JSON.stringify(payload),
-    { headers: { ...defaultHeaders, Authorization: `Bearer ${token}` } }
-  );
+  return http.post(`${BASE_URL}/predictions/trigger`, null, {
+    headers: authHeaders(token),
+  });
 }
 
 export function mlPredict(payload) {
-  return http.post(
-    `${ML_BASE_URL}/predict`,
-    JSON.stringify({ features: payload }),
-    { headers: defaultHeaders }
-  );
+  return http.post(`${ML_BASE_URL}/predict`, JSON.stringify({ features: payload }), {
+    headers: defaultHeaders,
+  });
 }
 
 export function mlWhatIf(payload, modifications) {
@@ -70,14 +61,8 @@ export function mlWhatIf(payload, modifications) {
   );
 }
 
-export function simpleCheck(res, label) {
-  check(res, {
-    [`${label} status is ok`]: (r) => r.status >= 200 && r.status < 500,
-  });
-}
-
 export function buildCheckInPayload(iteration = 0) {
-  const bump = iteration % 3;
+  const bump = iteration % 4;
   return {
     sleepHours: 6.5,
     sleepQuality: 3,
@@ -107,7 +92,7 @@ export function buildCheckInPayload(iteration = 0) {
     wfhEnvironmentQuality: 3,
     familyResponsibilityLoad: 2,
     salaryWorkloadSatisfaction: 3,
-    afterHoursMessaging: false,
+    afterHoursMessaging: bump % 2 === 0,
     meetingsCount: 4 + bump,
     urgentTasksCount: 2,
     sprintPressureRating: 3 + (bump % 2),
@@ -156,15 +141,15 @@ export function buildMlFeaturePayload(iteration = 0) {
     wfhEnvironmentQuality: 3,
     familyResponsibilityLoad: 2,
     salaryWorkloadSatisfaction: 3,
-    afterHoursMessaging: 0,
+    afterHoursMessaging: false,
     meetingsCount: 4,
     urgentTasksCount: 2,
     sprintPressureRating: 3,
     deadlineFrequency: 3,
-    isWeekendWork: 0,
+    isWeekendWork: false,
     bugFixingLoad: 3,
     contextSwitchingFrequency: 3,
-    isOnCallToday: 0,
+    isOnCallToday: false,
     workModeEncoded: 1,
     managerSupportLevel: 3,
     peerSupportLevel: 3,
