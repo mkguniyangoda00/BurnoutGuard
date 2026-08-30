@@ -13,24 +13,26 @@ test.describe('admin factor analysis', () => {
     const dimensionSelect = page.locator('select').nth(0);
     for (const label of ['Experience', 'Job Role', 'Work Mode']) {
       await dimensionSelect.selectOption({ label });
-      await expect(page.getByText(/demographic breakdown/i)).toBeVisible();
+      await expect(page.getByText(/loading demographic analysis/i)).toBeHidden({ timeout: 10000 });
       await expect(page.locator('table')).toBeVisible();
     }
     await dimensionSelect.selectOption({ label: 'Age Group' });
 
     await page.getByRole('button', { name: /factor explorer/i }).click();
-    const factorSelect = page.locator('select').nth(1);
-    for (const label of ['sleepHours', 'overtimeHours', 'stressLevel']) {
-      await factorSelect.selectOption({ label });
+    await expect(page.getByRole('heading', { name: /factor explorer/i })).toBeVisible();
+    const factorSelect = page.locator('select').last();
+    for (const value of ['sleepHours', 'overtimeHours', 'stressLevel']) {
+      await factorSelect.selectOption(value);
       await expect(page.getByText(/pearson correlation/i)).toBeVisible();
       await expect(page.locator('svg').first()).toBeVisible();
     }
 
     await page.getByRole('button', { name: /interaction analysis/i }).click();
+    await expect(page.getByRole('heading', { name: /interaction analysis/i })).toBeVisible();
     const selects = page.locator('select');
-    await selects.nth(1).selectOption({ label: 'sleepHours' });
-    await selects.nth(2).selectOption({ label: 'overtimeHours' });
-    await expect(page.getByText(/interaction analysis/i)).toBeVisible();
+    await selects.nth(0).selectOption('sleepHours');
+    await selects.nth(1).selectOption('overtimeHours');
+    await expect(page.getByRole('heading', { name: /interaction analysis/i })).toBeVisible();
     await expect(page.locator('text=insufficient data').first()).toBeVisible();
   });
 });

@@ -6,10 +6,10 @@ test.describe('hr analytics', () => {
     await loginAs(page, 'HRofficer');
 
     await page.goto('/hr/department-overview');
-    await expect(page.getByText(/burnout risk distribution by department/i)).toBeVisible();
-    await expect(page.getByText(/factor insights/i)).toBeVisible();
-    await expect(page.getByText(/job role/i)).toBeVisible();
-    await expect(page.getByText(/work mode/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /burnout risk distribution by department/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /factor insights/i })).toBeVisible();
+    await expect(page.getByText(/job role/i).first()).toBeVisible();
+    await expect(page.getByText(/work mode/i).first()).toBeVisible();
 
     await page.goto('/hr/trends');
     await expect(page.getByRole('button', { name: /risk trend/i })).toBeVisible();
