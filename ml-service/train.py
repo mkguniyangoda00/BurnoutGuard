@@ -13,11 +13,12 @@ from datetime import datetime, timezone
 import joblib
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import GridSearchCV
 from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, brier_score_loss, f1_score, log_loss, roc_auc_score
+from sklearn.metrics import accuracy_score, brier_score_loss, f1_score, log_loss, precision_recall_fscore_support, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import label_binarize
 from xgboost import XGBClassifier
@@ -48,11 +49,19 @@ def expected_calibration_error(y_true, y_prob, n_bins=10):
 def evaluate(model, X, y):
     y_pred = model.predict(X)
     y_proba = model.predict_proba(X)
+    precision, recall, f1, support = precision_recall_fscore_support(y, y_pred, labels=list(range(len(RISK_LEVELS))), zero_division=0)
     return {
         "accuracy": float(accuracy_score(y, y_pred)),
         "f1Score": float(f1_score(y, y_pred, average="weighted")),
         "macroAuc": float(roc_auc_score(y, y_proba, multi_class="ovr")),
         "logLoss": float(log_loss(y, y_proba)),
+        "precisionPerClass": [float(x) for x in precision],
+        "recallPerClass": [float(x) for x in recall],
+        "f1PerClass": [float(x) for x in f1],
+        "supportPerClass": [int(x) for x in support],
+        "macroPrecision": float(np.mean(precision)),
+        "macroRecall": float(np.mean(recall)),
+        "macroF1": float(np.mean(f1)),
     }
 
 
@@ -109,34 +118,48 @@ def apply_calibrators(model, calibrators, X):
 
 
 def fit_best_model(X_train, y_train, X_val, y_val):
+    # The class distributions in this feature set tend to respond well to
+    # linear decision boundaries, but we still tune the tree baselines with a
+    # standard grid search so they are compared fairly.
     candidates = {
-        "LogisticRegression": LogisticRegression(max_iter=2000, multi_class="auto"),
-        "RandomForest": RandomForestClassifier(n_estimators=250, random_state=42),
-        "XGBoost": XGBClassifier(
-            n_estimators=250,
-            max_depth=5,
-            learning_rate=0.08,
-            objective="multi:softprob",
-            num_class=len(RISK_LEVELS),
-            eval_metric="mlogloss",
-            random_state=42,
+        "LogisticRegression": (
+            LogisticRegression(max_iter=2000, multi_class="auto"),
+            {"C": [0.01, 0.1, 1.0, 10.0]},
         ),
-        "LightGBM": LGBMClassifier(
-            n_estimators=250,
-            max_depth=5,
-            learning_rate=0.08,
-            objective="multiclass",
-            num_class=len(RISK_LEVELS),
-            random_state=42,
-            verbose=-1,
+        "RandomForest": (
+            RandomForestClassifier(random_state=42),
+            {"n_estimators": [200, 400], "max_depth": [None, 8, 16], "min_samples_leaf": [1, 3, 5]},
+        ),
+        "XGBoost": (
+            XGBClassifier(
+                objective="multi:softprob",
+                num_class=len(RISK_LEVELS),
+                eval_metric="mlogloss",
+                random_state=42,
+                tree_method="hist",
+            ),
+            {"n_estimators": [200, 400], "max_depth": [3, 5, 7], "learning_rate": [0.03, 0.08, 0.15]},
+        ),
+        "LightGBM": (
+            LGBMClassifier(
+                objective="multiclass",
+                num_class=len(RISK_LEVELS),
+                random_state=42,
+                verbose=-1,
+            ),
+            {"n_estimators": [200, 400], "max_depth": [-1, 5, 8], "learning_rate": [0.03, 0.08, 0.15]},
         ),
     }
     results = {}
     trained = {}
-    for name, model in candidates.items():
-        print(f"Training {name}...")
-        model.fit(X_train, y_train)
+    for name, (model, param_grid) in candidates.items():
+        print(f"Training {name} with grid search...")
+        search = GridSearchCV(model, param_grid, scoring="f1_weighted", cv=3, n_jobs=-1)
+        search.fit(X_train, y_train)
+        model = search.best_estimator_
+        print(f"Best params for {name}: {search.best_params_}")
         results[name] = evaluate(model, X_val, y_val)
+        results[name]["bestParams"] = search.best_params_
         trained[name] = model
         print(results[name])
     best = max(results, key=lambda n: results[n]["f1Score"])
