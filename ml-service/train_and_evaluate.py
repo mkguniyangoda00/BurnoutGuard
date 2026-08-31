@@ -6,7 +6,8 @@ Run this end-to-end to:
   2. Evaluate it honestly on the public-corpus test set
   3. Build a composite exhaustion proxy label from your 314-person survey
   4. Map the survey's available columns onto the training feature schema
-  5. Evaluate the trained model on the real 314-person holdout
+  5. Evaluate the trained model on the real 314-person holdout as a
+     feasibility and rank-order validation study
 
 Inputs expected (place in the same folder, or edit the paths below):
   - dataset.csv          the 256,800-row harmonized training corpus (44 features + riskLevel)
@@ -23,7 +24,7 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_support, roc_auc_score
 
 DATASET_PATH = "dataset.csv"
 SURVEY_PATH = "Untitled_form.csv"
@@ -80,6 +81,10 @@ print("\n=== PUBLIC-CORPUS TEST SET (held out, never used for tuning) ===")
 print(f"Accuracy:      {accuracy_score(y_test, test_pred):.4f}")
 print(f"Weighted F1:   {f1_score(y_test, test_pred, average='weighted'):.4f}")
 print(f"Macro ROC-AUC: {roc_auc_score(y_test, test_proba, multi_class='ovr', average='macro'):.4f}")
+
+precision, recall, f1, support = precision_recall_fscore_support(y_test, test_pred, labels=[0, 1, 2, 3], zero_division=0)
+for idx, label in enumerate(["Low", "Moderate", "High", "Critical"]):
+    print(f"  {label}: precision={precision[idx]:.4f}, recall={recall[idx]:.4f}, f1={f1[idx]:.4f}, support={support[idx]}")
 
 # Save everything needed to evaluate on new data later.
 train_medians = pd.DataFrame(X_train, columns=feature_cols).median()
@@ -144,9 +149,12 @@ y_pred = best_model.predict(X_scaled)
 y_proba = best_model.predict_proba(X_scaled)
 y_true = survey["y_proxy"].values
 
-print(f"\n=== REAL SRI LANKAN HOLDOUT (N={len(survey)}) ===")
+print(f"\n=== REAL SRI LANKAN FEASIBILITY AND RANK-ORDER VALIDATION STUDY (N={len(survey)}) ===")
 print(f"Accuracy:      {accuracy_score(y_true, y_pred):.4f}")
 print(f"Weighted F1:   {f1_score(y_true, y_pred, average='weighted'):.4f}")
 print(f"Macro ROC-AUC: {roc_auc_score(y_true, y_proba, multi_class='ovr', average='macro'):.4f}")
+precision, recall, f1, support = precision_recall_fscore_support(y_true, y_pred, labels=[0, 1, 2, 3], zero_division=0)
+for idx, label in enumerate(["Low", "Moderate", "High", "Critical"]):
+    print(f"  {label}: precision={precision[idx]:.4f}, recall={recall[idx]:.4f}, f1={f1[idx]:.4f}, support={support[idx]}")
 print(f"\nNote: only {9} of {len(feature_cols)} features were directly observed in the survey;")
-print("the remainder used training-set medians, which compresses predictions toward the middle classes.")
+print("the remaining features were median-imputed from the training set for this feasibility analysis.")

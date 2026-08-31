@@ -10,11 +10,10 @@ with different feature sets, different target-variable scales, and
 different survey populations would introduce dataset shift and invalidate
 the resulting model. Instead, each dataset's semantically equivalent
 columns are individually rescaled into BurnoutGuard's target ranges, and
-combined only where genuinely comparable. Columns that don't exist in a
-given source dataset are left NaN here and are populated later using
-domain-informed synthetic generation (see generate_dataset.py), grounded
-on this file's harmonized_risk_norm and real base features rather than
-being fully synthetic.
+combined only where genuinely comparable. Columns that do not exist in a
+given source dataset are left NaN here for downstream inspection and are
+not filled using cross-dataset synthetic target generation for model
+training.
 
 Sources used (selected for genuine workplace/developer burnout relevance):
   1. mental_health_burnout_tech_2026.csv   (100,000 rows, global tech workers)
@@ -159,7 +158,9 @@ def main():
             print(f"⚠ Skipping {filename} — not found in {RAW_DIR}/")
             continue
         df = fn(path)
-        # Ensure every target column exists (NaN if this source didn't have it)
+    # Ensure every target column exists (NaN if this source didn't have it).
+    # Missingness is handled later within a single dataset, not by mixing
+    # in synthetic values from other datasets.
         for col in TARGET_COLUMNS:
             if col not in df.columns:
                 df[col] = np.nan
