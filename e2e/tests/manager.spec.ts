@@ -32,8 +32,8 @@ test.describe('manager analytics', () => {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     });
     await page.getByRole('button', { name: /simulate/i }).click();
-    await expect(page.getByText(/before/i)).toBeVisible();
-    await expect(page.getByText(/after/i)).toBeVisible();
+    await expect(page.getByText(/individual outcomes may vary/i)).toBeVisible();
+    await expect(page.getByText(/\bLow:\s*\d+/i).first()).toBeVisible();
     await expect(page.locator('svg').first()).toBeVisible();
   });
 });
