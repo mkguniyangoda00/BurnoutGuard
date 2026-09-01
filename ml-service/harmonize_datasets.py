@@ -15,6 +15,13 @@ given source dataset are left NaN here for downstream inspection and are
 not filled using cross-dataset synthetic target generation for model
 training.
 
+For the burnout target specifically, the original burnout score is
+min-max normalized within each source dataset to [0,1]. The resulting
+harmonized scores are then pooled across sources and can be converted
+later into global quartile-based risk categories. This should be described
+as a rank-based harmonized target, not as a clinically calibrated burnout
+probability.
+
 Sources used (selected for genuine workplace/developer burnout relevance):
   1. mental_health_burnout_tech_2026.csv   (100,000 rows, global tech workers)
   2. tech_mental_health_burnout.csv        (150,000 rows, global tech workers)
@@ -54,8 +61,11 @@ def clip(series, lo, hi):
 
 
 def minmax_norm(series):
-    """Min-max normalize a series to [0,1] WITHIN its own source dataset —
-    this is what makes different burnout-score scales comparable."""
+    """Min-max normalize a series to [0,1] WITHIN its own source dataset.
+
+    This preserves within-source rank information while making different
+    burnout-score scales comparable before pooled, global risk binning.
+    """
     lo, hi = series.min(), series.max()
     if hi == lo:
         return pd.Series(0.5, index=series.index)
