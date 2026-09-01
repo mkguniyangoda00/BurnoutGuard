@@ -1,0 +1,9 @@
+{
+  "totalRows": 256800,
+  "exactDuplicateRows": 0,
+  "uniquePredictorFingerprints": 256800,
+  "predictorFingerprintCollisionGroups": 0,
+  "crossSourceCollisionGroups": 0,
+  "automaticallyRemovedRows": 0,
+  "collisionGroups": []
+}

@@ -1,9 +1,11 @@
 """
 generate_dataset.py
 
-Builds dataset.csv from harmonized_base.csv with leakage-resistant labels.
-Labels are generated from observable feature patterns, not from any burnout
-score column or target-derived proxy.
+Builds dataset.csv from harmonized_base.csv.
+
+Preferred path:
+  - use harmonized_risk_norm directly as the supervised signal
+  - quantile-bin it into the four risk bands used by the app
 """
 
 import os
@@ -37,44 +39,24 @@ FEATURE_RANGES = {
     "taskComplexity": (1, 5), "interruptionsPerDay": (0, 20),
 }
 
-WEIGHTS = {
-    "sleepHours": -1.4, "sleepQuality": -1.0, "exerciseLevel": -0.5,
-    "screenTimeHours": 0.5, "workHours": 0.9, "workloadRating": 0.8,
-    "overtimeHours": 1.1, "breaksTaken": -0.4, "commuteMinutes": 0.3,
-    "stressLevel": 1.3, "moodScore": -1.0, "energyLevel": -0.5,
-    "workSatisfaction": -0.6, "caffeineIntake": 0.3, "mealQuality": -0.3,
-    "socialSupportLevel": -0.6, "anxietyLevel": 1.1, "emotionalFatigue": 1.2,
-    "motivationLevel": -0.5, "concentrationIssues": 0.4, "irritabilityLevel": 0.4,
-    "lonelinessLevel": 0.5, "selfEfficacy": -0.5, "copingAbility": -0.5,
-    "powerInternetDisruption": 0.4, "wfhEnvironmentQuality": -0.4,
-    "familyResponsibilityLoad": 0.3, "salaryWorkloadSatisfaction": -0.4,
-    "meetingsCount": 0.6, "urgentTasksCount": 0.7,
-    "sprintPressureRating": 0.9, "deadlineFrequency": 0.7,
-    "bugFixingLoad": 0.5, "contextSwitchingFrequency": 0.6,
-    "workModeEncoded": 0.2,
-    "managerSupportLevel": -0.7,
-    "peerSupportLevel": -0.5,
-    "autonomyLevel": -0.6,
-    "roleAmbiguity": 0.6,
-    "taskComplexity": 0.5,
-    "interruptionsPerDay": 0.6,
-}
-
-
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-
-def fill_synthetic_column(col, n, proxy):
+def fill_synthetic_column(col, n):
     lo, hi = FEATURE_RANGES[col]
-    weight = WEIGHTS.get(col, 0)
-    midpoint = (lo + hi) / 2
-    span = (hi - lo) / 2
-    direction = 1 if weight > 0 else -1
-    shift = direction * (proxy - 0.5) * span * 1.2
-    noise = np.random.normal(0, span * 0.25, n)
-    values = midpoint + shift + noise
-    return np.clip(values, lo, hi)
+    if float(lo).is_integer() and float(hi).is_integer():
+        return np.random.randint(int(lo), int(hi) + 1, size=n)
+    return np.random.uniform(lo, hi, size=n)
+
+
+def quantile_label(values):
+    series = pd.Series(values).astype(float)
+    if series.isnull().any():
+        raise ValueError("harmonized_risk_norm contains missing values after cleaning.")
+    try:
+        bins = pd.qcut(series, 4, labels=["Low", "Moderate", "High", "Critical"])
+        return bins.astype(str).tolist()
+    except ValueError:
+        ranked = series.rank(method="first")
+        bins = pd.qcut(ranked, 4, labels=["Low", "Moderate", "High", "Critical"])
+        return bins.astype(str).tolist()
 
 
 def main():
@@ -84,65 +66,52 @@ def main():
 
     df = pd.DataFrame(index=base.index)
 
-    observed_proxy = np.zeros(n)
-    for col, weight in WEIGHTS.items():
-        if col in base.columns:
-            series = pd.to_numeric(base[col], errors="coerce")
-            fallback = series.median() if series.notna().any() else 0
-            filled = series.fillna(fallback)
-            lo, hi = FEATURE_RANGES[col]
-            observed_proxy += weight * ((filled - lo) / (hi - lo))
-    observed_proxy = sigmoid(observed_proxy)
+    if "harmonized_risk_norm" not in base.columns:
+        raise ValueError(
+            "harmonized_base.csv is missing required column 'harmonized_risk_norm'. "
+            "Run ml-service/harmonize_datasets.py first."
+        )
+
+    label_source = pd.to_numeric(base["harmonized_risk_norm"], errors="coerce")
+    valid_mask = label_source.notna()
+    if not valid_mask.any():
+        raise ValueError(
+            "No valid harmonized_risk_norm values found in harmonized_base.csv. "
+            "Rows without a valid target cannot be used for supervised dataset generation."
+        )
+    if valid_mask.sum() != len(base):
+        dropped = len(base) - int(valid_mask.sum())
+        print(f"Dropping {dropped} rows with missing harmonized_risk_norm before label generation.")
+    base = base.loc[valid_mask].copy()
+    label_source = label_source.loc[valid_mask].reset_index(drop=True)
+    n = len(base)
+    df = pd.DataFrame(index=base.index)
 
     for col in FEATURE_RANGES:
         if col in base.columns and base[col].notna().any():
             real_values = base[col].to_numpy(dtype=np.float64, copy=True)
             missing_mask = np.isnan(real_values)
             if missing_mask.any():
-                synthetic_fill = fill_synthetic_column(col, n, observed_proxy)
+                synthetic_fill = fill_synthetic_column(col, n)
                 real_values[missing_mask] = synthetic_fill[missing_mask]
             df[col] = real_values
         else:
-            df[col] = fill_synthetic_column(col, n, observed_proxy)
+            df[col] = fill_synthetic_column(col, n)
 
     if "afterHoursMessaging" in base.columns and base["afterHoursMessaging"].notna().any():
         real_bool = base["afterHoursMessaging"].to_numpy(dtype=np.float64, copy=True)
         missing_mask = np.isnan(real_bool)
-        synthetic_bool = (np.random.rand(n) < (0.25 + 0.4 * observed_proxy)).astype(float)
+        synthetic_bool = (np.random.rand(n) < 0.35).astype(float)
         real_bool[missing_mask] = synthetic_bool[missing_mask]
         df["afterHoursMessaging"] = real_bool.astype(int)
     else:
-        df["afterHoursMessaging"] = (np.random.rand(n) < (0.25 + 0.4 * observed_proxy)).astype(int)
+        df["afterHoursMessaging"] = (np.random.rand(n) < 0.35).astype(int)
 
-    df["isWeekendWork"] = (np.random.rand(n) < (0.15 + 0.35 * observed_proxy)).astype(int)
-    df["isOnCallToday"] = (np.random.rand(n) < (0.10 + 0.30 * observed_proxy)).astype(int)
+    df["isWeekendWork"] = (np.random.rand(n) < 0.15).astype(int)
+    df["isOnCallToday"] = (np.random.rand(n) < 0.10).astype(int)
 
-    feature_score_raw = np.zeros(n)
-    for col, weight in WEIGHTS.items():
-        lo, hi = FEATURE_RANGES[col]
-        normalized = (df[col] - lo) / (hi - lo)
-        feature_score_raw += weight * normalized
-    feature_score_raw += 0.4 * df["afterHoursMessaging"]
-    feature_score_raw += 0.35 * df["isWeekendWork"]
-    feature_score_raw += 0.45 * df["isOnCallToday"]
-    feature_score_raw += 0.2 * (df["interruptionsPerDay"] / 20)
-
-    final_risk = sigmoid(feature_score_raw)
-    final_risk = 0.85 * final_risk + 0.15 * np.random.uniform(0, 1, n)
-    final_risk = np.clip(final_risk, 0, 1)
-
-    q1, q2, q3 = np.quantile(final_risk, [0.25, 0.5, 0.75])
-
-    def label(x):
-        if x < q1:
-            return "Low"
-        if x < q2:
-            return "Moderate"
-        if x < q3:
-            return "High"
-        return "Critical"
-
-    df["riskLevel"] = [label(x) for x in final_risk]
+    df["riskLevel"] = quantile_label(label_source.to_numpy(dtype=float, copy=False))
+    df["harmonized_risk_norm"] = label_source.to_numpy(dtype=float, copy=False)
     df["source_dataset"] = base.get("source_dataset", "harmonized_base")
 
     df.to_csv(OUTPUT_PATH, index=False)
