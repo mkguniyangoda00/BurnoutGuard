@@ -123,12 +123,12 @@ def fit_best_model(X_train, y_train, X_val, y_val):
     # standard grid search so they are compared fairly.
     candidates = {
         "LogisticRegression": (
-            LogisticRegression(max_iter=2000, multi_class="auto"),
+            LogisticRegression(max_iter=2000),
             {"C": [0.01, 0.1, 1.0, 10.0]},
         ),
         "RandomForest": (
             RandomForestClassifier(random_state=42),
-            {"n_estimators": [200, 400], "max_depth": [None, 8, 16], "min_samples_leaf": [1, 3, 5]},
+            {"n_estimators": [200], "max_depth": [None, 8], "min_samples_leaf": [1, 3]},
         ),
         "XGBoost": (
             XGBClassifier(
@@ -138,7 +138,7 @@ def fit_best_model(X_train, y_train, X_val, y_val):
                 random_state=42,
                 tree_method="hist",
             ),
-            {"n_estimators": [200, 400], "max_depth": [3, 5, 7], "learning_rate": [0.03, 0.08, 0.15]},
+            {"n_estimators": [200], "max_depth": [3, 5], "learning_rate": [0.08, 0.15]},
         ),
         "LightGBM": (
             LGBMClassifier(
@@ -147,14 +147,14 @@ def fit_best_model(X_train, y_train, X_val, y_val):
                 random_state=42,
                 verbose=-1,
             ),
-            {"n_estimators": [200, 400], "max_depth": [-1, 5, 8], "learning_rate": [0.03, 0.08, 0.15]},
+            {"n_estimators": [200], "max_depth": [-1, 5], "learning_rate": [0.08, 0.15]},
         ),
     }
     results = {}
     trained = {}
     for name, (model, param_grid) in candidates.items():
         print(f"Training {name} with grid search...")
-        search = GridSearchCV(model, param_grid, scoring="f1_weighted", cv=3, n_jobs=-1)
+        search = GridSearchCV(model, param_grid, scoring="f1_weighted", cv=2, n_jobs=-1)
         search.fit(X_train, y_train)
         model = search.best_estimator_
         print(f"Best params for {name}: {search.best_params_}")

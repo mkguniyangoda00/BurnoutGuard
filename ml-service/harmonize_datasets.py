@@ -165,7 +165,7 @@ def main():
             if col not in df.columns:
                 df[col] = np.nan
         frames.append(df)
-        print(f"✓ Harmonized {filename}: {len(df)} rows")
+        print(f"Harmonized {filename}: {len(df)} rows")
 
     if not frames:
         raise RuntimeError(f"No source files found in {RAW_DIR}/ — see script header for expected filenames.")
