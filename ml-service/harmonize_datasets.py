@@ -55,6 +55,17 @@ TARGET_COLUMNS = [
     "salaryWorkloadSatisfaction", "afterHoursMessaging", "workModeEncoded",
 ]
 
+SRI_LANKAN_SOURCE = "sri_lankan_developer_burnout"
+SRI_LANKAN_EXPECTED_ROWS = 314
+SRI_LANKAN_EXHAUSTION_ITEMS = [
+    "How often do you feel tired?",
+    "How often are you physically exhausted?",
+    "How often are you emotionally exhausted?",
+    'How often do you think "I can\'t take it anymore"?',
+    "How often do you feel worn out?",
+    "How often do you feel weak and susceptible to illness?",
+]
+
 
 def clip(series, lo, hi):
     return series.clip(lower=lo, upper=hi)
@@ -151,6 +162,69 @@ def harmonize_wfh_dataset(path):
     return out
 
 
+def harmonize_sri_lankan_survey(path):
+    """Map observed Sri Lankan survey fields without inventing unavailable data.
+
+    The survey has no single burnout_score field. Its six observed exhaustion
+    items are preserved in ``burnout_measurement`` and averaged into the
+    documented ``exhaustion_composite`` outcome. Missing canonical predictors
+    remain NaN for downstream, development-only imputation.
+    """
+    df = pd.read_csv(path)
+    df.columns = [str(column).strip() for column in df.columns]
+    if len(df) != SRI_LANKAN_EXPECTED_ROWS:
+        raise ValueError(
+            f"Expected {SRI_LANKAN_EXPECTED_ROWS} Sri Lankan survey rows, found {len(df)}"
+        )
+
+    required = [
+        "Average working hours per day",
+        "Average overtime hours per week",
+        "Average sleep hours per night",
+        "How often do you experience unstable power or internet during work hours?",
+        "Sprint/deadline pressure",
+        "Frequency of context switching between tasks",
+        "Number of urgent/unplanned tasks per week",
+        *SRI_LANKAN_EXHAUSTION_ITEMS,
+    ]
+    missing_required = [column for column in required if column not in df.columns]
+    if missing_required:
+        raise ValueError(f"Sri Lankan survey is missing required observed columns: {missing_required}")
+
+    out = pd.DataFrame(index=df.index)
+    out["workHours"] = pd.to_numeric(df["Average working hours per day"], errors="coerce").clip(0, 24)
+    out["overtimeHours"] = (pd.to_numeric(df["Average overtime hours per week"], errors="coerce") / 5).clip(0, 8)
+    out["sleepHours"] = pd.to_numeric(df["Average sleep hours per night"], errors="coerce").clip(0, 24)
+    out["powerInternetDisruption"] = pd.to_numeric(
+        df["How often do you experience unstable power or internet during work hours?"],
+        errors="coerce",
+    ).clip(1, 5)
+    out["sprintPressureRating"] = pd.to_numeric(df["Sprint/deadline pressure"], errors="coerce").clip(1, 5)
+    out["contextSwitchingFrequency"] = pd.to_numeric(
+        df["Frequency of context switching between tasks"], errors="coerce"
+    ).clip(1, 5)
+    out["urgentTasksCount"] = pd.to_numeric(
+        df["Number of urgent/unplanned tasks per week"], errors="coerce"
+    ).clip(0, 10)
+
+    exhaustion = df[SRI_LANKAN_EXHAUSTION_ITEMS].apply(pd.to_numeric, errors="coerce")
+    if exhaustion.isna().any().any():
+        raise ValueError("Sri Lankan exhaustion measurement contains missing or non-numeric responses")
+    out["burnout_measurement"] = exhaustion.mean(axis=1)
+    out["exhaustion_composite"] = out["burnout_measurement"]
+    out["harmonized_risk_norm"] = minmax_norm(out["burnout_measurement"])
+    out["target_measurement_source"] = "six-item observed exhaustion composite"
+    out["source_dataset"] = SRI_LANKAN_SOURCE
+
+    missingness = out.reindex(columns=TARGET_COLUMNS).isna().sum().sort_index()
+    print(f"Harmonized {SRI_LANKAN_SOURCE}: {len(out)} rows")
+    print("Sri Lankan canonical-feature missingness:")
+    print(missingness.to_string())
+    unavailable = sorted(set(TARGET_COLUMNS) - set(out.columns))
+    print(f"Sri Lankan unavailable canonical features (left NaN): {unavailable}")
+    return out
+
+
 def main():
     os.makedirs(RAW_DIR, exist_ok=True)
 
@@ -159,6 +233,7 @@ def main():
         ("tech_mental_health_burnout.csv", harmonize_tech_mental_health),
         ("indian_developer_burnout_2026.csv", harmonize_indian_developer),
         ("work_from_home_burnout_dataset.csv", harmonize_wfh_dataset),
+        ("sri_lankan_developer_burnout.csv", harmonize_sri_lankan_survey),
     ]
 
     frames = []
@@ -190,7 +265,16 @@ def main():
     print(f"\nDropped {before - len(combined)} rows missing core signal columns "
           f"({before} -> {len(combined)} rows)")
 
-    ordered_cols = TARGET_COLUMNS + ["harmonized_risk_norm", "source_dataset"]
+    for col in ["burnout_measurement", "exhaustion_composite", "target_measurement_source"]:
+        if col not in combined.columns:
+            combined[col] = np.nan
+    ordered_cols = TARGET_COLUMNS + [
+        "harmonized_risk_norm",
+        "burnout_measurement",
+        "exhaustion_composite",
+        "target_measurement_source",
+        "source_dataset",
+    ]
     combined = combined[ordered_cols]
 
     combined.to_csv(OUTPUT_PATH, index=False)

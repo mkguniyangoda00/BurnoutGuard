@@ -1,0 +1,1044 @@
+{
+  "featureNames": [
+    "sleepHours",
+    "sleepQuality",
+    "exerciseLevel",
+    "screenTimeHours",
+    "workHours",
+    "workloadRating",
+    "overtimeHours",
+    "breaksTaken",
+    "commuteMinutes",
+    "stressLevel",
+    "moodScore",
+    "energyLevel",
+    "workSatisfaction",
+    "caffeineIntake",
+    "mealQuality",
+    "socialSupportLevel",
+    "anxietyLevel",
+    "emotionalFatigue",
+    "motivationLevel",
+    "concentrationIssues",
+    "irritabilityLevel",
+    "lonelinessLevel",
+    "selfEfficacy",
+    "copingAbility",
+    "powerInternetDisruption",
+    "wfhEnvironmentQuality",
+    "familyResponsibilityLoad",
+    "salaryWorkloadSatisfaction",
+    "afterHoursMessaging",
+    "meetingsCount",
+    "urgentTasksCount",
+    "sprintPressureRating",
+    "deadlineFrequency",
+    "isWeekendWork",
+    "bugFixingLoad",
+    "contextSwitchingFrequency",
+    "isOnCallToday",
+    "workModeEncoded",
+    "managerSupportLevel",
+    "peerSupportLevel",
+    "autonomyLevel",
+    "roleAmbiguity",
+    "taskComplexity",
+    "interruptionsPerDay"
+  ],
+  "globalImportance": [
+    {
+      "featureName": "stressLevel",
+      "meanAbsShap": 0.984808
+    },
+    {
+      "featureName": "overtimeHours",
+      "meanAbsShap": 0.330166
+    },
+    {
+      "featureName": "workHours",
+      "meanAbsShap": 0.197965
+    },
+    {
+      "featureName": "anxietyLevel",
+      "meanAbsShap": 0.163308
+    },
+    {
+      "featureName": "screenTimeHours",
+      "meanAbsShap": 0.09828
+    },
+    {
+      "featureName": "caffeineIntake",
+      "meanAbsShap": 0.081662
+    },
+    {
+      "featureName": "sleepHours",
+      "meanAbsShap": 0.072143
+    },
+    {
+      "featureName": "wfhEnvironmentQuality",
+      "meanAbsShap": 0.043744
+    },
+    {
+      "featureName": "socialSupportLevel",
+      "meanAbsShap": 0.038191
+    },
+    {
+      "featureName": "workloadRating",
+      "meanAbsShap": 0.023576
+    },
+    {
+      "featureName": "selfEfficacy",
+      "meanAbsShap": 0.020249
+    },
+    {
+      "featureName": "exerciseLevel",
+      "meanAbsShap": 0.015747
+    },
+    {
+      "featureName": "workSatisfaction",
+      "meanAbsShap": 0.008348
+    },
+    {
+      "featureName": "commuteMinutes",
+      "meanAbsShap": 0.006234
+    },
+    {
+      "featureName": "interruptionsPerDay",
+      "meanAbsShap": 0.003878
+    },
+    {
+      "featureName": "workModeEncoded",
+      "meanAbsShap": 0.00268
+    },
+    {
+      "featureName": "breaksTaken",
+      "meanAbsShap": 0.001528
+    },
+    {
+      "featureName": "motivationLevel",
+      "meanAbsShap": 0.00152
+    },
+    {
+      "featureName": "urgentTasksCount",
+      "meanAbsShap": 0.00152
+    },
+    {
+      "featureName": "meetingsCount",
+      "meanAbsShap": 0.001431
+    },
+    {
+      "featureName": "emotionalFatigue",
+      "meanAbsShap": 0.001379
+    },
+    {
+      "featureName": "lonelinessLevel",
+      "meanAbsShap": 0.001265
+    },
+    {
+      "featureName": "salaryWorkloadSatisfaction",
+      "meanAbsShap": 0.001221
+    },
+    {
+      "featureName": "concentrationIssues",
+      "meanAbsShap": 0.001214
+    },
+    {
+      "featureName": "powerInternetDisruption",
+      "meanAbsShap": 0.00109
+    },
+    {
+      "featureName": "managerSupportLevel",
+      "meanAbsShap": 0.001084
+    },
+    {
+      "featureName": "sprintPressureRating",
+      "meanAbsShap": 0.001032
+    },
+    {
+      "featureName": "peerSupportLevel",
+      "meanAbsShap": 0.00082
+    },
+    {
+      "featureName": "copingAbility",
+      "meanAbsShap": 0.000802
+    },
+    {
+      "featureName": "moodScore",
+      "meanAbsShap": 0.00078
+    },
+    {
+      "featureName": "contextSwitchingFrequency",
+      "meanAbsShap": 0.000774
+    },
+    {
+      "featureName": "familyResponsibilityLoad",
+      "meanAbsShap": 0.00076
+    },
+    {
+      "featureName": "irritabilityLevel",
+      "meanAbsShap": 0.000715
+    },
+    {
+      "featureName": "sleepQuality",
+      "meanAbsShap": 0.000676
+    },
+    {
+      "featureName": "deadlineFrequency",
+      "meanAbsShap": 0.000672
+    },
+    {
+      "featureName": "autonomyLevel",
+      "meanAbsShap": 0.000643
+    },
+    {
+      "featureName": "bugFixingLoad",
+      "meanAbsShap": 0.000601
+    },
+    {
+      "featureName": "taskComplexity",
+      "meanAbsShap": 0.000601
+    },
+    {
+      "featureName": "roleAmbiguity",
+      "meanAbsShap": 0.000589
+    },
+    {
+      "featureName": "energyLevel",
+      "meanAbsShap": 0.000382
+    },
+    {
+      "featureName": "mealQuality",
+      "meanAbsShap": 0.000327
+    },
+    {
+      "featureName": "isWeekendWork",
+      "meanAbsShap": 0.000212
+    },
+    {
+      "featureName": "isOnCallToday",
+      "meanAbsShap": 0.000148
+    },
+    {
+      "featureName": "afterHoursMessaging",
+      "meanAbsShap": 0.000147
+    }
+  ],
+  "featureRanking": [
+    "stressLevel",
+    "overtimeHours",
+    "workHours",
+    "anxietyLevel",
+    "screenTimeHours",
+    "caffeineIntake",
+    "sleepHours",
+    "wfhEnvironmentQuality",
+    "socialSupportLevel",
+    "workloadRating",
+    "selfEfficacy",
+    "exerciseLevel",
+    "workSatisfaction",
+    "commuteMinutes",
+    "interruptionsPerDay",
+    "workModeEncoded",
+    "breaksTaken",
+    "motivationLevel",
+    "urgentTasksCount",
+    "meetingsCount",
+    "emotionalFatigue",
+    "lonelinessLevel",
+    "salaryWorkloadSatisfaction",
+    "concentrationIssues",
+    "powerInternetDisruption",
+    "managerSupportLevel",
+    "sprintPressureRating",
+    "peerSupportLevel",
+    "copingAbility",
+    "moodScore",
+    "contextSwitchingFrequency",
+    "familyResponsibilityLoad",
+    "irritabilityLevel",
+    "sleepQuality",
+    "deadlineFrequency",
+    "autonomyLevel",
+    "bugFixingLoad",
+    "taskComplexity",
+    "roleAmbiguity",
+    "energyLevel",
+    "mealQuality",
+    "isWeekendWork",
+    "isOnCallToday",
+    "afterHoursMessaging"
+  ],
+  "localExplanations": [
+    {
+      "rowIndex": 168495,
+      "predictedClass": 2,
+      "features": [
+        {
+          "featureName": "stressLevel",
+          "shapValue": 0.986043,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "anxietyLevel",
+          "shapValue": 0.279154,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workHours",
+          "shapValue": 0.25976,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "overtimeHours",
+          "shapValue": -0.054725,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "sleepHours",
+          "shapValue": 0.021617,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "wfhEnvironmentQuality",
+          "shapValue": 0.018723,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "caffeineIntake",
+          "shapValue": 0.010822,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workSatisfaction",
+          "shapValue": -0.006707,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "screenTimeHours",
+          "shapValue": -0.005875,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "selfEfficacy",
+          "shapValue": 0.00238,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "socialSupportLevel",
+          "shapValue": 0.001963,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workloadRating",
+          "shapValue": -0.001027,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "concentrationIssues",
+          "shapValue": -0.000959,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "exerciseLevel",
+          "shapValue": -0.000913,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "meetingsCount",
+          "shapValue": -0.000782,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "bugFixingLoad",
+          "shapValue": -0.000743,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "autonomyLevel",
+          "shapValue": 0.000676,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "salaryWorkloadSatisfaction",
+          "shapValue": 0.00056,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "urgentTasksCount",
+          "shapValue": -0.0005,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "workModeEncoded",
+          "shapValue": 0.000487,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sleepQuality",
+          "shapValue": -0.000475,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "irritabilityLevel",
+          "shapValue": 0.000436,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "commuteMinutes",
+          "shapValue": -0.000376,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "moodScore",
+          "shapValue": -0.000361,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "copingAbility",
+          "shapValue": -0.000305,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "interruptionsPerDay",
+          "shapValue": -0.000299,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "managerSupportLevel",
+          "shapValue": 0.000288,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "roleAmbiguity",
+          "shapValue": 0.000266,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "lonelinessLevel",
+          "shapValue": 0.000261,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "taskComplexity",
+          "shapValue": 0.000255,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "familyResponsibilityLoad",
+          "shapValue": 0.000254,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "motivationLevel",
+          "shapValue": 0.000219,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "emotionalFatigue",
+          "shapValue": -0.0002,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "energyLevel",
+          "shapValue": 0.000199,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "peerSupportLevel",
+          "shapValue": -0.000199,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "mealQuality",
+          "shapValue": 0.000137,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "isOnCallToday",
+          "shapValue": -0.000136,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "powerInternetDisruption",
+          "shapValue": 0.000134,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "contextSwitchingFrequency",
+          "shapValue": 0.000132,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "afterHoursMessaging",
+          "shapValue": 6.5e-05,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sprintPressureRating",
+          "shapValue": -5.2e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "breaksTaken",
+          "shapValue": -3e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "deadlineFrequency",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "isWeekendWork",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        }
+      ]
+    },
+    {
+      "rowIndex": 39107,
+      "predictedClass": 2,
+      "features": [
+        {
+          "featureName": "overtimeHours",
+          "shapValue": 0.58203,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "stressLevel",
+          "shapValue": 0.496153,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workHours",
+          "shapValue": -0.259556,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "anxietyLevel",
+          "shapValue": -0.137617,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "sleepHours",
+          "shapValue": 0.03336,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "interruptionsPerDay",
+          "shapValue": 0.025898,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workloadRating",
+          "shapValue": 0.019762,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "screenTimeHours",
+          "shapValue": -0.012002,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "wfhEnvironmentQuality",
+          "shapValue": 0.01065,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "breaksTaken",
+          "shapValue": -0.009782,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "urgentTasksCount",
+          "shapValue": -0.006058,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "commuteMinutes",
+          "shapValue": -0.004782,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "selfEfficacy",
+          "shapValue": 0.004565,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workSatisfaction",
+          "shapValue": 0.003138,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sleepQuality",
+          "shapValue": -0.002956,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "exerciseLevel",
+          "shapValue": -0.002939,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "socialSupportLevel",
+          "shapValue": -0.002566,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "managerSupportLevel",
+          "shapValue": 0.002551,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "motivationLevel",
+          "shapValue": -0.001849,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "caffeineIntake",
+          "shapValue": 0.001846,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workModeEncoded",
+          "shapValue": 0.001818,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "irritabilityLevel",
+          "shapValue": 0.001383,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "copingAbility",
+          "shapValue": 0.001227,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "mealQuality",
+          "shapValue": -0.000951,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "taskComplexity",
+          "shapValue": 0.000908,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "familyResponsibilityLoad",
+          "shapValue": 0.000855,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "autonomyLevel",
+          "shapValue": 0.000642,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "lonelinessLevel",
+          "shapValue": 0.000401,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "powerInternetDisruption",
+          "shapValue": 0.000364,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "isOnCallToday",
+          "shapValue": 0.000342,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "concentrationIssues",
+          "shapValue": 0.000341,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "salaryWorkloadSatisfaction",
+          "shapValue": 0.000289,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "bugFixingLoad",
+          "shapValue": 0.000223,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "moodScore",
+          "shapValue": 0.000139,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "peerSupportLevel",
+          "shapValue": -0.000128,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "emotionalFatigue",
+          "shapValue": 0.000117,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "roleAmbiguity",
+          "shapValue": 0.000105,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "contextSwitchingFrequency",
+          "shapValue": 9.6e-05,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sprintPressureRating",
+          "shapValue": -9.1e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "meetingsCount",
+          "shapValue": 8.6e-05,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "energyLevel",
+          "shapValue": -5.4e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "afterHoursMessaging",
+          "shapValue": -1.3e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "deadlineFrequency",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "isWeekendWork",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        }
+      ]
+    },
+    {
+      "rowIndex": 178508,
+      "predictedClass": 2,
+      "features": [
+        {
+          "featureName": "stressLevel",
+          "shapValue": 0.680512,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workHours",
+          "shapValue": 0.268985,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "anxietyLevel",
+          "shapValue": -0.07138,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "wfhEnvironmentQuality",
+          "shapValue": -0.041145,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "caffeineIntake",
+          "shapValue": 0.032012,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "overtimeHours",
+          "shapValue": -0.022586,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "sleepHours",
+          "shapValue": 0.022019,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "exerciseLevel",
+          "shapValue": -0.007001,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "socialSupportLevel",
+          "shapValue": -0.003304,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "workloadRating",
+          "shapValue": -0.002054,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "commuteMinutes",
+          "shapValue": 0.001794,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "workModeEncoded",
+          "shapValue": -0.001731,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "screenTimeHours",
+          "shapValue": -0.001277,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "selfEfficacy",
+          "shapValue": -0.001173,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "copingAbility",
+          "shapValue": -0.000945,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "salaryWorkloadSatisfaction",
+          "shapValue": -0.000832,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "interruptionsPerDay",
+          "shapValue": 0.000749,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "peerSupportLevel",
+          "shapValue": 0.000731,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "roleAmbiguity",
+          "shapValue": 0.000712,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sleepQuality",
+          "shapValue": -0.00068,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "urgentTasksCount",
+          "shapValue": 0.00066,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "meetingsCount",
+          "shapValue": -0.000635,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "concentrationIssues",
+          "shapValue": 0.000623,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "mealQuality",
+          "shapValue": -0.000595,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "moodScore",
+          "shapValue": -0.00051,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "breaksTaken",
+          "shapValue": 0.000445,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "bugFixingLoad",
+          "shapValue": 0.000443,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "powerInternetDisruption",
+          "shapValue": -0.000374,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "contextSwitchingFrequency",
+          "shapValue": 0.000363,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "familyResponsibilityLoad",
+          "shapValue": -0.000361,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "autonomyLevel",
+          "shapValue": -0.000351,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "emotionalFatigue",
+          "shapValue": 0.000316,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "taskComplexity",
+          "shapValue": -0.000287,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "lonelinessLevel",
+          "shapValue": 0.000226,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "irritabilityLevel",
+          "shapValue": 0.000191,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "managerSupportLevel",
+          "shapValue": 0.00016,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "motivationLevel",
+          "shapValue": 6.1e-05,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "energyLevel",
+          "shapValue": -5.7e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "afterHoursMessaging",
+          "shapValue": -4.2e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "isOnCallToday",
+          "shapValue": -3.7e-05,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "workSatisfaction",
+          "shapValue": 3.3e-05,
+          "association": "associated with a higher model prediction"
+        },
+        {
+          "featureName": "sprintPressureRating",
+          "shapValue": -4e-06,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "deadlineFrequency",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        },
+        {
+          "featureName": "isWeekendWork",
+          "shapValue": 0.0,
+          "association": "associated with a lower model prediction"
+        }
+      ]
+    }
+  ],
+  "interpretation": "SHAP values describe features associated with model predictions; they do not establish causation.",
+  "model": "LightGBM",
+  "data": "internal development validation subset",
+  "stability": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "topK": 10,
+    "rankings": [
+      [
+        "stressLevel",
+        "overtimeHours",
+        "workHours",
+        "anxietyLevel",
+        "screenTimeHours",
+        "caffeineIntake",
+        "sleepHours",
+        "wfhEnvironmentQuality",
+        "socialSupportLevel",
+        "workloadRating"
+      ],
+      [
+        "stressLevel",
+        "overtimeHours",
+        "workHours",
+        "anxietyLevel",
+        "screenTimeHours",
+        "caffeineIntake",
+        "sleepHours",
+        "wfhEnvironmentQuality",
+        "socialSupportLevel",
+        "workloadRating"
+      ],
+      [
+        "stressLevel",
+        "overtimeHours",
+        "workHours",
+        "anxietyLevel",
+        "screenTimeHours",
+        "caffeineIntake",
+        "sleepHours",
+        "wfhEnvironmentQuality",
+        "socialSupportLevel",
+        "workloadRating"
+      ]
+    ],
+    "appearanceRates": [
+      {
+        "featureName": "anxietyLevel",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "caffeineIntake",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "overtimeHours",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "screenTimeHours",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "sleepHours",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "socialSupportLevel",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "stressLevel",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "wfhEnvironmentQuality",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "workHours",
+        "appearanceRate": 1.0
+      },
+      {
+        "featureName": "workloadRating",
+        "appearanceRate": 1.0
+      }
+    ],
+    "interpretation": "Features with low appearance rates are unstable across development resamples and should not be presented as robust global findings."
+  }
+}
