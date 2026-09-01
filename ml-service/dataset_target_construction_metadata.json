@@ -1,0 +1,301 @@
+{
+  "dataset_path": "dataset.csv",
+  "n_rows": 257114,
+  "n_features": 44,
+  "target_column": "riskLevel",
+  "canonical_target": "harmonized_risk_norm",
+  "canonical_target_source": "burnout_score from each source dataset (min-max normalized within dataset)",
+  "target_classes": [
+    "Low",
+    "Moderate",
+    "High",
+    "Critical"
+  ],
+  "quantile_thresholds": {
+    "q0": 0.0,
+    "q25": 0.0704225352112676,
+    "q50": 0.2535211267605634,
+    "q75": 0.49,
+    "q100": 1.0
+  },
+  "target_construction_columns": [
+    "harmonized_risk_norm"
+  ],
+  "sources_with_burnout_measurement": [
+    "mental_health_burnout_tech_2026",
+    "tech_mental_health_burnout",
+    "indian_developer_burnout_2026",
+    "work_from_home_burnout_dataset"
+  ],
+  "sources_without_burnout_measurement": [
+    "sri_lankan_developer_burnout"
+  ],
+  "target_integrity_validation": {
+    "valid": true,
+    "n_samples": 257114,
+    "n_classes": 4,
+    "class_distribution": {
+      "Low": 67147,
+      "Moderate": 63649,
+      "Critical": 63544,
+      "High": 62774
+    },
+    "class_distribution_pct": {
+      "Low": 26.1,
+      "Moderate": 24.8,
+      "Critical": 24.7,
+      "High": 24.4
+    }
+  },
+  "predictor_feature_coverage": {
+    "sleepHours": {
+      "n_real": 257114,
+      "n_synthetic": 0,
+      "pct_real": 100.0
+    },
+    "sleepQuality": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "exerciseLevel": {
+      "n_real": 255314,
+      "n_synthetic": 1800,
+      "pct_real": 99.3
+    },
+    "screenTimeHours": {
+      "n_real": 152114,
+      "n_synthetic": 105000,
+      "pct_real": 59.2
+    },
+    "workHours": {
+      "n_real": 257114,
+      "n_synthetic": 0,
+      "pct_real": 100.0
+    },
+    "workloadRating": {
+      "n_real": 100314,
+      "n_synthetic": 156800,
+      "pct_real": 39.0
+    },
+    "overtimeHours": {
+      "n_real": 150314,
+      "n_synthetic": 106800,
+      "pct_real": 58.5
+    },
+    "breaksTaken": {
+      "n_real": 2114,
+      "n_synthetic": 255000,
+      "pct_real": 0.8
+    },
+    "commuteMinutes": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "stressLevel": {
+      "n_real": 255314,
+      "n_synthetic": 1800,
+      "pct_real": 99.3
+    },
+    "moodScore": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "energyLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "workSatisfaction": {
+      "n_real": 255314,
+      "n_synthetic": 1800,
+      "pct_real": 99.3
+    },
+    "caffeineIntake": {
+      "n_real": 155189,
+      "n_synthetic": 101925,
+      "pct_real": 60.4
+    },
+    "mealQuality": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "socialSupportLevel": {
+      "n_real": 250314,
+      "n_synthetic": 6800,
+      "pct_real": 97.4
+    },
+    "anxietyLevel": {
+      "n_real": 255314,
+      "n_synthetic": 1800,
+      "pct_real": 99.3
+    },
+    "emotionalFatigue": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "motivationLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "concentrationIssues": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "irritabilityLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "lonelinessLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "selfEfficacy": {
+      "n_real": 105314,
+      "n_synthetic": 151800,
+      "pct_real": 41.0
+    },
+    "copingAbility": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "powerInternetDisruption": {
+      "n_real": 314,
+      "n_synthetic": 256800,
+      "pct_real": 0.1
+    },
+    "wfhEnvironmentQuality": {
+      "n_real": 100314,
+      "n_synthetic": 156800,
+      "pct_real": 39.0
+    },
+    "familyResponsibilityLoad": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "salaryWorkloadSatisfaction": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "afterHoursMessaging": {
+      "n_real": 7114,
+      "n_synthetic": 250000,
+      "pct_real": 2.8
+    },
+    "meetingsCount": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "urgentTasksCount": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "sprintPressureRating": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "deadlineFrequency": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "isWeekendWork": {
+      "n_real": 0,
+      "n_synthetic": 257114,
+      "pct_real": 0.0,
+      "note": "100% synthetic"
+    },
+    "bugFixingLoad": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "contextSwitchingFrequency": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "isOnCallToday": {
+      "n_real": 0,
+      "n_synthetic": 257114,
+      "pct_real": 0.0,
+      "note": "100% synthetic"
+    },
+    "workModeEncoded": {
+      "n_real": 100314,
+      "n_synthetic": 156800,
+      "pct_real": 39.0
+    },
+    "managerSupportLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "peerSupportLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "autonomyLevel": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "roleAmbiguity": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "taskComplexity": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    },
+    "interruptionsPerDay": {
+      "n_real": 256800,
+      "n_synthetic": 256800,
+      "pct_real": 0.0,
+      "sri_lankan_unavailable": 314
+    }
+  },
+  "pct_synthetic_predictors": 81.0,
+  "critical_assumption": "harmonized_risk_norm is derived ONLY from each dataset's burnout_score field, NOT from predictor variables. This prevents target leakage."
+}

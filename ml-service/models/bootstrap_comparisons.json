@@ -1,0 +1,44 @@
+{
+  "LogisticRegression_vs_RandomForest": {
+    "macroF1": {
+      "observed_difference": -0.0369115990547898,
+      "ci_lower": -0.04671121491746848,
+      "ci_upper": -0.027224305948306386,
+      "confidence_level": 0.95
+    },
+    "rocAUC": {
+      "observed_difference": -0.027036238896365528,
+      "ci_lower": -0.030655246887198607,
+      "ci_upper": -0.02344924913263076,
+      "confidence_level": 0.95
+    }
+  },
+  "LogisticRegression_vs_XGBoost": {
+    "macroF1": {
+      "observed_difference": -0.04857018023478277,
+      "ci_lower": -0.05839092761227278,
+      "ci_upper": -0.038043152833888066,
+      "confidence_level": 0.95
+    },
+    "rocAUC": {
+      "observed_difference": -0.028862889020704663,
+      "ci_lower": -0.03255890830978427,
+      "ci_upper": -0.02492108551849586,
+      "confidence_level": 0.95
+    }
+  },
+  "LogisticRegression_vs_LightGBM": {
+    "macroF1": {
+      "observed_difference": -0.05632770300248546,
+      "ci_lower": -0.06489506025127297,
+      "ci_upper": -0.04673259985394528,
+      "confidence_level": 0.95
+    },
+    "rocAUC": {
+      "observed_difference": -0.033653273100976544,
+      "ci_lower": -0.03721121408470069,
+      "ci_upper": -0.02998528829759607,
+      "confidence_level": 0.95
+    }
+  }
+}

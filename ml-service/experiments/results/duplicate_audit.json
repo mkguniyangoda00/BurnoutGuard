@@ -1,9 +1,18 @@
 {
-  "totalRows": 256800,
+  "totalRows": 257114,
   "exactDuplicateRows": 0,
-  "uniquePredictorFingerprints": 256800,
-  "predictorFingerprintCollisionGroups": 0,
+  "uniquePredictorFingerprints": 257113,
+  "predictorFingerprintCollisionGroups": 1,
   "crossSourceCollisionGroups": 0,
   "automaticallyRemovedRows": 0,
-  "collisionGroups": []
+  "collisionGroups": [
+    {
+      "fingerprint": "570784b5e3bd3240d5340084ff9c2644",
+      "rowCount": 2,
+      "sourceDatasets": [
+        "sri_lankan_developer_burnout"
+      ],
+      "automaticallyRemoved": 0
+    }
+  ]
 }

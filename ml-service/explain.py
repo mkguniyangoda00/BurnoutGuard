@@ -10,6 +10,85 @@ import numpy as np
 
 from preprocess import FEATURE_COLUMNS, INT_TO_RISK
 
+
+def _shap_array(shap_values, predicted_class=None):
+    values = shap_values
+    if isinstance(values, list):
+        if predicted_class is None:
+            return np.stack([np.asarray(item) for item in values], axis=-1)
+        return np.asarray(values[predicted_class])
+    values = np.asarray(values)
+    if values.ndim == 3 and predicted_class is not None:
+        return values[:, :, predicted_class]
+    return values
+
+
+def _pipeline_feature_names(preprocessing):
+    names = preprocessing.get_feature_names_out()
+    return [name.split("__", 1)[-1] for name in names]
+
+
+def compute_pipeline_shap_results(pipeline, X, local_rows=3, background_rows=100):
+    """Compute leakage-safe SHAP results for a fitted final pipeline.
+
+    X must contain only legitimate predictor columns. The returned values are
+    associated with model predictions and are not causal effects.
+    """
+    if not set(X.columns).issubset(set(FEATURE_COLUMNS)):
+        raise ValueError("SHAP input contains non-predictor or target-derived columns")
+    preprocessing = pipeline.named_steps["preprocessing"]
+    estimator = pipeline.named_steps["model"]
+    transformed = preprocessing.transform(X[FEATURE_COLUMNS])
+    names = _pipeline_feature_names(preprocessing)
+    background = transformed[:background_rows]
+    if len(background) == 0:
+        raise ValueError("SHAP requires at least one background predictor row")
+
+    is_tree_model = hasattr(estimator, "get_booster") or hasattr(estimator, "estimators_") or hasattr(estimator, "booster_")
+    if is_tree_model:
+        explainer = shap.TreeExplainer(estimator)
+    else:
+        explainer = shap.Explainer(estimator, background)
+    shap_values = explainer.shap_values(transformed[:max(local_rows, 200)])
+    values = _shap_array(shap_values)
+    if values.ndim == 3:
+        global_scores = np.abs(values).mean(axis=(0, 2))
+    elif isinstance(shap_values, list):
+        global_scores = np.stack([np.abs(np.asarray(item)) for item in shap_values]).mean(axis=(0, 1))
+    else:
+        global_scores = np.abs(values).mean(axis=0)
+    ranking = [
+        {"featureName": name, "meanAbsShap": round(float(score), 6)}
+        for name, score in zip(names, global_scores)
+    ]
+    ranking.sort(key=lambda row: row["meanAbsShap"], reverse=True)
+
+    local_explanations = []
+    local_values = _shap_array(shap_values, predicted_class=None)
+    predictions = pipeline.predict(X.iloc[:local_rows][FEATURE_COLUMNS])
+    for row_index, prediction in enumerate(predictions):
+        row_values = local_values[row_index]
+        if row_values.ndim == 2:
+            row_values = row_values[:, int(prediction)]
+        entries = [
+            {
+                "featureName": name,
+                "shapValue": round(float(value), 6),
+                "association": "associated with a higher model prediction" if value > 0 else "associated with a lower model prediction",
+            }
+            for name, value in zip(names, row_values)
+        ]
+        entries.sort(key=lambda item: abs(item["shapValue"]), reverse=True)
+        local_explanations.append({"rowIndex": int(X.index[row_index]), "predictedClass": int(prediction), "features": entries})
+
+    return {
+        "featureNames": names,
+        "globalImportance": ranking,
+        "featureRanking": [row["featureName"] for row in ranking],
+        "localExplanations": local_explanations,
+        "interpretation": "SHAP values describe features associated with model predictions; they do not establish causation.",
+    }
+
 # Human-readable phrasing per feature, used to build plainLanguageText.
 FEATURE_LABELS = {
     "sleepHours": "your sleep duration",

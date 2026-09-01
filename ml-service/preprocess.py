@@ -8,6 +8,8 @@ list MUST stay in sync with backend/src/utils/FeatureAggregator.ts.
 
 import pandas as pd
 import numpy as np
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import joblib
 import os
@@ -43,14 +45,16 @@ def load_dataset(path: str = "dataset.csv") -> pd.DataFrame:
 
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:
+    """Validate schema without learning statistics from the complete frame.
+
+    Imputation belongs in the fitted training pipeline in train.py. Keeping
+    this helper non-learning prevents callers from accidentally calculating
+    medians using validation or external rows before a split.
+    """
     df = df.copy()
     for col in FEATURE_COLUMNS:
         if col not in df.columns:
             raise ValueError(f"Missing expected column: {col}")
-        if df[col].isnull().any():
-            df[col] = df[col].fillna(df[col].median())
-    if "afterHoursMessaging" in df.columns:
-        df["afterHoursMessaging"] = df["afterHoursMessaging"].astype(int)
     if "source_dataset" in df.columns:
         df["source_dataset"] = df["source_dataset"].fillna("unknown").astype(str)
     return df
@@ -77,13 +81,15 @@ def split_and_scale(df: pd.DataFrame):
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    print(df.columns[df.columns.duplicated()].tolist())
-    
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    transformer = Pipeline([
+        ("imputation", SimpleImputer(strategy="median")),
+        ("scaling", StandardScaler()),
+    ])
+    # Both learned steps are fitted on X_train only; X_test is transform-only.
+    X_train_scaled = transformer.fit_transform(X_train)
+    X_test_scaled = transformer.transform(X_test)
 
-    return X_train_scaled, X_test_scaled, y_train, y_test, scaler
+    return X_train_scaled, X_test_scaled, y_train, y_test, transformer
 
 
 def source_split(df: pd.DataFrame, holdout_source: str = "sri_lankan_developer_burnout") -> tuple[pd.DataFrame, pd.DataFrame]:

@@ -14,10 +14,13 @@ from itertools import combinations
 
 import numpy as np
 from scipy.stats import spearmanr
+from sklearn.base import clone
+from sklearn.pipeline import Pipeline
 
-from explain import compute_global_feature_importance
-from preprocess import FEATURE_COLUMNS, encode_labels, load_dataset, split_and_scale
-from train import fit_best_model, get_model_candidates
+from explain import compute_pipeline_shap_results
+from preprocess import FEATURE_COLUMNS, encode_labels
+from train import SOURCE_TARGET, build_preprocessing_pipeline
+import joblib
 
 N_RUNS = 20
 TOP_K = 10
@@ -26,32 +29,17 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 
-def build_fixed_model(name: str, params: dict):
-    candidates = get_model_candidates()
-    model = candidates[name][0]
-    model.set_params(**params)
-    return model
-
-
-def run_once(seed: int, df, model_name: str, model_params: dict):
-    df_encoded = encode_labels(df)
-    X_train, X_test, y_train, y_test, scaler = split_and_scale(df_encoded)
+def run_once(seed: int, X, y, pipeline):
 
     rng = np.random.RandomState(seed)
-    idx = rng.choice(len(X_train), size=len(X_train), replace=True)
-    X_boot = X_train[idx]
-    y_boot = y_train.iloc[idx] if hasattr(y_train, "iloc") else y_train[idx]
+    idx = rng.choice(len(X), size=len(X), replace=True)
+    X_boot = X.iloc[idx]
+    y_boot = y.iloc[idx]
 
-    model = build_fixed_model(model_name, model_params)
-    model.fit(X_boot, y_boot)
-
-    background = X_train[:100] if len(X_train) >= 100 else X_train
-    importance = compute_global_feature_importance(
-        model,
-        X_train[:200] if len(X_train) >= 200 else X_train,
-        background,
-    )
-    return [row["featureName"] for row in importance]
+    fitted = clone(pipeline)
+    fitted.fit(X_boot, y_boot)
+    importance = compute_pipeline_shap_results(fitted, X.iloc[:200], local_rows=1)
+    return importance["featureRanking"]
 
 
 def jaccard(a: list, b: list) -> float:
@@ -63,18 +51,22 @@ def jaccard(a: list, b: list) -> float:
 
 def main():
     print("Loading dataset...")
-    df = load_dataset("dataset.csv")
-
-    df_encoded = encode_labels(df)
-    X_train, X_test, y_train, y_test, _ = split_and_scale(df_encoded)
-    _, _, selected_results = fit_best_model(X_train, y_train)
-    best_name = max(selected_results, key=lambda n: selected_results[n]["cvBestScore"])
-    best_params = selected_results[best_name]["bestParams"]
+    df = encode_labels(pd.read_csv("dataset.csv", low_memory=False))
+    df = df[df["source_dataset"].astype(str).str.lower() != SOURCE_TARGET.lower()].copy()
+    X_train = df[FEATURE_COLUMNS]
+    y_train = df["riskLabel"]
+    models_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "models"))
+    with open(os.path.join(models_dir, "metadata.json"), encoding="utf-8") as metadata_file:
+        metadata = json.load(metadata_file)
+    pipeline = Pipeline([
+        ("preprocessing", joblib.load(os.path.join(models_dir, metadata["scalerFile"]))),
+        ("model", joblib.load(os.path.join(models_dir, metadata["modelFile"]))),
+    ])
 
     all_rankings = []
     for i in range(N_RUNS):
         print(f"Run {i + 1}/{N_RUNS}...")
-        ranking = run_once(seed=i, df=df, model_name=best_name, model_params=best_params)
+        ranking = run_once(seed=i, X=X_train, y=y_train, pipeline=pipeline)
         all_rankings.append(ranking)
 
     with open(os.path.join(RESULTS_DIR, "shap_stability.json"), "w", encoding="utf-8") as f:
