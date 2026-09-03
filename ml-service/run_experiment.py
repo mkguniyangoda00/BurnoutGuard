@@ -207,6 +207,7 @@ def main():
             "sriLankanDevelopment": int((source_train["source_dataset"] == SOURCE_TARGET).sum()),
             "sriLankanHoldout": len(sl_holdout),
         },
+        "globalFeatureImportance": shap_results["globalImportance"],
         "status": "Active",
     }
     with open(os.path.join(MODELS_DIR, "metadata.json"), "w", encoding="utf-8") as output:

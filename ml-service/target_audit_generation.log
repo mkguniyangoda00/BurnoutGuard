@@ -1,0 +1,99 @@
+﻿
+================================================================================
+BURNOUTGUARD DATASET GENERATION - TARGET CONSTRUCTION AUDIT
+================================================================================
+
+[1/6] Loading harmonized base...
+      Loaded 257114 rows from harmonized_base.csv
+
+[2/6] Validating canonical target column...
+      Γ£ô 'harmonized_risk_norm' column present
+
+[3/6] Extracting canonical burnout target...
+      Γ£ô Using 257114 rows with valid burnout target
+      Target range: [0.0000, 1.0000]
+      Target mean: 0.3118, std: 0.2785
+
+[4/6] Creating categorical risk labels...
+      Quantile thresholds:
+        q0: 0.0000
+        q25: 0.0704
+        q50: 0.2535
+        q75: 0.4900
+        q100: 1.0000
+
+[5/6] Preparing predictor features...
+      Total predictor features: 44
+
+      ΓÜá WARNING: 100% synthetically generated features:
+        - isWeekendWork (15% base probability)
+        - isOnCallToday (10% base probability)
+      These features have NO real ground truth and should be used cautiously in interpretation.
+
+      Predictor feature coverage:
+        Total values: 11,313,016
+        Real values: 2,659,213 (23.5%)
+        Synthetic values: 9,159,553 (81.0%)
+      ΓåÆ Model trained on 81.0% synthetic predictor data
+
+[6/6] Adding target labels and finalizing dataset...
+
+[VALIDATION] Checking for target leakage...
+      Γ£ô No target-construction columns found in feature matrix
+      Γ£ô Target validation passed:
+        Samples: 257114
+        Classes: 4
+        - Low: 67,147 (26.1%)
+        - Moderate: 63,649 (24.8%)
+        - Critical: 63,544 (24.7%)
+        - High: 62,774 (24.4%)
+
+Saving 257114 rows to dataset.csv...
+Γ£ô Saved 257114 rows to dataset.csv
+
+Saving target construction metadata...
+Γ£ô Saved metadata to dataset_target_construction_metadata.json
+
+================================================================================
+HANDLING SRI LANKAN DATA
+================================================================================
+
+Sri Lankan survey responses: 314 rows, 18 columns
+NOTE: Sri Lankan data has no single burnout_score column.
+      Its six observed exhaustion items were preserved as the burnout measurement.
+      It is included as a source-tagged development/holdout population.
+
+Recommended approaches:
+  1. Create a proxy target from exhaustion_composite items (train_and_evaluate.py)
+  2. Use survey items directly to create harmonized features
+  3. Perform held-out validation using only directly-observed features
+
+Actionable: See train_and_evaluate.py for Sri Lankan evaluation pipeline.
+
+Γ£ô Prepared Sri Lankan holdout at sri_lankan_developer_holdout.csv
+
+================================================================================
+TARGET CONSTRUCTION SUMMARY
+================================================================================
+
+Γ£ô CANONICAL TARGET: harmonized_risk_norm
+  - Source: burnout_score from source datasets
+  - Normalization: Min-max within each dataset
+  - Continuous scale: [0, 1]
+
+Γ£ô SUPERVISED TARGET: riskLevel
+  - Derivation: 4-class quantile binning of harmonized_risk_norm
+  - Classes: Low (0-25%), Moderate (25-50%), High (50-75%), Critical (75-100%)
+
+Γ£ô TARGET LEAKAGE: NONE DETECTED
+  - No predictor variables used in target construction
+  - harmonized_risk_norm removed from feature matrix X
+  - Validated with get_target_leakage_columns() and validate_target_leakage()
+
+Γ£ô PREDICTOR DATA QUALITY:
+  - 81.0% synthetic values in predictors
+  - Synthetic filling: independent of target
+  - 100% synthetic features: isWeekendWork, isOnCallToday (flagged)
+
+================================================================================
+

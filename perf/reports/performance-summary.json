@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-09-02T16:15:00+05:30",
+  "runner": "k6-lite smoke harness",
+  "note": "A real k6 binary was not available in this environment, so the existing local runner executed the repository's performance scenarios for 10 seconds at 1 VU each.",
+  "scenarios": [
+    {
+      "name": "load-test",
+      "source": "perf/reports/load-test.json",
+      "vus": 1,
+      "durationSeconds": 10,
+      "iterations": 264,
+      "failures": 0
+    },
+    {
+      "name": "stress-test",
+      "source": "perf/reports/stress-test.json",
+      "vus": 1,
+      "durationSeconds": 10,
+      "iterations": 279,
+      "failures": 0
+    },
+    {
+      "name": "spike-test",
+      "source": "perf/reports/spike-test.json",
+      "vus": 1,
+      "durationSeconds": 10,
+      "iterations": 16,
+      "failures": 0
+    },
+    {
+      "name": "soak-test",
+      "source": "perf/reports/soak-test.json",
+      "vus": 1,
+      "durationSeconds": 10,
+      "iterations": 275,
+      "failures": 0
+    },
+    {
+      "name": "ml-service-isolated",
+      "source": "perf/reports/ml-service-isolated.json",
+      "vus": 1,
+      "durationSeconds": 10,
+      "iterations": 920,
+      "failures": 0
+    }
+  ],
+  "totals": {
+    "scenarios": 5,
+    "iterations": 1754,
+    "failures": 0
+  },
+  "artifactPaths": [
+    "perf/reports/load-test.json",
+    "perf/reports/stress-test.json",
+    "perf/reports/spike-test.json",
+    "perf/reports/soak-test.json",
+    "perf/reports/ml-service-isolated.json"
+  ]
+}

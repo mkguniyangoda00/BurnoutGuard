@@ -18,7 +18,7 @@ test.describe.serial('developer check-in flow', () => {
     await expect(page.getByText(/risk level/i).first()).toBeVisible();
 
     await page.goto('/developer/explanation');
-    await expect(page.getByText(/risk area/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /risk areas/i })).toBeVisible();
     await expect(page.getByText(/protective/i)).toBeVisible();
   }, 90_000);
 });

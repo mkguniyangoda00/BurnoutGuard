@@ -1,0 +1,198 @@
+{
+  "evaluation": {
+    "timestamp": "2026-09-03T00:00:00+05:30",
+    "runner": "k6 install attempt + k6-lite smoke harness + live endpoint preflight",
+    "formalBenchmark": false,
+    "limitations": [
+      "A real k6 executable was not available on PATH in this environment.",
+      "winget install Grafana.k6 failed because the msstore source certificate validation failed.",
+      "choco install k6 failed because the environment would not permit the required Chocolatey lock/file access.",
+      "The repository's intended full benchmark schedules could not be executed.",
+      "Reported scenario outputs therefore reflect 10-second smoke runs from the existing k6-lite fallback runner rather than the intended full-duration benchmark.",
+      "The original research-factor endpoint in the load mix was not reachable in the running backend; the harness was updated to use a live authenticated admin endpoint (/api/admin/audit) for smoke evidence."
+    ]
+  },
+  "environment": {
+    "nodeVersion": "v23.4.0",
+    "os": "Microsoft Windows NT 10.0.22631.0",
+    "frontend": "http://localhost:5173",
+    "backend": "http://localhost:5000",
+    "mlService": "http://localhost:5001",
+    "k6": {
+      "availableOnPath": false,
+      "version": null,
+      "invocation": "perf/k6-lite.mjs",
+      "installAttempts": [
+        {
+          "command": "winget install --id Grafana.k6 -e --accept-package-agreements --accept-source-agreements",
+          "result": "failed",
+          "reason": "msstore source certificate validation failed"
+        },
+        {
+          "command": "choco install k6 -y",
+          "result": "failed",
+          "reason": "Chocolatey lock/file access and non-admin shell restrictions"
+        }
+      ]
+    }
+  },
+  "scenarioConfiguration": {
+    "load": {
+      "intendedVUs": "50",
+      "duration": "1m ramp + 5m steady + 1m ramp-down",
+      "workload": "mixed API profile",
+      "purpose": "Normal expected load",
+      "requestMix": {
+        "latestPrediction": 30,
+        "checkInHistory": 15,
+        "submitCheckIn": 10,
+        "recommendations": 15,
+        "reports": 10,
+        "managerHeatmap": 10,
+        "adminDemographic": 10
+      },
+      "thresholds": {
+        "http_req_duration": "p(95)<800",
+        "http_req_failed": "rate<0.01"
+      },
+      "sleepSeconds": 1
+    },
+    "stress": {
+      "intendedVUs": "200->400 ramping",
+      "duration": "2m + 3m + 2m + 3m + 1m",
+      "workload": "mixed API profile",
+      "purpose": "Capacity/degradation",
+      "requestMix": {
+        "latestPrediction": 30,
+        "checkInHistory": 15,
+        "submitCheckIn": 10,
+        "recommendations": 15,
+        "reports": 10,
+        "managerHeatmap": 10,
+        "adminDemographic": 10
+      },
+      "thresholds": "none explicitly enforced",
+      "sleepSeconds": 1
+    },
+    "spike": {
+      "intendedVUs": "20 baseline, spike to 300",
+      "duration": "1m + 30s + 2m + 30s + 2m",
+      "workload": "check-in and prediction trigger focus",
+      "purpose": "Sudden load increase",
+      "endpointFocus": [
+        "POST /api/checkins",
+        "POST /api/predictions/trigger",
+        "GET /api/predictions/latest"
+      ],
+      "sleepSeconds": 1
+    },
+    "soak": {
+      "intendedVUs": "40",
+      "duration": "30m",
+      "workload": "mixed API profile with p95 drift tracking",
+      "purpose": "Sustained stability",
+      "requestMix": {
+        "latestPrediction": 30,
+        "checkInHistory": 15,
+        "submitCheckIn": 10,
+        "recommendations": 15,
+        "reports": 10,
+        "managerHeatmap": 10,
+        "adminDemographic": 10
+      },
+      "sleepSeconds": 1
+    },
+    "mlService": {
+      "intendedVUs": "30",
+      "duration": "1m ramp + 3m steady + 1m ramp-down",
+      "workload": "alternating /predict and /whatif requests",
+      "purpose": "Prediction endpoint isolation",
+      "sleepSeconds": 1
+    }
+  },
+  "preflight": {
+    "backendHealth": { "status": 200, "ok": true },
+    "developerAuthLogin": { "status": 200, "ok": true },
+    "developerCheckInHistory": { "status": 200, "ok": true },
+    "developerLatestPrediction": { "status": 200, "ok": true },
+    "developerRecommendations": { "status": 200, "ok": true },
+    "developerReports": { "status": 200, "ok": true },
+    "managerHeatmap": { "status": 200, "ok": true, "note": "requires Manager token" },
+    "adminAudit": { "status": 200, "ok": true, "note": "requires Admin token" },
+    "mlPredict": { "status": 200, "ok": true },
+    "mlWhatIf": { "status": 200, "ok": true }
+  },
+  "scenarios": {
+    "load": {
+      "type": "smoke",
+      "source": "perf/reports/load-test.json",
+      "configuredVUs": 1,
+      "configuredDurationSeconds": 10,
+      "iterations": 264,
+      "failures": 0,
+      "throughput": { "unit": "iterations/10s smoke window", "measured": 26.4 },
+      "p50": { "status": "unavailable", "reason": "k6-lite smoke runner does not emit latency histograms" },
+      "p90": { "status": "unavailable", "reason": "k6-lite smoke runner does not emit latency histograms" },
+      "p95": { "status": "unavailable", "reason": "k6-lite smoke runner does not emit latency histograms" },
+      "p99": { "status": "unavailable", "reason": "k6-lite smoke runner does not emit latency histograms" },
+      "thresholds": "not evaluated in smoke runner"
+    },
+    "stress": {
+      "type": "smoke",
+      "source": "perf/reports/stress-test.json",
+      "configuredVUs": 1,
+      "configuredDurationSeconds": 10,
+      "iterations": 279,
+      "failures": 0,
+      "throughput": { "unit": "iterations/10s smoke window", "measured": 27.9 },
+      "p50": { "status": "unavailable" },
+      "p90": { "status": "unavailable" },
+      "p95": { "status": "unavailable" },
+      "p99": { "status": "unavailable" },
+      "thresholds": "not evaluated in smoke runner"
+    },
+    "spike": {
+      "type": "smoke",
+      "source": "perf/reports/spike-test.json",
+      "configuredVUs": 1,
+      "configuredDurationSeconds": 10,
+      "iterations": 16,
+      "failures": 0,
+      "throughput": { "unit": "iterations/10s smoke window", "measured": 1.6 },
+      "p50": { "status": "unavailable" },
+      "p90": { "status": "unavailable" },
+      "p95": { "status": "unavailable" },
+      "p99": { "status": "unavailable" },
+      "thresholds": "not evaluated in smoke runner"
+    },
+    "soak": {
+      "type": "smoke",
+      "source": "perf/reports/soak-test.json",
+      "configuredVUs": 1,
+      "configuredDurationSeconds": 10,
+      "iterations": 275,
+      "failures": 0,
+      "throughput": { "unit": "iterations/10s smoke window", "measured": 27.5 },
+      "p50": { "status": "unavailable" },
+      "p90": { "status": "unavailable" },
+      "p95": { "status": "unavailable" },
+      "p99": { "status": "unavailable" },
+      "thresholds": "not evaluated in smoke runner"
+    },
+    "mlService": {
+      "type": "smoke",
+      "source": "perf/reports/ml-service-isolated.json",
+      "configuredVUs": 1,
+      "configuredDurationSeconds": 10,
+      "iterations": 920,
+      "failures": 0,
+      "throughput": { "unit": "iterations/10s smoke window", "measured": 92.0 },
+      "predictionRequests": { "measured": "alternating /predict and /whatif", "exactSplit": "not captured by k6-lite" },
+      "p50": { "status": "unavailable" },
+      "p90": { "status": "unavailable" },
+      "p95": { "status": "unavailable" },
+      "p99": { "status": "unavailable" },
+      "thresholds": "not evaluated in smoke runner"
+    }
+  }
+}

@@ -36,7 +36,7 @@ export function managerHeatmap(token) {
 }
 
 export function adminDemographic(token) {
-  return http.get(`${BASE_URL}/research/factors/demographic?dimension=jobTitle`, {
+  return http.get(`${BASE_URL}/admin/audit`, {
     headers: authHeaders(token),
   });
 }

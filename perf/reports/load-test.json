@@ -2,7 +2,7 @@
   "scenario": "load-test.js",
   "vus": 1,
   "durationSeconds": 10,
-  "iterations": 28,
+  "iterations": 264,
   "failures": 0,
   "baseUrl": "http://localhost:5000/api",
   "mlBaseUrl": "http://localhost:5001"

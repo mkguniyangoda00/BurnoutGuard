@@ -61,7 +61,7 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-09-01T18:11:07.226384+00:00",
+  "trainedAt": "2026-09-02T07:27:23.593597+00:00",
   "validation": {
     "internalEvaluation": {
       "accuracy": 0.6795043862208476,
