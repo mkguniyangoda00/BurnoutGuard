@@ -168,7 +168,7 @@ async function runRequest(token, request, iteration) {
   if (request === 'recommendations') return httpJson(`${config.BASE_URL}/recommendations`, { token });
   if (request === 'reports') return httpJson(`${config.BASE_URL}/reports`, { token });
   if (request === 'managerHeatmap') return httpJson(`${config.BASE_URL}/analytics/heatmap`, { token });
-  return httpJson(`${config.BASE_URL}/research/factors/demographic?dimension=jobTitle`, { token });
+  return httpJson(`${config.BASE_URL}/admin/audit`, { token });
 }
 
 async function smokeRun() {

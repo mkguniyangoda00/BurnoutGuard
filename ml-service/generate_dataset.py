@@ -119,12 +119,14 @@ def get_predictor_features():
     ]
 
 
-def create_risk_labels(df):
+def create_risk_labels(df, reference_df=None):
     """
     Generates the final categorical burnout-risk target from the canonical continuous target.
     
     Args:
-        df (pd.DataFrame): Must contain 'harmonized_risk_norm' column with valid floats
+        df (pd.DataFrame): Rows to label; must contain 'harmonized_risk_norm'
+        reference_df (pd.DataFrame, optional): Rows used to fit quantile
+            thresholds. If omitted, ``df`` is used.
         
     Returns:
         tuple: (risk_labels_list, quantile_thresholds_dict)
@@ -150,9 +152,13 @@ def create_risk_labels(df):
         )
     
     series = pd.Series(df["harmonized_risk_norm"], copy=True).astype(float)
+    reference = pd.Series(
+        (reference_df if reference_df is not None else df)["harmonized_risk_norm"],
+        copy=True,
+    ).astype(float)
     
-    if series.isnull().any():
-        n_missing = series.isnull().sum()
+    if series.isnull().any() or reference.isnull().any():
+        n_missing = int(series.isnull().sum() + reference.isnull().sum())
         raise ValueError(
             f"harmonized_risk_norm has {n_missing} missing values. "
             "Target cannot have NaN; check harmonize_datasets.py."
@@ -160,11 +166,13 @@ def create_risk_labels(df):
     
     # Quantile binning for equiprobable classes
     try:
-        bins = pd.qcut(series, q=4, labels=["Low", "Moderate", "High", "Critical"], duplicates="drop")
-        labels = bins.astype(str).tolist()
-        
-        # Capture exact threshold values for reproducibility
-        quantile_edges = pd.qcut(series, q=4, retbins=True, duplicates="drop")[1]
+        quantile_edges = pd.qcut(reference, q=4, retbins=True, duplicates="drop")[1]
+        labels = pd.cut(
+            series,
+            bins=quantile_edges,
+            labels=["Low", "Moderate", "High", "Critical"],
+            include_lowest=True,
+        ).astype(str).tolist()
         thresholds = {
             "q0": float(quantile_edges[0]),
             "q25": float(quantile_edges[1]) if len(quantile_edges) > 1 else None,
@@ -175,10 +183,17 @@ def create_risk_labels(df):
         
     except ValueError as e:
         # If standard quantile fails, use rank-based binning (handles ties)
-        ranked = series.rank(method="first")
-        bins = pd.qcut(ranked, q=4, labels=["Low", "Moderate", "High", "Critical"], duplicates="drop")
-        labels = bins.astype(str).tolist()
-        quantile_edges = pd.qcut(ranked, q=4, retbins=True, duplicates="drop")[1]
+        ranked_reference = reference.rank(method="first")
+        quantile_edges = pd.qcut(ranked_reference, q=4, retbins=True, duplicates="drop")[1]
+        # Rank-based fallback is only needed for tied reference values. Use
+        # deterministic ranks for the complete label set in that case.
+        ranked_series = series.rank(method="first")
+        labels = pd.cut(
+            ranked_series,
+            bins=quantile_edges,
+            labels=["Low", "Moderate", "High", "Critical"],
+            include_lowest=True,
+        ).astype(str).tolist()
         thresholds = {
             "q0": float(quantile_edges[0]),
             "q25": float(quantile_edges[1]) if len(quantile_edges) > 1 else None,
@@ -359,8 +374,16 @@ def main():
     print("\n[4/6] Creating categorical risk labels...")
     df = pd.DataFrame(index=base.index)
     
-    # Use new create_risk_labels function
-    risk_labels, quantile_thresholds = create_risk_labels(pd.DataFrame({"harmonized_risk_norm": label_source}))
+    # Fit thresholds on non-Sri Lankan sources only. This prevents the later
+    # Sri Lankan external holdout from influencing target-label construction.
+    source_values = base.get("source_dataset", "").astype(str)
+    threshold_reference = pd.DataFrame({
+        "harmonized_risk_norm": label_source[source_values != "sri_lankan_developer_burnout"]
+    })
+    risk_labels, quantile_thresholds = create_risk_labels(
+        pd.DataFrame({"harmonized_risk_norm": label_source}),
+        reference_df=threshold_reference,
+    )
     
     print(f"      Quantile thresholds:")
     for q_name, q_val in quantile_thresholds.items():
@@ -494,6 +517,7 @@ def main():
         "canonical_target_source": "burnout_score from each source dataset (min-max normalized within dataset)",
         "target_classes": ["Low", "Moderate", "High", "Critical"],
         "quantile_thresholds": quantile_thresholds,
+        "quantile_threshold_fit_source": "non-Sri Lankan development sources only",
         "target_construction_columns": leakage_meta["target_construction_columns"],
         "sources_with_burnout_measurement": leakage_meta["sources_with_actual_burnout_measurement"],
         "sources_without_burnout_measurement": leakage_meta["sources_without_direct_burnout_measurement"],
