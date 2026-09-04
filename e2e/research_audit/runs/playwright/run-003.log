@@ -1,0 +1,24 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260903152957
+Username: PRIMASL\mguniyangoda
+RunAs User: PRIMASL\mguniyangoda
+Configuration Name: 
+Machine: 24-PMS-NB-011 (Microsoft Windows NT 10.0.22631.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$log='research_audit\runs\playwright\run-003.log'; $json='research_audit\runs\playwright\run-003.json'; Start-Transcript -Path $log -Force | Out-Null; & 'C:\Program Files\nodejs\node.exe' .\node_modules\playwright\cli.js test; Stop-Transcript | Out-Null; Copy-Item -Force .\reports\results.json $json
+Process ID: 76048
+PSVersion: 5.1.22621.2506
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.2506
+BuildVersion: 10.0.22621.2506
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+**********************
+Windows PowerShell transcript end
+End time: 20260903153041
+**********************

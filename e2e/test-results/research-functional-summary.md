@@ -1,0 +1,11 @@
+- generatedAt: 2026-09-03T10:01:00+00:00
+- gitCommit: 0a48b58ed0efb4ec781b0e5b137531d642051b74
+- source: e2e/reports/results.json
+- total: 20
+- passed: 19
+- failed: 0
+- flaky: 1
+- skipped: 0
+- workerErrors: 0
+- teardownErrors: 0
+- status: FAILED

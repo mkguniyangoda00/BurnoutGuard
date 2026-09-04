@@ -101,12 +101,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2626,
+                      "duration": 6250,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.011Z",
+                      "startTime": "2026-09-03T09:59:59.990Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -135,12 +135,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5522,
+                      "duration": 7063,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:59.820Z",
+                      "startTime": "2026-09-03T10:00:06.642Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -169,12 +169,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3901,
+                      "duration": 5391,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:05.363Z",
+                      "startTime": "2026-09-03T10:00:13.751Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -203,12 +203,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4107,
+                      "duration": 5493,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.289Z",
+                      "startTime": "2026-09-03T10:00:19.169Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -237,12 +237,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2673,
+                      "duration": 6445,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:13.416Z",
+                      "startTime": "2026-09-03T10:00:24.705Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -288,12 +288,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 12556,
+                      "duration": 22284,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.075Z",
+                      "startTime": "2026-09-03T09:59:59.953Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -339,12 +339,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4458,
+                      "duration": 6082,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.010Z",
+                      "startTime": "2026-09-03T10:00:00.056Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -373,12 +373,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3946,
+                      "duration": 6268,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:01.661Z",
+                      "startTime": "2026-09-03T10:00:06.639Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -407,12 +407,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3470,
+                      "duration": 4222,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:05.640Z",
+                      "startTime": "2026-09-03T10:00:12.942Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -441,12 +441,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3586,
+                      "duration": 4095,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.129Z",
+                      "startTime": "2026-09-03T10:00:17.193Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -475,12 +475,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2566,
+                      "duration": 7423,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:12.740Z",
+                      "startTime": "2026-09-03T10:00:21.321Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -509,12 +509,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2257,
+                      "duration": 3442,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:15.327Z",
+                      "startTime": "2026-09-03T10:00:28.768Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -543,12 +543,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2470,
+                      "duration": 2767,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:17.605Z",
+                      "startTime": "2026-09-03T10:00:32.231Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -582,12 +582,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2373,
+                      "duration": 2568,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:20.098Z",
+                      "startTime": "2026-09-03T10:00:35.021Z",
                       "annotations": [
                         {
                           "type": "finding",
@@ -637,18 +637,69 @@
                     {
                       "workerIndex": 3,
                       "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 11904,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 31111,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts",
+                            "column": 70,
+                            "line": 21
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /risk areas/i })\nExpected: visible\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /risk areas/i })\u001b[22m\n\u001b[2m  - Test timeout of 30000ms exceeded.\u001b[22m\n\n\n  19 |\n  20 |     await page.goto('/developer/explanation');\n> 21 |     await expect(page.getByRole('heading', { name: /risk areas/i })).toBeVisible();\n     |                                                                      ^\n  22 |     await expect(page.getByText(/protective/i)).toBeVisible();\n  23 |   }, 90_000);\n  24 | });\n    at C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\checkin.spec.ts:21:70"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.100Z",
+                      "startTime": "2026-09-03T09:59:59.999Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium\\error-context.md"
+                        }
+                      ]
+                    },
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5331,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-03T10:00:34.632Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\checkin-developer-check-in-221aa-ces-updated-developer-views-chromium-retry1\\trace.zip"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "flaky"
                 }
               ],
               "id": "aa38a869995c4c08644d-136ffd133a070bf7b49d",
@@ -689,12 +740,12 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 6122,
+                      "duration": 10341,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.033Z",
+                      "startTime": "2026-09-03T09:59:59.955Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -740,7 +791,7 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 10593,
+                      "duration": 15536,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/\\bLow:\\s*\\d+/i).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/\\bLow:\\s*\\d+/i).first()\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/\\bLow:\\s*\\d+/i).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/\\bLow:\\s*\\d+/i).first()\u001b[22m\n\n    at C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:36:59",
@@ -764,7 +815,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.055Z",
+                      "startTime": "2026-09-03T10:00:00.026Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -793,12 +844,12 @@
                       "workerIndex": 6,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 5492,
+                      "duration": 17051,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-03T10:01:10.972Z",
+                      "startTime": "2026-09-03T10:00:17.730Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -850,12 +901,12 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 4213,
+                      "duration": 9164,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:03.431Z",
+                      "startTime": "2026-09-03T10:00:10.630Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -901,12 +952,12 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 3961,
+                      "duration": 8874,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:07.711Z",
+                      "startTime": "2026-09-03T10:00:19.891Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -949,15 +1000,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 5444,
+                      "duration": 11060,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.428Z",
+                      "startTime": "2026-09-03T10:00:22.629Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -977,11 +1028,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-03T10:00:55.371Z",
-    "duration": 27273.998,
-    "expected": 19,
+    "startTime": "2026-09-03T09:59:58.185Z",
+    "duration": 43470.534,
+    "expected": 18,
     "skipped": 0,
     "unexpected": 0,
-    "flaky": 1
+    "flaky": 2
   }
 }

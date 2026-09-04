@@ -156,10 +156,10 @@ const ModelManagement: React.FC = () => {
         </div>
       </div>
 
-      {globalFeatureImportance.length > 0 && (
-        <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginTop: '20px' }}>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '14px' }}>Global feature importance</h2>
-          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>Mean absolute SHAP contribution across the training sample</p>
+      <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginTop: '20px' }}>
+        <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '14px' }}>Global feature importance</h2>
+        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>Mean absolute SHAP contribution across the training sample</p>
+        {globalFeatureImportance.length > 0 ? (
           <div style={{ display: 'grid', gap: '10px' }}>
             {globalFeatureImportance.slice(0, 10).map((row: any, idx: number) => {
               const maxImportance = globalFeatureImportance[0]?.meanAbsShap || 1;
@@ -176,8 +176,10 @@ const ModelManagement: React.FC = () => {
               );
             })}
           </div>
-        </div>
-      )}
+        ) : (
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>No global SHAP summary is available for the current model yet.</p>
+        )}
+      </div>
 
       <div style={{ border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px', backgroundColor: 'var(--background)', marginTop: '20px' }}>
         <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Alert threshold settings</h2>
