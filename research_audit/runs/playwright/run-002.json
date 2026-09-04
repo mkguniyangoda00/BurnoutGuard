@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-09-03T09:34:29.827397+00:00",
+  "gitCommit": "0a48b58ed0efb4ec781b0e5b137531d642051b74",
+  "command": "C:\\Program Files\\nodejs\\node.exe .\\node_modules\\playwright\\cli.js test",
+  "workdir": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e",
+  "status": "failed",
+  "rawSummary": {
+    "startTime": "2026-09-03T09:31:26.944Z",
+    "duration": 41677.684,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

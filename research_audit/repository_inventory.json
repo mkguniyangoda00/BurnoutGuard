@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-09-03T09:34:29.827397+00:00",
+  "gitCommit": "0a48b58ed0efb4ec781b0e5b137531d642051b74",
+  "authoritativeFiles": {
+    "data": {
+      "rawSriLankanSurvey": "ml-service/raw_datasets/sri_lankan_developer_burnout.csv",
+      "harmonizer": "ml-service/harmonize_datasets.py",
+      "datasetGenerator": "ml-service/generate_dataset.py",
+      "dataset": "ml-service/dataset.csv",
+      "harmonizedBase": "ml-service/harmonized_base.csv",
+      "targetMetadata": "ml-service/dataset_target_construction_metadata.json"
+    },
+    "ml": {
+      "authoritativeTrainingEntry": "ml-service/run_experiment.py",
+      "primaryTrainer": "ml-service/train.py",
+      "secondaryTrainer": "ml-service/train_and_evaluate.py",
+      "preprocess": "ml-service/preprocess.py",
+      "explain": "ml-service/explain.py",
+      "modelArtifacts": "ml-service/models/"
+    },
+    "evaluation": {
+      "playwrightConfig": "e2e/playwright.config.ts",
+      "playwrightResults": "e2e/reports/results.json",
+      "playwrightHtml": "e2e/reports/playwright-html/index.html",
+      "perfConfig": "perf/package.json",
+      "perfREADME": "perf/README.md"
+    }
+  },
+  "hashes": {
+    "dataset": {
+      "path": "ml-service/dataset.csv",
+      "sha256": "c64cbc09bd5963d293f35359e9523a725eca1a3544b113f1529d84d1554d7b33"
+    },
+    "playwrightResults": {
+      "path": "e2e/reports/results.json",
+      "sha256": "8a1e327f2e1dfe808165220bef2d95cd533aadc091af57ea713b9c7cebb72bd0"
+    }
+  }
+}

@@ -120,6 +120,10 @@ const TeamWhatIfPanel: React.FC = () => {
         <Badge variant="muted">Simulation only</Badge>
       </div>
 
+      <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px' }}>
+        The panel updates team-level counts only. Individual outcomes may vary.
+      </div>
+
       {isLoading ? (
         <div className="flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
           <Loader2 className="animate-spin" size={18} />
@@ -133,9 +137,7 @@ const TeamWhatIfPanel: React.FC = () => {
           </div>
 
           {result && (
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-              The panel updates team-level counts only. Individual outcomes may vary.
-            </div>
+            <div />
           )}
         </div>
       )}

@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-09-03T10:01:00+00:00",
+  "gitCommit": "0a48b58ed0efb4ec781b0e5b137531d642051b74",
+  "command": "C:\\Program Files\\nodejs\\node.exe .\\node_modules\\playwright\\cli.js test",
+  "workdir": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e",
+  "status": "failed",
+  "summary": {
+    "total": 20,
+    "passed": 19,
+    "failed": 0,
+    "flaky": 1,
+    "skipped": 0
+  },
+  "failures": [
+    {
+      "test": "manager analytics ? team overview shows core panels and team what-if updates comparison",
+      "reason": "flaky assertion on Low count after simulation"
+    }
+  ]
+}

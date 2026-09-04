@@ -5,7 +5,11 @@ test.describe('manager analytics', () => {
   test('team overview shows core panels and team what-if updates comparison', async ({ page }) => {
     await loginAs(page, 'Manager');
 
+    const teamShapResponse = page.waitForResponse((response) =>
+      response.url().includes('/api/analytics/team-shap-summary') && response.request().method() === 'GET'
+    );
     await page.goto('/manager/dashboard');
+    await teamShapResponse;
     await expect(page.getByRole('heading', { name: /team burnout heatmap/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /workload hotspots/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /team risk factors/i })).toBeVisible();

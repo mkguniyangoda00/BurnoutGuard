@@ -1,97 +1,13 @@
 {
-  "timestamp": "2026-09-02T15:10:18+05:30",
-  "commit": "db38e6308ae2986a3f5d06251a85550242f8dd69",
-  "totalTests": 20,
-  "passed": 20,
+  "generatedAt": "2026-09-03T10:01:00+00:00",
+  "gitCommit": "0a48b58ed0efb4ec781b0e5b137531d642051b74",
+  "source": "e2e/reports/results.json",
+  "total": 20,
+  "passed": 19,
   "failed": 0,
+  "flaky": 1,
   "skipped": 0,
-  "flaky": 0,
-  "passRate": 100,
-  "durationMs": 47618.614,
-  "suites": [
-    {
-      "file": "admin-existing.spec.ts",
-      "suite": "existing admin pages",
-      "total": 5,
-      "passed": 5,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "admin-factor-analysis.spec.ts",
-      "suite": "admin factor analysis",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "auth.spec.ts",
-      "suite": "auth flows",
-      "total": 8,
-      "passed": 8,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "checkin.spec.ts",
-      "suite": "developer check-in flow",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "hr.spec.ts",
-      "suite": "hr analytics",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "manager.spec.ts",
-      "suite": "manager analytics",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "recommendations.spec.ts",
-      "suite": "developer recommendations",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "reports-journal.spec.ts",
-      "suite": "developer reports and journal",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    },
-    {
-      "file": "whatif-counterfactual.spec.ts",
-      "suite": "developer what-if and counterfactual",
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "skipped": 0
-    }
-  ],
-  "functionalAreaCoverage": {
-    "authentication/login": 8,
-    "developer check-in": 1,
-    "burnout prediction": 1,
-    "recommendations": 1,
-    "manager analytics": 1,
-    "HR/admin analytics": 6,
-    "role-based access control": 1,
-    "audit logs": 1,
-    "error handling": 1
-  },
-  "remainingFailures": []
+  "workerErrors": 0,
+  "teardownErrors": 0,
+  "status": "FAILED"
 }
