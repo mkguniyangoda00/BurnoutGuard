@@ -13,13 +13,17 @@ export const options = {
   },
 };
 
-const tokens = makeTokens();
 const soakBucketLatency = new Trend('soak_bucket_latency', true);
 const bucketDurations = [[], [], [], [], [], []];
 const bucketMinutes = 5;
 const soakStart = Date.now();
 
-export default function () {
+export function setup() {
+  return { tokens: makeTokens() };
+}
+
+export default function (data) {
+  const { tokens } = data;
   const request = pickWeightedRequest(Math.random());
   const start = Date.now();
   let res;

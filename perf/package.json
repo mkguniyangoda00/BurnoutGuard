@@ -7,6 +7,11 @@
     "stress": "k6 run perf/scenarios/stress-test.js",
     "spike": "k6 run perf/scenarios/spike-test.js",
     "soak": "k6 run perf/scenarios/soak-test.js",
-    "ml": "k6 run perf/scenarios/ml-service-isolated.js"
+    "ml": "k6 run perf/scenarios/ml-service-isolated.js",
+    "load:history": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File perf/run-k6-history.ps1 -Scenario load-test.js",
+    "stress:history": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File perf/run-k6-history.ps1 -Scenario stress-test.js",
+    "spike:history": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File perf/run-k6-history.ps1 -Scenario spike-test.js",
+    "soak:history": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File perf/run-k6-history.ps1 -Scenario soak-test.js",
+    "ml:history": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File perf/run-k6-history.ps1 -Scenario ml-service-isolated.js"
   }
 }
