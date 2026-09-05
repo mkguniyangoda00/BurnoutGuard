@@ -18,12 +18,16 @@ export const options = {
   },
 };
 
-const tokens = makeTokens();
 let spikeCount = 0;
 let spikeRecoveryStart = null;
 let baselineP95 = null;
 
-export default function () {
+export function setup() {
+  return { tokens: makeTokens() };
+}
+
+export default function (data) {
+  const { tokens } = data;
   const isSpike = __VU > 20;
   const start = Date.now();
 

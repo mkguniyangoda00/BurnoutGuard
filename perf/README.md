@@ -14,6 +14,8 @@ This directory contains k6 scripts for exercising the main BurnoutGuard API and 
 - Base API URL: `http://localhost:5000/api`
 - ML service URL: `http://localhost:5001`
 - Reports are written to `perf/reports/<scenario>.json` and `perf/reports/<scenario>.html`
+- Historical runs are archived under `perf/history/<run-id>/<scenario>.json` and `perf/history/<run-id>/<scenario>.html`
+- The most recent run for each scenario is also mirrored to `perf/history/latest/<scenario>.json`
 - All scripts use seeded JWT login via `POST /auth/login`
 
 ## Quick Smoke Check
@@ -35,6 +37,16 @@ k6 run --vus 1 --duration 10s perf/scenarios/ml-service-isolated.js
 - `npm run spike`
 - `npm run soak`
 - `npm run ml`
+
+## History Runs
+
+These commands keep the latest report and also archive a timestamped copy for comparison across Grafana k6 iterations:
+
+- `npm run load:history`
+- `npm run stress:history`
+- `npm run spike:history`
+- `npm run soak:history`
+- `npm run ml:history`
 
 ## Notes
 

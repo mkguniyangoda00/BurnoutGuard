@@ -18,14 +18,18 @@ export const options = {
   },
 };
 
-const tokens = makeTokens();
 const stressBucketLatency = new Trend('stress_bucket_latency', true);
 const bucketDurations = [[], [], [], [], [], [], [], [], [], [], []];
 const bucketErrors = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const bucketMinutes = 1;
 const stressStart = Date.now();
 
-export default function () {
+export function setup() {
+  return { tokens: makeTokens() };
+}
+
+export default function (data) {
+  const { tokens } = data;
   const request = pickWeightedRequest(Math.random());
   const start = Date.now();
   let res;

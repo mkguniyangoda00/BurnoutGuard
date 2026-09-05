@@ -26,9 +26,12 @@ export const options = {
   },
 };
 
-const tokens = makeTokens();
+export function setup() {
+  return { tokens: makeTokens() };
+}
 
-export default function () {
+export default function (data) {
+  const { tokens } = data;
   const request = pickWeightedRequest(Math.random());
   const iteration = __ITER;
 

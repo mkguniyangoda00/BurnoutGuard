@@ -1,6 +1,5 @@
 import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
 import { check, fail } from 'k6';
-import { SharedArray } from 'k6/data';
 import { login } from '../helpers/auth.js';
 
 export const REQUEST_WEIGHTS = [
@@ -14,14 +13,12 @@ export const REQUEST_WEIGHTS = [
 ];
 
 export function makeTokens() {
-  return new SharedArray('burnoutguard-tokens', () => ([
-    {
-      developer: login('Developer'),
-      manager: login('Manager'),
-      admin: login('Admin'),
-      researchAdmin: login('ResearchAdmin'),
-    },
-  ]))[0];
+  return {
+    developer: login('Developer'),
+    manager: login('Manager'),
+    admin: login('Admin'),
+    researchAdmin: login('ResearchAdmin'),
+  };
 }
 
 export function pickWeightedRequest(randomValue) {
@@ -40,8 +37,22 @@ export function ensureOk(res, label, allowed = [200, 201]) {
 }
 
 export function scenarioSummary(name, data, extra = {}) {
+  const runId = (__ENV.K6_HISTORY_RUN_ID || new Date().toISOString())
+    .replace(/:/g, '-')
+    .replace(/\./g, '-');
+  const historyPrefix = `history/${runId}/${name}`;
+  const payload = { ...data, ...extra };
   return {
-    [`reports/${name}.json`]: JSON.stringify({ ...data, ...extra }, null, 2),
+    [`reports/${name}.json`]: JSON.stringify(payload, null, 2),
     [`reports/${name}.html`]: htmlReport(data),
+    [`${historyPrefix}.json`]: JSON.stringify(payload, null, 2),
+    [`${historyPrefix}.html`]: htmlReport(data),
+    [`history/latest/${name}.json`]: JSON.stringify({
+      runId,
+      scenario: name,
+      timestamp: new Date().toISOString(),
+      reportJson: `${historyPrefix}.json`,
+      reportHtml: `${historyPrefix}.html`,
+    }, null, 2),
   };
 }
