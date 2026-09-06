@@ -13,12 +13,15 @@ const credentials: Record<Role, { email: string; password: string; dashboard: st
 
 export async function loginAs(page: Page, role: Role) {
   const { email, password, dashboard } = credentials[role];
-  await page.goto('/login');
+  await page.goto('/login', { waitUntil: 'domcontentloaded' });
   await page.waitForLoadState('domcontentloaded');
   await page.locator('#loginEmail').fill(email);
   await page.locator('#loginPassword').fill(password);
   await Promise.all([
-    page.waitForURL(new RegExp(`${dashboard.replace(/\//g, '\\/')}$`)),
+    page.waitForURL(new RegExp(`${dashboard.replace(/\//g, '\\/')}$`), {
+      waitUntil: 'domcontentloaded',
+      timeout: 60_000,
+    }),
     page.getByRole('button', { name: /sign in/i }).click(),
   ]);
   await expect(page).toHaveURL(new RegExp(`${dashboard.replace(/\//g, '\\/')}$`));

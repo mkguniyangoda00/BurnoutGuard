@@ -36,6 +36,64 @@ export class PredictionService {
     };
   }
 
+  private deferPostPredictionWork(
+    userId: string,
+    saved: Prediction & { shapExplanations: ShapExplanation[] },
+    actor: Awaited<ReturnType<PredictionService['getActor']>>
+  ): void {
+    setImmediate(() => {
+      void this.runPostPredictionWork(userId, saved, actor).catch((err) => {
+        console.error(
+          `[PredictionService] Post-prediction work failed for prediction ${saved.predictionId}:`,
+          err
+        );
+      });
+    });
+  }
+
+  private async runPostPredictionWork(
+    userId: string,
+    saved: Prediction & { shapExplanations: ShapExplanation[] },
+    actor: Awaited<ReturnType<PredictionService['getActor']>>
+  ): Promise<void> {
+    const sideEffects = [
+      this.recommendationService.generateFromPrediction(
+        userId,
+        saved.predictionId,
+        saved.shapExplanations as unknown as ShapExplanation[],
+        saved.riskLevel
+      ),
+      this.alertService.evaluateAndNotify(userId, {
+        predictionId: saved.predictionId,
+        riskScore: saved.riskScore,
+        riskLevel: saved.riskLevel as any,
+        previousRiskScore: saved.previousRiskScore,
+        scoreChange: saved.scoreChange,
+      }),
+      this.checkInRepo.findLastSeven(userId).then((recentCheckIns) =>
+        this.alertService.checkPoorSleepPattern(userId, recentCheckIns)
+      ),
+      auditLogService.log({
+        ...actor,
+        action: 'PREDICTION_CREATE',
+        entityType: 'Prediction',
+        entityId: saved.predictionId,
+        details: `Risk level ${saved.riskLevel}, score ${(saved.riskScore * 100).toFixed(0)}%`,
+        result: 'Success',
+      }),
+    ];
+
+    const results = await Promise.allSettled(sideEffects);
+    results.forEach((result, index) => {
+      if (result.status === 'rejected') {
+        console.error(
+          `[PredictionService] Post-prediction task ${index + 1} failed for prediction ${saved.predictionId}:`,
+          result.reason
+        );
+      }
+    });
+  }
+
   /**
    * Searches for the smallest feasible change across mutable features that
    * moves the predicted risk level down at least one band, rather than
@@ -178,14 +236,13 @@ export class PredictionService {
 
   async createPrediction(userId: string) {
     console.log(`[PredictionService] Starting prediction generation for user ${userId}.`);
-    const checkIns = await this.checkInRepo.findByUserId(
-      userId,
-      PredictionService.PREDICTION_WINDOW_DAYS
-    );
+    const [checkIns, developerProfile] = await Promise.all([
+      this.checkInRepo.findByUserId(userId, PredictionService.PREDICTION_WINDOW_DAYS),
+      prisma.developerProfile.findUnique({
+        where: { userId },
+      }),
+    ]);
     console.log(`[PredictionService] Loaded ${checkIns.length} recent check-in(s) for user ${userId}.`);
-    const developerProfile = await prisma.developerProfile.findUnique({
-    where: { userId },
-    });
     const { features, dataCompletenessScore } = aggregateCheckIns(checkIns, developerProfile?.workModel);
     console.log(`[PredictionService] Aggregated feature vector for user ${userId}:`, features);
 
@@ -255,48 +312,8 @@ export class PredictionService {
       throw err;
     }
 
-    try {
-      await this.recommendationService.generateFromPrediction(
-        userId,
-        saved.predictionId,
-        saved.shapExplanations as unknown as ShapExplanation[],
-        saved.riskLevel
-      );
-    } catch (err) {
-      console.error(`[PredictionService] Recommendation generation failed for prediction ${saved.predictionId}:`, err);
-      // Do not rethrow — a recommendation failure must never block alerting.
-    }
-
-    try {
-      await this.alertService.evaluateAndNotify(userId, {
-        predictionId: saved.predictionId,
-        riskScore: saved.riskScore,
-        riskLevel: saved.riskLevel as any,
-        previousRiskScore: saved.previousRiskScore,
-        scoreChange: saved.scoreChange,
-      });
-    } catch (err) {
-      console.error(`[PredictionService] Alert evaluation failed for prediction ${saved.predictionId}:`, err);
-    }
-
-    try {
-      const recentCheckIns = await this.checkInRepo.findLastSeven(userId); // verify exact method name in your repo
-      await this.alertService.checkPoorSleepPattern(userId, recentCheckIns);
-    } catch (err) {
-      console.error(`[PredictionService] Poor sleep pattern check failed for user ${userId}:`, err);
-    }
-
     const actor = await this.getActor(userId);
-    void auditLogService.log({
-      ...actor,
-      action: 'PREDICTION_CREATE',
-      entityType: 'Prediction',
-      entityId: saved.predictionId,
-      details: `Risk level ${saved.riskLevel}, score ${(saved.riskScore * 100).toFixed(0)}%`,
-      result: 'Success',
-    }).catch((err) => {
-      console.error('[AuditLog] Failed to queue prediction create log:', err.message);
-    });
+    this.deferPostPredictionWork(userId, saved, actor);
 
     return saved;
   }

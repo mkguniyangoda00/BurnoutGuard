@@ -101,12 +101,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2626,
+                      "duration": 6126,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.011Z",
+                      "startTime": "2026-09-06T09:13:54.979Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -135,12 +135,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5522,
+                      "duration": 16173,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:59.820Z",
+                      "startTime": "2026-09-06T09:14:01.392Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -169,12 +169,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3901,
+                      "duration": 2008,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:05.363Z",
+                      "startTime": "2026-09-06T09:14:17.855Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -203,12 +203,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4107,
+                      "duration": 1703,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.289Z",
+                      "startTime": "2026-09-06T09:14:19.893Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -218,7 +218,7 @@
               ],
               "id": "70b6dfa6af11acd5e6db-c046dca113d96d855897",
               "file": "admin-existing.spec.ts",
-              "line": 26,
+              "line": 27,
               "column": 3
             },
             {
@@ -237,12 +237,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2673,
+                      "duration": 1501,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:13.416Z",
+                      "startTime": "2026-09-06T09:14:21.623Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -252,7 +252,7 @@
               ],
               "id": "70b6dfa6af11acd5e6db-5902f2d9a89c789b124e",
               "file": "admin-existing.spec.ts",
-              "line": 35,
+              "line": 36,
               "column": 3
             }
           ]
@@ -288,12 +288,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 12556,
+                      "duration": 9881,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.075Z",
+                      "startTime": "2026-09-06T09:13:54.947Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -339,12 +339,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4458,
+                      "duration": 5956,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.010Z",
+                      "startTime": "2026-09-06T09:13:54.978Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -373,12 +373,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3946,
+                      "duration": 16342,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:01.661Z",
+                      "startTime": "2026-09-06T09:14:01.261Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -407,12 +407,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3470,
+                      "duration": 1929,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:05.640Z",
+                      "startTime": "2026-09-06T09:14:17.665Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -441,12 +441,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3586,
+                      "duration": 1734,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.129Z",
+                      "startTime": "2026-09-06T09:14:19.619Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -475,12 +475,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2566,
+                      "duration": 1351,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:12.740Z",
+                      "startTime": "2026-09-06T09:14:21.373Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -509,12 +509,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2257,
+                      "duration": 1274,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:15.327Z",
+                      "startTime": "2026-09-06T09:14:22.737Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -543,12 +543,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2470,
+                      "duration": 1676,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:17.605Z",
+                      "startTime": "2026-09-06T09:14:24.021Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -582,12 +582,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2373,
+                      "duration": 1444,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:20.098Z",
+                      "startTime": "2026-09-06T09:14:25.709Z",
                       "annotations": [
                         {
                           "type": "finding",
@@ -638,12 +638,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 11904,
+                      "duration": 22513,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.100Z",
+                      "startTime": "2026-09-06T09:13:55.026Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -689,12 +689,12 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 6122,
+                      "duration": 11093,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.033Z",
+                      "startTime": "2026-09-06T09:13:54.976Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -739,77 +739,18 @@
                     {
                       "workerIndex": 5,
                       "parallelIndex": 5,
-                      "status": "failed",
-                      "duration": 10593,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/\\bLow:\\s*\\d+/i).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/\\bLow:\\s*\\d+/i).first()\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/\\bLow:\\s*\\d+/i).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/\\bLow:\\s*\\d+/i).first()\u001b[22m\n\n    at C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:36:59",
-                        "location": {
-                          "file": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
-                          "column": 59,
-                          "line": 36
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/simulate/i\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 35 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/individual outcomes may vary/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/\\bLow:\\s*\\d+/i\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'svg'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 38 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 39 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
-                            "column": 59,
-                            "line": 36
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/\\bLow:\\s*\\d+/i).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/\\bLow:\\s*\\d+/i).first()\u001b[22m\n\n\n  34 |     await page.getByRole('button', { name: /simulate/i }).click();\n  35 |     await expect(page.getByText(/individual outcomes may vary/i)).toBeVisible();\n> 36 |     await expect(page.getByText(/\\bLow:\\s*\\d+/i).first()).toBeVisible();\n     |                                                           ^\n  37 |     await expect(page.locator('svg').first()).toBeVisible();\n  38 |   });\n  39 | });\n    at C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts:36:59"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-09-03T10:00:57.055Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\tests\\manager.spec.ts",
-                        "column": 59,
-                        "line": 36
-                      }
-                    },
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 5492,
+                      "duration": 7184,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-09-03T10:01:10.972Z",
+                      "retry": 0,
+                      "startTime": "2026-09-06T09:13:54.968Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "C:\\Users\\mguniyangoda\\Documents\\FYR\\BurnoutGuard\\e2e\\reports\\test-results\\manager-manager-analytics--3ccee--what-if-updates-comparison-chromium-retry1\\trace.zip"
-                        }
-                      ]
+                      "attachments": []
                     }
                   ],
-                  "status": "flaky"
+                  "status": "expected"
                 }
               ],
               "id": "15338c29f870e53fba3b-0159c0af82207068456e",
@@ -847,15 +788,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 4213,
+                      "duration": 15271,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:03.431Z",
+                      "startTime": "2026-09-06T09:14:02.779Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -898,15 +839,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3961,
+                      "duration": 12250,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:07.711Z",
+                      "startTime": "2026-09-06T09:14:05.848Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -949,15 +890,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 5444,
+                      "duration": 10827,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-03T10:01:09.428Z",
+                      "startTime": "2026-09-06T09:14:06.956Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -977,11 +918,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-03T10:00:55.371Z",
-    "duration": 27273.998,
-    "expected": 19,
+    "startTime": "2026-09-06T09:13:52.581Z",
+    "duration": 34646.579999999994,
+    "expected": 20,
     "skipped": 0,
     "unexpected": 0,
-    "flaky": 1
+    "flaky": 0
   }
 }

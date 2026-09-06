@@ -1,7 +1,7 @@
 {
-  "runId": "2026-09-05T17-10-00",
+  "runId": "2026-09-06T21-40-00",
   "scenario": "stress-test",
-  "timestamp": "2026-09-05T10:41:52.469Z",
-  "reportJson": "history/2026-09-05T17-10-00/stress-test.json",
-  "reportHtml": "history/2026-09-05T17-10-00/stress-test.html"
+  "timestamp": "2026-09-06T09:14:19.646Z",
+  "reportJson": "history/2026-09-06T21-40-00/stress-test.json",
+  "reportHtml": "history/2026-09-06T21-40-00/stress-test.html"
 }

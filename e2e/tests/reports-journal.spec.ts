@@ -6,8 +6,8 @@ test.describe('developer reports and journal', () => {
     await loginAs(page, 'Developer');
 
     await page.goto('/developer/reports');
-    await expect(page.getByText(/weekly wellness report/i)).toBeVisible();
-    await expect(page.getByText(/risk score trend/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /weekly wellness report/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /risk score trend/i })).toBeVisible();
 
     const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: /export \/ print/i }).click();

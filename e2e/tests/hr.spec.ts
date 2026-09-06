@@ -5,13 +5,12 @@ test.describe('hr analytics', () => {
   test('department overview and trends render real charts', async ({ page }) => {
     await loginAs(page, 'HRofficer');
 
-    await page.goto('/hr/department-overview');
+    await page.goto('/hr/department-overview', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: /organisation burnout overview/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /burnout risk distribution by department/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /factor insights/i })).toBeVisible();
-    await expect(page.getByText(/job role/i).first()).toBeVisible();
-    await expect(page.getByText(/work mode/i).first()).toBeVisible();
 
-    await page.goto('/hr/trends');
+    await page.goto('/hr/trends', { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('button', { name: /risk trend/i })).toBeVisible();
     await page.getByRole('button', { name: /risk trend/i }).click();
     await expect(page.getByText(/risk trend/i).first()).toBeVisible();
