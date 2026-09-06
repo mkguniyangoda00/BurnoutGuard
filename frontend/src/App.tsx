@@ -37,6 +37,7 @@ import Trends from './pages/hr/Trends';
 
 import UserManagement from './pages/admin/UserManagement';
 import ModelManagement from './pages/admin/ModelManagement';
+import FairnessReport from './pages/admin/FairnessReport';
 import FactorAnalysis from './pages/admin/FactorAnalysis';
 import AuditLogs from './pages/admin/AuditLogs';
 import Survey from './pages/admin/Survey';
@@ -70,6 +71,7 @@ function App() {
 
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/models" element={<ModelManagement />} />
+        <Route path="/admin/fairness-report" element={<FairnessReport />} />
         <Route path="/admin/factor-analysis" element={<FactorAnalysis />} />
         <Route path="/admin/audit-logs" element={<AuditLogs />} />
         <Route path="/admin/profile" element={<Profile />} />

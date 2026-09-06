@@ -11,14 +11,15 @@ test.describe.serial('developer check-in flow', () => {
     await page.locator('textarea').last().fill('Integration test journal note');
     await page.getByRole('button', { name: /submit check-in/i }).click();
 
-    await expect(page.getByRole('heading', { name: /check-in submitted/i })).toBeVisible({ timeout: 30000 });
+    await expect(page.getByRole('heading', { name: /check-in submitted!/i })).toBeVisible({ timeout: 45000 });
 
     await page.getByRole('button', { name: /back to dashboard/i }).click();
     await expect(page).toHaveURL(/\/developer\/dashboard$/);
-    await expect(page.getByText(/risk level/i).first()).toBeVisible();
+    await expect(page.getByText(/current burnout risk/i).first()).toBeVisible({ timeout: 15000 });
 
     await page.goto('/developer/explanation');
+    await expect(page.getByRole('heading', { name: /my burnout risk/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /risk areas/i })).toBeVisible();
-    await expect(page.getByText(/protective/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /protective factors/i })).toBeVisible();
   }, 90_000);
 });

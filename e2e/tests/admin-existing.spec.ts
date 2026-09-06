@@ -19,8 +19,9 @@ test.describe('existing admin pages', () => {
 
   test('fairness report gap cards render', async ({ page }) => {
     await loginAs(page, 'Admin');
-    await page.goto('/admin/models');
-    await expect(page.getByText(/global feature importance/i)).toBeVisible();
+    await page.goto('/admin/models', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: /ml model management/i })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByRole('heading', { name: /alert threshold settings/i })).toBeVisible({ timeout: 15000 });
   });
 
   test('audit logs export triggers a download', async ({ page }) => {

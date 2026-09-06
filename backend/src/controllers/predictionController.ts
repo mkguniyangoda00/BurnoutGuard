@@ -7,12 +7,12 @@ export class PredictionController {
   getLatest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const prediction = await this.predictionService.getLatest(req.user!.userId);
-      const dimensionBreakdown = prediction
-        ? await this.predictionService.getDimensionBreakdown((prediction as any).predictionId, req.user!.userId)
-        : [];
-      const calibrationConfidence = prediction
-        ? this.computeCalibrationConfidence((prediction as any).riskScore)
-        : null;
+      const [dimensionBreakdown, calibrationConfidence] = prediction
+        ? await Promise.all([
+            this.predictionService.getDimensionBreakdown((prediction as any).predictionId, req.user!.userId),
+            Promise.resolve(this.computeCalibrationConfidence((prediction as any).riskScore)),
+          ])
+        : [[], null];
       res.status(200).json({ prediction, dimensionBreakdown, calibrationConfidence });
     } catch (err) {
       next(err);

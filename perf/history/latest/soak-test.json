@@ -1,7 +1,7 @@
 {
-  "runId": "2026-09-05T17-45-00",
+  "runId": "2026-09-06T22-00-00",
   "scenario": "soak-test",
-  "timestamp": "2026-09-05T11:24:08.931Z",
-  "reportJson": "history/2026-09-05T17-45-00/soak-test.json",
-  "reportHtml": "history/2026-09-05T17-45-00/soak-test.html"
+  "timestamp": "2026-09-06T09:14:18.022Z",
+  "reportJson": "history/2026-09-06T22-00-00/soak-test.json",
+  "reportHtml": "history/2026-09-06T22-00-00/soak-test.html"
 }

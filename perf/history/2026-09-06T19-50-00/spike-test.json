@@ -1,0 +1,261 @@
+{
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 397219.8877
+  },
+  "metrics": {
+    "http_reqs": {
+      "contains": "default",
+      "values": {
+        "count": 71874,
+        "rate": 180.94260188272037
+      },
+      "type": "counter"
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 203.938576764894,
+        "min": 0,
+        "med": 0,
+        "max": 62049.4726,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.2962259523610761,
+        "min": 0,
+        "med": 0,
+        "max": 1802.9801,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "iterations": {
+      "contains": "default",
+      "values": {
+        "count": 71866,
+        "rate": 180.92246190421548
+      },
+      "type": "counter"
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 203.93414311851285,
+        "min": 0,
+        "med": 0,
+        "max": 62049.4726,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 10803.181516666666,
+        "min": 1426.9147,
+        "med": 2170.3977,
+        "max": 40880.1976,
+        "p(90)": 28803.2061,
+        "p(95)": 34841.70185
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.00434453348916159,
+        "min": 0,
+        "med": 0,
+        "max": 175.6604
+      }
+    },
+    "http_req_receiving": {
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.000089112892005454,
+        "min": 0,
+        "med": 0,
+        "max": 5.5472
+      },
+      "type": "trend"
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.3009376269582879,
+        "min": 0,
+        "med": 0,
+        "max": 1802.9801,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0,
+        "min": 0,
+        "med": 0,
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.00013912462784162054,
+        "passes": 10,
+        "fails": 71868
+      }
+    },
+    "iteration_duration": {
+      "values": {
+        "avg": 675.1317606823955,
+        "min": 2.523,
+        "med": 358.3867,
+        "max": 102578.4065,
+        "p(90)": 901.7598,
+        "p(95)": 1231.11865
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "min": 0,
+        "max": 300,
+        "value": 4
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 11115,
+        "rate": 27.981982635256657
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "fails": 6,
+        "rate": 0.9999165205776775,
+        "passes": 71868
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "rate": 1032.1235484302765,
+        "count": 409980
+      }
+    },
+    "vus_max": {
+      "values": {
+        "value": 300,
+        "min": 300,
+        "max": 300
+      },
+      "type": "gauge",
+      "contains": "default"
+    }
+  },
+  "setup_data": {
+    "tokens": {
+      "admin": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmMGYxMTRjMi00Zjg2LTRhNzQtODM1Ni03NmEyY2FjZjQ4NTYiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3ODg2ODI1MjMsImV4cCI6MTc4OTI4NzMyM30.Tv671WThzdmMAR68PpEVl6_eLLXyP3GRa2pNiGSZXN0",
+      "developer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwOTNhZGU2Yi02YzE2LTRlM2QtODc5Ny0zYzMwM2MxY2QxNzQiLCJyb2xlIjoiRGV2ZWxvcGVyIiwiaWF0IjoxNzg4NjgyNTE5LCJleHAiOjE3ODkyODczMTl9.Df4bxQYxrGvXt_VO-zCVUx0HaiPbKlSgEQ8smJG3H80",
+      "manager": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYjQ2ZmNkNy00ODE5LTQ1NWItODMyOC0xYWYzZjA2OTViM2QiLCJyb2xlIjoiTWFuYWdlciIsImlhdCI6MTc4ODY4MjUyMSwiZXhwIjoxNzg5Mjg3MzIxfQ.mufiBjcYrUNxolvH3FmxmPxGyOxaDSL09h4QPXNgnOM",
+      "researchAdmin": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlYjAxNTAzZS1lMDQ5LTQ1YzItYjAyZS0xYTk1ZDExZGRiMWIiLCJyb2xlIjoiUmVzZWFyY2hBZG1pbiIsImlhdCI6MTc4ODY4MjUyNSwiZXhwIjoxNzg5Mjg3MzI1fQ.CU2hxuTQ2tlbFt_EKk91BZOUwjvaclakSjgcX5AWRUs"
+    }
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [
+      {
+        "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+        "groups": [],
+        "checks": [
+            {
+              "path": "::setup::login status is 200",
+              "id": "bb27b460b057923f4a083e3603c038b9",
+              "passes": 4,
+              "fails": 0,
+              "name": "login status is 200"
+            },
+            {
+              "path": "::setup::login returned token",
+              "id": "9c891d721d521c8b89b1661b5e0b7ad7",
+              "passes": 4,
+              "fails": 0,
+              "name": "login returned token"
+            }
+          ],
+        "name": "setup",
+        "path": "::setup"
+      }
+    ],
+    "checks": [
+      {
+        "name": "submitCheckIn status ok",
+        "path": "::submitCheckIn status ok",
+        "id": "2e2d5aea85b92def001806cd5ffd3fc0",
+        "passes": 2,
+        "fails": 71864
+      },
+      {
+        "path": "::trigger accepted",
+        "id": "78fcc9749a97ee3a39081648a30434c5",
+        "passes": 0,
+        "fails": 2,
+        "name": "trigger accepted"
+      },
+      {
+        "passes": 0,
+        "fails": 2,
+        "name": "latestPrediction status ok",
+        "path": "::latestPrediction status ok",
+        "id": "b78b7a996c34d08e43868fd3c4b623c4"
+      }
+    ]
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "recovery": {
+    "baselineObserved": false,
+    "spikeCount": 0
+  }
+}

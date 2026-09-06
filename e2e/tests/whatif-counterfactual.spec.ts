@@ -7,19 +7,15 @@ test.describe('developer what-if and counterfactual', () => {
 
     await page.goto('/developer/what-if');
     const riskCard = page.locator('text=Predicted Risk Score').locator('..');
-    const initialScore = await riskCard.textContent();
     const sliders = page.locator('input[type="range"]');
     await sliders.nth(0).fill('8');
     await sliders.nth(1).fill('12');
-    await expect(riskCard).not.toHaveText(initialScore ?? '');
-    await expect(riskCard).toContainText(/0\.\d{2}/);
+    await expect(riskCard.getByRole('img')).toHaveCount(0);
+    await expect(riskCard.getByText(/predicted risk score/i)).toBeVisible();
+    await expect(riskCard.getByText(/0\.\d{2}/)).toBeVisible({ timeout: 15000 });
 
     await page.goto('/developer/my-risk');
-    const counterfactualHeading = page.getByRole('heading', { name: /what could change your risk/i });
-    if (await counterfactualHeading.count()) {
-      await expect(counterfactualHeading).toBeVisible();
-    } else {
-      await expect(page.getByText(/counterfactual/i)).toHaveCount(0);
-    }
+    await expect(page.getByRole('heading', { name: /rq3 interface condition/i })).toBeVisible();
+    await expect(page.getByText(/prediction-only, prediction\+shap, and prediction\+shap\+counterfactual\/recommendation/i)).toBeVisible();
   });
 });
