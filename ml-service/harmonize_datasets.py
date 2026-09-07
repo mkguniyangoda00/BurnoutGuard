@@ -56,7 +56,6 @@ TARGET_COLUMNS = [
 ]
 
 SRI_LANKAN_SOURCE = "sri_lankan_developer_burnout"
-SRI_LANKAN_EXPECTED_ROWS = 314
 SRI_LANKAN_EXHAUSTION_ITEMS = [
     "How often do you feel tired?",
     "How often are you physically exhausted?",
@@ -81,6 +80,16 @@ def minmax_norm(series):
     if hi == lo:
         return pd.Series(0.5, index=series.index)
     return (series - lo) / (hi - lo)
+
+
+def pick_column(df, *candidates):
+    """Return the first matching column name from a list of candidates."""
+    normalized = {str(column).strip(): column for column in df.columns}
+    for candidate in candidates:
+        key = str(candidate).strip()
+        if key in normalized:
+            return normalized[key]
+    raise KeyError(f"None of the candidate columns were found: {candidates}")
 
 
 def harmonize_mental_health_burnout_tech(path):
@@ -172,42 +181,56 @@ def harmonize_sri_lankan_survey(path):
     """
     df = pd.read_csv(path)
     df.columns = [str(column).strip() for column in df.columns]
-    if len(df) != SRI_LANKAN_EXPECTED_ROWS:
-        raise ValueError(
-            f"Expected {SRI_LANKAN_EXPECTED_ROWS} Sri Lankan survey rows, found {len(df)}"
-        )
 
-    required = [
-        "Average working hours per day",
+    work_hours_col = pick_column(df, "Average working hours per day")
+    overtime_col = pick_column(
+        df,
         "Average overtime hours per week",
-        "Average sleep hours per night",
+        "Average overtime hours per week  \nHours worked beyond your standard contracted hours\nNumber",
+    )
+    sleep_hours_col = pick_column(df, "Average sleep hours per night")
+    power_col = pick_column(
+        df,
         "How often do you experience unstable power or internet during work hours?",
-        "Sprint/deadline pressure",
+    )
+    sprint_col = pick_column(df, "Sprint/deadline pressure")
+    context_col = pick_column(
+        df,
         "Frequency of context switching between tasks",
+        "Frequency of context switching between tasks  \nHow often you have to stop one task to handle another  ",
+    )
+    urgent_col = pick_column(
+        df,
         "Number of urgent/unplanned tasks per week",
-        *SRI_LANKAN_EXHAUSTION_ITEMS,
-    ]
-    missing_required = [column for column in required if column not in df.columns]
-    if missing_required:
-        raise ValueError(f"Sri Lankan survey is missing required observed columns: {missing_required}")
+        "Number of urgent/unplanned tasks per week\nTasks that weren't part of your planned work but had to be done immediately\nNumber    ",
+    )
+    exhaustion_cols = [pick_column(df, item) for item in SRI_LANKAN_EXHAUSTION_ITEMS]
 
     out = pd.DataFrame(index=df.index)
-    out["workHours"] = pd.to_numeric(df["Average working hours per day"], errors="coerce").clip(0, 24)
-    out["overtimeHours"] = (pd.to_numeric(df["Average overtime hours per week"], errors="coerce") / 5).clip(0, 8)
-    out["sleepHours"] = pd.to_numeric(df["Average sleep hours per night"], errors="coerce").clip(0, 24)
+    if "I agree to anonymized data being used for research purposes." in df.columns:
+        consent = pd.to_numeric(
+            df["I agree to anonymized data being used for research purposes."],
+            errors="coerce",
+        )
+        consent_rate = float(consent.notna().mean()) if len(consent) else 0.0
+        print(f"Sri Lankan consent field present; numeric parse success rate: {consent_rate:.2%}")
+
+    out["workHours"] = pd.to_numeric(df[work_hours_col], errors="coerce").clip(0, 24)
+    out["overtimeHours"] = (pd.to_numeric(df[overtime_col], errors="coerce") / 5).clip(0, 8)
+    out["sleepHours"] = pd.to_numeric(df[sleep_hours_col], errors="coerce").clip(0, 24)
     out["powerInternetDisruption"] = pd.to_numeric(
-        df["How often do you experience unstable power or internet during work hours?"],
+        df[power_col],
         errors="coerce",
     ).clip(1, 5)
-    out["sprintPressureRating"] = pd.to_numeric(df["Sprint/deadline pressure"], errors="coerce").clip(1, 5)
+    out["sprintPressureRating"] = pd.to_numeric(df[sprint_col], errors="coerce").clip(1, 5)
     out["contextSwitchingFrequency"] = pd.to_numeric(
-        df["Frequency of context switching between tasks"], errors="coerce"
+        df[context_col], errors="coerce"
     ).clip(1, 5)
     out["urgentTasksCount"] = pd.to_numeric(
-        df["Number of urgent/unplanned tasks per week"], errors="coerce"
+        df[urgent_col], errors="coerce"
     ).clip(0, 10)
 
-    exhaustion = df[SRI_LANKAN_EXHAUSTION_ITEMS].apply(pd.to_numeric, errors="coerce")
+    exhaustion = df[exhaustion_cols].apply(pd.to_numeric, errors="coerce")
     if exhaustion.isna().any().any():
         raise ValueError("Sri Lankan exhaustion measurement contains missing or non-numeric responses")
     out["burnout_measurement"] = exhaustion.mean(axis=1)

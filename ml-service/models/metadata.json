@@ -1,8 +1,10 @@
 {
-  "version": "experiment-lightgbm-42",
+  "version": "v2.21-lightgbm",
   "algorithm": "LightGBM",
-  "modelFile": "model_experiment-lightgbm-42.pkl",
-  "scalerFile": "scaler_experiment-lightgbm-42.pkl",
+  "modelFile": "model_v2.21-lightgbm.pkl",
+  "scalerFile": "scaler_v2.21-lightgbm.pkl",
+  "calibratorFile": "calibrator_v2.21-lightgbm.pkl",
+  "backgroundFile": "background_v2.21-lightgbm.pkl",
   "featureColumns": [
     "sleepHours",
     "sleepQuality",
@@ -61,8 +63,703 @@
     "High",
     "Critical"
   ],
-  "trainedAt": "2026-09-03T09:28:48.396874+00:00",
+  "trainedAt": "2026-09-07T05:14:43.980437+00:00",
+  "metrics": {
+    "training": {
+      "accuracy": 0.6860403293782014,
+      "macroPrecision": 0.685774702981471,
+      "macroRecall": 0.6845969133242453,
+      "macroF1": 0.6850327907418439,
+      "weightedF1": 0.6862347873340062,
+      "rocAUC": 0.898036409102076,
+      "perClass": {
+        "Low": {
+          "precision": 0.7419416319237642,
+          "recall": 0.7730285203663713,
+          "f1": 0.7571661277382024,
+          "support": 40287
+        },
+        "Moderate": {
+          "precision": 0.5436824800375764,
+          "recall": 0.5456473915776241,
+          "f1": 0.5446631636734374,
+          "support": 38184
+        },
+        "High": {
+          "precision": 0.6034394595903867,
+          "recall": 0.5955062148093063,
+          "f1": 0.5994465906508575,
+          "support": 37652
+        },
+        "Critical": {
+          "precision": 0.854035240374157,
+          "recall": 0.8242055265436796,
+          "f1": 0.8388552809048783,
+          "support": 38107
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            31143,
+            8264,
+            859,
+            21
+          ],
+          [
+            8976,
+            20835,
+            8051,
+            322
+          ],
+          [
+            1648,
+            8557,
+            22422,
+            5025
+          ],
+          [
+            208,
+            666,
+            5825,
+            31408
+          ]
+        ]
+      },
+      "criticalRecall": 0.8242055265436796,
+      "f1Score": 0.6862347873340062,
+      "macroAuc": 0.898036409102076,
+      "logLoss": 0.7166072538489058,
+      "precisionPerClass": [
+        0.7419416319237642,
+        0.5436824800375764,
+        0.6034394595903867,
+        0.854035240374157
+      ],
+      "recallPerClass": [
+        0.7730285203663713,
+        0.5456473915776241,
+        0.5955062148093063,
+        0.8242055265436796
+      ],
+      "f1PerClass": [
+        0.7571661277382024,
+        0.5446631636734374,
+        0.5994465906508575,
+        0.8388552809048783
+      ],
+      "supportPerClass": [
+        40287,
+        38184,
+        37652,
+        38107
+      ]
+    },
+    "calibration": {
+      "accuracy": 0.6789340595214939,
+      "macroPrecision": 0.6785845937716593,
+      "macroRecall": 0.677417365563533,
+      "macroF1": 0.6778004595633125,
+      "weightedF1": 0.6790443647071982,
+      "rocAUC": 0.8944382618016002,
+      "perClass": {
+        "Low": {
+          "precision": 0.7347474460839954,
+          "recall": 0.7712413433613821,
+          "f1": 0.7525522252497729,
+          "support": 13429
+        },
+        "Moderate": {
+          "precision": 0.5350731514432582,
+          "recall": 0.5315839094908862,
+          "f1": 0.5333228234737714,
+          "support": 12728
+        },
+        "High": {
+          "precision": 0.5927054108216433,
+          "recall": 0.5891633466135459,
+          "f1": 0.5909290709290709,
+          "support": 12550
+        },
+        "Critical": {
+          "precision": 0.8518123667377399,
+          "recall": 0.8176808627883178,
+          "f1": 0.8343977186006346,
+          "support": 12703
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            10357,
+            2747,
+            318,
+            7
+          ],
+          [
+            3104,
+            6766,
+            2748,
+            110
+          ],
+          [
+            563,
+            2903,
+            7394,
+            1690
+          ],
+          [
+            72,
+            229,
+            2015,
+            10387
+          ]
+        ]
+      },
+      "criticalRecall": 0.8176808627883178,
+      "f1Score": 0.6790443647071982,
+      "macroAuc": 0.8944382618016002,
+      "logLoss": 0.7269262281700952,
+      "precisionPerClass": [
+        0.7347474460839954,
+        0.5350731514432582,
+        0.5927054108216433,
+        0.8518123667377399
+      ],
+      "recallPerClass": [
+        0.7712413433613821,
+        0.5315839094908862,
+        0.5891633466135459,
+        0.8176808627883178
+      ],
+      "f1PerClass": [
+        0.7525522252497729,
+        0.5333228234737714,
+        0.5909290709290709,
+        0.8343977186006346
+      ],
+      "supportPerClass": [
+        13429,
+        12728,
+        12550,
+        12703
+      ]
+    },
+    "finalValidation": {
+      "accuracy": 0.6795043862208476,
+      "macroPrecision": 0.679395567528672,
+      "macroRecall": 0.6780481872829813,
+      "macroF1": 0.6784926451816505,
+      "weightedF1": 0.679677050756443,
+      "rocAUC": 0.8938610457766863,
+      "perClass": {
+        "Low": {
+          "precision": 0.7321099617401162,
+          "recall": 0.7694541663563929,
+          "f1": 0.7503176850742476,
+          "support": 13429
+        },
+        "Moderate": {
+          "precision": 0.5404180907717987,
+          "recall": 0.534176618478944,
+          "f1": 0.5372792287328618,
+          "support": 12728
+        },
+        "High": {
+          "precision": 0.5970113663460774,
+          "recall": 0.5984383714445064,
+          "f1": 0.5977240171892408,
+          "support": 12551
+        },
+        "Critical": {
+          "precision": 0.8480428512566955,
+          "recall": 0.8101235928520821,
+          "f1": 0.828649649730252,
+          "support": 12703
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            10333,
+            2814,
+            277,
+            5
+          ],
+          [
+            3115,
+            6799,
+            2703,
+            111
+          ],
+          [
+            573,
+            2739,
+            7511,
+            1728
+          ],
+          [
+            93,
+            229,
+            2090,
+            10291
+          ]
+        ]
+      },
+      "criticalRecall": 0.8101235928520821,
+      "f1Score": 0.679677050756443,
+      "macroAuc": 0.8938610457766863,
+      "logLoss": 0.7312126561858602,
+      "precisionPerClass": [
+        0.7321099617401162,
+        0.5404180907717987,
+        0.5970113663460774,
+        0.8480428512566955
+      ],
+      "recallPerClass": [
+        0.7694541663563929,
+        0.534176618478944,
+        0.5984383714445064,
+        0.8101235928520821
+      ],
+      "f1PerClass": [
+        0.7503176850742476,
+        0.5372792287328618,
+        0.5977240171892408,
+        0.828649649730252
+      ],
+      "supportPerClass": [
+        13429,
+        12728,
+        12551,
+        12703
+      ]
+    }
+  },
   "validation": {
+    "internalTraining": {
+      "accuracy": 0.6860403293782014,
+      "macroPrecision": 0.685774702981471,
+      "macroRecall": 0.6845969133242453,
+      "macroF1": 0.6850327907418439,
+      "weightedF1": 0.6862347873340062,
+      "rocAUC": 0.898036409102076,
+      "perClass": {
+        "Low": {
+          "precision": 0.7419416319237642,
+          "recall": 0.7730285203663713,
+          "f1": 0.7571661277382024,
+          "support": 40287
+        },
+        "Moderate": {
+          "precision": 0.5436824800375764,
+          "recall": 0.5456473915776241,
+          "f1": 0.5446631636734374,
+          "support": 38184
+        },
+        "High": {
+          "precision": 0.6034394595903867,
+          "recall": 0.5955062148093063,
+          "f1": 0.5994465906508575,
+          "support": 37652
+        },
+        "Critical": {
+          "precision": 0.854035240374157,
+          "recall": 0.8242055265436796,
+          "f1": 0.8388552809048783,
+          "support": 38107
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            31143,
+            8264,
+            859,
+            21
+          ],
+          [
+            8976,
+            20835,
+            8051,
+            322
+          ],
+          [
+            1648,
+            8557,
+            22422,
+            5025
+          ],
+          [
+            208,
+            666,
+            5825,
+            31408
+          ]
+        ]
+      },
+      "criticalRecall": 0.8242055265436796,
+      "f1Score": 0.6862347873340062,
+      "macroAuc": 0.898036409102076,
+      "logLoss": 0.7166072538489058,
+      "precisionPerClass": [
+        0.7419416319237642,
+        0.5436824800375764,
+        0.6034394595903867,
+        0.854035240374157
+      ],
+      "recallPerClass": [
+        0.7730285203663713,
+        0.5456473915776241,
+        0.5955062148093063,
+        0.8242055265436796
+      ],
+      "f1PerClass": [
+        0.7571661277382024,
+        0.5446631636734374,
+        0.5994465906508575,
+        0.8388552809048783
+      ],
+      "supportPerClass": [
+        40287,
+        38184,
+        37652,
+        38107
+      ]
+    },
+    "internalCalibration": {
+      "accuracy": 0.6789340595214939,
+      "macroPrecision": 0.6785845937716593,
+      "macroRecall": 0.677417365563533,
+      "macroF1": 0.6778004595633125,
+      "weightedF1": 0.6790443647071982,
+      "rocAUC": 0.8944382618016002,
+      "perClass": {
+        "Low": {
+          "precision": 0.7347474460839954,
+          "recall": 0.7712413433613821,
+          "f1": 0.7525522252497729,
+          "support": 13429
+        },
+        "Moderate": {
+          "precision": 0.5350731514432582,
+          "recall": 0.5315839094908862,
+          "f1": 0.5333228234737714,
+          "support": 12728
+        },
+        "High": {
+          "precision": 0.5927054108216433,
+          "recall": 0.5891633466135459,
+          "f1": 0.5909290709290709,
+          "support": 12550
+        },
+        "Critical": {
+          "precision": 0.8518123667377399,
+          "recall": 0.8176808627883178,
+          "f1": 0.8343977186006346,
+          "support": 12703
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            10357,
+            2747,
+            318,
+            7
+          ],
+          [
+            3104,
+            6766,
+            2748,
+            110
+          ],
+          [
+            563,
+            2903,
+            7394,
+            1690
+          ],
+          [
+            72,
+            229,
+            2015,
+            10387
+          ]
+        ]
+      },
+      "criticalRecall": 0.8176808627883178,
+      "f1Score": 0.6790443647071982,
+      "macroAuc": 0.8944382618016002,
+      "logLoss": 0.7269262281700952,
+      "precisionPerClass": [
+        0.7347474460839954,
+        0.5350731514432582,
+        0.5927054108216433,
+        0.8518123667377399
+      ],
+      "recallPerClass": [
+        0.7712413433613821,
+        0.5315839094908862,
+        0.5891633466135459,
+        0.8176808627883178
+      ],
+      "f1PerClass": [
+        0.7525522252497729,
+        0.5333228234737714,
+        0.5909290709290709,
+        0.8343977186006346
+      ],
+      "supportPerClass": [
+        13429,
+        12728,
+        12550,
+        12703
+      ]
+    },
+    "internalFinalValidation": {
+      "accuracy": 0.6795043862208476,
+      "macroPrecision": 0.679395567528672,
+      "macroRecall": 0.6780481872829813,
+      "macroF1": 0.6784926451816505,
+      "weightedF1": 0.679677050756443,
+      "rocAUC": 0.8938610457766863,
+      "perClass": {
+        "Low": {
+          "precision": 0.7321099617401162,
+          "recall": 0.7694541663563929,
+          "f1": 0.7503176850742476,
+          "support": 13429
+        },
+        "Moderate": {
+          "precision": 0.5404180907717987,
+          "recall": 0.534176618478944,
+          "f1": 0.5372792287328618,
+          "support": 12728
+        },
+        "High": {
+          "precision": 0.5970113663460774,
+          "recall": 0.5984383714445064,
+          "f1": 0.5977240171892408,
+          "support": 12551
+        },
+        "Critical": {
+          "precision": 0.8480428512566955,
+          "recall": 0.8101235928520821,
+          "f1": 0.828649649730252,
+          "support": 12703
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            10333,
+            2814,
+            277,
+            5
+          ],
+          [
+            3115,
+            6799,
+            2703,
+            111
+          ],
+          [
+            573,
+            2739,
+            7511,
+            1728
+          ],
+          [
+            93,
+            229,
+            2090,
+            10291
+          ]
+        ]
+      },
+      "criticalRecall": 0.8101235928520821,
+      "f1Score": 0.679677050756443,
+      "macroAuc": 0.8938610457766863,
+      "logLoss": 0.7312126561858602,
+      "precisionPerClass": [
+        0.7321099617401162,
+        0.5404180907717987,
+        0.5970113663460774,
+        0.8480428512566955
+      ],
+      "recallPerClass": [
+        0.7694541663563929,
+        0.534176618478944,
+        0.5984383714445064,
+        0.8101235928520821
+      ],
+      "f1PerClass": [
+        0.7503176850742476,
+        0.5372792287328618,
+        0.5977240171892408,
+        0.828649649730252
+      ],
+      "supportPerClass": [
+        13429,
+        12728,
+        12551,
+        12703
+      ]
+    },
+    "calibration": {
+      "uncalibrated": {
+        "ece": 0.017735425977088253,
+        "brier": 0.105358725965334,
+        "classEce": [
+          0.014802060667880361,
+          0.020595202989597505,
+          0.021242262542847903,
+          0.014302177708027245
+        ],
+        "classBrier": [
+          0.08917546972606312,
+          0.14242043533615317,
+          0.1297721074224841,
+          0.06006689137663556
+        ]
+      },
+      "calibrated": {
+        "ece": 0.0061294244472432724
+      }
+    },
+    "externalSriLanka": {
+      "accuracy": 0.1111111111111111,
+      "macroPrecision": 0.029661016949152543,
+      "macroRecall": 0.19444444444444445,
+      "macroF1": 0.051470588235294115,
+      "weightedF1": 0.02941176470588235,
+      "rocAUC": 0.5035698905425584,
+      "perClass": {
+        "Low": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        },
+        "Moderate": {
+          "precision": 0.11864406779661017,
+          "recall": 0.7777777777777778,
+          "f1": 0.20588235294117646,
+          "support": 9
+        },
+        "High": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 21
+        },
+        "Critical": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 31
+        }
+      },
+      "confusionMatrix": {
+        "labels": [
+          "Low",
+          "Moderate",
+          "High",
+          "Critical"
+        ],
+        "matrix": [
+          [
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            2,
+            7,
+            0,
+            0
+          ],
+          [
+            2,
+            19,
+            0,
+            0
+          ],
+          [
+            0,
+            31,
+            0,
+            0
+          ]
+        ]
+      },
+      "criticalRecall": 0.0,
+      "f1Score": 0.02941176470588235,
+      "macroAuc": 0.5035698905425584,
+      "logLoss": 2.2336627976046297,
+      "precisionPerClass": [
+        0.0,
+        0.11864406779661017,
+        0.0,
+        0.0
+      ],
+      "recallPerClass": [
+        0.0,
+        0.7777777777777778,
+        0.0,
+        0.0
+      ],
+      "f1PerClass": [
+        0.0,
+        0.20588235294117646,
+        0.0,
+        0.0
+      ],
+      "supportPerClass": [
+        2,
+        9,
+        21,
+        31
+      ]
+    },
     "internalEvaluation": {
       "accuracy": 0.6795043862208476,
       "macroPrecision": 0.679395567528672,
@@ -254,191 +951,228 @@
         21,
         31
       ]
+    },
+    "externalSriLankaCalibration": {
+      "ece": 0.32679995698612074,
+      "brier": 0.2663106547136871,
+      "classEce": [
+        0.26564693678162626,
+        0.3610372579943232,
+        0.2368733966689547,
+        0.443642236499579
+      ],
+      "classBrier": [
+        0.10855779806526808,
+        0.25280555587230097,
+        0.2657580589102336,
+        0.43812120600694565
+      ]
+    },
+    "domainShift": {
+      "sleepHours": {
+        "sourceMean": 6.34163080478193,
+        "targetMean": 6.625396825396826,
+        "meanDiff": 0.28376602061489553
+      },
+      "workHours": {
+        "sourceMean": 9.392679935110154,
+        "targetMean": 8.81904761904762,
+        "meanDiff": -0.5736323160625343
+      },
+      "overtimeHours": {
+        "sourceMean": 2.3757511155373834,
+        "targetMean": 1.065079365079365,
+        "meanDiff": -1.3106717504580183
+      },
+      "powerInternetDisruption": {
+        "sourceMean": 3.0063704932459534,
+        "targetMean": 3.2,
+        "meanDiff": 0.19362950675404678
+      }
     }
   },
   "dataSplits": {
-    "internalTrainingRows": 154230,
-    "internalEvaluationRows": 51411,
-    "sriLankanTotal": 314,
-    "sriLankanDevelopment": 251,
-    "sriLankanHoldout": 63
+    "trainingRows": 154230,
+    "calibrationRows": 51410,
+    "finalValidationRows": 51411,
+    "externalSriLankaRows": 63
   },
   "globalFeatureImportance": [
     {
       "featureName": "stressLevel",
-      "meanAbsShap": 0.984808
+      "meanAbsShap": 1.017057
     },
     {
       "featureName": "overtimeHours",
-      "meanAbsShap": 0.330166
+      "meanAbsShap": 0.327956
     },
     {
       "featureName": "workHours",
-      "meanAbsShap": 0.197965
+      "meanAbsShap": 0.201775
     },
     {
       "featureName": "anxietyLevel",
-      "meanAbsShap": 0.163308
+      "meanAbsShap": 0.159691
     },
     {
       "featureName": "screenTimeHours",
-      "meanAbsShap": 0.09828
+      "meanAbsShap": 0.098407
     },
     {
       "featureName": "caffeineIntake",
-      "meanAbsShap": 0.081662
+      "meanAbsShap": 0.080404
     },
     {
       "featureName": "sleepHours",
-      "meanAbsShap": 0.072143
+      "meanAbsShap": 0.072372
     },
     {
       "featureName": "wfhEnvironmentQuality",
-      "meanAbsShap": 0.043744
+      "meanAbsShap": 0.049281
     },
     {
       "featureName": "socialSupportLevel",
-      "meanAbsShap": 0.038191
+      "meanAbsShap": 0.036048
     },
     {
       "featureName": "workloadRating",
-      "meanAbsShap": 0.023576
+      "meanAbsShap": 0.025336
     },
     {
       "featureName": "selfEfficacy",
-      "meanAbsShap": 0.020249
+      "meanAbsShap": 0.019269
     },
     {
       "featureName": "exerciseLevel",
-      "meanAbsShap": 0.015747
+      "meanAbsShap": 0.01717
     },
     {
       "featureName": "workSatisfaction",
-      "meanAbsShap": 0.008348
+      "meanAbsShap": 0.008045
     },
     {
       "featureName": "commuteMinutes",
-      "meanAbsShap": 0.006234
+      "meanAbsShap": 0.006963
     },
     {
       "featureName": "interruptionsPerDay",
-      "meanAbsShap": 0.003878
+      "meanAbsShap": 0.003945
     },
     {
       "featureName": "workModeEncoded",
-      "meanAbsShap": 0.00268
-    },
-    {
-      "featureName": "breaksTaken",
-      "meanAbsShap": 0.001528
+      "meanAbsShap": 0.00314
     },
     {
       "featureName": "motivationLevel",
-      "meanAbsShap": 0.00152
+      "meanAbsShap": 0.00171
     },
     {
       "featureName": "urgentTasksCount",
-      "meanAbsShap": 0.00152
+      "meanAbsShap": 0.001698
     },
     {
       "featureName": "meetingsCount",
-      "meanAbsShap": 0.001431
+      "meanAbsShap": 0.001633
     },
     {
       "featureName": "emotionalFatigue",
-      "meanAbsShap": 0.001379
-    },
-    {
-      "featureName": "lonelinessLevel",
-      "meanAbsShap": 0.001265
-    },
-    {
-      "featureName": "salaryWorkloadSatisfaction",
-      "meanAbsShap": 0.001221
+      "meanAbsShap": 0.001468
     },
     {
       "featureName": "concentrationIssues",
-      "meanAbsShap": 0.001214
+      "meanAbsShap": 0.001428
+    },
+    {
+      "featureName": "breaksTaken",
+      "meanAbsShap": 0.001354
+    },
+    {
+      "featureName": "lonelinessLevel",
+      "meanAbsShap": 0.001194
+    },
+    {
+      "featureName": "salaryWorkloadSatisfaction",
+      "meanAbsShap": 0.001
     },
     {
       "featureName": "powerInternetDisruption",
-      "meanAbsShap": 0.00109
-    },
-    {
-      "featureName": "managerSupportLevel",
-      "meanAbsShap": 0.001084
-    },
-    {
-      "featureName": "sprintPressureRating",
-      "meanAbsShap": 0.001032
-    },
-    {
-      "featureName": "peerSupportLevel",
-      "meanAbsShap": 0.00082
-    },
-    {
-      "featureName": "copingAbility",
-      "meanAbsShap": 0.000802
+      "meanAbsShap": 0.000896
     },
     {
       "featureName": "moodScore",
-      "meanAbsShap": 0.00078
+      "meanAbsShap": 0.000883
+    },
+    {
+      "featureName": "managerSupportLevel",
+      "meanAbsShap": 0.000813
+    },
+    {
+      "featureName": "sprintPressureRating",
+      "meanAbsShap": 0.000795
     },
     {
       "featureName": "contextSwitchingFrequency",
-      "meanAbsShap": 0.000774
-    },
-    {
-      "featureName": "familyResponsibilityLoad",
-      "meanAbsShap": 0.00076
-    },
-    {
-      "featureName": "irritabilityLevel",
-      "meanAbsShap": 0.000715
-    },
-    {
-      "featureName": "sleepQuality",
-      "meanAbsShap": 0.000676
-    },
-    {
-      "featureName": "deadlineFrequency",
-      "meanAbsShap": 0.000672
+      "meanAbsShap": 0.000749
     },
     {
       "featureName": "autonomyLevel",
-      "meanAbsShap": 0.000643
+      "meanAbsShap": 0.000743
+    },
+    {
+      "featureName": "copingAbility",
+      "meanAbsShap": 0.000741
+    },
+    {
+      "featureName": "sleepQuality",
+      "meanAbsShap": 0.000718
+    },
+    {
+      "featureName": "irritabilityLevel",
+      "meanAbsShap": 0.000701
     },
     {
       "featureName": "bugFixingLoad",
-      "meanAbsShap": 0.000601
+      "meanAbsShap": 0.000691
+    },
+    {
+      "featureName": "peerSupportLevel",
+      "meanAbsShap": 0.000654
+    },
+    {
+      "featureName": "familyResponsibilityLoad",
+      "meanAbsShap": 0.000619
+    },
+    {
+      "featureName": "deadlineFrequency",
+      "meanAbsShap": 0.00061
     },
     {
       "featureName": "taskComplexity",
-      "meanAbsShap": 0.000601
+      "meanAbsShap": 0.000577
     },
     {
       "featureName": "roleAmbiguity",
-      "meanAbsShap": 0.000589
+      "meanAbsShap": 0.000506
     },
     {
       "featureName": "energyLevel",
-      "meanAbsShap": 0.000382
+      "meanAbsShap": 0.000466
     },
     {
       "featureName": "mealQuality",
-      "meanAbsShap": 0.000327
-    },
-    {
-      "featureName": "isWeekendWork",
-      "meanAbsShap": 0.000212
-    },
-    {
-      "featureName": "isOnCallToday",
-      "meanAbsShap": 0.000148
+      "meanAbsShap": 0.000425
     },
     {
       "featureName": "afterHoursMessaging",
-      "meanAbsShap": 0.000147
+      "meanAbsShap": 0.000211
+    },
+    {
+      "featureName": "isWeekendWork",
+      "meanAbsShap": 0.000184
+    },
+    {
+      "featureName": "isOnCallToday",
+      "meanAbsShap": 0.000143
     }
   ],
   "status": "Active"
