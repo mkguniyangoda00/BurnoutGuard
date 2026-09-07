@@ -196,5 +196,9 @@
       21,
       31
     ]
+  },
+  "evaluationData": {
+    "internal": "development final validation subset",
+    "externalSriLanka": "held-out Sri Lankan subset, evaluated only after model fitting"
   }
 }
