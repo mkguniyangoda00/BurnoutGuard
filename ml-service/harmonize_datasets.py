@@ -53,6 +53,15 @@ TARGET_COLUMNS = [
     "selfEfficacy", "copingAbility", "powerInternetDisruption",
     "wfhEnvironmentQuality", "familyResponsibilityLoad",
     "salaryWorkloadSatisfaction", "afterHoursMessaging", "workModeEncoded",
+    # Work Pattern Monitoring — previously omitted here, which silently
+    # dropped these columns (even when a source harmonizer populated them,
+    # e.g. Sri Lankan sprintPressureRating/urgentTasksCount/
+    # contextSwitchingFrequency) before combined[ordered_cols] selection.
+    "meetingsCount", "urgentTasksCount", "sprintPressureRating",
+    "deadlineFrequency", "isWeekendWork", "bugFixingLoad",
+    "contextSwitchingFrequency", "isOnCallToday",
+    "managerSupportLevel", "peerSupportLevel", "autonomyLevel",
+    "roleAmbiguity", "taskComplexity", "interruptionsPerDay",
 ]
 
 SRI_LANKAN_SOURCE = "sri_lankan_developer_burnout"
@@ -206,6 +215,52 @@ def harmonize_sri_lankan_survey(path):
     )
     exhaustion_cols = [pick_column(df, item) for item in SRI_LANKAN_EXHAUSTION_ITEMS]
 
+    # Additional directly-observed Likert/categorical columns wired up
+    # alongside the original 7-feature mapping. All Likert items in this
+    # survey are on a 1-5 scale (verified against raw CSV values); items
+    # whose FEATURE_COLUMNS counterpart expects a wider 1-10 range
+    # (stressLevel, anxietyLevel, emotionalFatigue) are linearly rescaled
+    # 1-5 -> 1-10. afterHoursMessaging is asked as a 1-5 frequency here but
+    # the trained feature expects a 0-1 range, so it is rescaled to [0,1].
+    # roleAmbiguity is reverse-scored because the survey asks about role
+    # *clarity* (higher = less ambiguous) while the feature is ambiguity
+    # (higher = more ambiguous).
+    sleep_quality_col = pick_column(df, "How would you rate your sleep quality?")
+    exercise_days_col = pick_column(df, "How many days per week do you exercise?")
+    screen_time_col = pick_column(df, "Average daily screen time outside work (hours)")
+    workload_col = pick_column(df, "How would you rate your current workload?")
+    breaks_col = pick_column(df, "Average breaks taken per workday")
+    commute_col = pick_column(df, "Average one-way commute time (minutes)")
+    stress_col = pick_column(df, "How would you rate your current stress level?")
+    energy_col = pick_column(df, "How would you rate your energy level most days?")
+    job_satisfaction_col = pick_column(df, "How satisfied are you with your job overall?")
+    caffeine_col = pick_column(df, "Average caffeinated drinks per day")
+    meal_col = pick_column(df, "How would you rate the quality/regularity of your meals?")
+    social_support_col = pick_column(df, "How supported do you feel by people around you generally?")
+    anxiety_col = pick_column(df, "How often do you feel anxious about work?")
+    emotional_fatigue_col = pick_column(df, "How emotionally drained do you feel by work?")
+    motivation_col = pick_column(df, "How motivated do you feel at work?")
+    concentration_col = pick_column(df, "How often do you struggle to concentrate?")
+    irritability_col = pick_column(df, "How often do you feel irritable?")
+    self_efficacy_col = pick_column(df, "How confident are you in handling your work challenges?")
+    coping_col = pick_column(df, "How well do you feel you cope with work pressure?")
+    salary_workload_col = pick_column(df, "How fair does your pay feel relative to your workload?")
+    after_hours_col = pick_column(
+        df, "How often are you contacted about work after hours (messages, calls)?"
+    )
+    weekend_work_col = pick_column(df, "Do you regularly work on weekends?")
+    on_call_col = pick_column(df, "Are you currently on an on-call rotation?")
+    work_arrangement_col = pick_column(df, "Work arrangement")
+    manager_support_col = pick_column(df, "How supported do you feel by your manager?")
+    peer_support_col = pick_column(df, "How supported do you feel by your peers/teammates?")
+    autonomy_col = pick_column(
+        df,
+        "How much control do you have over how you do your work?",
+        "How much control do you have over how you do your work?  \ne.g. choosing your tools, methods, or schedule ",
+    )
+    role_clarity_col = pick_column(df, "How clear is what's expected of you in your role?")
+    task_complexity_col = pick_column(df, "How complex is your typical day-to-day work?")
+
     out = pd.DataFrame(index=df.index)
     if "I agree to anonymized data being used for research purposes." in df.columns:
         consent = pd.to_numeric(
@@ -214,6 +269,9 @@ def harmonize_sri_lankan_survey(path):
         )
         consent_rate = float(consent.notna().mean()) if len(consent) else 0.0
         print(f"Sri Lankan consent field present; numeric parse success rate: {consent_rate:.2%}")
+
+    def rescale_1_5_to_1_10(series):
+        return 1 + (pd.to_numeric(series, errors="coerce") - 1) / 4 * 9
 
     out["workHours"] = pd.to_numeric(df[work_hours_col], errors="coerce").clip(0, 24)
     out["overtimeHours"] = (pd.to_numeric(df[overtime_col], errors="coerce") / 5).clip(0, 8)
@@ -229,6 +287,45 @@ def harmonize_sri_lankan_survey(path):
     out["urgentTasksCount"] = pd.to_numeric(
         df[urgent_col], errors="coerce"
     ).clip(0, 10)
+
+    # --- Newly wired columns (previously left NaN / median-imputed) ---
+    out["sleepQuality"] = pd.to_numeric(df[sleep_quality_col], errors="coerce").clip(1, 5)
+    out["exerciseLevel"] = (
+        1 + (pd.to_numeric(df[exercise_days_col], errors="coerce") / 7) * 4
+    ).clip(1, 5)
+    out["screenTimeHours"] = pd.to_numeric(df[screen_time_col], errors="coerce").clip(0, 14)
+    out["workloadRating"] = pd.to_numeric(df[workload_col], errors="coerce").clip(1, 5)
+    out["breaksTaken"] = pd.to_numeric(df[breaks_col], errors="coerce").clip(0, 10)
+    out["commuteMinutes"] = pd.to_numeric(df[commute_col], errors="coerce").clip(0, 180)
+    out["stressLevel"] = rescale_1_5_to_1_10(df[stress_col]).clip(1, 10)
+    out["energyLevel"] = pd.to_numeric(df[energy_col], errors="coerce").clip(1, 5)
+    out["workSatisfaction"] = pd.to_numeric(df[job_satisfaction_col], errors="coerce").clip(1, 5)
+    out["caffeineIntake"] = pd.to_numeric(df[caffeine_col], errors="coerce").clip(0, 8)
+    out["mealQuality"] = pd.to_numeric(df[meal_col], errors="coerce").clip(1, 5)
+    out["socialSupportLevel"] = pd.to_numeric(df[social_support_col], errors="coerce").clip(1, 5)
+    out["anxietyLevel"] = rescale_1_5_to_1_10(df[anxiety_col]).clip(1, 10)
+    out["emotionalFatigue"] = rescale_1_5_to_1_10(df[emotional_fatigue_col]).clip(1, 10)
+    out["motivationLevel"] = pd.to_numeric(df[motivation_col], errors="coerce").clip(1, 5)
+    out["concentrationIssues"] = pd.to_numeric(df[concentration_col], errors="coerce").clip(1, 5)
+    out["irritabilityLevel"] = pd.to_numeric(df[irritability_col], errors="coerce").clip(1, 5)
+    out["selfEfficacy"] = pd.to_numeric(df[self_efficacy_col], errors="coerce").clip(1, 5)
+    out["copingAbility"] = pd.to_numeric(df[coping_col], errors="coerce").clip(1, 5)
+    out["salaryWorkloadSatisfaction"] = pd.to_numeric(
+        df[salary_workload_col], errors="coerce"
+    ).clip(1, 5)
+    out["afterHoursMessaging"] = (
+        (pd.to_numeric(df[after_hours_col], errors="coerce") - 1) / 4
+    ).clip(0, 1)
+    out["isWeekendWork"] = df[weekend_work_col].astype(str).str.strip().str.lower().eq("yes").astype(float)
+    out["isOnCallToday"] = df[on_call_col].astype(str).str.strip().str.lower().eq("yes").astype(float)
+    out["workModeEncoded"] = df[work_arrangement_col].astype(str).str.strip().map(
+        {"Remote": 1, "Hybrid": 2, "On-site": 3, "Onsite": 3}
+    )
+    out["managerSupportLevel"] = pd.to_numeric(df[manager_support_col], errors="coerce").clip(1, 5)
+    out["peerSupportLevel"] = pd.to_numeric(df[peer_support_col], errors="coerce").clip(1, 5)
+    out["autonomyLevel"] = pd.to_numeric(df[autonomy_col], errors="coerce").clip(1, 5)
+    out["roleAmbiguity"] = (6 - pd.to_numeric(df[role_clarity_col], errors="coerce")).clip(1, 5)
+    out["taskComplexity"] = pd.to_numeric(df[task_complexity_col], errors="coerce").clip(1, 5)
 
     exhaustion = df[exhaustion_cols].apply(pd.to_numeric, errors="coerce")
     if exhaustion.isna().any().any():
