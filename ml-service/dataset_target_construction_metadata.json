@@ -36,10 +36,10 @@
     "n_samples": 257114,
     "n_classes": 4,
     "class_distribution": {
-      "Low": 67147,
-      "Moderate": 63649,
-      "Critical": 63544,
-      "High": 62774
+      "Low": 67145,
+      "Moderate": 63637,
+      "Critical": 63570,
+      "High": 62762
     },
     "class_distribution_pct": {
       "Low": 26.1,
@@ -55,10 +55,9 @@
       "pct_real": 100.0
     },
     "sleepQuality": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "exerciseLevel": {
       "n_real": 255314,
@@ -91,10 +90,9 @@
       "pct_real": 0.8
     },
     "commuteMinutes": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "stressLevel": {
       "n_real": 255314,
@@ -108,10 +106,9 @@
       "sri_lankan_unavailable": 314
     },
     "energyLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "workSatisfaction": {
       "n_real": 255314,
@@ -124,10 +121,9 @@
       "pct_real": 60.4
     },
     "mealQuality": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "socialSupportLevel": {
       "n_real": 250314,
@@ -140,28 +136,24 @@
       "pct_real": 99.3
     },
     "emotionalFatigue": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "motivationLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "concentrationIssues": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "irritabilityLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "lonelinessLevel": {
       "n_real": 256800,
@@ -175,10 +167,9 @@
       "pct_real": 41.0
     },
     "copingAbility": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "powerInternetDisruption": {
       "n_real": 314,
@@ -197,10 +188,9 @@
       "sri_lankan_unavailable": 314
     },
     "salaryWorkloadSatisfaction": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "afterHoursMessaging": {
       "n_real": 7114,
@@ -214,16 +204,14 @@
       "sri_lankan_unavailable": 314
     },
     "urgentTasksCount": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "sprintPressureRating": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "deadlineFrequency": {
       "n_real": 256800,
@@ -232,10 +220,9 @@
       "sri_lankan_unavailable": 314
     },
     "isWeekendWork": {
-      "n_real": 0,
-      "n_synthetic": 257114,
-      "pct_real": 0.0,
-      "note": "100% synthetic"
+      "n_real": 314,
+      "n_synthetic": 256800,
+      "pct_real": 0.1
     },
     "bugFixingLoad": {
       "n_real": 256800,
@@ -244,16 +231,14 @@
       "sri_lankan_unavailable": 314
     },
     "contextSwitchingFrequency": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "isOnCallToday": {
-      "n_real": 0,
-      "n_synthetic": 257114,
-      "pct_real": 0.0,
-      "note": "100% synthetic"
+      "n_real": 314,
+      "n_synthetic": 256800,
+      "pct_real": 0.1
     },
     "workModeEncoded": {
       "n_real": 100314,
@@ -261,34 +246,29 @@
       "pct_real": 39.0
     },
     "managerSupportLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "peerSupportLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "autonomyLevel": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "roleAmbiguity": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "taskComplexity": {
-      "n_real": 256800,
+      "n_real": 314,
       "n_synthetic": 256800,
-      "pct_real": 0.0,
-      "sri_lankan_unavailable": 314
+      "pct_real": 0.1
     },
     "interruptionsPerDay": {
       "n_real": 256800,
@@ -297,6 +277,6 @@
       "sri_lankan_unavailable": 314
     }
   },
-  "pct_synthetic_predictors": 81.0,
+  "pct_synthetic_predictors": 76.4,
   "critical_assumption": "harmonized_risk_norm is derived ONLY from each dataset's burnout_score field, NOT from predictor variables. This prevents target leakage."
 }

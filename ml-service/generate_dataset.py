@@ -454,18 +454,24 @@ def main():
         }
         n_synthetic_total += int((~sri_lankan_mask).sum())
     
-    # 100% synthetic features - FLAG AS SYNTHETIC
-    print("\n      ⚠ WARNING: 100% synthetically generated features:")
+    # isWeekendWork / isOnCallToday: no non-Sri-Lankan source has these, so
+    # they remain 100% synthetic for the development sources. The Sri
+    # Lankan survey DOES have real Yes/No answers for both, so those were
+    # already filled with real values by the generic predictor_cols loop
+    # above (base.columns / notna check) — do not overwrite them here.
+    print("\n      ⚠ WARNING: 100% synthetically generated for non-Sri-Lankan sources:")
     print("        - isWeekendWork (15% base probability)")
     print("        - isOnCallToday (10% base probability)")
-    print("      These features have NO real ground truth and should be used cautiously in interpretation.")
-    
-    df["isWeekendWork"] = (np.random.rand(n) < 0.15).astype(float)
-    df["isOnCallToday"] = (np.random.rand(n) < 0.10).astype(float)
-    df.loc[sri_lankan_mask, ["isWeekendWork", "isOnCallToday"]] = np.nan
-    predictor_coverage["isWeekendWork"] = {"n_real": 0, "n_synthetic": n, "pct_real": 0.0, "note": "100% synthetic"}
-    predictor_coverage["isOnCallToday"] = {"n_real": 0, "n_synthetic": n, "pct_real": 0.0, "note": "100% synthetic"}
-    n_synthetic_total += 2 * n
+    print("      Sri Lankan rows use real survey answers for these two features.")
+
+    for col, base_rate in (("isWeekendWork", 0.15), ("isOnCallToday", 0.10)):
+        if col in predictor_coverage:
+            continue  # already populated with real+synthetic values above
+        values = (np.random.rand(n) < base_rate).astype(float)
+        values[sri_lankan_mask.to_numpy()] = np.nan
+        df[col] = values
+        predictor_coverage[col] = {"n_real": 0, "n_synthetic": n, "pct_real": 0.0, "note": "100% synthetic"}
+        n_synthetic_total += n
     
     total_feature_values = len(predictor_cols) * n
     pct_synthetic_overall = round(n_synthetic_total / total_feature_values * 100, 1)

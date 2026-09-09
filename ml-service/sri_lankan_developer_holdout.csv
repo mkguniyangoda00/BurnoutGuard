@@ -1,315 +1,322 @@
-Timestamp,Years of professional software development experience  ,Current role ,  Company size  ,  Work arrangement  ,  Average working hours per day  ,  Average overtime hours per week  ,  Average sleep hours per night  ,How often do you experience unstable power or internet during work hours?  ,How often do you feel tired?  ,  How often are you physically exhausted?  ,How often are you emotionally exhausted?  ," How often do you think ""I can't take it anymore""?  ",How often do you feel worn out?  ,How often do you feel weak and susceptible to illness?  ,Sprint/deadline pressure  ,Frequency of context switching between tasks  ,Number of urgent/unplanned tasks per week  ,source_dataset
-2026/08/29 1:24:48 PM GMT+5:30,1.0,Junior Developer,<20 / 20–100,On-site,9.0,2.0,5.0,2.0,4,5,4,3,4,3,4,2,4,sri_lankan_developer_burnout
-2026/08/29 1:27:12 PM GMT+5:30,1.5,Mid-level Developer,100–500,Hybrid,8.0,3.0,6.0,4.0,4,3,5,4,4,2,5,4,5,sri_lankan_developer_burnout
-2026/08/29 2:08:03 PM GMT+5:30,5.0,Team Lead,500+,On-site,10.0,8.0,4.0,2.0,3,4,2,4,2,1,5,5,5,sri_lankan_developer_burnout
-2026/08/29 2:48:05 PM GMT+5:30,4.0,Mid-level Developer,500+,Hybrid,8.5,3.4,7.4,1.0,2,2,2,2,1,3,3,1,2,sri_lankan_developer_burnout
-2026/08/29 2:49:58 PM GMT+5:30,3.0,Mid-level Developer,100–500,Hybrid,8.0,10.4,6.4,1.0,3,2,2,2,3,2,1,3,1,sri_lankan_developer_burnout
-2026/08/29 2:51:44 PM GMT+5:30,3.0,Mid-level Developer,100–500,Hybrid,9.4,4.4,6.8,3.0,3,2,2,2,2,3,3,4,4,sri_lankan_developer_burnout
-2026/08/29 2:53:55 PM GMT+5:30,1.8,Junior Developer,<20 / 20–100,On-site,8.8,0.0,7.5,1.0,1,2,2,1,2,1,1,1,3,sri_lankan_developer_burnout
-2026/08/29 2:55:22 PM GMT+5:30,9.0,Team Lead,100–500,Remote,9.7,6.6,6.6,5.0,3,2,3,4,3,3,4,4,3,sri_lankan_developer_burnout
-2026/08/29 2:57:31 PM GMT+5:30,1.7,Junior Developer,500+,Remote,8.5,1.9,7.2,2.0,1,2,2,2,2,1,1,1,1,sri_lankan_developer_burnout
-2026/08/29 3:01:25 PM GMT+5:30,5.8,Solution Architecture,<20 / 20–100,Remote,8.5,2.8,5.4,2.0,2,2,2,2,3,2,2,2,3,sri_lankan_developer_burnout
-2026/08/29 3:03:13 PM GMT+5:30,3.1,Mid-level Developer,100–500,Hybrid,8.7,2.0,7.4,4.0,4,2,2,3,2,2,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:05:46 PM GMT+5:30,6.1,Senior Developer,100–500,Hybrid,8.3,4.7,7.0,4.0,3,4,2,2,2,3,4,2,3,sri_lankan_developer_burnout
-2026/08/29 3:07:40 PM GMT+5:30,1.3,Junior Developer,<20 / 20–100,Hybrid,9.2,2.8,6.6,4.0,3,2,3,3,2,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:09:05 PM GMT+5:30,0.7,Junior Developer,<20 / 20–100,On-site,8.0,3.5,7.0,4.0,4,3,2,3,2,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:11:53 PM GMT+5:30,4.0,Mid-level Developer,500+,Hybrid,8.5,3.4,7.4,,2,1,3,3,1,2,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:12:09 PM GMT+5:30,3.0,Mid-level Developer,100–500,Hybrid,8.0,10.4,6.4,,2,3,2,2,3,1,3,2,2,sri_lankan_developer_burnout
-2026/08/29 3:12:19 PM GMT+5:30,3.0,Mid-level Developer,100–500,Hybrid,9.4,4.4,6.8,,2,2,3,3,3,3,3,2,1,sri_lankan_developer_burnout
-2026/08/29 3:12:29 PM GMT+5:30,1.8,Junior Developer,<20 / 20–100,On-site,8.8,0.0,7.5,,1,2,1,1,1,2,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:12:42 PM GMT+5:30,9.0,Team Lead,100–500,Remote,9.7,6.6,6.6,,4,3,3,4,4,3,3,2,2,sri_lankan_developer_burnout
-2026/08/29 3:12:52 PM GMT+5:30,1.7,Junior Developer,500+,Remote,8.5,1.9,7.2,,2,2,1,1,2,1,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:13:04 PM GMT+5:30,5.8,Other,<20 / 20–100,Remote,8.5,2.8,6.4,,2,3,2,2,2,3,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:13:16 PM GMT+5:30,3.1,Mid-level Developer,100–500,Hybrid,8.7,2.0,7.4,,3,2,2,3,2,3,5,2,2,sri_lankan_developer_burnout
-2026/08/29 3:13:26 PM GMT+5:30,6.1,Senior Developer,100–500,Hybrid,8.3,4.7,7.0,,2,2,3,3,2,3,4,5,2,sri_lankan_developer_burnout
-2026/08/29 3:13:39 PM GMT+5:30,1.3,Junior Developer,<20 / 20–100,Hybrid,9.2,2.8,6.6,,3,2,3,3,3,4,3,1,3,sri_lankan_developer_burnout
-2026/08/29 3:13:50 PM GMT+5:30,0.7,Junior Developer,<20 / 20–100,On-site,8.1,3.2,7.0,,3,2,3,3,3,3,5,3,1,sri_lankan_developer_burnout
-2026/08/29 3:14:01 PM GMT+5:30,2.7,Other,500+,Hybrid,9.0,5.6,6.6,,2,3,3,2,3,3,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:14:11 PM GMT+5:30,6.8,Senior Developer,100–500,Remote,9.6,6.8,6.7,,5,4,4,5,5,5,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:14:22 PM GMT+5:30,5.6,Senior Developer,<20 / 20–100,Hybrid,8.6,3.3,6.8,,2,2,4,3,1,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:14:34 PM GMT+5:30,6.5,Team Lead,<20 / 20–100,Remote,10.2,10.1,5.9,,5,4,5,3,5,3,4,2,5,sri_lankan_developer_burnout
-2026/08/29 3:14:45 PM GMT+5:30,6.3,Team Lead,<20 / 20–100,On-site,8.2,6.8,7.1,,3,1,1,2,2,1,1,1,1,sri_lankan_developer_burnout
-2026/08/29 3:14:56 PM GMT+5:30,6.2,Senior Developer,500+,Hybrid,9.3,4.0,6.9,,4,4,3,4,3,3,1,4,3,sri_lankan_developer_burnout
-2026/08/29 3:15:06 PM GMT+5:30,4.5,Mid-level Developer,500+,On-site,8.9,2.4,6.9,,3,3,4,4,3,3,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:15:15 PM GMT+5:30,4.8,Mid-level Developer,500+,Remote,8.5,6.7,6.8,,4,3,4,3,3,4,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:15:26 PM GMT+5:30,4.2,Mid-level Developer,<20 / 20–100,Remote,9.7,5.9,6.9,,4,3,3,3,3,3,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:15:36 PM GMT+5:30,8.7,Senior Developer,<20 / 20–100,On-site,8.6,6.1,6.2,,4,3,3,2,3,4,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:15:47 PM GMT+5:30,6.8,Senior Developer,500+,Remote,9.9,4.6,6.9,,4,4,5,4,5,3,4,4,3,sri_lankan_developer_burnout
-2026/08/29 3:16:00 PM GMT+5:30,6.8,Senior Developer,500+,On-site,11.3,3.5,6.6,,3,4,4,4,4,4,4,1,1,sri_lankan_developer_burnout
-2026/08/29 3:16:12 PM GMT+5:30,11.8,Manager,<20 / 20–100,On-site,9.9,9.9,6.0,,4,4,4,5,4,4,5,3,4,sri_lankan_developer_burnout
-2026/08/29 3:16:22 PM GMT+5:30,5.5,Other,100–500,On-site,6.9,6.2,6.7,,3,3,2,1,2,3,2,4,2,sri_lankan_developer_burnout
-2026/08/29 3:16:33 PM GMT+5:30,0.9,Junior Developer,<20 / 20–100,On-site,8.9,0.0,7.6,,3,1,1,2,2,2,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:16:41 PM GMT+5:30,3.1,Mid-level Developer,<20 / 20–100,Hybrid,9.0,1.7,6.9,,2,2,2,1,2,2,4,2,2,sri_lankan_developer_burnout
-2026/08/29 3:16:51 PM GMT+5:30,8.3,Senior Developer,<20 / 20–100,Hybrid,6.8,7.6,6.3,,2,4,4,3,3,3,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:16:58 PM GMT+5:30,7.5,Senior Developer,100–500,On-site,7.5,6.0,6.4,,2,2,2,3,2,1,1,1,1,sri_lankan_developer_burnout
-2026/08/29 3:17:06 PM GMT+5:30,7.4,Senior Developer,100–500,Hybrid,9.1,4.5,6.6,,3,3,3,3,3,3,5,2,4,sri_lankan_developer_burnout
-2026/08/29 3:17:13 PM GMT+5:30,3.5,Mid-level Developer,500+,On-site,8.2,5.9,6.8,,2,2,2,3,1,2,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:17:23 PM GMT+5:30,6.2,Senior Developer,<20 / 20–100,Hybrid,8.8,12.5,5.6,,4,3,4,4,2,3,3,4,3,sri_lankan_developer_burnout
-2026/08/29 3:17:31 PM GMT+5:30,4.9,Mid-level Developer,500+,Hybrid,9.0,2.5,7.0,,3,2,2,3,3,1,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:17:41 PM GMT+5:30,12.4,Manager,100–500,Hybrid,10.4,7.0,5.9,,5,3,4,5,3,5,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:17:48 PM GMT+5:30,1.2,Junior Developer,500+,Hybrid,8.3,3.0,6.8,,2,3,1,1,1,2,3,2,1,sri_lankan_developer_burnout
-2026/08/29 3:17:55 PM GMT+5:30,6.6,Senior Developer,100–500,Hybrid,10.1,2.9,6.8,,3,2,4,3,3,3,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:18:02 PM GMT+5:30,6.2,Senior Developer,500+,Hybrid,11.0,8.9,6.9,,4,4,4,5,4,5,4,5,5,sri_lankan_developer_burnout
-2026/08/29 3:18:09 PM GMT+5:30,15.4,Manager,<20 / 20–100,Remote,7.7,4.5,6.7,,3,3,4,4,3,2,3,1,3,sri_lankan_developer_burnout
-2026/08/29 3:18:20 PM GMT+5:30,1.3,Junior Developer,500+,Remote,8.2,2.5,7.0,,1,1,1,1,2,2,4,1,3,sri_lankan_developer_burnout
-2026/08/29 3:18:28 PM GMT+5:30,5.3,Other,<20 / 20–100,On-site,8.1,2.1,7.0,,2,3,2,3,2,2,4,3,1,sri_lankan_developer_burnout
-2026/08/29 3:18:35 PM GMT+5:30,8.8,Team Lead,500+,Hybrid,8.4,9.3,6.5,,3,4,2,4,2,4,1,5,2,sri_lankan_developer_burnout
-2026/08/29 3:18:42 PM GMT+5:30,4.4,Mid-level Developer,<20 / 20–100,Hybrid,6.7,6.4,6.6,,2,3,3,2,2,3,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:18:49 PM GMT+5:30,1.9,Junior Developer,<20 / 20–100,On-site,8.4,0.5,7.3,,2,1,2,1,2,2,1,2,3,sri_lankan_developer_burnout
-2026/08/29 3:18:59 PM GMT+5:30,0.4,Junior Developer,<20 / 20–100,Hybrid,6.3,0.0,7.4,,1,3,1,1,1,2,1,1,2,sri_lankan_developer_burnout
-2026/08/29 3:19:07 PM GMT+5:30,0.4,Junior Developer,<20 / 20–100,Hybrid,10.2,2.3,7.3,,2,1,2,2,2,1,2,2,4,sri_lankan_developer_burnout
-2026/08/29 3:19:18 PM GMT+5:30,9.6,Senior Developer,<20 / 20–100,On-site,10.0,2.2,6.9,,4,3,3,2,3,3,4,4,4,sri_lankan_developer_burnout
-2026/08/29 3:19:28 PM GMT+5:30,0.4,Junior Developer,100–500,Hybrid,7.3,4.6,6.8,,3,2,3,2,3,3,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:19:38 PM GMT+5:30,12.2,Team Lead,<20 / 20–100,Hybrid,7.5,3.5,7.1,,4,2,2,3,3,2,3,2,4,sri_lankan_developer_burnout
-2026/08/29 3:19:45 PM GMT+5:30,3.2,Mid-level Developer,<20 / 20–100,Remote,7.8,2.1,7.0,,2,4,2,3,3,1,1,3,2,sri_lankan_developer_burnout
-2026/08/29 3:19:52 PM GMT+5:30,1.6,Junior Developer,<20 / 20–100,On-site,8.3,1.5,7.0,,3,3,3,2,4,4,3,2,4,sri_lankan_developer_burnout
-2026/08/29 3:19:59 PM GMT+5:30,0.5,Junior Developer,500+,On-site,8.4,3.2,7.1,,2,2,3,3,2,1,1,2,4,sri_lankan_developer_burnout
-2026/08/29 3:20:10 PM GMT+5:30,8.6,Senior Developer,500+,Remote,8.2,1.4,7.2,,4,4,4,3,3,3,4,4,4,sri_lankan_developer_burnout
-2026/08/29 3:20:21 PM GMT+5:30,4.5,Mid-level Developer,100–500,On-site,8.7,7.2,6.6,,3,3,3,4,3,4,4,2,5,sri_lankan_developer_burnout
-2026/08/29 3:20:28 PM GMT+5:30,14.9,Manager,<20 / 20–100,Hybrid,8.6,8.4,6.3,,4,4,5,4,4,5,3,5,2,sri_lankan_developer_burnout
-2026/08/29 3:20:35 PM GMT+5:30,3.6,Mid-level Developer,500+,Remote,9.1,2.7,6.7,,2,3,3,2,4,3,4,4,3,sri_lankan_developer_burnout
-2026/08/29 3:20:44 PM GMT+5:30,4.1,Mid-level Developer,<20 / 20–100,On-site,8.5,6.4,6.5,,3,4,3,4,3,4,3,4,3,sri_lankan_developer_burnout
-2026/08/29 3:20:51 PM GMT+5:30,1.0,Junior Developer,<20 / 20–100,Hybrid,8.2,0.0,7.2,,1,1,1,3,1,2,1,2,1,sri_lankan_developer_burnout
-2026/08/29 3:20:58 PM GMT+5:30,12.8,Manager,500+,On-site,8.9,8.2,6.3,,4,4,4,3,4,4,3,5,5,sri_lankan_developer_burnout
-2026/08/29 3:21:05 PM GMT+5:30,0.5,Junior Developer,<20 / 20–100,Remote,9.6,3.8,6.7,,3,3,3,2,3,3,3,2,5,sri_lankan_developer_burnout
-2026/08/29 3:21:12 PM GMT+5:30,9.7,Team Lead,100–500,Hybrid,10.6,6.4,6.7,,3,3,3,5,4,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:21:22 PM GMT+5:30,4.1,Mid-level Developer,500+,Hybrid,9.3,1.4,7.0,,1,1,3,2,3,1,3,3,1,sri_lankan_developer_burnout
-2026/08/29 3:21:30 PM GMT+5:30,8.3,Senior Developer,500+,On-site,8.5,8.9,6.6,,3,4,4,3,4,1,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:21:40 PM GMT+5:30,3.5,Mid-level Developer,100–500,On-site,7.5,6.9,6.4,,3,3,4,4,2,3,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:21:48 PM GMT+5:30,1.4,Junior Developer,<20 / 20–100,Hybrid,8.6,4.9,6.7,,3,3,4,3,4,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:21:56 PM GMT+5:30,2.9,Mid-level Developer,100–500,On-site,9.5,4.9,7.1,,2,2,1,2,2,2,1,2,1,sri_lankan_developer_burnout
-2026/08/29 3:22:03 PM GMT+5:30,9.5,Team Lead,500+,Hybrid,8.6,10.4,6.4,,5,3,4,4,4,4,5,5,3,sri_lankan_developer_burnout
-2026/08/29 3:22:14 PM GMT+5:30,15.4,Manager,500+,Hybrid,9.8,11.9,6.5,,4,4,3,3,3,3,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:22:21 PM GMT+5:30,3.1,Mid-level Developer,<20 / 20–100,Remote,10.1,4.4,6.6,,2,4,2,2,4,5,5,4,3,sri_lankan_developer_burnout
-2026/08/29 3:22:29 PM GMT+5:30,8.7,Senior Developer,500+,Hybrid,9.9,6.2,6.7,,2,2,2,4,3,2,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:22:36 PM GMT+5:30,7.4,Senior Developer,100–500,On-site,9.5,5.2,6.7,,2,4,3,4,4,4,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:22:43 PM GMT+5:30,1.3,Junior Developer,100–500,Hybrid,8.2,2.6,6.8,,2,2,2,3,2,3,3,2,2,sri_lankan_developer_burnout
-2026/08/29 3:22:50 PM GMT+5:30,1.3,Junior Developer,100–500,Remote,7.5,3.5,6.7,,3,4,2,1,2,4,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:23:01 PM GMT+5:30,3.5,Other,<20 / 20–100,Hybrid,9.8,1.6,7.2,,3,3,3,3,3,4,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:23:11 PM GMT+5:30,7.0,Senior Developer,100–500,Remote,9.2,7.2,7.1,,3,3,3,2,3,2,3,4,3,sri_lankan_developer_burnout
-2026/08/29 3:23:18 PM GMT+5:30,11.6,Team Lead,<20 / 20–100,Hybrid,8.4,6.6,7.0,,3,3,4,2,3,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:23:25 PM GMT+5:30,12.0,Manager,100–500,Remote,9.8,15.5,5.5,,5,5,5,5,4,5,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:23:33 PM GMT+5:30,1.5,Junior Developer,100–500,On-site,8.2,2.5,7.3,,2,1,2,2,1,2,4,2,1,sri_lankan_developer_burnout
-2026/08/29 3:23:40 PM GMT+5:30,3.6,Mid-level Developer,<20 / 20–100,Remote,8.7,4.7,6.5,,3,3,3,3,3,3,4,3,5,sri_lankan_developer_burnout
-2026/08/29 3:23:47 PM GMT+5:30,8.3,Senior Developer,500+,Hybrid,10.0,1.8,6.3,,3,4,3,4,4,3,3,4,3,sri_lankan_developer_burnout
-2026/08/29 3:23:54 PM GMT+5:30,4.4,Mid-level Developer,<20 / 20–100,On-site,8.5,4.3,6.5,,3,2,2,2,2,2,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:24:01 PM GMT+5:30,8.8,Team Lead,100–500,Remote,11.2,6.9,6.4,,5,5,5,5,5,4,3,4,5,sri_lankan_developer_burnout
-2026/08/29 3:24:12 PM GMT+5:30,7.8,Senior Developer,<20 / 20–100,Hybrid,9.3,4.9,6.8,,3,2,2,3,3,3,3,1,2,sri_lankan_developer_burnout
-2026/08/29 3:24:19 PM GMT+5:30,4.9,Mid-level Developer,<20 / 20–100,On-site,9.6,2.1,6.6,,4,3,3,4,4,4,3,2,4,sri_lankan_developer_burnout
-2026/08/29 3:24:27 PM GMT+5:30,9.7,Senior Developer,<20 / 20–100,Remote,9.7,4.0,6.5,,4,4,5,4,4,4,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:24:34 PM GMT+5:30,11.1,Team Lead,100–500,Hybrid,10.3,11.0,6.3,,4,4,3,4,5,5,4,4,5,sri_lankan_developer_burnout
-2026/08/29 3:24:41 PM GMT+5:30,8.6,Senior Developer,<20 / 20–100,Hybrid,10.2,6.3,6.9,,3,4,5,4,3,4,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:24:49 PM GMT+5:30,2.5,Mid-level Developer,500+,Hybrid,8.0,5.6,6.7,,2,3,3,2,4,4,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:24:56 PM GMT+5:30,1.7,Junior Developer,100–500,Remote,7.6,2.9,6.7,,3,3,3,2,2,1,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:25:04 PM GMT+5:30,3.3,Mid-level Developer,<20 / 20–100,On-site,9.3,6.4,6.7,,4,4,3,4,4,5,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:25:11 PM GMT+5:30,11.9,Team Lead,<20 / 20–100,Remote,8.4,11.1,5.6,,4,4,3,3,4,3,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:25:21 PM GMT+5:30,2.7,Mid-level Developer,100–500,On-site,8.7,8.4,6.9,,3,3,3,2,2,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:25:29 PM GMT+5:30,3.6,Mid-level Developer,<20 / 20–100,Hybrid,8.5,2.7,7.0,,1,1,1,1,2,1,2,2,1,sri_lankan_developer_burnout
-2026/08/29 3:25:36 PM GMT+5:30,2.0,Junior Developer,100–500,Remote,6.9,4.8,6.5,,2,2,3,2,2,1,3,5,2,sri_lankan_developer_burnout
-2026/08/29 3:25:43 PM GMT+5:30,4.0,Other,500+,Hybrid,8.2,7.4,6.2,,3,2,3,2,3,4,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:25:51 PM GMT+5:30,1.8,Junior Developer,500+,Hybrid,8.0,0.0,7.5,,2,3,1,1,2,2,1,2,3,sri_lankan_developer_burnout
-2026/08/29 3:25:59 PM GMT+5:30,9.6,Senior Developer,500+,Remote,10.5,2.5,7.0,,2,3,4,2,3,4,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:26:07 PM GMT+5:30,5.5,Other,100–500,Hybrid,7.3,4.1,6.8,,3,2,3,3,3,4,2,2,4,sri_lankan_developer_burnout
-2026/08/29 3:26:14 PM GMT+5:30,3.6,Mid-level Developer,100–500,Hybrid,9.0,3.8,6.2,,3,2,2,2,4,2,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:26:22 PM GMT+5:30,9.3,Senior Developer,100–500,Remote,9.5,5.4,6.4,,4,3,4,5,4,2,5,2,3,sri_lankan_developer_burnout
-2026/08/29 3:26:30 PM GMT+5:30,1.4,Junior Developer,<20 / 20–100,Remote,8.3,3.9,7.0,,3,2,3,3,1,3,2,3,5,sri_lankan_developer_burnout
-2026/08/29 3:26:37 PM GMT+5:30,0.8,Other,<20 / 20–100,Remote,8.6,3.5,7.1,,2,3,2,2,2,2,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:26:45 PM GMT+5:30,3.3,Mid-level Developer,<20 / 20–100,Remote,8.8,0.0,7.4,,3,3,2,3,3,3,4,2,2,sri_lankan_developer_burnout
-2026/08/29 3:26:52 PM GMT+5:30,12.3,Manager,100–500,Remote,9.3,3.5,7.0,,5,4,5,4,4,4,5,3,5,sri_lankan_developer_burnout
-2026/08/29 3:26:59 PM GMT+5:30,8.8,Senior Developer,500+,Hybrid,6.7,11.2,6.2,,2,2,2,2,2,3,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:27:07 PM GMT+5:30,0.3,Junior Developer,100–500,On-site,8.0,1.0,7.2,,2,2,3,3,1,2,3,2,2,sri_lankan_developer_burnout
-2026/08/29 3:27:14 PM GMT+5:30,7.9,Team Lead,500+,On-site,10.8,3.4,6.3,,3,4,5,4,4,3,4,2,5,sri_lankan_developer_burnout
-2026/08/29 3:27:21 PM GMT+5:30,3.5,Mid-level Developer,<20 / 20–100,On-site,8.6,4.2,6.8,,2,3,3,3,3,3,4,4,4,sri_lankan_developer_burnout
-2026/08/29 3:27:31 PM GMT+5:30,0.8,Junior Developer,<20 / 20–100,Remote,7.6,7.9,6.3,,3,3,2,4,2,3,1,4,1,sri_lankan_developer_burnout
-2026/08/29 3:27:39 PM GMT+5:30,4.5,Mid-level Developer,500+,Remote,9.0,4.7,6.7,,4,3,4,3,2,2,1,4,5,sri_lankan_developer_burnout
-2026/08/29 3:27:49 PM GMT+5:30,0.9,Junior Developer,100–500,Hybrid,7.9,2.2,6.8,,2,3,2,3,2,2,4,1,2,sri_lankan_developer_burnout
-2026/08/29 3:27:59 PM GMT+5:30,5.7,Senior Developer,500+,Remote,9.0,4.6,6.7,,4,3,2,4,2,4,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:28:07 PM GMT+5:30,7.5,Senior Developer,500+,Hybrid,7.9,2.8,6.7,,2,2,4,2,1,2,2,1,3,sri_lankan_developer_burnout
-2026/08/29 3:28:14 PM GMT+5:30,4.8,Other,500+,Hybrid,7.2,4.2,6.7,,3,2,2,2,3,2,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:28:22 PM GMT+5:30,4.9,Other,100–500,Hybrid,7.2,0.0,6.9,,2,2,1,2,2,2,3,1,5,sri_lankan_developer_burnout
-2026/08/29 3:28:32 PM GMT+5:30,6.0,Senior Developer,500+,On-site,8.9,8.3,6.6,,3,2,2,3,2,2,4,2,3,sri_lankan_developer_burnout
-2026/08/29 3:28:39 PM GMT+5:30,5.6,Other,<20 / 20–100,Hybrid,7.7,1.7,7.3,,2,2,3,2,2,3,2,1,2,sri_lankan_developer_burnout
-2026/08/29 3:28:47 PM GMT+5:30,1.0,Junior Developer,100–500,On-site,7.7,2.2,6.8,,2,3,2,2,2,2,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:28:54 PM GMT+5:30,4.5,Mid-level Developer,<20 / 20–100,On-site,8.1,3.6,7.1,,3,3,4,2,1,3,1,3,1,sri_lankan_developer_burnout
-2026/08/29 3:29:01 PM GMT+5:30,8.6,Senior Developer,100–500,On-site,9.9,3.1,7.1,,4,2,3,3,3,3,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:29:09 PM GMT+5:30,4.6,Mid-level Developer,100–500,On-site,8.7,1.9,7.4,,2,2,2,1,2,1,1,1,2,sri_lankan_developer_burnout
-2026/08/29 3:29:16 PM GMT+5:30,1.0,Junior Developer,100–500,Remote,9.3,4.4,7.1,,3,3,4,4,3,1,3,5,4,sri_lankan_developer_burnout
-2026/08/29 3:29:23 PM GMT+5:30,3.4,Mid-level Developer,<20 / 20–100,Remote,8.7,7.1,6.5,,4,3,2,4,4,3,2,4,3,sri_lankan_developer_burnout
-2026/08/29 3:29:30 PM GMT+5:30,8.8,Team Lead,<20 / 20–100,Hybrid,8.6,9.4,6.3,,3,4,2,4,2,4,2,4,2,sri_lankan_developer_burnout
-2026/08/29 3:29:37 PM GMT+5:30,4.2,Mid-level Developer,500+,Remote,8.7,6.6,6.4,,3,3,3,4,3,2,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:29:44 PM GMT+5:30,2.0,Junior Developer,<20 / 20–100,Hybrid,8.3,3.0,6.9,,2,4,3,2,3,3,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:29:51 PM GMT+5:30,0.6,Junior Developer,<20 / 20–100,On-site,8.2,3.2,6.6,,3,1,2,1,2,2,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:30:01 PM GMT+5:30,2.7,Mid-level Developer,500+,Hybrid,7.9,9.2,5.9,,3,5,2,3,3,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:30:09 PM GMT+5:30,2.0,Junior Developer,<20 / 20–100,Hybrid,7.2,3.4,7.0,,1,1,1,1,1,2,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:30:17 PM GMT+5:30,4.1,Mid-level Developer,100–500,On-site,7.8,5.2,7.2,,2,2,2,3,3,2,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:30:26 PM GMT+5:30,0.5,Junior Developer,100–500,Hybrid,7.5,1.0,6.6,,1,3,2,3,1,3,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:30:33 PM GMT+5:30,9.6,Senior Developer,<20 / 20–100,On-site,9.1,3.1,6.8,,5,3,4,4,3,5,2,5,4,sri_lankan_developer_burnout
-2026/08/29 3:30:41 PM GMT+5:30,4.0,Mid-level Developer,100–500,On-site,8.3,2.6,6.7,,2,1,2,2,1,2,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:30:53 PM GMT+5:30,4.4,Mid-level Developer,<20 / 20–100,On-site,8.1,4.1,6.5,,3,1,1,3,2,2,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:31:01 PM GMT+5:30,15.5,Manager,500+,Hybrid,8.9,13.4,5.5,,5,5,5,4,5,4,4,4,5,sri_lankan_developer_burnout
-2026/08/29 3:31:08 PM GMT+5:30,9.6,Team Lead,<20 / 20–100,Remote,10.3,7.0,6.7,,5,4,5,4,5,3,5,4,5,sri_lankan_developer_burnout
-2026/08/29 3:31:16 PM GMT+5:30,6.0,Other,500+,Hybrid,7.2,4.6,6.8,,2,2,1,2,2,2,1,3,3,sri_lankan_developer_burnout
-2026/08/29 3:31:23 PM GMT+5:30,7.8,Senior Developer,500+,On-site,9.8,6.6,6.8,,3,3,4,3,4,4,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:31:31 PM GMT+5:30,10.7,Team Lead,500+,On-site,11.7,7.7,6.3,,3,5,3,2,3,5,2,2,5,sri_lankan_developer_burnout
-2026/08/29 3:31:40 PM GMT+5:30,1.4,Junior Developer,<20 / 20–100,Hybrid,9.1,5.4,6.6,,1,2,2,3,2,2,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:31:48 PM GMT+5:30,3.0,Mid-level Developer,100–500,On-site,10.2,0.0,7.2,,2,2,4,3,2,3,2,2,3,sri_lankan_developer_burnout
-2026/08/29 3:31:58 PM GMT+5:30,1.4,Junior Developer,500+,On-site,8.9,5.6,6.4,,3,2,4,2,2,2,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:32:06 PM GMT+5:30,1.9,Other,100–500,Hybrid,6.8,0.8,7.1,,3,3,1,2,2,2,3,1,1,sri_lankan_developer_burnout
-2026/08/29 3:32:17 PM GMT+5:30,0.3,Junior Developer,500+,Hybrid,7.6,1.1,6.8,,2,1,2,1,1,2,3,1,3,sri_lankan_developer_burnout
-2026/08/29 3:32:25 PM GMT+5:30,8.6,Team Lead,100–500,On-site,10.3,8.0,6.7,,3,4,3,4,3,5,2,4,4,sri_lankan_developer_burnout
-2026/08/29 3:32:35 PM GMT+5:30,2.7,Mid-level Developer,100–500,Hybrid,8.2,6.1,6.5,,3,3,3,4,2,2,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:32:44 PM GMT+5:30,1.4,Junior Developer,<20 / 20–100,On-site,7.8,2.8,7.0,,4,3,1,1,2,3,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:32:53 PM GMT+5:30,3.3,Mid-level Developer,500+,Hybrid,8.8,0.0,7.1,,2,2,2,2,3,1,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:33:01 PM GMT+5:30,6.5,Senior Developer,<20 / 20–100,Hybrid,9.5,5.8,7.2,,4,3,2,2,3,4,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:33:08 PM GMT+5:30,4.2,Mid-level Developer,100–500,Hybrid,7.9,5.3,5.9,,3,3,3,4,3,3,4,5,3,sri_lankan_developer_burnout
-2026/08/29 3:33:16 PM GMT+5:30,12.2,Manager,<20 / 20–100,Remote,8.7,8.9,6.2,,5,5,4,5,5,4,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:33:24 PM GMT+5:30,4.7,Mid-level Developer,<20 / 20–100,Hybrid,8.0,3.8,7.2,,3,3,2,2,2,2,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:33:34 PM GMT+5:30,2.2,Other,100–500,Remote,9.5,0.0,6.8,,2,1,2,2,2,2,1,3,3,sri_lankan_developer_burnout
-2026/08/29 3:33:42 PM GMT+5:30,8.1,Senior Developer,<20 / 20–100,Hybrid,9.8,7.5,6.6,,4,4,4,4,4,4,5,5,3,sri_lankan_developer_burnout
-2026/08/29 3:33:50 PM GMT+5:30,8.3,Senior Developer,500+,Hybrid,10.5,5.3,6.4,,3,3,3,4,3,5,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:33:57 PM GMT+5:30,7.9,Team Lead,100–500,Hybrid,8.4,10.2,6.3,,4,3,4,5,4,4,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:34:05 PM GMT+5:30,0.9,Junior Developer,<20 / 20–100,Hybrid,8.8,1.6,7.0,,3,2,2,3,2,2,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:34:13 PM GMT+5:30,2.7,Mid-level Developer,100–500,On-site,9.4,5.5,6.4,,3,2,3,3,3,3,4,2,1,sri_lankan_developer_burnout
-2026/08/29 3:34:24 PM GMT+5:30,8.1,Senior Developer,500+,Hybrid,11.1,9.9,6.2,,5,5,4,4,5,4,3,5,2,sri_lankan_developer_burnout
-2026/08/29 3:34:35 PM GMT+5:30,6.3,Senior Developer,<20 / 20–100,Hybrid,11.1,5.5,7.0,,4,4,5,5,4,4,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:34:43 PM GMT+5:30,9.8,Senior Developer,500+,Hybrid,10.4,3.0,7.8,,4,4,3,3,3,3,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:34:49 PM GMT+5:30,1.8,Junior Developer,100–500,Hybrid,7.3,3.7,7.1,,1,1,1,2,2,1,2,2,3,sri_lankan_developer_burnout
-2026/08/29 3:34:57 PM GMT+5:30,0.8,Junior Developer,<20 / 20–100,Remote,8.1,0.0,7.1,,1,1,1,2,2,1,1,1,1,sri_lankan_developer_burnout
-2026/08/29 3:35:07 PM GMT+5:30,0.6,Junior Developer,<20 / 20–100,Hybrid,8.2,0.8,7.3,,1,1,2,1,1,1,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:35:14 PM GMT+5:30,9.2,Team Lead,<20 / 20–100,Remote,9.2,9.1,6.9,,4,4,4,3,4,5,4,4,2,sri_lankan_developer_burnout
-2026/08/29 3:35:21 PM GMT+5:30,4.6,Mid-level Developer,500+,Remote,7.2,1.7,7.5,,3,1,2,1,2,1,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:35:28 PM GMT+5:30,6.5,Senior Developer,<20 / 20–100,On-site,9.5,6.6,6.5,,2,3,3,3,2,3,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:35:36 PM GMT+5:30,9.4,Senior Developer,<20 / 20–100,On-site,8.3,3.3,7.1,,3,4,3,3,3,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:35:43 PM GMT+5:30,3.7,Mid-level Developer,500+,On-site,9.5,8.8,6.0,,4,2,4,4,4,5,5,3,4,sri_lankan_developer_burnout
-2026/08/29 3:35:50 PM GMT+5:30,1.0,Junior Developer,<20 / 20–100,Hybrid,8.0,3.1,6.9,,2,3,2,3,1,2,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:35:57 PM GMT+5:30,4.8,Mid-level Developer,100–500,Hybrid,8.3,2.4,6.9,,2,2,2,2,2,2,3,1,3,sri_lankan_developer_burnout
-2026/08/29 3:36:05 PM GMT+5:30,9.3,Senior Developer,100–500,Remote,8.2,7.9,6.8,,4,4,3,4,3,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:36:16 PM GMT+5:30,2.3,Other,100–500,Remote,8.6,8.2,6.4,,4,3,4,3,3,3,5,2,5,sri_lankan_developer_burnout
-2026/08/29 3:36:24 PM GMT+5:30,1.7,Junior Developer,<20 / 20–100,Remote,8.5,1.4,6.5,,2,2,2,2,3,3,3,1,1,sri_lankan_developer_burnout
-2026/08/29 3:36:31 PM GMT+5:30,14.6,Manager,500+,Hybrid,11.3,8.3,6.7,,5,5,4,4,4,4,4,3,5,sri_lankan_developer_burnout
-2026/08/29 3:36:39 PM GMT+5:30,1.9,Junior Developer,100–500,On-site,6.7,0.8,7.0,,3,2,2,1,2,3,1,3,1,sri_lankan_developer_burnout
-2026/08/29 3:36:48 PM GMT+5:30,3.7,Mid-level Developer,<20 / 20–100,On-site,8.2,7.1,6.5,,2,3,3,3,3,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:36:55 PM GMT+5:30,4.1,Mid-level Developer,100–500,On-site,8.8,5.1,6.6,,3,3,2,1,4,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:37:02 PM GMT+5:30,6.0,Senior Developer,<20 / 20–100,On-site,9.5,2.8,6.4,,3,3,3,3,2,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:37:13 PM GMT+5:30,6.5,Senior Developer,100–500,Hybrid,9.3,7.2,6.2,,4,4,4,4,5,4,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:37:20 PM GMT+5:30,4.6,Mid-level Developer,500+,On-site,9.7,9.9,5.5,,3,4,4,3,3,3,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:37:28 PM GMT+5:30,6.2,Team Lead,<20 / 20–100,Hybrid,11.4,10.7,6.0,,4,4,5,5,5,5,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:37:36 PM GMT+5:30,9.0,Manager,<20 / 20–100,Remote,9.5,5.6,6.8,,2,4,4,3,3,3,3,3,4,sri_lankan_developer_burnout
-2026/08/29 3:37:44 PM GMT+5:30,7.9,Senior Developer,100–500,Hybrid,10.1,2.9,7.1,,3,3,3,3,3,1,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:37:53 PM GMT+5:30,15.5,Manager,<20 / 20–100,On-site,9.4,9.0,6.2,,4,4,3,4,3,3,2,2,4,sri_lankan_developer_burnout
-2026/08/29 3:38:01 PM GMT+5:30,2.6,Mid-level Developer,100–500,Hybrid,8.6,3.0,6.6,,3,3,2,4,2,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:38:10 PM GMT+5:30,11.2,Team Lead,100–500,On-site,10.7,11.7,5.8,,5,4,4,3,5,3,5,4,5,sri_lankan_developer_burnout
-2026/08/29 3:38:18 PM GMT+5:30,14.9,Manager,<20 / 20–100,Hybrid,10.2,12.8,5.8,,5,5,5,5,5,3,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:38:26 PM GMT+5:30,4.2,Mid-level Developer,500+,On-site,10.3,5.5,6.3,,4,4,3,2,3,5,3,3,5,sri_lankan_developer_burnout
-2026/08/29 3:38:34 PM GMT+5:30,8.5,Senior Developer,<20 / 20–100,On-site,9.3,7.8,6.5,,4,4,4,3,5,5,4,3,5,sri_lankan_developer_burnout
-2026/08/29 3:38:45 PM GMT+5:30,14.8,Manager,500+,Hybrid,10.2,8.7,6.5,,3,3,3,4,4,5,3,4,5,sri_lankan_developer_burnout
-2026/08/29 3:38:53 PM GMT+5:30,4.6,Mid-level Developer,<20 / 20–100,On-site,8.9,5.6,6.6,,2,3,3,3,4,3,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:39:01 PM GMT+5:30,3.1,Mid-level Developer,100–500,Remote,7.9,3.3,6.7,,2,2,4,2,2,4,1,4,3,sri_lankan_developer_burnout
-2026/08/29 3:39:09 PM GMT+5:30,1.3,Junior Developer,100–500,On-site,9.1,4.6,6.9,,2,3,3,3,3,5,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:39:16 PM GMT+5:30,6.0,Senior Developer,<20 / 20–100,On-site,8.5,8.5,7.1,,3,4,4,2,4,4,4,3,3,sri_lankan_developer_burnout
-2026/08/29 3:39:24 PM GMT+5:30,3.0,Mid-level Developer,100–500,Remote,9.2,8.5,6.6,,3,3,2,4,2,1,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:39:32 PM GMT+5:30,13.8,Manager,<20 / 20–100,On-site,8.8,8.7,6.5,,3,2,2,2,3,5,1,4,2,sri_lankan_developer_burnout
-2026/08/29 3:39:39 PM GMT+5:30,9.7,Senior Developer,<20 / 20–100,Hybrid,9.5,5.8,6.7,,3,2,3,2,3,3,1,4,2,sri_lankan_developer_burnout
-2026/08/29 3:39:47 PM GMT+5:30,7.1,Senior Developer,500+,Hybrid,8.4,6.0,7.1,,3,3,4,2,3,4,3,1,2,sri_lankan_developer_burnout
-2026/08/29 3:39:54 PM GMT+5:30,10.4,Team Lead,<20 / 20–100,Remote,10.1,9.2,6.4,,3,5,4,4,4,5,4,3,4,sri_lankan_developer_burnout
-2026/08/29 3:40:05 PM GMT+5:30,1.1,Other,<20 / 20–100,Hybrid,8.2,1.5,7.3,,3,3,2,2,2,3,2,2,3,sri_lankan_developer_burnout
-2026/08/29 3:40:13 PM GMT+5:30,8.5,Team Lead,500+,Hybrid,9.9,11.7,6.3,,5,4,5,5,5,5,3,5,5,sri_lankan_developer_burnout
-2026/08/29 3:40:25 PM GMT+5:30,5.9,Senior Developer,<20 / 20–100,Hybrid,9.7,2.5,6.9,,1,4,3,2,3,2,1,2,2,sri_lankan_developer_burnout
-2026/08/29 3:40:32 PM GMT+5:30,1.3,Junior Developer,<20 / 20–100,Hybrid,8.3,4.5,6.8,,2,2,2,2,1,2,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:40:40 PM GMT+5:30,1.0,Junior Developer,100–500,Hybrid,8.3,0.0,7.1,,1,1,1,1,1,1,1,3,2,sri_lankan_developer_burnout
-2026/08/29 3:40:47 PM GMT+5:30,9.7,Senior Developer,100–500,Remote,8.9,4.6,7.1,,3,2,2,3,4,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:40:55 PM GMT+5:30,9.4,Senior Developer,500+,Hybrid,10.7,5.9,6.6,,3,5,3,3,4,5,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:41:02 PM GMT+5:30,3.9,Mid-level Developer,<20 / 20–100,Hybrid,8.6,0.9,7.7,,3,3,4,3,3,2,4,2,1,sri_lankan_developer_burnout
-2026/08/29 3:41:11 PM GMT+5:30,1.3,Junior Developer,<20 / 20–100,Remote,10.2,0.0,7.2,,1,1,1,1,1,2,1,2,1,sri_lankan_developer_burnout
-2026/08/29 3:41:18 PM GMT+5:30,5.6,Senior Developer,500+,On-site,9.3,8.2,6.5,,5,4,3,4,4,4,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:41:29 PM GMT+5:30,5.9,Senior Developer,100–500,Hybrid,7.3,1.8,7.1,,4,2,3,3,2,3,2,4,3,sri_lankan_developer_burnout
-2026/08/29 3:41:37 PM GMT+5:30,17.0,Manager,<20 / 20–100,On-site,9.2,6.8,7.2,,2,4,3,4,3,4,4,4,2,sri_lankan_developer_burnout
-2026/08/29 3:41:45 PM GMT+5:30,5.5,Other,100–500,On-site,9.2,4.3,7.3,,1,2,1,1,2,1,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:41:55 PM GMT+5:30,17.0,Manager,<20 / 20–100,Hybrid,9.7,10.1,6.3,,4,5,4,4,5,4,4,4,4,sri_lankan_developer_burnout
-2026/08/29 3:42:07 PM GMT+5:30,7.0,Senior Developer,500+,Hybrid,9.5,11.1,6.2,,4,3,4,4,4,4,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:42:14 PM GMT+5:30,15.4,Manager,<20 / 20–100,Hybrid,8.9,11.5,6.1,,4,4,4,3,4,4,4,5,3,sri_lankan_developer_burnout
-2026/08/29 3:42:26 PM GMT+5:30,9.2,Senior Developer,100–500,Hybrid,10.9,4.0,6.9,,4,4,5,4,5,5,5,5,4,sri_lankan_developer_burnout
-2026/08/29 3:42:33 PM GMT+5:30,3.2,Mid-level Developer,<20 / 20–100,Hybrid,8.2,7.4,6.7,,3,3,4,2,3,3,2,2,1,sri_lankan_developer_burnout
-2026/08/29 3:42:41 PM GMT+5:30,9.0,Senior Developer,100–500,Remote,8.5,6.8,6.4,,2,3,3,3,3,3,1,4,2,sri_lankan_developer_burnout
-2026/08/29 3:42:52 PM GMT+5:30,0.3,Junior Developer,100–500,On-site,7.6,3.5,7.0,,1,3,3,2,2,2,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:43:00 PM GMT+5:30,4.7,Mid-level Developer,100–500,Remote,9.7,3.5,7.3,,3,3,3,4,4,3,3,2,4,sri_lankan_developer_burnout
-2026/08/29 3:43:07 PM GMT+5:30,3.3,Mid-level Developer,500+,On-site,8.0,2.1,6.5,,3,2,2,2,2,2,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:43:14 PM GMT+5:30,6.9,Team Lead,<20 / 20–100,Hybrid,9.1,9.0,6.2,,4,4,4,4,3,3,4,4,4,sri_lankan_developer_burnout
-2026/08/29 3:43:23 PM GMT+5:30,2.9,Mid-level Developer,100–500,Hybrid,7.9,5.3,6.7,,1,2,2,2,2,2,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:43:31 PM GMT+5:30,1.9,Junior Developer,<20 / 20–100,Remote,8.5,3.3,6.7,,1,2,3,3,2,2,2,2,3,sri_lankan_developer_burnout
-2026/08/29 3:43:39 PM GMT+5:30,2.9,Mid-level Developer,100–500,Remote,9.8,4.9,6.5,,4,2,4,2,3,4,2,2,4,sri_lankan_developer_burnout
-2026/08/29 3:43:46 PM GMT+5:30,0.9,Junior Developer,<20 / 20–100,Hybrid,8.1,0.3,7.5,,1,1,1,1,1,1,1,1,1,sri_lankan_developer_burnout
-2026/08/29 3:43:54 PM GMT+5:30,10.1,Manager,<20 / 20–100,Hybrid,10.3,14.0,6.0,,5,5,5,5,5,5,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:44:05 PM GMT+5:30,12.7,Manager,<20 / 20–100,On-site,11.5,11.2,5.9,,3,4,5,5,5,5,4,4,5,sri_lankan_developer_burnout
-2026/08/29 3:44:14 PM GMT+5:30,3.4,Mid-level Developer,100–500,Hybrid,10.0,5.8,6.8,,4,3,4,2,4,3,3,3,3,sri_lankan_developer_burnout
-2026/08/29 3:44:22 PM GMT+5:30,1.1,Junior Developer,<20 / 20–100,Hybrid,9.5,0.7,6.4,,3,3,4,4,3,4,4,3,2,sri_lankan_developer_burnout
-2026/08/29 3:44:31 PM GMT+5:30,11.4,Team Lead,100–500,Hybrid,9.7,8.7,6.8,,4,3,3,3,3,3,4,2,1,sri_lankan_developer_burnout
-2026/08/29 3:44:39 PM GMT+5:30,9.7,Manager,<20 / 20–100,Remote,9.9,9.9,6.9,,5,4,3,5,4,5,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:44:47 PM GMT+5:30,2.8,Mid-level Developer,<20 / 20–100,Hybrid,9.0,0.0,7.8,,2,2,3,3,3,2,4,1,2,sri_lankan_developer_burnout
-2026/08/29 3:44:55 PM GMT+5:30,6.4,Senior Developer,<20 / 20–100,Remote,11.6,4.2,7.0,,3,5,3,4,3,4,3,2,4,sri_lankan_developer_burnout
-2026/08/29 3:45:02 PM GMT+5:30,15.4,Manager,<20 / 20–100,Hybrid,9.1,8.9,6.4,,4,4,4,5,4,4,4,2,3,sri_lankan_developer_burnout
-2026/08/29 3:45:12 PM GMT+5:30,1.7,Junior Developer,<20 / 20–100,On-site,7.7,4.9,6.7,,1,2,1,2,1,2,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:45:20 PM GMT+5:30,12.1,Team Lead,500+,Hybrid,11.4,9.9,6.6,,3,4,4,4,5,3,5,4,3,sri_lankan_developer_burnout
-2026/08/29 3:45:27 PM GMT+5:30,9.0,Manager,100–500,Remote,8.8,13.1,5.5,,5,4,5,4,5,4,4,3,4,sri_lankan_developer_burnout
-2026/08/29 3:45:35 PM GMT+5:30,6.4,Senior Developer,<20 / 20–100,Remote,9.3,6.2,6.3,,3,3,3,3,3,3,3,5,4,sri_lankan_developer_burnout
-2026/08/29 3:45:43 PM GMT+5:30,6.1,Team Lead,100–500,Hybrid,9.2,7.3,6.4,,3,5,4,4,5,3,4,5,4,sri_lankan_developer_burnout
-2026/08/29 3:45:50 PM GMT+5:30,11.6,Team Lead,500+,On-site,9.5,7.7,6.1,,3,3,3,3,4,3,5,3,5,sri_lankan_developer_burnout
-2026/08/29 3:45:58 PM GMT+5:30,8.1,Team Lead,<20 / 20–100,On-site,11.9,3.7,6.8,,4,3,3,5,3,5,3,5,4,sri_lankan_developer_burnout
-2026/08/29 3:46:06 PM GMT+5:30,8.5,Senior Developer,<20 / 20–100,Hybrid,9.0,4.5,6.8,,3,3,4,1,3,3,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:46:17 PM GMT+5:30,6.4,Senior Developer,100–500,Hybrid,9.1,6.1,7.0,,2,3,2,3,3,2,3,2,1,sri_lankan_developer_burnout
-2026/08/29 3:46:25 PM GMT+5:30,3.3,Mid-level Developer,<20 / 20–100,On-site,8.5,5.2,6.7,,3,3,2,2,4,3,3,4,2,sri_lankan_developer_burnout
-2026/08/29 3:46:37 PM GMT+5:30,9.5,Senior Developer,100–500,Remote,10.0,4.7,7.0,,1,1,2,2,2,1,2,2,1,sri_lankan_developer_burnout
-2026/08/29 3:46:44 PM GMT+5:30,3.3,Mid-level Developer,<20 / 20–100,On-site,9.4,0.0,7.2,,3,3,4,1,2,4,2,1,3,sri_lankan_developer_burnout
-2026/08/29 3:46:52 PM GMT+5:30,3.8,Mid-level Developer,100–500,Hybrid,8.7,7.2,6.4,,3,2,1,3,2,3,1,4,2,sri_lankan_developer_burnout
-2026/08/29 3:46:59 PM GMT+5:30,2.5,Mid-level Developer,100–500,On-site,8.8,9.5,6.5,,4,3,3,2,3,3,4,3,5,sri_lankan_developer_burnout
-2026/08/29 3:47:07 PM GMT+5:30,3.1,Other,500+,On-site,8.8,0.0,7.0,,1,1,1,2,1,1,3,2,1,sri_lankan_developer_burnout
-2026/08/29 3:47:17 PM GMT+5:30,4.8,Other,100–500,Remote,9.3,5.4,6.5,,4,3,4,3,3,3,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:47:25 PM GMT+5:30,6.8,Senior Developer,100–500,On-site,8.0,3.6,6.7,,2,3,2,2,2,1,3,1,1,sri_lankan_developer_burnout
-2026/08/29 3:47:33 PM GMT+5:30,8.5,Team Lead,500+,Hybrid,8.4,10.9,6.3,,4,4,3,3,2,4,2,2,4,sri_lankan_developer_burnout
-2026/08/29 3:47:40 PM GMT+5:30,5.1,Other,<20 / 20–100,Hybrid,9.3,4.1,7.3,,3,2,1,2,2,1,1,3,2,sri_lankan_developer_burnout
-2026/08/29 3:47:47 PM GMT+5:30,3.3,Mid-level Developer,<20 / 20–100,Remote,8.5,0.0,7.3,,2,3,2,3,3,3,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:47:55 PM GMT+5:30,1.0,Junior Developer,100–500,On-site,6.2,3.3,6.4,,2,2,2,2,2,2,3,1,4,sri_lankan_developer_burnout
-2026/08/29 3:48:02 PM GMT+5:30,0.5,Junior Developer,<20 / 20–100,On-site,7.7,0.0,7.2,,3,1,3,2,2,3,2,3,1,sri_lankan_developer_burnout
-2026/08/29 3:48:09 PM GMT+5:30,6.7,Other,500+,On-site,8.8,6.3,7.0,,3,3,2,2,2,1,3,2,2,sri_lankan_developer_burnout
-2026/08/29 3:48:20 PM GMT+5:30,13.3,Manager,100–500,Remote,9.6,2.3,7.4,,3,3,3,4,3,3,2,4,2,sri_lankan_developer_burnout
-2026/08/29 3:48:28 PM GMT+5:30,4.6,Mid-level Developer,<20 / 20–100,Hybrid,9.6,2.8,6.5,,3,3,2,2,2,3,3,2,3,sri_lankan_developer_burnout
-2026/08/29 3:48:35 PM GMT+5:30,7.3,Team Lead,100–500,On-site,10.9,8.4,6.8,,5,5,4,3,4,3,5,2,5,sri_lankan_developer_burnout
-2026/08/29 3:48:42 PM GMT+5:30,1.9,Junior Developer,100–500,Hybrid,7.9,0.2,7.3,,2,2,1,2,1,3,3,3,2,sri_lankan_developer_burnout
-2026/08/29 3:48:49 PM GMT+5:30,1.7,Other,<20 / 20–100,Hybrid,7.5,4.4,6.8,,3,1,3,2,2,3,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:48:56 PM GMT+5:30,5.0,Mid-level Developer,100–500,Remote,9.2,1.4,6.8,,2,2,2,2,1,3,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:49:07 PM GMT+5:30,0.5,Junior Developer,<20 / 20–100,On-site,8.1,0.7,7.0,,1,3,2,3,3,3,1,2,3,sri_lankan_developer_burnout
-2026/08/29 3:49:14 PM GMT+5:30,6.2,Senior Developer,500+,Hybrid,9.0,8.2,6.8,,4,4,3,5,3,4,3,4,4,sri_lankan_developer_burnout
-2026/08/29 3:49:22 PM GMT+5:30,7.2,Team Lead,500+,Hybrid,10.0,9.3,6.3,,4,5,3,4,4,4,4,4,3,sri_lankan_developer_burnout
-2026/08/29 3:49:30 PM GMT+5:30,2.5,Mid-level Developer,100–500,On-site,7.6,3.4,7.0,,2,3,3,2,2,3,2,4,3,sri_lankan_developer_burnout
-2026/08/29 3:49:38 PM GMT+5:30,3.5,Mid-level Developer,500+,Hybrid,8.2,6.1,6.7,,2,2,3,4,2,3,4,3,5,sri_lankan_developer_burnout
-2026/08/29 3:49:45 PM GMT+5:30,9.2,Senior Developer,500+,Remote,8.5,8.9,6.3,,3,3,3,4,4,3,4,5,5,sri_lankan_developer_burnout
-2026/08/29 3:49:52 PM GMT+5:30,4.9,Mid-level Developer,100–500,On-site,10.0,2.7,7.0,,2,4,2,3,2,2,2,3,4,sri_lankan_developer_burnout
-2026/08/29 3:50:02 PM GMT+5:30,3.5,Mid-level Developer,100–500,Hybrid,9.1,5.5,6.6,,2,1,3,3,3,4,1,3,2,sri_lankan_developer_burnout
-2026/08/29 3:50:09 PM GMT+5:30,7.3,Team Lead,100–500,Remote,7.8,6.8,6.5,,4,3,4,3,5,3,5,4,3,sri_lankan_developer_burnout
-2026/08/29 3:50:17 PM GMT+5:30,1.5,Junior Developer,100–500,Hybrid,8.8,3.6,6.1,,3,2,3,4,3,3,1,3,2,sri_lankan_developer_burnout
-2026/08/29 3:50:25 PM GMT+5:30,2.0,Junior Developer,<20 / 20–100,On-site,9.4,1.1,6.8,,2,2,3,3,2,2,2,1,1,sri_lankan_developer_burnout
-2026/08/29 3:50:33 PM GMT+5:30,9.0,Senior Developer,<20 / 20–100,Remote,9.2,4.5,7.2,,3,4,4,4,4,4,3,5,4,sri_lankan_developer_burnout
-2026/08/29 3:50:40 PM GMT+5:30,1.3,Junior Developer,<20 / 20–100,Remote,8.8,2.7,7.3,,2,2,3,2,3,2,1,4,1,sri_lankan_developer_burnout
-2026/08/29 3:50:47 PM GMT+5:30,0.6,Junior Developer,500+,Hybrid,7.4,2.5,7.1,,1,1,2,1,1,1,2,2,1,sri_lankan_developer_burnout
-2026/08/29 3:50:55 PM GMT+5:30,9.3,Senior Developer,<20 / 20–100,Remote,8.9,4.5,6.6,,3,4,3,3,4,3,4,3,4,sri_lankan_developer_burnout
-2026/08/29 3:51:03 PM GMT+5:30,0.5,Junior Developer,100–500,Hybrid,7.4,5.2,6.7,,3,4,2,1,3,3,3,1,4,sri_lankan_developer_burnout
-2026/08/29 3:51:10 PM GMT+5:30,3.9,Mid-level Developer,<20 / 20–100,Remote,9.4,2.4,6.4,,2,2,2,4,4,2,2,2,1,sri_lankan_developer_burnout
-2026/08/29 3:51:21 PM GMT+5:30,2.3,Other,<20 / 20–100,On-site,6.5,7.0,6.5,,3,2,3,3,4,2,2,4,1,sri_lankan_developer_burnout
-2026/08/29 3:51:28 PM GMT+5:30,2.9,Mid-level Developer,500+,On-site,7.9,4.0,6.8,,4,3,3,3,4,2,1,3,4,sri_lankan_developer_burnout
-2026/08/29 3:51:36 PM GMT+5:30,3.8,Mid-level Developer,<20 / 20–100,Hybrid,8.3,3.5,6.6,,3,4,2,5,4,4,4,1,3,sri_lankan_developer_burnout
-2026/08/29 3:51:47 PM GMT+5:30,5.8,Senior Developer,100–500,On-site,10.0,7.9,6.5,,3,2,3,3,3,3,2,3,2,sri_lankan_developer_burnout
-2026/08/29 3:51:55 PM GMT+5:30,6.4,Senior Developer,100–500,On-site,10.4,7.7,6.0,,3,4,4,3,3,5,4,4,5,sri_lankan_developer_burnout
-2026/08/29 3:52:03 PM GMT+5:30,17.5,Manager,100–500,On-site,9.2,5.3,6.6,,3,3,4,2,3,4,3,2,5,sri_lankan_developer_burnout
-2026/08/29 3:52:11 PM GMT+5:30,6.7,Team Lead,<20 / 20–100,Remote,9.1,4.8,6.9,,3,3,4,3,4,4,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:52:18 PM GMT+5:30,8.9,Manager,500+,Hybrid,11.7,9.9,6.5,,4,5,4,5,5,5,5,5,5,sri_lankan_developer_burnout
-2026/08/29 3:52:25 PM GMT+5:30,6.0,Senior Developer,500+,On-site,10.0,5.0,6.8,,4,4,4,3,5,4,5,5,2,sri_lankan_developer_burnout
-2026/08/29 3:52:32 PM GMT+5:30,3.0,Mid-level Developer,<20 / 20–100,Hybrid,8.9,7.1,6.8,,3,2,3,4,3,4,4,3,4,sri_lankan_developer_burnout
-2026/08/29 3:52:45 PM GMT+5:30,15.2,Manager,<20 / 20–100,On-site,9.6,12.1,5.9,,4,4,5,5,5,3,5,4,3,sri_lankan_developer_burnout
-2026/08/29 3:52:55 PM GMT+5:30,9.7,Senior Developer,<20 / 20–100,On-site,9.7,9.6,6.3,,4,3,2,4,5,3,5,4,3,sri_lankan_developer_burnout
-2026/08/29 3:53:02 PM GMT+5:30,9.2,Team Lead,<20 / 20–100,On-site,9.7,4.6,6.5,,5,4,4,4,4,4,4,3,4,sri_lankan_developer_burnout
-2026/08/29 3:53:10 PM GMT+5:30,12.6,Manager,500+,Hybrid,10.2,10.2,6.3,,4,4,3,4,4,4,2,2,2,sri_lankan_developer_burnout
-2026/08/29 3:53:20 PM GMT+5:30,15.4,Manager,<20 / 20–100,On-site,9.8,9.7,6.6,,5,4,5,4,5,5,4,5,5,sri_lankan_developer_burnout
-2026/08/29 3:53:28 PM GMT+5:30,3.0,Other,<20 / 20–100,Remote,9.3,2.5,7.2,,1,3,2,2,2,1,2,3,3,sri_lankan_developer_burnout
-2026/08/29 3:53:36 PM GMT+5:30,17.9,Manager,500+,Remote,8.8,6.9,6.6,,3,3,3,4,3,4,3,3,1,sri_lankan_developer_burnout
-2026/08/29 3:53:43 PM GMT+5:30,7.9,Senior Developer,<20 / 20–100,On-site,10.1,11.3,6.2,,4,4,3,3,4,3,5,4,4,sri_lankan_developer_burnout
-2026/08/29 3:53:50 PM GMT+5:30,9.2,Senior Developer,500+,On-site,8.3,5.6,6.5,,3,3,2,3,2,3,3,3,3,sri_lankan_developer_burnout
+Timestamp,I agree to anonymized data being used for research purposes.  ,Years of professional software development experience  ,"Current role  
+e.g. Developer, QA Engineer, DevOps, Team Lead, Product Manager",Company size,Work arrangement  ,Average working hours per day  ,"Average overtime hours per week  
+Hours worked beyond your standard contracted hours
+Number",How would you rate your current workload?  ,"Number of urgent/unplanned tasks per week
+Tasks that weren't part of your planned work but had to be done immediately
+Number    ",Sprint/deadline pressure  ,"Frequency of context switching between tasks  
+How often you have to stop one task to handle another  ", Do you regularly work on weekends?  ,Are you currently on an on-call rotation?  ,"How often are you contacted about work after hours (messages, calls)?  ",How complex is your typical day-to-day work?  ,Average sleep hours per night  ,How would you rate your sleep quality?  ,How many days per week do you exercise?  ,Average daily screen time outside work (hours)  ,Average breaks taken per workday,Average one-way commute time (minutes)  ,Average caffeinated drinks per day,How would you rate the quality/regularity of your meals?  ,How often do you experience unstable power or internet during work hours?  ,How would you rate your current stress level?  ,How would you rate your energy level most days?  ,How often do you feel anxious about work?  ,How emotionally drained do you feel by work?  ,How motivated do you feel at work?  ,How often do you struggle to concentrate?  ,How often do you feel irritable?  ,How satisfied are you with your job overall?  ,How confident are you in handling your work challenges?  ,How well do you feel you cope with work pressure?  ,How supported do you feel by people around you generally?  ,How supported do you feel by your manager?  ,How supported do you feel by your peers/teammates?  ,How fair does your pay feel relative to your workload?  ,"How much control do you have over how you do your work?  
+e.g. choosing your tools, methods, or schedule ",How clear is what's expected of you in your role?  ,How often do you feel tired?  ,How often are you physically exhausted?  ,How often are you emotionally exhausted?  ,"How often do you think ""I can't take it anymore""?  ",How often do you feel worn out?  ,How often do you feel weak and susceptible to illness?  ,source_dataset
+2026/09/07 10:58:24 AM GMT+5:30,Agree,13,Senior Developer,SME (50–500),Hybrid,9,5,2,5,5,4,No,Yes,5,5,5.5,2,1,3,3,45,2,3,1,3,3,3,4,2,4,4,1,4,2,2,5,5,4,3,2,4,3,2,3,1,4,sri_lankan_developer_burnout
+2026/09/07 10:58:35 AM GMT+5:30,Agree,8,Site Reliability Engineer,SME (50–500),Remote,11,8,2,4,5,5,No,No,5,2,6.5,1,1,3,2,60,2,2,3,2,4,2,5,4,2,1,4,4,4,4,1,3,1,5,4,3,1,3,2,4,3,sri_lankan_developer_burnout
+2026/09/07 10:58:59 AM GMT+5:30,Agree,1,Frontend Developer,Enterprise (500+),On-site,10,21,4,15,5,3,Yes,Yes,5,4,6.0,2,1,3,1,75,3,1,2,3,4,5,5,4,5,3,4,3,4,5,2,2,1,3,4,5,1,4,3,4,2,sri_lankan_developer_burnout
+2026/09/07 10:59:08 AM GMT+5:30,Agree,15,Senior Developer,Startup (<50 employees),Hybrid,11,3,2,4,5,3,No,Yes,3,2,5.0,5,2,2,2,45,3,3,2,4,4,2,3,3,4,3,5,3,4,4,2,4,4,5,3,3,4,4,2,2,5,sri_lankan_developer_burnout
+2026/09/07 10:59:16 AM GMT+5:30,Agree,7,Scrum Master,Startup (<50 employees),Hybrid,8,4,5,8,4,3,Yes,No,3,3,5.0,2,3,4,3,30,2,4,4,5,4,4,2,2,5,4,1,2,4,1,2,4,4,4,3,4,3,3,4,4,4,sri_lankan_developer_burnout
+2026/09/07 10:59:39 AM GMT+5:30,Agree,1,Senior Software Engineer,SME (50–500),Hybrid,9,8,5,5,5,4,No,No,3,4,7.0,2,2,3,3,30,3,3,2,5,4,5,3,4,4,5,1,3,2,3,3,3,3,5,5,2,2,4,2,3,2,sri_lankan_developer_burnout
+2026/09/07 10:59:49 AM GMT+5:30,Agree,8,DevOps Engineer,SME (50–500),Hybrid,8,12,5,5,3,4,Yes,Yes,4,3,6.5,4,1,3,2,45,2,2,5,5,5,3,1,3,4,3,4,3,5,3,5,3,3,4,2,2,5,4,1,3,3,sri_lankan_developer_burnout
+2026/09/07 10:59:59 AM GMT+5:30,Agree,10,Developer,Enterprise (500+),On-site,10,19,4,16,5,4,Yes,Yes,3,5,4.0,4,1,4,2,60,3,2,4,1,1,2,2,4,5,4,1,3,3,2,2,3,3,3,1,4,4,4,5,5,2,sri_lankan_developer_burnout
+2026/09/07 11:00:09 AM GMT+5:30,Agree,7,Scrum Master,Enterprise (500+),Hybrid,8,2,4,1,4,4,No,No,3,2,8.0,2,3,1,3,30,0,4,4,1,5,2,1,5,3,4,5,5,3,3,4,5,5,4,4,4,2,5,3,2,3,sri_lankan_developer_burnout
+2026/09/07 11:00:19 AM GMT+5:30,Agree,9,Frontend Developer,SME (50–500),Hybrid,10,20,5,7,2,5,No,Yes,5,5,5.5,2,0,4,1,60,4,3,4,5,1,4,2,2,4,5,2,2,2,4,3,2,1,4,1,5,5,3,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:00:29 AM GMT+5:30,Agree,4,Full Stack Developer,Enterprise (500+),Hybrid,11,8,4,5,5,4,No,No,2,4,7.0,3,2,3,3,60,3,4,2,3,3,2,4,3,4,5,4,3,1,5,5,3,4,2,2,3,3,5,3,3,4,sri_lankan_developer_burnout
+2026/09/07 11:00:41 AM GMT+5:30,Agree,10,Data Engineer,Enterprise (500+),Hybrid,13,15,3,10,4,4,Yes,Yes,5,5,4.0,2,0,4,1,45,3,4,3,5,4,3,5,2,3,4,3,3,5,3,4,3,4,3,1,2,3,1,2,5,4,sri_lankan_developer_burnout
+2026/09/07 11:00:49 AM GMT+5:30,Agree,3,QA Engineer,SME (50–500),On-site,11,24,4,15,3,5,Yes,Yes,5,5,5.5,2,0,4,1,75,3,3,5,3,3,5,4,2,5,5,4,4,3,5,3,4,3,1,4,4,4,5,3,4,4,sri_lankan_developer_burnout
+2026/09/07 11:01:14 AM GMT+5:30,Agree,10,Business Analyst,SME (50–500),Remote,13,12,5,11,4,4,Yes,Yes,4,4,5.0,1,0,3,1,90,4,2,2,3,1,3,4,1,3,3,2,2,2,3,3,1,3,3,1,5,5,2,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:01:26 AM GMT+5:30,Agree,15,Senior Software Engineer,Enterprise (500+),Remote,9,5,3,5,1,2,Yes,No,3,4,7.5,2,4,2,3,15,1,2,2,2,3,1,4,4,3,4,4,2,4,4,4,4,2,3,4,3,3,2,5,3,1,sri_lankan_developer_burnout
+2026/09/07 11:01:35 AM GMT+5:30,Agree,6,Frontend Developer,SME (50–500),On-site,8,5,4,1,1,3,No,No,1,3,7.5,5,3,3,4,30,2,5,2,3,5,2,5,5,2,3,4,4,4,2,4,5,3,4,4,3,3,3,1,3,1,sri_lankan_developer_burnout
+2026/09/07 11:01:59 AM GMT+5:30,Agree,9,Site Reliability Engineer,SME (50–500),Hybrid,9,2,3,1,4,4,No,No,5,2,7.0,2,4,2,5,15,1,3,1,2,5,3,3,4,4,2,5,4,3,4,3,5,3,3,5,3,3,4,2,1,4,sri_lankan_developer_burnout
+2026/09/07 11:02:09 AM GMT+5:30,Agree,8,DevOps Engineer,Startup (<50 employees),On-site,8,6,5,5,5,2,Yes,Yes,4,2,5.5,4,3,3,3,30,3,2,2,4,2,3,4,4,4,4,4,3,3,2,5,4,3,3,5,2,4,4,3,1,4,sri_lankan_developer_burnout
+2026/09/07 11:02:18 AM GMT+5:30,Agree,4,Project Manager,Enterprise (500+),Remote,12,17,5,16,2,3,Yes,No,5,3,6.0,5,1,3,2,90,4,2,3,2,2,5,1,2,4,4,4,3,2,4,2,2,2,2,2,4,4,5,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:02:28 AM GMT+5:30,Agree,5,Senior Software Engineer,Enterprise (500+),Hybrid,8,5,2,5,2,2,No,No,2,4,8.0,4,3,3,4,15,1,4,2,3,4,3,1,4,1,3,3,5,4,5,5,5,5,4,4,2,2,3,2,2,2,sri_lankan_developer_burnout
+2026/09/07 11:02:36 AM GMT+5:30,Agree,12,Full Stack Developer,Startup (<50 employees),Remote,11,21,5,10,5,3,Yes,Yes,2,5,4.0,1,0,3,1,60,5,3,3,4,2,5,4,3,4,4,2,2,5,4,1,5,2,5,4,4,1,4,4,5,3,sri_lankan_developer_burnout
+2026/09/07 11:02:45 AM GMT+5:30,Agree,11,Software Engineer,Startup (<50 employees),On-site,8,4,1,2,3,4,No,Yes,2,3,7.5,3,3,1,5,45,1,4,3,2,5,2,2,4,1,1,5,2,4,3,3,3,3,4,3,3,3,3,4,3,1,sri_lankan_developer_burnout
+2026/09/07 11:02:54 AM GMT+5:30,Agree,4,Senior Developer,Enterprise (500+),On-site,9,4,2,1,4,2,Yes,No,2,4,6.5,4,3,1,3,45,0,3,2,4,5,4,3,4,1,5,5,4,4,4,4,5,5,4,5,1,3,1,2,5,2,sri_lankan_developer_burnout
+2026/09/07 11:03:04 AM GMT+5:30,Agree,7,Developer,SME (50–500),Hybrid,11,10,5,9,5,4,Yes,No,3,4,6.0,3,2,4,3,45,2,3,4,4,4,4,4,3,5,3,3,5,1,2,3,5,1,1,2,2,1,3,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:03:13 AM GMT+5:30,Agree,15,Software Engineer,SME (50–500),Remote,9,4,3,2,2,2,Yes,Yes,5,3,6.0,4,3,3,5,15,1,5,4,3,5,5,3,2,2,4,3,5,2,2,3,2,5,5,5,3,2,3,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:03:22 AM GMT+5:30,Agree,2,DevOps Engineer,Startup (<50 employees),On-site,9,10,5,3,4,4,Yes,No,2,3,5.0,1,3,2,2,60,3,2,2,1,4,1,4,5,2,5,5,2,5,4,5,4,4,4,5,4,4,5,2,2,2,sri_lankan_developer_burnout
+2026/09/07 11:03:30 AM GMT+5:30,Agree,13,DevOps Engineer,SME (50–500),Hybrid,9,9,5,7,5,1,No,Yes,3,4,5.5,4,3,3,2,30,3,5,3,3,4,4,4,2,4,4,5,3,4,5,2,5,4,1,3,4,1,4,2,4,1,sri_lankan_developer_burnout
+2026/09/07 11:03:40 AM GMT+5:30,Agree,15,Data Scientist,SME (50–500),Remote,10,19,2,17,5,4,No,Yes,1,3,4.5,5,0,4,1,75,4,1,1,5,3,4,5,1,4,5,2,3,3,2,5,3,4,2,2,2,5,4,5,4,5,sri_lankan_developer_burnout
+2026/09/07 11:03:52 AM GMT+5:30,Agree,1,Junior Developer,Startup (<50 employees),Hybrid,8,3,1,5,2,1,No,No,3,3,6.0,4,3,2,3,15,1,4,2,2,5,1,3,5,2,5,5,4,4,5,5,4,4,3,2,3,1,3,1,2,3,sri_lankan_developer_burnout
+2026/09/07 11:04:01 AM GMT+5:30,Agree,1,Senior Software Engineer,Startup (<50 employees),Hybrid,10,20,3,12,4,5,Yes,No,5,2,5.5,1,0,5,1,90,3,2,4,5,3,5,4,3,3,5,2,4,3,4,3,4,1,1,2,3,5,4,5,4,3,sri_lankan_developer_burnout
+2026/09/07 11:04:09 AM GMT+5:30,Agree,7,Developer,Startup (<50 employees),Remote,12,12,5,15,4,3,Yes,Yes,4,3,5.5,1,1,4,2,75,4,3,3,4,2,5,2,2,5,5,3,3,5,2,2,3,2,4,2,5,4,5,4,4,4,sri_lankan_developer_burnout
+2026/09/07 11:04:31 AM GMT+5:30,Agree,6,Senior Software Engineer,Startup (<50 employees),On-site,10,10,4,6,4,2,Yes,No,2,4,5.0,4,1,4,3,30,2,2,3,3,4,3,3,4,4,2,2,1,4,4,3,5,4,4,5,3,2,3,1,4,5,sri_lankan_developer_burnout
+2026/09/07 11:04:40 AM GMT+5:30,Agree,7,Full Stack Developer,Startup (<50 employees),Remote,7,0,4,4,2,5,No,Yes,5,4,6.0,4,3,2,4,30,0,3,1,5,4,1,2,5,2,2,5,3,4,5,3,1,3,5,5,4,1,4,4,3,5,sri_lankan_developer_burnout
+2026/09/07 11:04:49 AM GMT+5:30,Agree,5,QA Engineer,SME (50–500),Remote,13,13,4,7,4,5,No,Yes,5,5,6.0,3,1,4,2,90,3,3,3,4,3,4,5,3,5,4,2,3,3,3,1,4,1,4,4,4,4,5,5,5,5,sri_lankan_developer_burnout
+2026/09/07 11:04:58 AM GMT+5:30,Agree,5,Frontend Developer,SME (50–500),Hybrid,9,2,4,2,4,3,No,No,4,2,6.0,4,3,1,4,15,0,4,2,3,5,3,3,2,3,2,5,5,4,2,5,5,2,3,5,2,4,2,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:05:06 AM GMT+5:30,Agree,15,Data Engineer,SME (50–500),On-site,9,11,5,9,4,3,No,No,3,3,7.0,3,2,4,3,60,3,2,2,2,2,5,4,4,2,3,3,3,4,3,4,2,2,3,4,4,3,3,3,1,2,sri_lankan_developer_burnout
+2026/09/07 11:05:23 AM GMT+5:30,Agree,4,Cloud Engineer,SME (50–500),Remote,11,11,3,7,5,4,Yes,Yes,4,4,5.5,1,1,3,1,90,4,2,3,4,3,5,5,2,5,4,1,3,5,2,3,2,2,1,3,5,4,5,5,5,3,sri_lankan_developer_burnout
+2026/09/07 11:05:33 AM GMT+5:30,Agree,8,Developer,SME (50–500),On-site,8,11,4,6,4,2,No,Yes,4,5,5.5,1,1,2,2,45,2,2,3,5,3,5,5,2,4,4,4,3,4,3,3,4,4,4,4,2,2,5,2,1,2,sri_lankan_developer_burnout
+2026/09/07 11:05:43 AM GMT+5:30,Agree,14,UI/UX Developer,SME (50–500),On-site,8,8,3,9,4,4,No,Yes,3,3,5.0,4,1,3,3,30,2,4,1,4,5,5,3,5,1,1,4,3,3,4,2,3,3,4,4,3,3,2,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:05:52 AM GMT+5:30,Agree,12,QA Tester,SME (50–500),Remote,7,3,3,4,3,4,No,No,2,4,7.0,3,4,3,4,30,0,4,2,1,3,3,1,4,2,1,3,5,5,5,4,2,4,4,5,1,3,2,1,3,2,sri_lankan_developer_burnout
+2026/09/07 11:06:04 AM GMT+5:30,Agree,4,Engineering Manager,SME (50–500),On-site,8,11,2,10,3,4,No,Yes,4,2,6.5,4,3,3,2,45,2,4,2,5,2,5,3,1,1,4,4,4,2,1,3,3,3,5,5,5,4,3,2,4,4,sri_lankan_developer_burnout
+2026/09/07 11:06:14 AM GMT+5:30,Agree,10,Developer,Startup (<50 employees),On-site,9,0,5,2,1,2,No,Yes,5,3,6.5,3,3,2,3,30,2,4,3,2,1,1,3,2,2,3,4,3,3,5,4,4,1,5,4,2,4,2,2,3,1,sri_lankan_developer_burnout
+2026/09/07 11:06:24 AM GMT+5:30,Agree,14,Cloud Engineer,SME (50–500),Hybrid,12,18,4,18,2,3,Yes,No,5,3,5.0,1,0,4,2,75,4,1,2,3,2,5,4,1,5,5,3,4,2,2,4,4,2,4,4,5,5,4,4,4,5,sri_lankan_developer_burnout
+2026/09/07 11:06:46 AM GMT+5:30,Agree,12,Site Reliability Engineer,Startup (<50 employees),On-site,10,18,5,13,4,4,Yes,Yes,5,5,5.0,1,0,3,1,45,3,1,3,4,4,4,5,1,4,5,1,3,3,3,1,3,3,2,4,5,5,4,5,4,3,sri_lankan_developer_burnout
+2026/09/07 11:07:08 AM GMT+5:30,Agree,1,Software Engineer,Startup (<50 employees),Remote,9,3,4,3,4,2,Yes,No,2,2,7.5,4,4,2,3,30,1,2,1,4,3,3,2,5,2,2,5,5,3,5,4,4,2,2,5,3,2,3,3,2,3,sri_lankan_developer_burnout
+2026/09/07 11:07:18 AM GMT+5:30,Agree,15,Business Analyst,SME (50–500),Remote,8,5,1,3,2,4,No,No,2,4,7.5,3,5,1,4,30,1,4,3,1,3,3,3,3,4,2,5,5,4,4,5,3,4,3,4,2,4,5,1,1,3,sri_lankan_developer_burnout
+2026/09/07 11:07:29 AM GMT+5:30,Agree,9,Engineering Manager,SME (50–500),Hybrid,8,4,4,5,2,4,No,Yes,3,4,7.0,2,2,2,2,60,2,4,2,4,2,3,5,4,3,3,5,4,4,4,1,2,4,2,3,5,4,4,3,4,1,sri_lankan_developer_burnout
+2026/09/07 11:07:39 AM GMT+5:30,Agree,12,Senior Software Engineer,SME (50–500),Remote,11,9,5,4,2,4,Yes,Yes,2,3,5.0,3,2,4,2,60,2,2,3,4,3,5,5,3,5,2,2,2,5,4,2,4,3,2,5,4,3,5,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:07:48 AM GMT+5:30,Agree,4,Mobile Developer,Enterprise (500+),Hybrid,11,7,4,3,1,5,Yes,No,5,3,5.0,4,2,3,2,45,3,3,2,4,4,3,2,4,5,2,3,2,3,3,4,4,4,3,5,4,5,4,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:08:09 AM GMT+5:30,Agree,12,DevOps Engineer,Startup (<50 employees),Hybrid,8,10,2,10,4,4,No,Yes,2,2,7.0,3,2,4,2,60,2,4,3,5,1,2,3,3,3,3,2,3,4,3,1,4,1,5,2,4,5,5,3,5,5,sri_lankan_developer_burnout
+2026/09/07 11:08:20 AM GMT+5:30,Agree,9,Backend Developer,Enterprise (500+),Hybrid,10,6,2,8,2,2,Yes,Yes,3,3,6.0,1,1,3,3,30,3,4,2,3,5,4,4,5,3,3,3,4,4,4,2,3,3,4,4,1,5,2,5,1,4,sri_lankan_developer_burnout
+2026/09/07 11:08:29 AM GMT+5:30,Agree,6,Software Engineer,SME (50–500),Hybrid,8,3,3,5,3,3,No,Yes,2,2,7.5,4,4,3,4,30,1,4,1,2,3,2,1,3,2,5,4,4,3,4,3,3,3,1,1,2,1,1,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:08:39 AM GMT+5:30,Agree,11,Developer,Startup (<50 employees),On-site,8,11,5,7,3,4,No,No,4,5,7.0,5,1,3,3,60,3,2,3,3,4,5,4,5,1,4,4,1,5,3,4,5,4,2,4,4,5,3,2,4,3,sri_lankan_developer_burnout
+2026/09/07 11:08:52 AM GMT+5:30,Agree,10,Frontend Developer,SME (50–500),Remote,9,5,5,3,2,3,No,No,3,5,5.5,1,2,2,3,45,2,2,3,3,4,4,5,4,3,4,3,3,4,3,4,5,4,5,4,3,4,3,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:09:01 AM GMT+5:30,Agree,8,Senior Developer,SME (50–500),Remote,8,3,5,5,1,4,No,Yes,1,4,5.0,2,3,3,3,45,2,2,1,5,2,5,4,2,2,2,5,3,3,3,2,4,2,5,3,3,3,3,5,4,1,sri_lankan_developer_burnout
+2026/09/07 11:09:12 AM GMT+5:30,Agree,14,Frontend Developer,SME (50–500),Hybrid,11,7,3,3,4,2,Yes,No,3,5,7.0,2,1,3,2,60,2,3,3,2,3,4,4,3,5,5,4,4,4,3,3,1,3,4,3,5,5,4,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:09:22 AM GMT+5:30,Agree,12,Developer,SME (50–500),Hybrid,11,19,5,9,4,5,Yes,No,4,4,5.0,1,1,4,1,60,4,3,5,4,3,5,5,5,4,3,4,3,4,5,1,5,2,3,4,5,1,4,4,5,4,sri_lankan_developer_burnout
+2026/09/07 11:09:32 AM GMT+5:30,Agree,14,Test Engineer,Enterprise (500+),Hybrid,9,5,5,3,5,4,No,No,1,4,6.0,4,3,1,5,45,2,5,3,1,3,3,2,5,1,2,4,4,4,4,1,2,5,4,3,4,2,3,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:09:41 AM GMT+5:30,Agree,2,Backend Developer,Enterprise (500+),On-site,8,2,1,5,4,3,Yes,Yes,1,3,6.0,3,5,2,4,30,1,2,3,2,4,4,4,4,3,1,5,3,4,3,2,4,1,4,4,1,3,1,1,3,1,sri_lankan_developer_burnout
+2026/09/07 11:09:53 AM GMT+5:30,Agree,9,Backend Developer,Enterprise (500+),Remote,13,18,5,17,4,5,Yes,No,5,4,4.0,2,1,4,1,45,4,4,4,5,1,4,5,1,4,3,3,5,2,3,3,5,1,3,3,5,4,3,4,5,1,sri_lankan_developer_burnout
+2026/09/07 11:10:05 AM GMT+5:30,Agree,13,Software Engineer,Enterprise (500+),On-site,13,16,5,17,5,5,No,No,2,4,5.5,3,0,4,1,75,3,3,2,4,1,3,4,2,5,1,2,3,1,2,2,3,2,3,4,1,4,5,4,5,3,sri_lankan_developer_burnout
+2026/09/07 11:10:28 AM GMT+5:30,Agree,15,Full Stack Developer,Startup (<50 employees),On-site,11,17,5,20,4,3,Yes,Yes,4,5,5.5,3,0,4,2,60,5,2,3,5,3,4,4,1,5,5,4,3,3,1,3,4,5,2,3,5,4,4,5,4,4,sri_lankan_developer_burnout
+2026/09/07 11:10:37 AM GMT+5:30,Agree,9,QA Tester,Enterprise (500+),Hybrid,10,7,4,6,3,4,Yes,Yes,5,3,6.5,3,1,3,3,60,2,2,1,3,3,4,3,5,5,4,5,4,4,2,3,4,4,3,5,4,2,5,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:10:46 AM GMT+5:30,Agree,4,Data Engineer,Enterprise (500+),Hybrid,8,5,4,3,3,5,Yes,Yes,1,1,7.5,5,5,3,5,30,2,5,1,3,4,2,3,4,2,3,5,4,1,1,3,5,2,4,3,2,4,3,1,2,1,sri_lankan_developer_burnout
+2026/09/07 11:11:03 AM GMT+5:30,Agree,13,Developer,Enterprise (500+),Remote,10,4,5,10,4,4,No,Yes,1,2,6.0,2,2,4,2,45,2,4,5,5,5,1,5,4,3,5,2,4,3,3,4,4,3,3,5,2,3,5,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:11:12 AM GMT+5:30,Agree,4,Senior Software Engineer,Startup (<50 employees),Hybrid,10,23,4,13,2,5,Yes,Yes,5,4,5.0,3,0,4,2,75,3,3,3,4,2,2,3,3,1,4,2,1,5,2,2,3,1,1,4,5,3,5,4,5,3,sri_lankan_developer_burnout
+2026/09/07 11:11:34 AM GMT+5:30,Agree,14,Tech Lead,Startup (<50 employees),Remote,8,8,4,10,4,3,No,No,1,4,5.5,1,1,3,2,45,2,3,5,4,2,4,4,4,2,5,3,2,2,2,4,2,2,5,3,1,1,2,2,4,2,sri_lankan_developer_burnout
+2026/09/07 11:11:47 AM GMT+5:30,Agree,1,Cloud Engineer,SME (50–500),On-site,7,0,3,4,4,4,No,Yes,3,1,6.5,4,5,1,4,30,1,4,2,2,3,2,1,5,3,5,3,5,5,4,4,3,4,4,2,2,4,4,5,3,1,sri_lankan_developer_burnout
+2026/09/07 11:11:56 AM GMT+5:30,Agree,1,Senior Software Engineer,Startup (<50 employees),Hybrid,9,3,4,1,3,4,No,Yes,2,2,6.0,4,3,1,4,45,1,4,3,2,4,3,1,3,2,2,5,2,4,3,5,3,3,4,5,3,2,2,1,2,2,sri_lankan_developer_burnout
+2026/09/07 11:12:19 AM GMT+5:30,Agree,12,Senior Software Engineer,SME (50–500),Remote,10,9,3,9,5,3,Yes,No,4,4,7.0,1,3,2,3,45,3,3,2,4,5,5,2,2,5,4,5,3,4,4,4,3,1,4,3,3,5,3,4,3,3,sri_lankan_developer_burnout
+2026/09/07 11:12:27 AM GMT+5:30,Agree,1,Senior Software Engineer,SME (50–500),Hybrid,13,22,4,19,4,4,No,Yes,4,5,4.5,3,0,3,2,75,3,1,2,4,1,2,4,3,5,5,1,5,4,4,4,5,2,2,4,5,5,4,2,4,5,sri_lankan_developer_burnout
+2026/09/07 11:12:41 AM GMT+5:30,Agree,9,Backend Developer,Enterprise (500+),On-site,8,11,2,5,4,4,Yes,No,3,4,6.5,2,2,3,3,45,2,2,3,3,3,1,3,3,4,1,3,5,2,4,4,5,4,4,5,3,4,1,5,3,3,sri_lankan_developer_burnout
+2026/09/07 11:13:02 AM GMT+5:30,Agree,13,Frontend Developer,Enterprise (500+),On-site,10,9,5,6,4,3,Yes,Yes,3,5,6.0,4,1,3,3,60,2,3,2,1,3,3,3,4,3,3,3,4,5,4,4,3,3,3,3,4,5,2,3,4,1,sri_lankan_developer_burnout
+2026/09/07 11:13:15 AM GMT+5:30,Agree,11,Full Stack Developer,Startup (<50 employees),Hybrid,9,5,3,4,3,5,No,No,4,4,6.5,3,4,2,5,30,1,3,3,1,3,1,3,3,2,4,3,4,4,1,5,2,3,4,4,3,2,1,3,3,4,sri_lankan_developer_burnout
+2026/09/07 11:13:30 AM GMT+5:30,Agree,9,Senior Software Engineer,SME (50–500),On-site,11,9,4,9,1,4,Yes,Yes,3,3,5.5,1,1,5,1,90,4,2,5,4,4,2,4,1,5,5,3,3,2,1,2,5,2,4,5,4,4,3,2,2,4,sri_lankan_developer_burnout
+2026/09/07 11:13:41 AM GMT+5:30,Agree,10,Team Lead,SME (50–500),On-site,9,6,3,7,3,4,Yes,No,3,3,5.5,5,2,3,3,60,2,3,1,4,4,3,3,3,3,2,3,5,4,2,1,4,3,5,4,4,3,4,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:14:02 AM GMT+5:30,Agree,10,Team Lead,SME (50–500),On-site,9,6,3,7,3,4,Yes,No,3,3,5.5,5,2,3,3,60,2,3,1,4,4,3,3,3,3,2,3,5,4,2,1,4,3,5,4,4,3,4,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:14:11 AM GMT+5:30,Agree,13,Tech Lead,SME (50–500),Remote,10,6,5,4,4,5,No,No,2,2,7.0,4,1,2,3,30,2,4,4,4,4,4,3,2,4,4,3,4,2,4,4,4,5,5,5,5,4,4,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:14:22 AM GMT+5:30,Agree,13,Junior Developer,Startup (<50 employees),Hybrid,10,8,4,9,2,3,Yes,Yes,5,4,6.5,1,3,3,3,45,3,3,3,5,4,3,4,3,3,4,5,5,3,4,2,5,5,4,5,4,4,2,2,4,3,sri_lankan_developer_burnout
+2026/09/07 11:14:34 AM GMT+5:30,Agree,7,Business Analyst,SME (50–500),Remote,10,11,4,4,4,4,No,No,2,2,5.5,4,3,2,2,45,3,4,4,5,5,4,4,3,2,4,3,5,4,4,3,2,1,3,2,4,5,5,3,3,4,sri_lankan_developer_burnout
+2026/09/07 11:14:44 AM GMT+5:30,Agree,11,Site Reliability Engineer,Startup (<50 employees),On-site,12,12,5,13,5,5,No,Yes,4,4,5.5,3,1,5,1,60,3,1,2,4,2,3,3,1,5,5,5,3,2,4,2,3,1,2,2,4,5,2,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:14:56 AM GMT+5:30,Agree,15,UI/UX Developer,Startup (<50 employees),Remote,10,9,4,8,5,2,No,No,2,4,6.5,3,1,3,2,60,2,3,2,4,3,4,4,5,3,4,5,5,5,3,2,4,4,3,4,5,3,5,2,3,3,sri_lankan_developer_burnout
+2026/09/07 11:15:06 AM GMT+5:30,Agree,14,Product Manager,Enterprise (500+),On-site,11,20,5,16,5,4,No,No,5,4,5.5,1,1,4,1,90,4,2,3,4,3,4,5,4,4,5,3,3,5,1,2,3,2,3,4,5,4,2,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:15:20 AM GMT+5:30,Agree,13,Junior Developer,SME (50–500),On-site,8,9,3,10,5,5,No,Yes,4,4,5.5,4,2,3,3,45,3,3,3,4,1,4,3,4,3,4,2,4,3,5,5,5,4,4,3,3,3,4,4,3,5,sri_lankan_developer_burnout
+2026/09/07 11:15:30 AM GMT+5:30,Agree,11,Team Lead,SME (50–500),On-site,10,3,3,4,4,4,No,No,1,1,6.0,3,2,2,2,30,3,4,5,3,4,4,3,5,5,5,4,3,3,5,1,4,4,4,5,3,3,2,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:15:40 AM GMT+5:30,Agree,15,UI/UX Developer,Enterprise (500+),Hybrid,11,19,3,14,5,3,No,Yes,4,4,4.5,4,0,3,1,60,3,4,4,4,4,4,5,4,4,5,2,2,1,3,3,5,3,4,4,3,4,3,4,5,2,sri_lankan_developer_burnout
+2026/09/07 11:16:03 AM GMT+5:30,Agree,9,Senior Developer,Startup (<50 employees),Hybrid,10,18,4,13,5,5,No,Yes,5,5,4.5,2,1,3,1,75,3,1,3,3,2,4,5,3,5,5,4,2,4,4,4,4,1,3,4,2,5,4,2,3,1,sri_lankan_developer_burnout
+2026/09/07 11:16:13 AM GMT+5:30,Agree,6,Full Stack Developer,SME (50–500),Remote,10,12,4,7,4,2,No,No,2,2,5.5,2,3,3,3,45,2,2,3,4,4,3,3,1,4,2,3,4,5,3,2,4,3,3,5,5,3,3,3,4,1,sri_lankan_developer_burnout
+2026/09/07 11:16:35 AM GMT+5:30,Agree,3,Frontend Developer,SME (50–500),Hybrid,11,10,3,7,3,3,Yes,No,3,4,7.0,1,2,2,2,60,2,3,1,5,3,3,4,4,5,3,5,5,5,4,4,3,4,4,4,3,4,5,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:16:47 AM GMT+5:30,Agree,14,Junior Developer,SME (50–500),Hybrid,11,25,4,16,4,4,Yes,Yes,2,4,5.0,3,0,4,1,45,5,3,3,3,2,5,4,3,5,3,2,3,2,2,1,5,2,3,5,5,3,4,4,5,4,sri_lankan_developer_burnout
+2026/09/07 11:16:57 AM GMT+5:30,Agree,14,Junior Developer,Startup (<50 employees),Hybrid,11,4,2,5,1,5,No,Yes,2,5,6.5,1,3,2,2,30,3,4,5,4,3,3,4,3,4,1,1,4,4,4,2,4,2,2,3,2,3,3,2,2,1,sri_lankan_developer_burnout
+2026/09/07 11:17:06 AM GMT+5:30,Agree,6,Backend Developer,Enterprise (500+),Remote,8,1,4,4,3,3,No,No,2,2,6.5,3,3,3,4,30,1,4,1,2,5,3,2,5,2,5,4,3,3,2,2,4,5,5,3,3,1,1,2,3,1,sri_lankan_developer_burnout
+2026/09/07 11:17:16 AM GMT+5:30,Agree,12,Junior Developer,Enterprise (500+),Remote,9,3,5,3,3,4,No,No,3,3,6.5,4,4,2,4,15,1,3,1,1,4,3,2,4,3,1,4,5,5,4,4,2,3,2,5,2,2,4,4,4,1,sri_lankan_developer_burnout
+2026/09/07 11:17:26 AM GMT+5:30,Agree,4,Backend Developer,SME (50–500),Remote,8,0,4,1,3,2,No,Yes,1,4,7.0,4,3,2,5,15,1,1,1,2,1,3,2,4,2,2,4,5,2,5,4,4,3,2,2,3,2,4,2,1,3,sri_lankan_developer_burnout
+2026/09/07 11:17:38 AM GMT+5:30,Agree,14,Team Lead,Enterprise (500+),Hybrid,11,3,5,6,5,3,Yes,Yes,2,4,6.0,3,1,3,2,45,2,3,1,2,4,5,4,2,3,4,4,2,1,4,3,3,1,4,5,5,4,4,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:18:01 AM GMT+5:30,Agree,12,Full Stack Developer,SME (50–500),Hybrid,11,9,2,9,5,4,No,No,5,4,5.0,3,2,3,3,60,2,4,2,4,4,2,4,3,4,3,5,2,4,4,4,3,3,4,3,3,4,4,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:18:23 AM GMT+5:30,Agree,8,Developer,Startup (<50 employees),Hybrid,12,21,2,16,5,2,Yes,No,3,4,4.5,1,1,4,1,90,3,4,5,5,3,4,5,2,5,5,5,4,2,5,3,5,3,2,3,4,5,4,4,4,5,sri_lankan_developer_burnout
+2026/09/07 11:18:35 AM GMT+5:30,Agree,1,Senior Software Engineer,Startup (<50 employees),Hybrid,8,5,4,8,5,5,No,No,1,4,7.0,3,2,2,3,60,3,5,1,4,4,4,3,3,2,3,2,4,3,2,4,4,5,4,3,4,4,2,3,5,3,sri_lankan_developer_burnout
+2026/09/07 11:18:45 AM GMT+5:30,Agree,3,Senior Developer,SME (50–500),Hybrid,8,9,5,4,4,4,Yes,Yes,4,5,6.5,4,1,4,2,60,3,2,3,1,3,4,4,5,4,3,4,5,1,5,2,5,2,2,4,4,3,2,3,5,3,sri_lankan_developer_burnout
+2026/09/07 11:19:08 AM GMT+5:30,Agree,1,Tech Lead,Startup (<50 employees),Hybrid,9,1,3,2,4,3,No,No,3,3,7.0,5,4,2,3,30,1,3,1,3,4,3,2,4,1,2,3,3,3,4,2,4,3,4,4,4,1,3,1,1,3,sri_lankan_developer_burnout
+2026/09/07 11:19:24 AM GMT+5:30,Agree,9,QA Engineer,Enterprise (500+),Remote,10,9,2,3,5,4,No,Yes,3,4,5.0,1,1,2,2,45,2,3,5,4,5,2,3,4,2,1,4,4,3,3,3,1,3,2,2,5,4,4,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:19:33 AM GMT+5:30,Agree,6,QA Tester,Startup (<50 employees),Hybrid,7,1,3,4,1,2,No,No,5,2,8.0,3,3,2,5,15,1,4,3,2,4,4,4,5,1,3,3,4,4,4,4,5,2,4,4,2,2,5,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:19:46 AM GMT+5:30,Agree,7,Backend Developer,SME (50–500),Hybrid,8,4,4,1,3,2,No,Yes,1,4,7.0,3,5,2,3,30,1,5,3,3,4,1,2,4,3,3,3,1,4,3,4,1,4,5,3,3,1,3,2,2,2,sri_lankan_developer_burnout
+2026/09/07 11:19:58 AM GMT+5:30,Agree,4,Backend Developer,SME (50–500),Remote,11,23,5,9,5,5,Yes,Yes,4,3,5.5,3,0,4,1,60,3,3,2,5,3,5,5,1,4,5,2,4,2,2,2,3,3,4,4,5,5,5,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:20:08 AM GMT+5:30,Agree,3,Developer,Startup (<50 employees),On-site,7,2,3,5,1,2,No,No,4,1,6.5,4,5,2,5,15,1,4,4,2,3,2,1,3,5,2,4,4,3,3,3,3,4,4,1,3,4,4,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:20:19 AM GMT+5:30,Agree,14,Senior Developer,Enterprise (500+),Hybrid,12,24,2,12,3,4,Yes,No,5,4,6.0,4,1,3,2,45,5,1,1,5,1,4,4,1,3,1,2,1,3,2,5,5,2,4,4,5,4,3,4,5,4,sri_lankan_developer_burnout
+2026/09/07 11:20:29 AM GMT+5:30,Agree,7,Cloud Engineer,SME (50–500),On-site,11,9,3,5,4,4,No,No,3,4,7.0,5,3,4,2,45,3,5,1,3,2,4,3,3,2,3,5,3,4,4,5,2,5,4,5,5,3,2,2,4,2,sri_lankan_developer_burnout
+2026/09/07 11:20:39 AM GMT+5:30,Agree,7,Engineering Manager,SME (50–500),Hybrid,8,5,5,2,1,4,No,No,2,4,7.0,5,5,2,3,15,0,5,3,3,3,4,2,1,2,3,4,5,2,4,4,3,4,4,5,4,3,2,3,2,1,sri_lankan_developer_burnout
+2026/09/07 11:20:48 AM GMT+5:30,Agree,11,QA Tester,SME (50–500),Remote,8,5,3,2,2,1,No,No,2,3,8.0,4,5,3,3,30,1,5,2,5,4,2,3,5,4,1,5,3,1,4,3,5,3,5,1,2,2,2,1,2,2,sri_lankan_developer_burnout
+2026/09/07 11:21:00 AM GMT+5:30,Agree,3,Frontend Developer,SME (50–500),On-site,9,5,3,4,5,3,No,No,3,4,6.0,3,1,2,3,30,3,3,1,5,2,5,2,5,1,4,4,5,5,4,5,3,2,3,3,3,4,2,3,2,2,sri_lankan_developer_burnout
+2026/09/07 11:21:10 AM GMT+5:30,Agree,6,Test Engineer,SME (50–500),Hybrid,10,7,4,5,3,3,Yes,Yes,5,5,5.5,4,2,4,2,45,2,4,3,4,3,3,4,4,4,3,4,4,4,4,5,5,3,4,5,4,4,4,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:21:19 AM GMT+5:30,Agree,15,Backend Developer,SME (50–500),Hybrid,10,22,5,18,4,4,No,Yes,2,5,4.0,3,0,4,1,45,4,1,3,3,1,4,3,4,1,4,1,2,5,2,5,2,3,3,5,4,4,3,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:21:42 AM GMT+5:30,Agree,1,Junior Developer,Startup (<50 employees),Hybrid,11,10,4,6,1,3,No,Yes,4,5,5.0,4,1,3,3,30,3,3,2,3,3,4,4,5,5,4,4,3,4,1,4,4,1,1,3,4,3,4,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:22:05 AM GMT+5:30,Agree,14,Backend Developer,SME (50–500),Hybrid,9,2,5,5,3,3,No,No,5,3,6.5,4,4,2,3,15,1,4,2,1,4,4,5,4,3,4,4,3,5,4,4,3,2,5,4,2,2,3,2,2,4,sri_lankan_developer_burnout
+2026/09/07 11:22:15 AM GMT+5:30,Agree,7,Tech Lead,Startup (<50 employees),Hybrid,8,4,4,5,2,2,No,No,3,4,6.5,4,4,3,4,45,1,3,1,3,2,2,3,4,3,1,4,4,5,4,5,5,4,3,4,3,3,3,2,2,2,sri_lankan_developer_burnout
+2026/09/07 11:22:25 AM GMT+5:30,Agree,4,Full Stack Developer,SME (50–500),Hybrid,7,5,5,2,2,3,No,No,4,3,6.0,4,5,3,4,45,0,2,3,1,3,3,2,3,2,2,4,5,4,4,5,3,3,5,4,5,3,4,2,2,2,sri_lankan_developer_burnout
+2026/09/07 11:22:35 AM GMT+5:30,Agree,7,Software Engineer,Enterprise (500+),Remote,8,7,2,5,5,3,No,No,4,5,7.0,2,2,4,3,60,3,4,2,4,3,3,4,3,3,5,1,3,5,4,4,3,3,5,4,4,2,1,5,3,3,sri_lankan_developer_burnout
+2026/09/07 11:22:44 AM GMT+5:30,Agree,5,Frontend Developer,Enterprise (500+),Hybrid,9,5,4,5,3,2,No,No,2,4,7.5,4,3,1,5,30,0,4,1,2,4,1,5,3,1,2,5,4,4,1,1,4,4,5,2,3,4,2,3,1,4,sri_lankan_developer_burnout
+2026/09/07 11:22:54 AM GMT+5:30,Agree,10,Senior Software Engineer,Enterprise (500+),Remote,11,11,5,13,5,5,No,Yes,5,5,6.0,2,0,3,2,90,3,1,3,4,3,5,5,3,4,5,2,3,3,2,2,3,4,2,3,4,5,3,5,5,4,sri_lankan_developer_burnout
+2026/09/07 11:23:05 AM GMT+5:30,Agree,10,QA Tester,SME (50–500),Hybrid,8,11,4,9,1,4,No,Yes,3,5,6.0,3,3,3,2,45,3,3,5,3,3,4,4,5,5,3,2,1,4,5,2,2,1,5,3,3,3,5,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:23:14 AM GMT+5:30,Agree,4,Team Lead,SME (50–500),Remote,11,7,3,4,5,1,No,Yes,1,4,5.5,4,3,2,2,45,2,2,1,1,4,2,4,4,3,1,4,1,4,5,3,4,3,3,5,5,3,4,5,5,3,sri_lankan_developer_burnout
+2026/09/07 11:23:24 AM GMT+5:30,Agree,6,Product Manager,Startup (<50 employees),Hybrid,10,8,5,5,3,5,Yes,No,2,3,7.0,3,1,3,2,30,3,5,2,4,5,1,5,5,2,2,5,4,1,3,3,4,4,5,3,4,4,3,1,5,4,sri_lankan_developer_burnout
+2026/09/07 11:23:35 AM GMT+5:30,Agree,8,Developer,Startup (<50 employees),Remote,8,4,2,5,4,3,No,Yes,3,3,6.5,2,1,3,3,45,2,4,1,4,2,2,3,2,4,5,1,4,4,5,2,4,5,4,3,2,3,4,3,2,3,sri_lankan_developer_burnout
+2026/09/07 11:23:44 AM GMT+5:30,Agree,14,Frontend Developer,Enterprise (500+),On-site,8,4,4,8,3,2,Yes,Yes,4,3,5.0,1,3,3,2,45,2,4,3,4,4,3,1,5,3,3,1,3,5,3,3,4,4,3,3,5,4,2,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:24:06 AM GMT+5:30,Agree,2,Junior Developer,Startup (<50 employees),Remote,9,5,4,4,1,4,Yes,No,5,4,6.5,2,1,3,2,45,3,4,4,3,4,3,2,4,1,3,3,4,4,3,4,3,3,4,4,5,3,4,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:24:29 AM GMT+5:30,Agree,13,Developer,Startup (<50 employees),Hybrid,11,14,3,16,5,4,Yes,Yes,4,4,4.0,1,0,3,1,60,3,2,2,4,3,4,5,3,4,2,2,4,2,4,2,5,1,4,3,4,3,4,5,4,2,sri_lankan_developer_burnout
+2026/09/07 11:24:39 AM GMT+5:30,Agree,2,Engineering Manager,SME (50–500),Hybrid,10,7,4,7,2,4,No,Yes,4,3,5.5,4,1,3,3,60,2,3,3,5,4,2,3,3,4,4,4,5,2,3,3,3,1,2,4,5,3,4,2,4,4,sri_lankan_developer_burnout
+2026/09/07 11:24:48 AM GMT+5:30,Agree,15,Frontend Developer,Enterprise (500+),Hybrid,11,12,2,4,4,5,No,Yes,3,5,5.0,5,2,4,3,45,2,1,2,4,2,1,2,4,5,5,3,5,4,4,4,2,5,3,4,4,3,3,3,1,4,sri_lankan_developer_burnout
+2026/09/07 11:24:57 AM GMT+5:30,Agree,14,Software Engineer,SME (50–500),Hybrid,10,12,5,8,3,3,Yes,Yes,3,5,6.5,2,1,4,3,30,3,5,2,3,4,4,4,5,4,3,4,3,4,4,1,4,3,3,4,3,4,2,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:25:06 AM GMT+5:30,Agree,8,Backend Developer,SME (50–500),Hybrid,8,7,2,8,3,5,No,Yes,4,2,7.0,2,1,4,3,60,2,3,2,2,4,4,4,3,3,3,5,3,3,3,4,3,5,3,5,2,4,5,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:25:25 AM GMT+5:30,Agree,8,Backend Developer,SME (50–500),Hybrid,8,7,2,8,3,5,No,Yes,4,2,7.0,2,1,4,3,60,2,3,2,2,4,4,4,3,3,3,5,3,3,3,4,3,5,3,5,2,4,5,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:25:33 AM GMT+5:30,Agree,12,Senior Software Engineer,SME (50–500),Remote,11,11,3,15,4,4,Yes,Yes,4,5,6.0,1,0,5,2,60,4,2,4,5,3,4,2,2,5,4,4,5,2,4,3,5,5,4,2,5,3,5,5,4,4,sri_lankan_developer_burnout
+2026/09/07 11:25:46 AM GMT+5:30,Agree,7,Junior Developer,SME (50–500),Remote,11,12,5,7,5,4,Yes,Yes,2,5,7.0,2,1,3,3,45,2,3,1,5,5,5,5,2,1,4,5,2,1,4,1,3,4,3,2,4,4,5,2,2,4,sri_lankan_developer_burnout
+2026/09/07 11:26:08 AM GMT+5:30,Agree,2,Full Stack Developer,Enterprise (500+),Hybrid,9,11,3,8,3,4,No,No,2,2,5.5,1,1,2,3,60,2,4,2,4,4,2,3,4,2,3,4,5,3,4,3,5,3,5,3,4,4,3,1,2,1,sri_lankan_developer_burnout
+2026/09/07 11:26:35 AM GMT+5:30,Agree,11,Software Engineer,SME (50–500),Remote,11,15,5,15,3,5,Yes,Yes,1,5,5.0,1,0,4,1,45,4,3,3,5,1,5,5,1,4,5,4,3,2,4,3,3,2,2,4,4,5,4,4,4,5,sri_lankan_developer_burnout
+2026/09/07 11:26:44 AM GMT+5:30,Agree,6,Developer,SME (50–500),Hybrid,13,17,3,20,4,5,Yes,No,4,5,5.0,1,0,3,2,60,5,1,2,4,4,5,4,2,3,5,3,2,3,2,5,2,3,2,4,5,5,5,5,3,3,sri_lankan_developer_burnout
+2026/09/07 11:27:05 AM GMT+5:30,Agree,8,Frontend Developer,SME (50–500),Hybrid,9,5,4,9,3,3,Yes,No,5,3,5.5,2,3,4,2,60,3,4,1,2,4,5,4,2,2,5,2,4,1,2,4,4,3,2,5,3,4,5,1,5,2,sri_lankan_developer_burnout
+2026/09/07 11:27:28 AM GMT+5:30,Agree,2,Senior Software Engineer,SME (50–500),Hybrid,8,5,5,9,4,3,No,Yes,1,4,5.5,1,2,3,3,30,3,3,4,4,2,4,2,5,4,2,5,4,2,4,2,5,4,5,4,3,4,2,3,4,1,sri_lankan_developer_burnout
+2026/09/07 11:27:40 AM GMT+5:30,Agree,13,Developer,Enterprise (500+),On-site,9,10,2,6,2,4,Yes,No,3,5,6.5,2,1,3,3,60,2,3,1,3,3,2,3,5,4,2,2,3,3,3,3,4,4,3,5,3,1,4,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:28:03 AM GMT+5:30,Agree,6,Team Lead,SME (50–500),Hybrid,13,17,4,11,3,5,Yes,Yes,3,5,5.0,2,0,4,1,90,3,1,2,4,3,4,5,1,4,5,2,3,2,4,1,5,1,4,3,5,4,5,2,3,4,sri_lankan_developer_burnout
+2026/09/07 11:28:13 AM GMT+5:30,Agree,8,Scrum Master,Enterprise (500+),Hybrid,8,5,3,2,3,3,Yes,No,2,2,7.5,1,5,3,5,30,1,3,1,2,4,3,1,1,1,2,5,4,5,4,3,2,5,5,3,3,3,3,4,3,2,sri_lankan_developer_burnout
+2026/09/07 11:28:36 AM GMT+5:30,Agree,14,Senior Software Engineer,SME (50–500),Remote,8,2,5,5,2,2,Yes,No,2,3,6.0,3,4,2,4,30,0,4,1,4,1,4,3,4,3,3,4,2,3,3,1,4,2,3,2,2,2,5,1,3,1,sri_lankan_developer_burnout
+2026/09/07 11:28:45 AM GMT+5:30,Agree,12,Full Stack Developer,Startup (<50 employees),Hybrid,12,9,4,16,3,5,Yes,Yes,4,2,4.5,4,0,3,2,45,3,2,3,1,3,4,4,3,4,2,1,5,1,3,3,3,1,3,3,5,3,4,3,4,4,sri_lankan_developer_burnout
+2026/09/07 11:28:56 AM GMT+5:30,Agree,2,Senior Software Engineer,SME (50–500),On-site,8,0,2,2,1,1,No,No,2,3,6.5,4,4,2,4,45,0,3,4,2,5,4,3,5,1,2,4,3,5,2,4,4,4,3,4,4,2,4,2,4,3,sri_lankan_developer_burnout
+2026/09/07 11:29:19 AM GMT+5:30,Agree,8,Senior Developer,Startup (<50 employees),Hybrid,8,1,3,3,5,4,No,No,2,4,6.5,3,5,2,4,30,1,4,2,2,4,4,2,4,3,2,3,5,4,4,4,1,4,4,4,3,1,2,4,2,2,sri_lankan_developer_burnout
+2026/09/07 11:29:29 AM GMT+5:30,Agree,1,UI/UX Developer,SME (50–500),Remote,7,1,2,1,2,3,No,Yes,3,4,7.0,5,5,3,4,30,0,5,1,1,2,3,2,4,5,4,4,3,5,5,4,4,3,5,4,3,1,4,2,2,3,sri_lankan_developer_burnout
+2026/09/07 11:29:38 AM GMT+5:30,Agree,9,Developer,SME (50–500),On-site,11,12,5,7,3,4,No,No,4,4,7.0,2,3,3,3,45,3,2,2,4,4,3,5,3,4,4,4,5,4,4,1,3,2,4,3,3,2,2,2,5,4,sri_lankan_developer_burnout
+2026/09/07 11:29:50 AM GMT+5:30,Agree,15,Senior Software Engineer,Enterprise (500+),Hybrid,12,9,4,12,3,5,Yes,No,4,3,5.0,2,0,3,2,75,3,4,5,5,3,4,5,1,3,5,3,3,2,3,1,2,1,3,4,2,5,4,4,5,4,sri_lankan_developer_burnout
+2026/09/07 11:30:13 AM GMT+5:30,Agree,11,Full Stack Developer,Enterprise (500+),Remote,13,24,5,13,4,4,No,Yes,5,5,4.0,1,0,3,1,60,4,1,2,4,4,4,4,3,5,4,2,2,5,2,2,1,1,4,2,3,4,1,2,5,5,sri_lankan_developer_burnout
+2026/09/07 11:30:25 AM GMT+5:30,Agree,7,Frontend Developer,Enterprise (500+),Remote,10,19,2,17,4,4,No,No,5,3,5.5,1,1,3,1,90,3,3,3,5,2,5,5,1,3,4,3,4,3,3,2,4,5,2,3,3,4,4,2,4,3,sri_lankan_developer_burnout
+2026/09/07 11:30:35 AM GMT+5:30,Agree,4,Backend Developer,Startup (<50 employees),Remote,10,3,2,7,3,5,No,No,3,4,6.5,3,2,3,2,45,2,1,1,5,1,4,5,3,3,4,5,5,4,2,4,3,3,1,3,4,3,3,2,5,4,sri_lankan_developer_burnout
+2026/09/07 11:30:56 AM GMT+5:30,Agree,14,Developer,SME (50–500),On-site,11,3,4,9,3,5,No,Yes,2,4,6.5,3,3,4,2,30,2,4,1,3,3,4,2,3,3,4,4,2,4,4,4,4,3,2,4,4,4,3,4,4,1,sri_lankan_developer_burnout
+2026/09/07 11:31:07 AM GMT+5:30,Agree,6,Full Stack Developer,SME (50–500),Hybrid,11,6,4,8,4,5,Yes,No,3,3,6.5,3,1,3,2,30,2,3,2,4,5,4,3,4,2,2,3,4,3,2,2,5,4,3,4,4,4,3,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:31:17 AM GMT+5:30,Agree,7,Backend Developer,SME (50–500),Remote,8,2,4,4,3,4,No,No,3,3,6.5,4,3,1,3,15,1,5,3,2,3,2,2,4,2,2,3,1,3,4,3,4,4,5,5,4,1,3,3,1,2,sri_lankan_developer_burnout
+2026/09/07 11:31:41 AM GMT+5:30,Agree,15,Software Engineer,Startup (<50 employees),On-site,13,11,5,19,5,1,Yes,No,3,3,5.5,3,1,5,2,60,4,5,4,3,2,5,3,5,3,3,4,3,1,3,3,1,5,3,3,4,4,4,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:31:51 AM GMT+5:30,Agree,12,Software Engineer,Startup (<50 employees),Hybrid,7,1,4,2,3,3,No,No,2,4,6.5,5,5,2,5,15,1,4,2,2,5,2,1,4,1,1,3,4,4,5,4,4,3,3,5,1,1,4,2,1,1,sri_lankan_developer_burnout
+2026/09/07 11:32:01 AM GMT+5:30,Agree,9,QA Tester,Enterprise (500+),On-site,11,18,5,12,4,5,Yes,Yes,5,4,4.5,1,0,5,2,45,3,2,2,5,4,3,3,1,5,3,2,3,3,1,2,5,4,4,1,4,4,4,5,5,2,sri_lankan_developer_burnout
+2026/09/07 11:32:09 AM GMT+5:30,Agree,3,Tech Lead,Startup (<50 employees),Remote,12,20,4,8,5,5,Yes,Yes,4,4,5.0,2,0,3,2,60,5,1,3,4,4,5,4,2,3,4,2,4,5,3,3,5,4,1,3,4,3,3,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:32:17 AM GMT+5:30,Agree,1,Full Stack Developer,Enterprise (500+),Hybrid,8,4,2,3,5,3,No,No,3,3,7.5,5,3,3,5,30,1,4,1,3,5,3,3,3,1,2,2,4,3,4,3,4,4,1,2,2,4,1,3,5,3,sri_lankan_developer_burnout
+2026/09/07 11:32:29 AM GMT+5:30,Agree,11,Software Engineer,Startup (<50 employees),On-site,11,7,3,8,5,4,Yes,No,4,3,5.0,4,2,2,2,45,3,4,2,2,3,3,2,4,4,4,3,3,3,5,1,5,3,5,5,3,4,2,4,3,3,sri_lankan_developer_burnout
+2026/09/07 11:32:43 AM GMT+5:30,Agree,7,QA Tester,Startup (<50 employees),Remote,8,7,5,3,3,3,No,Yes,4,3,5.0,4,1,2,3,60,2,1,2,4,3,4,5,4,4,3,1,5,3,2,4,3,3,4,4,5,3,3,3,4,4,sri_lankan_developer_burnout
+2026/09/07 11:32:55 AM GMT+5:30,Agree,9,Senior Developer,Enterprise (500+),Hybrid,11,3,5,3,4,5,No,No,3,4,5.5,4,2,3,2,45,2,2,2,4,3,3,3,3,5,4,1,1,5,3,4,2,5,5,4,1,3,3,3,3,1,sri_lankan_developer_burnout
+2026/09/07 11:33:17 AM GMT+5:30,Agree,11,QA Tester,Startup (<50 employees),Remote,11,11,5,6,4,1,Yes,Yes,4,4,5.0,5,1,4,3,30,2,3,3,4,5,4,3,2,4,2,4,3,3,1,4,2,4,3,5,4,2,4,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:33:25 AM GMT+5:30,Agree,2,Software Engineer,SME (50–500),Remote,13,17,5,19,5,5,Yes,No,3,5,5.5,1,0,4,2,60,3,1,4,4,2,5,5,2,4,5,2,4,1,4,3,3,3,3,2,5,4,5,5,4,5,sri_lankan_developer_burnout
+2026/09/07 11:33:35 AM GMT+5:30,Agree,8,Software Engineer,Enterprise (500+),On-site,11,6,4,3,5,2,Yes,No,3,4,5.5,3,2,3,3,45,2,2,4,4,2,4,5,5,3,2,4,2,5,2,2,3,3,4,4,2,3,4,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:33:44 AM GMT+5:30,Agree,4,Developer,SME (50–500),On-site,8,12,5,10,5,4,No,Yes,3,2,6.5,2,3,3,2,45,2,4,5,4,1,4,4,4,2,3,4,2,3,3,4,5,4,3,3,5,5,5,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:33:56 AM GMT+5:30,Agree,6,Team Lead,Startup (<50 employees),Remote,9,6,4,9,5,2,Yes,Yes,1,2,5.0,3,1,4,3,45,2,2,3,3,3,4,3,5,5,4,1,2,3,2,5,2,3,3,4,2,3,3,4,1,5,sri_lankan_developer_burnout
+2026/09/07 11:34:05 AM GMT+5:30,Agree,9,Software Engineer,SME (50–500),Remote,11,22,5,17,4,2,No,Yes,5,4,4.0,1,0,4,2,45,3,1,4,3,2,4,5,4,4,4,1,1,2,4,3,5,2,4,3,4,3,4,4,5,5,sri_lankan_developer_burnout
+2026/09/07 11:34:15 AM GMT+5:30,Agree,1,Developer,Startup (<50 employees),On-site,8,6,4,3,5,3,No,No,3,4,7.0,2,2,2,3,45,2,4,3,3,3,3,3,2,3,3,4,4,4,4,5,4,3,3,5,1,3,4,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:34:38 AM GMT+5:30,Agree,5,Developer,Startup (<50 employees),On-site,9,3,3,3,4,4,No,No,2,4,5.5,3,1,2,2,45,2,3,3,5,3,2,2,4,3,2,4,2,4,4,4,2,5,4,3,3,3,5,4,4,4,sri_lankan_developer_burnout
+2026/09/07 11:34:47 AM GMT+5:30,Agree,4,Junior Developer,SME (50–500),Remote,8,1,4,3,4,4,Yes,No,1,4,6.5,3,4,3,5,30,1,3,1,3,3,4,2,4,2,4,4,4,3,5,1,5,3,4,4,3,1,4,2,2,1,sri_lankan_developer_burnout
+2026/09/07 11:34:57 AM GMT+5:30,Agree,7,Cloud Engineer,Startup (<50 employees),On-site,11,7,5,7,5,2,Yes,Yes,3,5,7.0,1,3,2,3,45,3,2,1,4,5,3,3,4,5,5,5,1,2,4,4,3,2,4,2,3,3,4,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:35:07 AM GMT+5:30,Agree,8,Tech Lead,SME (50–500),Remote,8,5,5,8,4,5,No,No,3,4,5.0,2,3,4,2,45,3,3,2,5,4,2,4,3,5,4,3,4,4,3,4,5,1,4,3,3,3,3,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:35:17 AM GMT+5:30,Agree,4,Senior Software Engineer,Startup (<50 employees),Hybrid,8,3,4,5,3,3,No,No,3,4,7.0,4,4,2,4,30,0,3,4,3,5,1,5,3,1,5,3,4,3,4,5,3,4,3,4,2,2,2,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:35:29 AM GMT+5:30,Agree,4,Test Engineer,Startup (<50 employees),On-site,10,11,3,10,4,2,No,No,4,5,5.0,3,1,3,2,45,3,4,4,5,2,2,4,5,5,1,3,3,4,4,2,4,4,4,1,5,4,5,4,3,1,sri_lankan_developer_burnout
+2026/09/07 11:35:39 AM GMT+5:30,Agree,9,Test Engineer,Startup (<50 employees),Hybrid,10,12,4,15,5,2,No,No,4,5,6.0,2,1,5,1,90,4,1,2,5,1,4,5,3,4,4,1,3,4,3,3,2,4,3,2,4,5,5,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:35:47 AM GMT+5:30,Agree,7,Frontend Developer,Startup (<50 employees),Remote,9,5,4,3,1,1,No,No,2,3,8.0,3,4,1,4,15,1,3,1,3,5,1,2,5,3,4,3,5,3,3,5,4,3,4,4,2,3,1,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:35:59 AM GMT+5:30,Agree,4,Site Reliability Engineer,Startup (<50 employees),Hybrid,8,11,5,9,4,3,No,Yes,5,5,6.5,1,1,3,3,60,3,3,4,5,4,3,4,5,3,5,2,4,4,4,3,5,4,3,4,3,3,3,4,4,3,sri_lankan_developer_burnout
+2026/09/07 11:36:13 AM GMT+5:30,Agree,13,Full Stack Developer,SME (50–500),Hybrid,11,11,1,8,5,4,Yes,Yes,4,4,5.5,3,1,2,3,60,2,1,2,2,2,3,3,4,3,5,5,4,3,3,3,4,3,5,5,3,4,2,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:36:22 AM GMT+5:30,Agree,15,Test Engineer,Startup (<50 employees),On-site,13,24,4,15,5,4,Yes,Yes,5,5,5.0,4,0,5,1,75,3,3,3,3,2,4,5,4,4,4,1,3,3,3,2,3,5,2,4,5,5,4,4,5,1,sri_lankan_developer_burnout
+2026/09/07 11:36:31 AM GMT+5:30,Agree,6,Test Engineer,Startup (<50 employees),Remote,10,12,4,6,4,4,No,No,5,4,5.0,3,3,3,3,60,3,3,2,5,3,3,3,4,1,5,2,4,3,3,5,3,3,1,1,3,4,2,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:36:40 AM GMT+5:30,Agree,6,Junior Developer,Enterprise (500+),Remote,8,4,5,9,2,2,No,Yes,5,2,5.0,2,2,3,2,45,2,3,5,2,3,2,4,4,5,3,5,2,4,2,5,4,4,5,2,1,5,3,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:37:02 AM GMT+5:30,Agree,13,DevOps Engineer,SME (50–500),On-site,7,2,2,5,2,5,No,Yes,4,4,6.5,3,5,2,5,30,1,4,2,4,3,3,1,5,4,3,4,5,4,3,3,4,4,3,4,5,1,2,1,4,1,sri_lankan_developer_burnout
+2026/09/07 11:37:12 AM GMT+5:30,Agree,2,Tech Lead,SME (50–500),Hybrid,10,8,4,10,4,4,No,No,3,5,6.5,3,2,3,2,30,3,4,1,4,3,4,5,5,4,3,4,4,2,3,5,5,1,4,5,3,3,4,2,2,4,sri_lankan_developer_burnout
+2026/09/07 11:37:35 AM GMT+5:30,Agree,15,Team Lead,SME (50–500),Hybrid,13,12,4,18,5,3,Yes,Yes,5,3,4.5,2,0,4,1,60,4,3,4,5,1,5,5,2,4,4,1,2,1,4,3,5,3,1,5,5,4,5,5,4,5,sri_lankan_developer_burnout
+2026/09/07 11:37:43 AM GMT+5:30,Agree,13,Site Reliability Engineer,Startup (<50 employees),Remote,8,1,4,1,1,4,No,Yes,2,4,8.0,4,3,3,3,30,1,5,2,4,4,4,5,4,5,1,4,2,3,5,1,4,4,4,4,4,1,2,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:37:55 AM GMT+5:30,Agree,13,Cloud Engineer,SME (50–500),Hybrid,10,12,2,17,5,4,Yes,Yes,5,3,5.0,1,1,4,1,75,5,1,3,4,2,4,2,3,4,3,4,4,3,2,3,3,1,4,1,3,1,3,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:38:12 AM GMT+5:30,Agree,7,Senior Developer,SME (50–500),Hybrid,9,3,2,2,2,2,No,No,3,3,7.0,4,3,3,3,30,1,4,5,3,5,4,5,5,4,3,4,2,4,5,4,5,4,3,3,2,2,3,5,4,2,sri_lankan_developer_burnout
+2026/09/07 11:38:22 AM GMT+5:30,Agree,8,Software Engineer,Enterprise (500+),Hybrid,8,4,4,5,2,1,Yes,No,3,4,8.0,3,4,1,4,30,2,5,1,2,5,1,2,3,2,2,4,4,5,2,3,4,4,4,5,1,4,3,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:38:31 AM GMT+5:30,Agree,8,Software Engineer,SME (50–500),Remote,7,0,1,3,2,3,No,No,1,2,8.0,5,4,1,3,30,2,4,3,1,5,4,2,5,2,1,3,3,3,4,4,4,3,1,4,3,2,4,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:38:40 AM GMT+5:30,Agree,14,Backend Developer,SME (50–500),Hybrid,7,2,4,4,3,5,Yes,Yes,2,2,6.5,5,4,3,4,30,1,5,2,2,4,5,4,5,1,2,4,5,2,5,4,3,3,3,4,1,2,4,1,2,2,sri_lankan_developer_burnout
+2026/09/07 11:38:49 AM GMT+5:30,Agree,2,Test Engineer,Enterprise (500+),On-site,10,8,2,7,4,3,No,No,3,3,6.0,3,1,3,2,45,2,4,3,4,4,3,4,5,4,5,4,2,2,4,3,3,4,3,3,5,5,3,4,5,3,sri_lankan_developer_burnout
+2026/09/07 11:39:03 AM GMT+5:30,Agree,12,Frontend Developer,SME (50–500),On-site,9,2,3,4,5,4,No,Yes,3,3,7.5,3,3,1,3,15,0,5,2,1,3,3,1,5,5,2,4,1,4,4,3,3,4,4,3,3,3,4,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:39:12 AM GMT+5:30,Agree,15,Cloud Engineer,Enterprise (500+),On-site,9,0,2,1,2,4,No,No,2,4,8.0,3,4,2,3,15,0,3,2,2,5,3,1,4,3,5,1,3,5,5,4,5,2,4,3,2,4,1,2,5,1,sri_lankan_developer_burnout
+2026/09/07 11:39:35 AM GMT+5:30,Agree,4,Software Engineer,Startup (<50 employees),Remote,12,19,5,12,5,5,Yes,No,3,4,6.0,4,1,4,2,45,3,2,3,4,2,3,4,3,5,3,2,4,3,3,3,5,1,3,3,4,3,3,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:39:57 AM GMT+5:30,Agree,4,DevOps Engineer,Enterprise (500+),Hybrid,10,6,4,6,5,5,Yes,No,5,3,5.0,3,2,3,2,45,3,4,1,5,4,5,4,4,5,5,3,3,3,3,3,3,4,1,4,2,3,2,2,4,4,sri_lankan_developer_burnout
+2026/09/07 11:40:06 AM GMT+5:30,Agree,1,Team Lead,Startup (<50 employees),On-site,8,7,4,5,5,1,No,No,4,4,7.0,1,2,3,2,45,3,4,4,4,4,2,4,2,3,3,3,4,5,3,5,4,3,4,2,5,4,5,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:40:16 AM GMT+5:30,Agree,10,Backend Developer,SME (50–500),Hybrid,9,3,4,7,3,5,No,No,4,4,6.0,3,2,3,3,45,2,5,3,3,4,4,5,3,2,3,3,5,3,5,3,5,1,5,5,5,1,2,3,1,1,sri_lankan_developer_burnout
+2026/09/07 11:40:25 AM GMT+5:30,Agree,15,Senior Software Engineer,Startup (<50 employees),Remote,11,12,4,3,4,2,Yes,No,2,4,5.5,3,1,2,2,30,2,4,2,1,3,4,5,4,3,4,5,4,3,3,3,4,4,4,2,4,4,3,3,3,4,sri_lankan_developer_burnout
+2026/09/07 11:40:48 AM GMT+5:30,Agree,1,Developer,Startup (<50 employees),On-site,13,24,5,8,4,4,No,No,4,3,4.5,2,0,5,1,60,3,5,3,3,1,5,5,2,4,2,2,3,2,2,1,2,3,2,2,3,5,5,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:40:59 AM GMT+5:30,Agree,15,Junior Developer,Enterprise (500+),Remote,11,12,4,7,5,2,Yes,Yes,2,3,6.5,3,2,3,2,30,3,3,4,3,2,3,3,1,2,2,2,3,5,4,4,3,3,1,4,4,2,4,3,3,2,sri_lankan_developer_burnout
+2026/09/07 11:41:10 AM GMT+5:30,Agree,8,Tech Lead,SME (50–500),On-site,11,4,2,7,4,2,Yes,No,3,2,6.5,3,2,2,3,30,3,4,1,3,3,4,5,4,2,4,1,4,4,3,3,5,4,3,3,4,1,2,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:41:20 AM GMT+5:30,Agree,5,Developer,SME (50–500),Hybrid,10,16,5,20,3,4,Yes,Yes,4,4,4.5,3,1,5,2,75,3,2,4,5,3,4,3,4,5,3,3,4,2,4,5,5,4,3,3,1,2,4,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:41:29 AM GMT+5:30,Agree,8,Senior Software Engineer,Startup (<50 employees),Remote,7,5,5,5,5,3,No,No,3,4,7.0,5,4,1,3,30,0,2,4,1,5,1,5,4,3,1,5,5,4,4,4,1,4,5,4,2,2,3,1,2,1,sri_lankan_developer_burnout
+2026/09/07 11:41:38 AM GMT+5:30,Agree,8,Product Manager,SME (50–500),Hybrid,12,11,4,9,4,5,Yes,Yes,5,5,4.5,2,0,5,1,60,3,1,4,5,3,5,4,2,4,1,3,3,3,4,3,1,1,3,2,3,4,4,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:41:48 AM GMT+5:30,Agree,11,Site Reliability Engineer,SME (50–500),Hybrid,10,5,5,4,4,4,No,No,3,4,6.5,5,2,3,3,30,2,2,3,5,3,4,3,2,2,4,5,3,4,5,2,5,3,4,3,4,4,2,3,2,4,sri_lankan_developer_burnout
+2026/09/07 11:41:58 AM GMT+5:30,Agree,8,Junior Developer,Enterprise (500+),Hybrid,9,6,4,8,4,1,No,No,3,4,6.5,2,1,3,3,30,2,1,2,4,5,4,5,4,1,3,4,5,5,3,2,3,5,5,5,3,3,3,2,4,1,sri_lankan_developer_burnout
+2026/09/07 11:42:08 AM GMT+5:30,Agree,2,Full Stack Developer,SME (50–500),Remote,9,1,4,1,2,2,No,No,3,3,8.0,4,5,3,3,30,0,3,3,4,2,2,4,5,3,3,4,3,2,3,3,5,4,4,4,2,3,4,1,1,3,sri_lankan_developer_burnout
+2026/09/07 11:42:20 AM GMT+5:30,Agree,12,UI/UX Developer,Enterprise (500+),On-site,9,3,5,10,3,5,No,No,4,5,5.0,3,2,3,2,45,3,3,4,3,5,4,4,1,2,4,3,4,2,5,4,3,4,4,4,3,4,3,2,3,3,sri_lankan_developer_burnout
+2026/09/07 11:42:29 AM GMT+5:30,Agree,14,Site Reliability Engineer,SME (50–500),On-site,7,1,5,3,2,2,No,No,1,4,6.0,3,3,1,5,30,0,4,2,1,4,3,3,5,1,5,5,5,1,5,5,5,2,4,5,3,3,5,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:42:44 AM GMT+5:30,Agree,5,Senior Developer,SME (50–500),On-site,12,19,4,16,5,2,Yes,Yes,4,4,5.0,1,1,4,1,60,3,3,3,4,2,4,4,1,3,5,1,1,4,2,3,3,1,3,1,5,4,3,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:42:52 AM GMT+5:30,Agree,14,Backend Developer,Startup (<50 employees),Hybrid,10,5,5,8,2,5,Yes,No,3,4,5.0,1,1,2,2,30,2,3,3,3,4,3,3,4,1,2,3,5,4,2,5,4,3,5,3,3,3,4,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:43:02 AM GMT+5:30,Agree,13,Developer,SME (50–500),Remote,10,11,5,11,5,4,No,Yes,3,5,4.0,2,0,4,2,60,5,2,3,5,4,4,4,3,4,5,2,1,5,4,1,5,2,3,5,4,3,4,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:43:14 AM GMT+5:30,Agree,11,DevOps Engineer,SME (50–500),On-site,11,5,2,5,4,5,Yes,No,3,4,5.0,2,2,3,3,30,3,2,1,4,4,1,2,4,4,3,4,3,4,5,1,5,3,4,4,5,1,1,1,5,4,sri_lankan_developer_burnout
+2026/09/07 11:43:23 AM GMT+5:30,Agree,7,Engineering Manager,Enterprise (500+),Remote,9,4,4,7,4,4,Yes,No,3,4,5.0,2,2,3,2,60,2,3,1,2,3,1,4,2,4,1,1,3,5,4,4,2,4,1,3,4,3,5,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:43:33 AM GMT+5:30,Agree,4,Tech Lead,Enterprise (500+),Remote,8,11,3,3,3,4,No,Yes,2,4,5.5,4,1,4,2,45,2,2,1,4,5,3,3,3,2,4,4,3,5,2,4,4,3,3,3,4,4,3,4,3,4,sri_lankan_developer_burnout
+2026/09/07 11:43:42 AM GMT+5:30,Agree,1,Full Stack Developer,Enterprise (500+),On-site,9,2,2,2,2,2,No,No,3,4,6.0,1,4,2,4,15,1,3,4,3,4,2,1,4,3,1,5,5,4,5,3,1,1,4,2,5,1,2,3,2,1,sri_lankan_developer_burnout
+2026/09/07 11:43:51 AM GMT+5:30,Agree,2,Senior Software Engineer,SME (50–500),Hybrid,11,9,5,8,2,4,No,Yes,5,5,5.5,5,2,4,2,45,3,4,1,4,2,3,3,3,3,2,2,1,3,5,2,5,4,4,4,5,2,4,3,4,4,sri_lankan_developer_burnout
+2026/09/07 11:44:01 AM GMT+5:30,Agree,15,Full Stack Developer,SME (50–500),Hybrid,8,0,3,4,3,4,No,Yes,1,2,6.5,4,4,1,3,15,1,3,1,5,5,1,2,4,4,3,3,4,3,3,3,4,3,3,4,1,4,2,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:44:12 AM GMT+5:30,Agree,3,Full Stack Developer,Startup (<50 employees),On-site,10,18,5,8,5,5,No,No,3,4,5.0,2,1,4,1,60,5,1,3,3,3,3,5,2,3,5,1,3,1,3,3,3,1,3,4,5,4,5,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:44:39 AM GMT+5:30,Agree,10,DevOps Engineer,Enterprise (500+),Hybrid,8,9,4,4,3,3,No,No,4,2,5.5,1,1,3,3,45,3,3,1,3,3,5,2,3,3,4,1,3,4,4,3,3,2,3,5,5,3,3,4,3,3,sri_lankan_developer_burnout
+2026/09/07 11:44:47 AM GMT+5:30,Agree,4,Junior Developer,SME (50–500),Remote,10,7,4,10,5,3,Yes,Yes,3,3,7.0,2,1,3,2,30,2,1,4,2,4,4,2,4,4,3,2,3,4,4,2,4,2,5,3,5,3,4,3,4,3,sri_lankan_developer_burnout
+2026/09/07 11:45:10 AM GMT+5:30,Agree,6,Developer,Enterprise (500+),Hybrid,13,17,4,20,4,2,No,Yes,2,4,5.5,2,1,3,1,45,4,4,1,5,3,5,4,4,2,5,2,3,4,2,2,4,2,3,2,2,4,3,5,2,4,sri_lankan_developer_burnout
+2026/09/07 11:45:20 AM GMT+5:30,Agree,2,Site Reliability Engineer,Startup (<50 employees),Remote,7,0,2,4,3,1,No,No,2,5,6.0,3,3,1,5,45,1,4,2,2,3,3,1,3,3,1,2,3,5,5,1,4,3,4,5,4,3,5,5,4,3,sri_lankan_developer_burnout
+2026/09/07 11:45:29 AM GMT+5:30,Agree,1,Test Engineer,SME (50–500),On-site,8,7,5,7,2,2,No,No,2,5,5.5,3,3,3,3,60,2,3,1,1,5,4,4,5,5,5,3,3,2,3,3,4,4,5,4,4,3,1,2,4,2,sri_lankan_developer_burnout
+2026/09/07 11:45:43 AM GMT+5:30,Agree,6,Full Stack Developer,SME (50–500),Remote,8,12,5,10,4,4,No,No,5,2,7.0,4,3,2,2,45,2,4,3,4,2,4,4,5,1,1,3,2,4,5,3,5,1,2,1,3,5,2,3,3,5,sri_lankan_developer_burnout
+2026/09/07 11:45:53 AM GMT+5:30,Agree,1,Frontend Developer,Enterprise (500+),Hybrid,7,4,1,1,3,3,Yes,No,5,4,7.5,5,3,1,3,15,0,4,3,4,4,5,1,1,3,2,3,3,3,4,4,4,4,4,3,2,2,3,3,3,1,sri_lankan_developer_burnout
+2026/09/07 11:46:03 AM GMT+5:30,Agree,1,Site Reliability Engineer,Enterprise (500+),Remote,11,7,4,9,3,3,Yes,No,4,5,5.0,3,1,3,3,60,3,3,3,3,5,5,4,3,3,1,4,3,3,3,4,2,4,5,5,3,2,3,2,2,3,sri_lankan_developer_burnout
+2026/09/07 11:46:12 AM GMT+5:30,Agree,15,Backend Developer,Enterprise (500+),Hybrid,11,11,5,6,4,4,Yes,No,3,4,7.0,2,1,2,2,60,2,4,1,5,5,4,4,1,5,5,5,4,3,5,3,4,1,5,2,3,4,4,3,3,1,sri_lankan_developer_burnout
+2026/09/07 11:46:21 AM GMT+5:30,Agree,4,Product Manager,Enterprise (500+),Hybrid,12,12,4,10,4,4,No,Yes,4,4,5.5,1,0,5,1,45,5,3,5,5,5,3,3,2,3,4,3,3,2,5,1,3,3,4,3,1,4,2,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:46:43 AM GMT+5:30,Agree,12,Tech Lead,Enterprise (500+),Hybrid,9,3,3,6,2,5,No,No,3,4,6.5,3,2,3,3,45,2,1,3,3,4,4,5,5,1,5,4,4,1,5,2,5,1,4,4,3,2,3,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:46:55 AM GMT+5:30,Agree,14,QA Engineer,SME (50–500),Remote,11,15,5,18,4,3,No,No,5,5,6.0,4,0,3,1,75,4,1,2,5,3,4,5,2,4,5,1,3,2,3,2,3,1,3,2,3,2,5,3,5,4,sri_lankan_developer_burnout
+2026/09/07 11:47:36 AM GMT+5:30,Agree,7,Senior Software Engineer,Startup (<50 employees),On-site,10,6,3,9,5,3,Yes,No,3,1,6.5,2,3,3,3,30,2,3,1,3,3,2,3,4,2,1,4,5,3,2,4,5,4,4,3,4,2,4,3,5,2,sri_lankan_developer_burnout
+2026/09/07 11:47:47 AM GMT+5:30,Agree,13,Software Engineer,SME (50–500),Hybrid,7,3,3,5,2,4,No,No,2,4,6.5,4,3,2,3,30,1,5,2,1,4,1,4,5,2,4,5,5,4,3,5,3,2,3,3,3,3,4,1,5,4,sri_lankan_developer_burnout
+2026/09/07 11:47:56 AM GMT+5:30,Agree,12,Software Engineer,SME (50–500),Hybrid,7,1,2,3,1,3,Yes,No,3,3,6.5,4,5,3,3,15,1,2,3,1,4,1,2,4,3,5,5,3,2,5,5,5,2,5,3,4,4,2,4,2,5,sri_lankan_developer_burnout
+2026/09/07 11:48:06 AM GMT+5:30,Agree,5,Senior Developer,SME (50–500),On-site,11,4,4,7,4,3,No,Yes,5,2,5.5,5,1,4,2,45,2,3,2,3,1,2,5,5,4,3,3,4,5,3,4,5,5,3,1,4,4,3,2,4,3,sri_lankan_developer_burnout
+2026/09/07 11:48:29 AM GMT+5:30,Agree,5,Team Lead,SME (50–500),Remote,11,9,5,10,2,5,Yes,Yes,3,3,6.5,3,2,3,3,45,2,5,3,3,3,4,4,4,4,3,5,5,2,2,5,5,5,5,4,4,4,2,4,4,3,sri_lankan_developer_burnout
+2026/09/07 11:48:39 AM GMT+5:30,Agree,8,Senior Developer,Startup (<50 employees),Remote,10,3,5,9,5,4,Yes,Yes,5,4,7.0,2,1,4,3,45,2,3,3,3,3,4,3,4,5,3,5,2,5,2,2,4,3,5,3,3,3,3,2,4,4,sri_lankan_developer_burnout
+2026/09/07 11:48:48 AM GMT+5:30,Agree,2,Senior Developer,Startup (<50 employees),Remote,10,21,4,15,1,5,Yes,No,4,4,6.0,1,0,3,1,60,3,1,3,5,4,3,3,1,4,5,4,4,2,3,4,3,2,5,4,5,3,4,2,5,2,sri_lankan_developer_burnout
+2026/09/07 11:48:58 AM GMT+5:30,Agree,12,QA Tester,Startup (<50 employees),Remote,13,24,4,11,5,4,Yes,No,4,5,4.0,1,0,4,1,75,4,3,4,2,2,5,3,3,5,4,2,3,4,2,5,4,5,1,2,5,5,4,4,5,1,sri_lankan_developer_burnout
+2026/09/07 11:49:08 AM GMT+5:30,Agree,8,Data Engineer,Startup (<50 employees),Hybrid,11,7,3,5,5,4,No,No,1,3,5.0,5,2,4,3,30,2,3,2,4,4,4,4,2,5,3,5,2,5,2,2,1,4,5,4,5,4,4,4,3,2,sri_lankan_developer_burnout
+2026/09/07 11:49:19 AM GMT+5:30,Agree,14,Software Engineer,SME (50–500),On-site,11,8,4,14,4,5,Yes,Yes,2,5,5.5,4,0,4,1,75,4,1,3,3,3,2,5,1,5,4,2,5,3,5,1,3,3,5,2,5,4,5,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:49:28 AM GMT+5:30,Agree,3,Frontend Developer,Startup (<50 employees),Hybrid,13,22,4,7,5,4,Yes,Yes,4,5,6.0,2,0,5,2,90,4,3,2,4,2,4,4,2,5,4,2,5,3,3,2,5,2,3,2,4,4,5,5,5,4,sri_lankan_developer_burnout
+2026/09/07 11:49:38 AM GMT+5:30,Agree,13,Software Engineer,SME (50–500),Remote,9,11,4,9,5,3,Yes,Yes,1,4,6.0,4,2,4,3,30,2,2,5,2,3,3,5,3,5,1,2,3,4,5,1,1,4,2,2,1,1,3,1,3,4,sri_lankan_developer_burnout
+2026/09/07 11:50:01 AM GMT+5:30,Agree,3,Test Engineer,Startup (<50 employees),Hybrid,10,11,5,4,5,3,Yes,No,3,3,5.5,4,1,3,3,45,2,3,2,3,4,3,5,4,4,3,2,4,3,3,2,2,4,3,4,3,4,5,4,3,1,sri_lankan_developer_burnout
+2026/09/07 11:50:02 AM GMT+5:30,Agree,3,Test Engineer,Startup (<50 employees),Hybrid,10,11,5,4,5,3,Yes,No,3,3,5.5,4,1,3,3,45,2,3,2,3,4,3,5,4,4,3,2,4,3,3,2,2,4,3,4,3,4,5,4,3,1,sri_lankan_developer_burnout
+2026/09/07 11:50:11 AM GMT+5:30,Agree,10,QA Engineer,SME (50–500),Remote,9,12,3,8,4,1,Yes,No,5,4,5.0,4,2,3,2,45,2,3,3,3,2,2,1,3,4,4,2,5,4,5,4,4,1,2,1,4,3,4,2,5,2,sri_lankan_developer_burnout
+2026/09/07 11:50:23 AM GMT+5:30,Agree,1,DevOps Engineer,Startup (<50 employees),Remote,7,0,4,5,4,1,No,No,1,3,7.5,3,4,3,4,30,0,3,5,3,3,3,3,4,1,2,3,5,4,4,3,3,2,5,3,1,5,3,3,1,2,sri_lankan_developer_burnout
+2026/09/07 11:50:34 AM GMT+5:30,Agree,15,Software Engineer,Enterprise (500+),Hybrid,9,3,3,8,2,2,No,No,5,4,7.0,3,2,4,2,45,3,2,4,4,5,3,2,3,2,5,1,4,4,3,1,4,3,3,5,3,3,4,1,5,3,sri_lankan_developer_burnout
+2026/09/07 11:50:43 AM GMT+5:30,Agree,4,Frontend Developer,Startup (<50 employees),Hybrid,9,2,4,1,4,1,No,Yes,3,3,7.5,3,3,1,3,15,1,4,3,3,4,2,3,4,4,2,1,4,3,5,5,2,2,4,4,2,3,3,1,1,3,sri_lankan_developer_burnout
+2026/09/07 11:50:53 AM GMT+5:30,Agree,3,Business Analyst,Enterprise (500+),Remote,7,3,3,3,3,5,Yes,No,4,3,8.0,4,4,2,4,15,1,2,5,2,5,1,4,3,1,4,5,4,4,4,5,3,3,4,4,4,2,1,2,3,1,sri_lankan_developer_burnout
+2026/09/07 11:51:03 AM GMT+5:30,Agree,6,Frontend Developer,Startup (<50 employees),On-site,9,10,5,5,4,4,No,No,3,5,7.0,3,2,4,2,45,2,4,1,4,2,4,5,4,4,4,5,4,5,4,3,3,3,2,5,4,5,2,2,5,3,sri_lankan_developer_burnout
+2026/09/07 11:51:12 AM GMT+5:30,Agree,5,Business Analyst,SME (50–500),On-site,9,9,4,9,4,2,No,Yes,4,4,5.0,4,1,2,2,45,3,4,5,4,2,5,4,4,4,5,4,3,4,1,3,3,2,1,2,4,4,5,2,4,5,sri_lankan_developer_burnout
+2026/09/07 11:51:20 AM GMT+5:30,Agree,8,Junior Developer,Startup (<50 employees),Remote,7,5,1,2,2,1,No,Yes,2,3,7.5,3,3,2,4,30,0,3,4,5,3,2,3,5,2,4,4,4,4,5,5,2,3,4,4,4,4,3,5,2,4,sri_lankan_developer_burnout
+2026/09/07 11:51:30 AM GMT+5:30,Agree,9,Data Scientist,Startup (<50 employees),Hybrid,12,10,2,8,5,5,Yes,Yes,4,4,6.0,3,0,5,2,45,5,2,4,2,4,5,5,4,4,4,4,4,5,5,2,3,2,4,3,5,3,3,3,3,4,sri_lankan_developer_burnout
+2026/09/07 11:51:40 AM GMT+5:30,Agree,9,Frontend Developer,Enterprise (500+),On-site,7,3,4,2,2,3,Yes,No,1,5,7.5,3,3,3,5,15,1,2,1,3,2,4,3,5,3,5,4,4,5,4,1,4,5,5,4,3,5,1,2,2,3,sri_lankan_developer_burnout
+2026/09/07 11:51:50 AM GMT+5:30,Agree,12,Frontend Developer,Startup (<50 employees),Hybrid,11,8,4,7,3,4,No,Yes,3,4,5.5,5,3,4,2,30,2,2,3,4,1,5,3,3,4,3,3,2,3,4,5,3,3,4,5,3,3,4,3,2,3,sri_lankan_developer_burnout
+2026/09/07 11:52:00 AM GMT+5:30,Agree,15,Software Engineer,SME (50–500),Hybrid,9,5,3,5,3,2,No,Yes,2,5,7.0,3,5,2,4,45,2,4,5,1,3,4,2,3,2,3,4,4,5,4,3,5,3,3,2,3,1,1,1,2,3,sri_lankan_developer_burnout
+2026/09/07 11:52:09 AM GMT+5:30,Agree,14,Junior Developer,Startup (<50 employees),Hybrid,13,13,5,16,2,5,Yes,No,3,5,4.5,2,1,3,1,60,3,2,2,4,1,4,3,1,2,5,1,4,1,2,3,3,5,5,4,5,4,4,5,5,4,sri_lankan_developer_burnout
+2026/09/07 11:52:19 AM GMT+5:30,Agree,5,Developer,SME (50–500),Hybrid,10,5,5,8,1,5,Yes,No,4,3,5.5,3,1,3,3,60,3,3,3,5,3,2,3,5,4,4,2,5,3,4,1,2,4,5,3,1,3,1,2,4,5,sri_lankan_developer_burnout
+2026/09/07 11:52:28 AM GMT+5:30,Agree,14,UI/UX Developer,SME (50–500),On-site,8,5,2,5,3,5,No,No,2,2,7.5,4,3,2,3,30,1,4,2,2,5,2,3,4,5,2,4,2,4,3,4,5,5,4,5,1,4,3,2,4,4,sri_lankan_developer_burnout
+2026/09/07 11:52:37 AM GMT+5:30,Agree,10,Software Engineer,Startup (<50 employees),Remote,8,10,4,3,3,4,No,No,2,5,6.5,4,1,3,3,45,2,3,2,5,2,5,4,5,3,3,5,2,2,3,5,4,3,4,3,4,3,5,2,3,3,sri_lankan_developer_burnout
+2026/09/07 11:52:46 AM GMT+5:30,Agree,14,Junior Developer,SME (50–500),Hybrid,9,3,3,6,3,3,Yes,No,4,3,5.5,2,3,2,2,60,2,4,1,4,4,3,5,4,3,4,4,2,3,3,3,4,3,5,3,3,4,4,3,2,3,sri_lankan_developer_burnout
+2026/09/07 11:52:56 AM GMT+5:30,Agree,5,Backend Developer,Enterprise (500+),Hybrid,11,8,4,4,5,2,Yes,Yes,1,4,6.0,3,1,3,3,45,3,3,3,4,4,4,3,3,3,4,5,3,2,2,4,3,2,3,4,4,4,3,2,2,1,sri_lankan_developer_burnout
+2026/09/07 11:53:06 AM GMT+5:30,Agree,4,Software Engineer,SME (50–500),On-site,9,12,5,10,4,5,No,No,3,3,7.0,3,1,3,2,30,2,1,1,3,4,2,5,4,4,4,3,1,5,2,5,4,2,3,4,1,3,4,3,3,2,sri_lankan_developer_burnout
+2026/09/07 11:53:14 AM GMT+5:30,Agree,11,DevOps Engineer,SME (50–500),On-site,13,22,4,10,5,4,Yes,No,3,5,4.0,4,1,4,2,60,3,1,3,5,1,4,5,1,5,4,1,4,2,3,2,1,1,1,1,5,4,4,3,5,5,sri_lankan_developer_burnout
+2026/09/07 11:53:23 AM GMT+5:30,Agree,11,DevOps Engineer,Startup (<50 employees),On-site,8,8,5,4,3,5,No,No,4,3,5.5,3,1,4,2,45,2,2,4,4,5,5,3,3,5,5,4,4,4,3,4,5,4,1,3,2,3,5,1,3,2,sri_lankan_developer_burnout
+2026/09/07 11:53:33 AM GMT+5:30,Agree,2,Frontend Developer,Startup (<50 employees),On-site,10,11,5,7,5,4,Yes,No,3,4,5.0,2,1,4,3,30,2,2,1,5,3,3,5,4,4,3,3,4,2,3,2,1,3,4,3,3,4,2,3,4,2,sri_lankan_developer_burnout
+2026/09/07 11:53:44 AM GMT+5:30,Agree,12,Senior Software Engineer,SME (50–500),Hybrid,12,17,4,17,5,4,Yes,Yes,4,5,4.5,4,1,5,1,75,4,1,5,2,1,5,2,4,5,2,2,4,3,5,4,3,1,5,3,3,5,5,4,4,4,sri_lankan_developer_burnout
+2026/09/07 11:53:53 AM GMT+5:30,Agree,11,Developer,Startup (<50 employees),Remote,10,12,3,10,1,5,Yes,Yes,2,3,7.0,3,2,3,3,60,3,3,2,4,4,1,5,2,3,5,2,3,2,3,2,3,3,5,5,2,4,2,1,2,5,sri_lankan_developer_burnout
+2026/09/07 11:54:15 AM GMT+5:30,Agree,15,Software Engineer,SME (50–500),On-site,10,15,4,10,5,3,Yes,Yes,5,3,6.0,2,0,5,1,45,4,3,4,5,2,3,5,3,3,3,1,3,4,4,5,1,4,4,3,5,4,5,5,5,4,sri_lankan_developer_burnout
+2026/09/07 11:54:24 AM GMT+5:30,Agree,8,QA Engineer,Enterprise (500+),Remote,7,4,4,2,4,5,No,Yes,1,1,6.5,4,4,2,4,30,0,3,1,4,3,1,1,5,1,2,3,5,5,5,4,4,4,3,4,1,4,2,2,3,2,sri_lankan_developer_burnout
+2026/09/07 11:54:34 AM GMT+5:30,Agree,11,Developer,Enterprise (500+),Hybrid,13,17,5,9,5,5,Yes,Yes,4,5,5.0,1,1,5,2,90,5,1,4,5,1,3,5,2,5,1,1,3,2,4,3,1,1,3,2,5,4,3,4,3,2,sri_lankan_developer_burnout
+2026/09/07 11:54:43 AM GMT+5:30,Agree,5,Site Reliability Engineer,SME (50–500),Remote,10,10,4,4,4,1,Yes,No,4,3,5.5,5,2,4,3,60,2,2,3,4,5,2,3,4,2,3,3,4,2,5,3,5,3,3,2,1,4,2,2,4,2,sri_lankan_developer_burnout
+2026/09/07 11:54:53 AM GMT+5:30,Agree,7,Developer,Startup (<50 employees),Hybrid,9,1,1,2,5,2,No,Yes,1,4,7.0,2,3,3,4,30,0,5,4,2,5,2,2,3,4,4,4,4,4,5,3,4,4,1,4,3,2,5,1,5,1,sri_lankan_developer_burnout
+2026/09/07 11:55:16 AM GMT+5:30,Agree,11,Full Stack Developer,Enterprise (500+),Hybrid,8,1,4,3,3,4,Yes,No,5,4,8.0,2,4,2,5,30,1,4,2,2,1,3,2,3,1,1,2,4,3,4,4,5,1,4,3,3,4,3,2,3,3,sri_lankan_developer_burnout
+2026/09/07 11:55:27 AM GMT+5:30,Agree,1,QA Tester,Startup (<50 employees),Remote,8,2,3,3,1,3,No,No,3,4,6.5,5,4,1,3,45,1,4,2,2,5,4,2,5,4,2,4,3,2,4,3,5,5,2,4,4,4,4,1,3,3,sri_lankan_developer_burnout
+2026/09/07 11:55:37 AM GMT+5:30,Agree,8,Senior Software Engineer,Startup (<50 employees),Hybrid,12,9,5,15,4,3,Yes,Yes,5,5,4.0,3,0,4,1,75,3,2,2,5,3,5,5,2,5,3,4,2,2,3,4,5,3,3,5,4,5,5,3,1,4,sri_lankan_developer_burnout
+2026/09/07 11:56:00 AM GMT+5:30,Agree,2,Frontend Developer,Enterprise (500+),Remote,11,11,4,7,4,3,No,No,3,5,6.0,3,2,4,3,45,3,1,5,3,2,1,5,5,5,5,3,5,5,4,2,4,5,5,5,5,5,4,3,3,3,sri_lankan_developer_burnout
+2026/09/07 11:56:09 AM GMT+5:30,Agree,8,Test Engineer,SME (50–500),Hybrid,10,12,2,3,3,2,No,Yes,3,3,6.5,2,2,2,3,60,2,2,2,5,4,5,3,5,2,1,5,5,2,2,1,2,2,5,4,4,4,4,4,4,2,sri_lankan_developer_burnout
+2026/09/07 11:56:18 AM GMT+5:30,Agree,7,Backend Developer,Enterprise (500+),Hybrid,10,12,4,6,5,3,Yes,No,4,2,5.5,1,3,3,2,45,3,3,3,3,3,5,3,3,3,4,4,3,2,1,3,3,5,3,3,5,3,4,1,3,5,sri_lankan_developer_burnout
+2026/09/07 11:56:27 AM GMT+5:30,Agree,15,Backend Developer,SME (50–500),On-site,10,6,3,10,3,4,No,No,3,3,7.0,3,1,3,3,60,3,5,4,1,4,1,3,4,4,4,1,2,2,2,2,4,4,3,4,3,5,3,4,5,4,sri_lankan_developer_burnout
+2026/09/07 11:56:37 AM GMT+5:30,Agree,1,Senior Developer,Enterprise (500+),Remote,7,1,4,1,2,3,No,No,2,3,6.5,3,4,3,4,30,0,4,1,4,3,2,4,2,2,2,3,5,4,2,4,4,5,3,4,3,3,3,1,4,2,sri_lankan_developer_burnout
+2026/09/07 11:56:46 AM GMT+5:30,Agree,8,Senior Software Engineer,Enterprise (500+),Remote,11,19,3,19,5,5,Yes,Yes,4,4,4.0,2,0,3,1,60,4,1,2,5,2,4,4,1,1,5,3,4,3,4,5,4,2,3,3,4,4,5,4,3,2,sri_lankan_developer_burnout
+2026/09/07 11:57:09 AM GMT+5:30,Agree,9,Full Stack Developer,Enterprise (500+),Hybrid,11,10,3,8,3,2,No,Yes,4,3,6.5,3,3,3,2,60,3,1,4,3,2,3,4,3,3,2,4,5,4,3,2,3,2,4,4,4,4,3,2,4,2,sri_lankan_developer_burnout
+2026/09/07 11:57:32 AM GMT+5:30,Agree,15,Developer,SME (50–500),On-site,9,5,3,2,1,4,Yes,No,1,2,8.0,3,4,2,3,30,2,3,3,4,4,3,2,4,3,3,5,3,4,3,2,4,3,3,3,3,5,4,1,4,3,sri_lankan_developer_burnout
+2026/09/07 11:57:45 AM GMT+5:30,Agree,13,Tech Lead,SME (50–500),Hybrid,12,20,5,13,1,5,Yes,Yes,5,2,6.0,2,0,4,2,45,5,2,4,5,2,4,5,2,4,1,3,3,3,2,5,3,3,3,4,4,5,4,3,5,5,sri_lankan_developer_burnout
+2026/09/07 11:57:54 AM GMT+5:30,Agree,14,Cloud Engineer,Startup (<50 employees),Hybrid,9,11,4,10,2,2,No,Yes,1,4,6.0,2,1,2,2,60,3,1,3,4,3,4,3,3,3,2,4,3,3,3,4,5,4,3,4,3,2,3,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:58:04 AM GMT+5:30,Agree,11,Full Stack Developer,Startup (<50 employees),Remote,10,17,5,14,3,3,Yes,No,5,5,5.5,3,0,3,1,60,4,1,2,4,2,4,3,1,3,5,2,4,3,5,2,2,1,2,4,3,3,5,4,2,1,sri_lankan_developer_burnout
+2026/09/07 11:58:14 AM GMT+5:30,Agree,4,Backend Developer,Startup (<50 employees),Hybrid,7,1,3,2,2,3,No,No,2,3,8.0,5,3,2,3,30,1,4,4,3,4,1,4,3,2,1,4,5,3,3,5,4,4,3,5,2,5,3,2,1,2,sri_lankan_developer_burnout
+2026/09/07 11:58:27 AM GMT+5:30,Agree,8,Scrum Master,Startup (<50 employees),Hybrid,9,1,4,2,2,4,No,No,1,4,6.5,4,3,3,5,15,1,2,4,3,3,1,1,4,3,1,3,3,3,4,4,4,5,5,4,4,5,1,1,1,2,sri_lankan_developer_burnout
+2026/09/07 11:58:52 AM GMT+5:30,Agree,1,Product Manager,Startup (<50 employees),Remote,11,14,3,7,3,5,No,No,5,5,6.0,2,1,3,1,45,4,2,4,5,2,5,5,2,4,5,3,2,3,3,2,2,4,4,3,5,5,3,3,4,5,sri_lankan_developer_burnout
+2026/09/07 11:59:18 AM GMT+5:30,Agree,14,Software Engineer,SME (50–500),Hybrid,7,0,2,5,3,2,No,No,2,3,6.5,4,3,2,3,45,2,3,2,3,4,2,3,3,1,1,3,5,5,4,4,3,4,3,4,5,2,4,1,2,1,sri_lankan_developer_burnout
+2026/09/07 11:59:28 AM GMT+5:30,Agree,13,Junior Developer,SME (50–500),Hybrid,11,5,3,8,3,3,Yes,No,3,4,6.0,3,1,4,3,30,2,2,2,5,3,3,3,4,4,3,2,3,5,4,3,4,4,3,3,4,4,4,4,3,1,sri_lankan_developer_burnout
+2026/09/07 11:59:38 AM GMT+5:30,Agree,15,QA Engineer,Enterprise (500+),Hybrid,11,25,4,14,5,5,Yes,Yes,2,4,4.5,4,1,4,1,45,5,2,1,4,4,5,1,4,4,2,4,4,3,3,4,4,4,3,5,5,3,5,4,4,4,sri_lankan_developer_burnout
+2026/09/07 11:59:48 AM GMT+5:30,Agree,15,DevOps Engineer,SME (50–500),Hybrid,7,1,3,4,3,3,No,No,3,3,7.5,3,4,2,4,15,0,3,1,3,1,3,2,4,3,2,5,2,4,5,4,3,3,4,5,4,2,5,1,1,4,sri_lankan_developer_burnout
+2026/09/07 12:00:00 PM GMT+5:30,Agree,14,Junior Developer,SME (50–500),Hybrid,8,4,5,1,3,5,No,No,5,4,6.0,4,3,2,5,15,0,4,4,1,3,4,1,4,4,3,5,2,5,5,2,2,5,4,4,3,4,4,1,2,4,sri_lankan_developer_burnout
+2026/09/07 12:00:10 PM GMT+5:30,Agree,9,Senior Developer,Startup (<50 employees),Hybrid,10,10,5,19,2,4,No,No,3,4,6.0,2,1,5,2,60,3,1,2,3,2,4,4,2,3,2,3,3,3,4,4,3,3,5,4,4,4,3,4,5,4,sri_lankan_developer_burnout
+2026/09/07 12:00:19 PM GMT+5:30,Agree,15,QA Engineer,Startup (<50 employees),Remote,12,19,5,18,2,5,Yes,No,3,3,4.0,2,0,4,1,90,4,2,5,3,2,5,5,3,5,5,4,2,2,3,3,2,1,3,5,5,4,3,3,3,2,sri_lankan_developer_burnout
+2026/09/07 12:00:28 PM GMT+5:30,Agree,8,Site Reliability Engineer,Startup (<50 employees),On-site,10,10,4,8,4,4,No,No,4,4,5.0,3,1,3,1,60,3,2,4,5,1,5,5,4,3,5,4,3,2,2,4,3,4,4,3,4,1,4,4,5,3,sri_lankan_developer_burnout
+2026/09/07 12:00:38 PM GMT+5:30,Agree,11,Developer,Enterprise (500+),Hybrid,12,23,3,10,5,5,Yes,No,5,4,5.5,2,0,3,1,60,4,1,4,5,2,5,4,2,5,4,4,1,3,3,3,5,3,4,3,4,4,4,5,3,3,sri_lankan_developer_burnout
+2026/09/07 12:00:48 PM GMT+5:30,Agree,8,Senior Developer,SME (50–500),On-site,9,3,5,8,5,4,Yes,No,3,5,5.0,4,3,3,2,30,2,3,3,5,3,5,4,5,2,5,4,2,2,5,1,4,2,4,5,3,3,5,4,5,3,sri_lankan_developer_burnout
+2026/09/07 12:00:57 PM GMT+5:30,Agree,4,QA Engineer,Startup (<50 employees),Hybrid,11,8,4,4,5,1,No,No,2,4,5.5,4,3,3,2,30,2,3,2,4,2,3,4,3,5,3,5,5,5,1,5,2,1,3,3,3,3,3,3,3,3,sri_lankan_developer_burnout
+2026/09/07 12:01:07 PM GMT+5:30,Agree,14,Senior Developer,Startup (<50 employees),Remote,13,10,4,16,5,3,No,Yes,4,4,5.5,1,0,5,2,60,3,1,3,3,2,1,4,1,5,5,2,1,3,2,3,5,3,3,3,5,5,4,3,4,3,sri_lankan_developer_burnout
+2026/09/07 12:01:18 PM GMT+5:30,Agree,14,Junior Developer,SME (50–500),Remote,8,4,4,3,3,4,No,Yes,3,4,6.0,2,1,4,2,30,2,4,2,4,4,3,3,3,5,1,3,4,4,3,3,3,3,4,5,3,5,4,1,4,1,sri_lankan_developer_burnout
+2026/09/07 12:01:26 PM GMT+5:30,Agree,8,QA Tester,Startup (<50 employees),Hybrid,10,25,4,10,5,5,No,Yes,4,5,4.5,1,0,4,1,60,5,4,4,5,1,3,5,2,4,4,3,2,3,2,1,3,1,4,1,3,4,4,1,1,5,sri_lankan_developer_burnout
+2026/09/07 12:01:34 PM GMT+5:30,Agree,4,DevOps Engineer,SME (50–500),Hybrid,9,3,5,6,3,5,No,No,4,3,7.0,3,1,4,3,45,3,2,4,4,5,4,3,4,3,3,2,5,3,4,3,5,3,4,5,3,3,4,4,4,2,sri_lankan_developer_burnout
+2026/09/07 12:01:45 PM GMT+5:30,Agree,5,Tech Lead,SME (50–500),On-site,13,14,5,13,4,5,Yes,No,4,4,4.0,2,1,3,1,75,4,2,3,5,1,4,3,3,4,4,2,1,1,4,2,5,3,1,4,3,5,5,4,5,3,sri_lankan_developer_burnout
+2026/09/07 12:02:09 PM GMT+5:30,Agree,7,Software Engineer,SME (50–500),Hybrid,10,11,2,3,5,2,Yes,No,2,4,6.0,1,1,4,3,45,2,3,3,5,4,4,1,4,3,5,3,3,3,3,2,5,3,5,5,3,4,2,4,3,3,sri_lankan_developer_burnout
+2026/09/07 12:02:19 PM GMT+5:30,Agree,7,Senior Developer,Enterprise (500+),Hybrid,8,8,3,4,4,5,Yes,No,2,4,7.0,2,3,4,2,30,3,4,4,2,2,4,4,1,3,4,4,3,3,4,5,3,2,5,3,4,4,3,3,4,3,sri_lankan_developer_burnout
+2026/09/07 12:02:42 PM GMT+5:30,Agree,2,Data Scientist,SME (50–500),Remote,9,5,3,2,5,3,No,No,1,1,7.5,5,5,1,3,15,1,4,2,1,4,3,1,5,2,3,5,4,3,3,5,3,4,5,5,3,4,5,2,2,1,sri_lankan_developer_burnout
+2026/09/07 12:02:51 PM GMT+5:30,Agree,10,Tech Lead,SME (50–500),Hybrid,8,1,4,4,5,2,Yes,Yes,3,4,7.5,4,4,2,3,30,0,4,2,2,3,2,2,4,3,5,3,5,3,4,4,4,4,4,4,4,2,2,1,2,2,sri_lankan_developer_burnout
+2026/09/07 12:03:00 PM GMT+5:30,Agree,10,Backend Developer,Enterprise (500+),On-site,9,9,1,5,5,5,No,Yes,4,2,6.0,3,3,4,3,45,3,2,3,5,3,4,4,1,4,2,4,2,5,3,2,2,5,4,4,4,3,2,3,3,5,sri_lankan_developer_burnout
+2026/09/07 12:03:10 PM GMT+5:30,Agree,11,Senior Developer,Enterprise (500+),Remote,10,13,4,17,5,4,Yes,Yes,5,4,5.5,4,1,5,2,45,3,1,2,5,3,5,3,4,5,3,4,2,1,4,3,2,2,5,4,5,3,3,3,4,3,sri_lankan_developer_burnout

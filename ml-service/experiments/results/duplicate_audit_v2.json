@@ -1,0 +1,34 @@
+{
+  "totalRows": 257114,
+  "exactDuplicateRows": 6,
+  "uniquePredictorFingerprints": 257111,
+  "predictorFingerprintCollisionGroups": 3,
+  "crossSourceCollisionGroups": 0,
+  "automaticallyRemovedRows": 0,
+  "collisionGroups": [
+    {
+      "fingerprint": "b3dd86e24117f0f0f98421b2c57eb198",
+      "rowCount": 2,
+      "sourceDatasets": [
+        "sri_lankan_developer_burnout"
+      ],
+      "automaticallyRemoved": 0
+    },
+    {
+      "fingerprint": "04a2a71950d21926c216caa0fa0bdbcf",
+      "rowCount": 2,
+      "sourceDatasets": [
+        "sri_lankan_developer_burnout"
+      ],
+      "automaticallyRemoved": 0
+    },
+    {
+      "fingerprint": "7db1d7aa1f3dcc8bdb020390864708af",
+      "rowCount": 2,
+      "sourceDatasets": [
+        "sri_lankan_developer_burnout"
+      ],
+      "automaticallyRemoved": 0
+    }
+  ]
+}

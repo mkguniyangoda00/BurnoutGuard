@@ -1,0 +1,91 @@
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\.venv\Lib\site-packages\sklearn\linear_model\_logistic.py:455: OptimizeWarning: Unknown solver options: iprint
+  opt_res = optimize.minimize(
+Total Sri Lankan records: 314
+Sri Lankan development records: 251
+Sri Lankan holdout records: 63
+Sri Lankan total class distribution: {0: 6, 1: 35, 2: 93, 3: 180}
+Sri Lankan development class distribution: {0: 5, 1: 28, 2: 74, 3: 144}
+Sri Lankan holdout class distribution: {0: 1, 1: 7, 2: 19, 3: 36}
+Running repeated CV for LogisticRegression (15 folds)...
+Running repeated CV for RandomForest (15 folds)...
+Running repeated CV for XGBoost (15 folds)...
+Running repeated CV for LightGBM (15 folds)...
+Running repeated CV for DummyStratified (15 folds)...
+Running repeated CV for DummyMostFrequent (15 folds)...
+Running repeated CV for ComputationalHeuristic (15 folds)...
+
+Repeated stratified CV summary (development data only):
+Model                          Accuracy           Macro F1        Weighted F1            ROC-AUC
+------------------------------------------------------------------------------------------------
+LogisticRegression    0.6216 +/- 0.0026  0.6179 +/- 0.0027  0.6196 +/- 0.0027  0.8542 +/- 0.0013
+RandomForest          0.6760 +/- 0.0017  0.6746 +/- 0.0019  0.6758 +/- 0.0019  0.8916 +/- 0.0006
+XGBoost               0.6940 +/- 0.0019  0.6937 +/- 0.0018  0.6949 +/- 0.0018  0.9032 +/- 0.0009
+LightGBM              0.6956 +/- 0.0019  0.6954 +/- 0.0018  0.6965 +/- 0.0018  0.9037 +/- 0.0007
+DummyStratified       0.2512 +/- 0.0020  0.2510 +/- 0.0020  0.2512 +/- 0.0020  0.5007 +/- 0.0013
+DummyMostFrequent     0.2612 +/- 0.0000  0.1036 +/- 0.0000  0.1082 +/- 0.0000  0.5000 +/- 0.0000
+ComputationalHeuristic  0.5166 +/- 0.0028  0.5157 +/- 0.0027  0.5175 +/- 0.0027  0.6770 +/- 0.0019
+Selected by repeated CV: LightGBM
+Saved repeated CV results to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models\cv_results.json
+Saved baseline results to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models\baseline_results.json
+
+Calculating paired bootstrap comparisons on development OOF predictions...
+
+Paired bootstrap comparison summary (development OOF only):
+Comparison                             Metric       Difference                     95% CI
+------------------------------------------------------------------------------------------
+LogisticRegression_vs_RandomForest     macroF1         -0.0393 [-0.0492, -0.0292]
+LogisticRegression_vs_RandomForest     rocAUC          -0.0271 [-0.0308, -0.0234]
+LogisticRegression_vs_XGBoost          macroF1         -0.0396 [-0.0499, -0.0300]
+LogisticRegression_vs_XGBoost          rocAUC          -0.0300 [-0.0342, -0.0262]
+LogisticRegression_vs_LightGBM         macroF1         -0.0556 [-0.0655, -0.0463]
+LogisticRegression_vs_LightGBM         rocAUC          -0.0366 [-0.0404, -0.0330]
+Saved bootstrap comparisons to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models\bootstrap_comparisons.json
+Large dataset detected (154230 rows). Using stratified subsample of 50000 rows for GridSearchCV.
+[1/1] Starting LightGBM...
+  Training rows: 50000
+  Feature count: 44
+  Grid combinations: 1
+Fitting 2 folds for each of 1 candidates, totalling 2 fits
+Best params for LightGBM: {'model__learning_rate': 0.1, 'model__max_depth': 5, 'model__n_estimators': 50}
+[1/1] Completed LightGBM in 6.1s
+Saved separate evaluation results to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models\evaluation_results.json
+Saved SHAP results to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models\shap_results.json
+Saved model bundle v2.22-lightgbm to C:\Users\mguniyangoda\Documents\FYR\BurnoutGuard\ml-service\models
