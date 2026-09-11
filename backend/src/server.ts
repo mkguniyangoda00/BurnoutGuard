@@ -54,6 +54,25 @@ app.use(cors({
 app.use(morgan('dev'));
 app.use(express.json());
 
+/**
+ * Request-level deadline: previously, once the DB connection pool was
+ * saturated, requests queued indefinitely for a connection instead of
+ * failing fast. Capping request handling time means a request that can't
+ * get a connection (or is otherwise stuck) returns a clean 503 within a
+ * bounded time instead of hanging for tens of seconds, which is what
+ * produced the multi-second p95 tail under load. This does not change
+ * behavior for any request that completes normally.
+ */
+const REQUEST_TIMEOUT_MS = 15000;
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setTimeout(REQUEST_TIMEOUT_MS, () => {
+    if (!res.headersSent) {
+      res.status(503).json({ error: 'Request timed out' });
+    }
+  });
+  next();
+});
+
 // ── Health Check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({

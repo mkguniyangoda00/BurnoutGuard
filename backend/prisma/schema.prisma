@@ -229,21 +229,23 @@ model DailyCheckIn {
   createdDateTime DateTime @default(now())
   modifiedBy      String
   modifiedDate    DateTime @updatedAt
+
+  @@index([userId, checkInDate])
 }
 
 model BurnoutPrediction {
-  predictionId      String         @id @default(uuid())
-  userId            String
-  riskScore         Float
-  riskLevel         RiskLevel
-  modelVersion      String
-  checkInsUsed      Int
+  predictionId          String         @id @default(uuid())
+  userId                String
+  riskScore             Float
+  riskLevel             RiskLevel
+  modelVersion          String
+  checkInsUsed          Int
   dataCompletenessScore Float?
-  predictionDate    DateTime
-  isLatest          Boolean        @default(true)
-  trendDirection    TrendDirection @default(Stable)
-  previousRiskScore Float?
-  scoreChange       Float?
+  predictionDate        DateTime
+  isLatest              Boolean        @default(true)
+  trendDirection        TrendDirection @default(Stable)
+  previousRiskScore     Float?
+  scoreChange           Float?
 
   // Relations
   user             User              @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
@@ -257,6 +259,9 @@ model BurnoutPrediction {
   createdDateTime DateTime @default(now())
   modifiedBy      String
   modifiedDate    DateTime @updatedAt
+
+  @@index([userId, isLatest])
+  @@index([userId, predictionDate])
 }
 
 model ShapExplanation {
@@ -302,6 +307,8 @@ model Recommendation {
   createdDateTime DateTime @default(now())
   modifiedBy      String
   modifiedDate    DateTime @updatedAt
+
+  @@index([userId, isDismissed, isCompleted])
 }
 
 model ChatMessage {
@@ -310,8 +317,8 @@ model ChatMessage {
   role                String
   content             String  @db.Text
   relatedPredictionId String?
-  engineUsed          String? 
-  
+  engineUsed          String?
+
   // Relations
   user              User               @relation(fields: [userId], references: [userId], onDelete: Cascade)
   relatedPrediction BurnoutPrediction? @relation(fields: [relatedPredictionId], references: [predictionId], onDelete: SetNull)
@@ -389,6 +396,8 @@ model AuditLog {
   result          String   @default("Success")
   details         String?  @db.Text
   createdDateTime DateTime @default(now())
+
+  @@index([createdDateTime])
 }
 
 model JournalEntry {
@@ -410,12 +419,12 @@ model JournalEntry {
 }
 
 model WellnessResource {
-  resourceId  String            @id @default(uuid())
+  resourceId  String           @id @default(uuid())
   title       String
   category    WellnessCategory
-  description String            @db.Text
+  description String           @db.Text
   contentUrl  String?
-  isActive    Boolean           @default(true)
+  isActive    Boolean          @default(true)
 
   createdBy       String
   createdDateTime DateTime @default(now())
@@ -426,9 +435,9 @@ model WellnessResource {
 model SurveyQuestion {
   questionId   String             @id @default(uuid())
   questionText String
-  category     String             // e.g. "Sleep", "Workload", "Psychosocial" — freeform, matches your CheckIn section grouping
+  category     String // e.g. "Sleep", "Workload", "Psychosocial" — freeform, matches your CheckIn section grouping
   type         SurveyQuestionType @default(Scale)
-  scaleMax     Int?               // only relevant when type = Scale (e.g. 5 or 10)
+  scaleMax     Int? // only relevant when type = Scale (e.g. 5 or 10)
   displayOrder Int                @default(0)
   isActive     Boolean            @default(true)
 

@@ -1,7 +1,7 @@
 {
-  "runId": "2026-09-06T21-30-00",
+  "runId": "2026-09-11T-final-verification-v2",
   "scenario": "load-test",
-  "timestamp": "2026-09-06T09:12:13.728Z",
-  "reportJson": "history/2026-09-06T21-30-00/load-test.json",
-  "reportHtml": "history/2026-09-06T21-30-00/load-test.html"
+  "timestamp": "2026-09-11T04:47:40.867Z",
+  "reportJson": "history/2026-09-11T-final-verification-v2/load-test.json",
+  "reportHtml": "history/2026-09-11T-final-verification-v2/load-test.html"
 }

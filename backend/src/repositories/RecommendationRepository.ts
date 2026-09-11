@@ -71,6 +71,14 @@ export class RecommendationRepository {
     return dismissed.map((r: { title: string }) => r.title);
   }
 
+  async findActiveTitles(userId: string): Promise<string[]> {
+    const active = await prisma.recommendation.findMany({
+      where: { userId, isDismissed: false, isCompleted: false },
+      select: { title: true },
+    });
+    return active.map((r: { title: string }) => r.title);
+  }
+
   async findByPredictionId(predictionId: string, userId: string): Promise<Recommendation[]> {
     return prisma.recommendation.findMany({
       where: { predictionId, userId },
