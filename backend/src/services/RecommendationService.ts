@@ -202,7 +202,21 @@ export class RecommendationService {
       `[RecommendationService] Found ${riskIncreasing.length} risk-increasing SHAP feature(s) for prediction ${predictionId}.`
     );
 
-    const dismissedTitles = await this.recRepo.findDismissedTitles(userId);
+    // Recommendations were only de-duplicated within a single prediction's
+    // batch, not against already-active ones from earlier predictions. Since
+    // a new prediction (and its recommendations) is generated on every
+    // check-in, the same title (e.g. "Improve your sleep routine") kept
+    // being re-inserted every cycle with nothing ever superseding or
+    // capping it — active recommendation rows for a single user grew
+    // unboundedly, observed as multi-megabyte GET /recommendations
+    // responses under sustained load. Skipping titles that are already
+    // active fixes the duplication at the source (the user was never meant
+    // to see the same card repeated dozens of times) rather than just
+    // capping the read side.
+    const [dismissedTitles, activeTitles] = await Promise.all([
+      this.recRepo.findDismissedTitles(userId),
+      this.recRepo.findActiveTitles(userId),
+    ]);
 
     const toCreate: {
       predictionId: string;
@@ -221,6 +235,7 @@ export class RecommendationService {
       const rec = this.recommendationMap[shap.featureName];
       if (!rec) continue;
       if (dismissedTitles.includes(rec.title)) continue;
+      if (activeTitles.includes(rec.title)) continue;
       if (toCreate.find((r) => r.title === rec.title)) continue;
 
       toCreate.push({

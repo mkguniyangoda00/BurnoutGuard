@@ -75,7 +75,17 @@ export class CheckInService {
     return checkIn;
   }
 
-  async getHistory(userId: string, limit?: number) {
+  // GET /checkins/history had no cap, so it fetched and serialized every
+  // check-in a user has ever submitted. For a long-lived account (or the
+  // shared load-test account, which accumulates one row per submission for
+  // the whole run) that grows unboundedly — observed multi-megabyte
+  // responses and multi-second query/serialization time under load. The UI
+  // (frontend/src/hooks/useCheckin.ts) doesn't consume more than a handful
+  // of recent entries, so capping to the most recent 90 (roughly a quarter)
+  // preserves current behavior while keeping the query and payload bounded.
+  private static readonly DEFAULT_HISTORY_LIMIT = 90;
+
+  async getHistory(userId: string, limit: number = CheckInService.DEFAULT_HISTORY_LIMIT) {
     return this.checkInRepo.findByUserId(userId, limit);
   }
 

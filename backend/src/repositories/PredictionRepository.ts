@@ -78,8 +78,14 @@ export class PredictionRepository {
   }
 
   async markPreviousAsNotLatest(userId: string): Promise<void> {
+    // Scoped to isLatest: true so this only ever touches the single
+    // currently-latest row. Without that filter this updated every
+    // historical prediction for the user on every single new prediction —
+    // a write whose cost (and lock scope) grew with that user's prediction
+    // history instead of staying O(1), which compounded into serialized,
+    // increasingly slow writes under concurrent load against the same user.
     await prisma.burnoutPrediction.updateMany({
-      where: { userId },
+      where: { userId, isLatest: true },
       data: { isLatest: false },
     });
   }

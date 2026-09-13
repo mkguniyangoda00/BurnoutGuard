@@ -38,11 +38,10 @@ export class PredictionService {
 
   private deferPostPredictionWork(
     userId: string,
-    saved: Prediction & { shapExplanations: ShapExplanation[] },
-    actor: Awaited<ReturnType<PredictionService['getActor']>>
+    saved: Prediction & { shapExplanations: ShapExplanation[] }
   ): void {
     setImmediate(() => {
-      void this.runPostPredictionWork(userId, saved, actor).catch((err) => {
+      void this.runPostPredictionWork(userId, saved).catch((err) => {
         console.error(
           `[PredictionService] Post-prediction work failed for prediction ${saved.predictionId}:`,
           err
@@ -53,9 +52,13 @@ export class PredictionService {
 
   private async runPostPredictionWork(
     userId: string,
-    saved: Prediction & { shapExplanations: ShapExplanation[] },
-    actor: Awaited<ReturnType<PredictionService['getActor']>>
+    saved: Prediction & { shapExplanations: ShapExplanation[] }
   ): Promise<void> {
+    // getActor() is only needed for the audit-log entry below, so it is
+    // fetched here — off the synchronous request path — instead of before
+    // deferring, removing one blocking DB round trip from every check-in
+    // submission (which awaits createPrediction() end-to-end).
+    const actor = await this.getActor(userId);
     const sideEffects = [
       this.recommendationService.generateFromPrediction(
         userId,
@@ -312,8 +315,7 @@ export class PredictionService {
       throw err;
     }
 
-    const actor = await this.getActor(userId);
-    this.deferPostPredictionWork(userId, saved, actor);
+    this.deferPostPredictionWork(userId, saved);
 
     return saved;
   }

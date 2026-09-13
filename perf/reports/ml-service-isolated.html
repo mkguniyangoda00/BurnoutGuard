@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Report: 2026-09-06 14:44</title>
+    <title>Test Report: 2026-09-11 11:56</title>
     <style>
       * {
         margin: 0;
@@ -473,7 +473,7 @@
       <header>
         <h1>
           <svg width="50" height="45" viewBox="0 0 50 45" fill="none"><path d="M31.968 34.681a2.007 2.007 0 002.011-2.003c0-1.106-.9-2.003-2.011-2.003a2.007 2.007 0 00-2.012 2.003c0 1.106.9 2.003 2.012 2.003z" fill="white"></path><path d="M39.575 0L27.154 16.883 16.729 9.31 0 45h50L39.575 0zM23.663 37.17l-2.97-4.072v4.072h-2.751V22.038l2.75 1.989v7.66l3.659-5.014 2.086 1.51-3.071 4.21 3.486 4.776h-3.189v.001zm8.305.17c-2.586 0-4.681-2.088-4.681-4.662 0-1.025.332-1.972.896-2.743l4.695-6.435 2.086 1.51-2.239 3.07a4.667 4.667 0 013.924 4.6c0 2.572-2.095 4.66-4.681 4.66z" fill="white"></path></svg>
-          Test Report: 2026-09-06 14:44
+          Test Report: 2026-09-11 11:56
         </h1>
       </header>
 
@@ -484,7 +484,7 @@
             <i class="fas fa-globe icon"></i>
             <h4>Total Requests</h4>
             <div class="metric-value">
-              10
+              6765
               
             </div>
           </div>
@@ -534,6 +534,8 @@
                       <th>P(90)</th>
                     
                       <th>P(95)</th>
+                    
+                      <th>P(99)</th>
                      
                   </tr>
                 </thead>
@@ -542,90 +544,102 @@
                   <tr>
                     <td><b>http_req_blocked</b></td>
                     
-                      <td class="">3.61</td>
+                      <td class="">1.51</td>
                     
-                      <td class="">0.41</td>
+                      <td class="">0.00</td>
                     
-                      <td class="">1.19</td>
+                      <td class="">1.31</td>
                     
-                      <td class="">15.60</td>
+                      <td class="">58.44</td>
                     
-                      <td class="">8.34</td>
+                      <td class="">2.31</td>
                     
-                      <td class="">11.97</td>
+                      <td class="">2.73</td>
+                    
+                      <td class="">4.36</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>http_req_connecting</b></td>
                     
-                      <td class="">3.50</td>
+                      <td class="">1.42</td>
                     
-                      <td class="">0.41</td>
+                      <td class="">0.00</td>
                     
-                      <td class="">1.12</td>
+                      <td class="">1.23</td>
                     
-                      <td class="">15.60</td>
+                      <td class="">58.44</td>
                     
-                      <td class="">7.88</td>
+                      <td class="">2.19</td>
                     
-                      <td class="">11.74</td>
+                      <td class="">2.58</td>
+                    
+                      <td class="">4.07</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>http_req_duration</b></td>
                     
-                      <td class="">70.49</td>
+                      <td class="">20.66</td>
                     
-                      <td class="">5.76</td>
+                      <td class="">0.00</td>
                     
-                      <td class="">12.31</td>
+                      <td class="">8.56</td>
                     
-                      <td class="">365.24</td>
+                      <td class="">13105.43</td>
                     
-                      <td class="">156.60</td>
+                      <td class="">17.97</td>
                     
-                      <td class="">260.92</td>
+                      <td class="">28.07</td>
+                    
+                      <td class="">91.45</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>http_req_receiving</b></td>
                     
-                      <td class="">1.53</td>
+                      <td class="">3.01</td>
                     
                       <td class="">0.00</td>
                     
-                      <td class="">0.63</td>
+                      <td class="">2.37</td>
                     
-                      <td class="">5.06</td>
+                      <td class="">36.87</td>
                     
-                      <td class="">4.75</td>
+                      <td class="">7.02</td>
                     
-                      <td class="">4.90</td>
+                      <td class="">8.08</td>
+                    
+                      <td class="">11.25</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>http_req_sending</b></td>
                     
-                      <td class="">0.06</td>
+                      <td class="">0.12</td>
                     
                       <td class="">0.00</td>
                     
                       <td class="">0.00</td>
                     
-                      <td class="">0.53</td>
+                      <td class="">14.64</td>
                     
-                      <td class="">0.13</td>
+                      <td class="">0.52</td>
                     
-                      <td class="">0.33</td>
+                      <td class="">0.57</td>
+                    
+                      <td class="">0.94</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>http_req_tls_handshaking</b></td>
+                    
+                      <td class="">0.00</td>
                     
                       <td class="">0.00</td>
                     
@@ -644,34 +658,38 @@
                   <tr>
                     <td><b>http_req_waiting</b></td>
                     
-                      <td class="">68.90</td>
+                      <td class="">17.52</td>
                     
-                      <td class="">0.52</td>
+                      <td class="">0.00</td>
                     
-                      <td class="">12.05</td>
+                      <td class="">5.63</td>
                     
-                      <td class="">364.49</td>
+                      <td class="">13089.87</td>
                     
-                      <td class="">156.12</td>
+                      <td class="">15.42</td>
                     
-                      <td class="">260.30</td>
+                      <td class="">24.68</td>
+                    
+                      <td class="">86.39</td>
                      
                   </tr>
                   
                   <tr>
                     <td><b>iteration_duration</b></td>
                     
-                      <td class="">1094.37</td>
+                      <td class="">1071.14</td>
                     
-                      <td class="">1006.85</td>
+                      <td class="">1001.18</td>
                     
-                      <td class="">1045.84</td>
+                      <td class="">1010.78</td>
                     
-                      <td class="">1371.77</td>
+                      <td class="">14109.96</td>
                     
-                      <td class="">1179.39</td>
+                      <td class="">1021.12</td>
                     
-                      <td class="">1275.58</td>
+                      <td class="">1032.38</td>
+                    
+                      <td class="">1095.49</td>
                      
                   </tr>
                   
@@ -699,7 +717,7 @@
                         class=""
                         title="Failure rate (for *_failed metrics; aligns with Fail Count)"
                       >0.00%</td>
-                      <td class="">10.00</td>
+                      <td class="">6765.00</td>
                       <td class="">0.00</td>
                   </tr>
                   
@@ -724,7 +742,7 @@
                   <i class="fas fa-eye icon"></i>
                   <div class="stat-row">
                     <span class="stat-label">Passed</span>
-                    <span class="stat-value">10</span>
+                    <span class="stat-value">6765</span>
                   </div>
                   <div class="stat-row">
                     <span class="stat-label">Failed</span>
@@ -739,11 +757,11 @@
                   <i class="fas fa-redo icon"></i>
                   <div class="stat-row">
                     <span class="stat-label">Total</span>
-                    <span class="stat-value">10</span>
+                    <span class="stat-value">6765</span>
                   </div>
                   <div class="stat-row">
                     <span class="stat-label">Rate</span>
-                    <span class="stat-value">0.91/s</span>
+                    <span class="stat-value">22.52/s</span>
                   </div>
                 </div>
               
@@ -757,7 +775,7 @@
                 </div>
                 <div class="stat-row">
                   <span class="stat-label">Max</span>
-                  <span class="stat-value">1</span>
+                  <span class="stat-value">30</span>
                 </div>
               </div>
 
@@ -767,14 +785,14 @@
                 <div class="stat-row">
                   <span class="stat-label">Total</span>
                   <span class="stat-value">
-                    10
+                    6765
                     
                   </span>
                 </div>
                 <div class="stat-row">
                   <span class="stat-label">Rate</span>
                   <span class="stat-value">
-                    0.91/s
+                    22.52/s
                     
                   </span>
                 </div>
@@ -785,11 +803,11 @@
                 <i class="fas fa-cloud-download-alt icon"></i>
                 <div class="stat-row">
                   <span class="stat-label">Total</span>
-                  <span class="stat-value">0.05 MB</span>
+                  <span class="stat-value">32.01 MB</span>
                 </div>
                 <div class="stat-row">
                   <span class="stat-label">Rate</span>
-                  <span class="stat-value">0.00 mB/s</span>
+                  <span class="stat-value">0.11 mB/s</span>
                 </div>
               </div>
 
@@ -798,11 +816,11 @@
                 <i class="fas fa-cloud-upload-alt icon"></i>
                 <div class="stat-row">
                   <span class="stat-label">Total</span>
-                  <span class="stat-value">0.01 MB</span>
+                  <span class="stat-value">7.53 MB</span>
                 </div>
                 <div class="stat-row">
                   <span class="stat-label">Rate</span>
-                  <span class="stat-value">0.00 mB/s</span>
+                  <span class="stat-value">0.03 mB/s</span>
                 </div>
               </div>
             </div>
@@ -830,7 +848,7 @@
                 
                   <tr class="checkDetails">
                     <td width="50%">ml-service status ok</td>
-                    <td class="good">10</td>
+                    <td class="good">6765</td>
                     <td class="">0</td>
                     <td class="">100.00</td>
                   </tr>

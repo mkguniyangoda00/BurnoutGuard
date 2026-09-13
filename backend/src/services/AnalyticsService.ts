@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { PredictionRepository } from '../repositories/PredictionRepository';
 import { CheckInRepository } from '../repositories/CheckInRepository';
 import prisma from '../config/db';
@@ -68,29 +69,50 @@ export class AnalyticsService {
 
     const filteredDevelopers = await this.getFilteredDevelopers({ workMode, experienceBand, jobTitle });
 
-    const members = [];
-    let counter = 1;
+    // A prior "fix" here batched the per-developer queries into one findMany
+    // but dropped the per-developer take:4 cap, fetching every matching
+    // prediction unbounded and slicing to 4-per-user in memory. That's fine
+    // when every developer has a small, similar row count, but it is
+    // unbounded (and, worse, incorrect) once one developer's history grows
+    // much larger than the rest: ORDER BY predictionDate DESC globally means
+    // that developer's rows can dominate the result set, both scanning far
+    // more rows than necessary and starving other developers of their own
+    // top 4. A window-function query bounds the scan and guarantees exactly
+    // the latest 4 rows *per user* in one round trip, regardless of skew.
+    const teamDeveloperIds = filteredDevelopers.map((dev: any) => dev.userId);
+    const allPredictions = teamDeveloperIds.length
+      ? await prisma.$queryRaw<Array<{ userId: string; riskLevel: string; predictionDate: Date }>>(
+          Prisma.sql`
+            SELECT userId, riskLevel, predictionDate FROM (
+              SELECT userId, riskLevel, predictionDate,
+                ROW_NUMBER() OVER (PARTITION BY userId ORDER BY predictionDate DESC) AS rn
+              FROM BurnoutPrediction
+              WHERE userId IN (${Prisma.join(teamDeveloperIds)})
+              ${cutoff ? Prisma.sql`AND predictionDate >= ${cutoff}` : Prisma.empty}
+            ) ranked
+            WHERE rn <= 4
+            ORDER BY userId, predictionDate DESC
+          `
+        )
+      : [];
 
-    for (const dev of filteredDevelopers) {
-      const predictions = await prisma.burnoutPrediction.findMany({
-        where: {
-          userId: dev.userId,
-          ...(cutoff ? { predictionDate: { gte: cutoff } } : {}),
-        },
-        orderBy: { predictionDate: 'desc' },
-        take: 4,
-      });
+    const predictionsByUser = new Map<string, any[]>();
+    for (const prediction of allPredictions as any[]) {
+      const list = predictionsByUser.get(prediction.userId) ?? [];
+      list.push(prediction);
+      predictionsByUser.set(prediction.userId, list);
+    }
 
-      members.push({
-        label: `Dev ${counter.toString().padStart(2, '0')}`,
-        weeks: predictions.map((p: any, i: any) => ({
+    const members = filteredDevelopers.map((dev: any, index: number) => {
+      const predictions = predictionsByUser.get(dev.userId) ?? [];
+      return {
+        label: `Dev ${(index + 1).toString().padStart(2, '0')}`,
+        weeks: predictions.map((p: any, i: number) => ({
           week: `Wk ${i + 1}`,
           riskLevel: p.riskLevel,
         })),
-      });
-
-      counter++;
-    }
+      };
+    });
 
     return { members };
   }
@@ -210,15 +232,30 @@ export class AnalyticsService {
       after: { riskLevel: string; riskScore: number };
     }> = [];
 
+    // developerProfile and the latest-prediction lookups are batched into one
+    // query each (instead of one per developer) — only the per-user recent
+    // check-in window and the per-user ML call remain in the loop, since
+    // those genuinely need one round trip per developer.
+    const teamDeveloperIds = developers.map((dev: any) => dev.userId);
+    const [developerProfiles, currentPredictions] = teamDeveloperIds.length
+      ? await Promise.all([
+          prisma.developerProfile.findMany({ where: { userId: { in: teamDeveloperIds } } }),
+          prisma.burnoutPrediction.findMany({
+            where: { userId: { in: teamDeveloperIds }, isLatest: true },
+            select: { userId: true, riskLevel: true, riskScore: true },
+          }),
+        ])
+      : [[], []];
+
+    const profileByUser = new Map(developerProfiles.map((p: any) => [p.userId, p]));
+    const predictionByUser = new Map(currentPredictions.map((p: any) => [p.userId, p]));
+
     for (const dev of developers as any[]) {
       const checkIns = await this.checkInRepo.findByUserId(dev.userId, 14);
-      const developerProfile = await prisma.developerProfile.findUnique({ where: { userId: dev.userId } });
+      const developerProfile = profileByUser.get(dev.userId);
       const { features } = aggregateCheckIns(checkIns as any, developerProfile?.workModel);
 
-      const currentRiskPrediction = await prisma.burnoutPrediction.findFirst({
-        where: { userId: dev.userId, isLatest: true },
-        select: { riskLevel: true, riskScore: true },
-      });
+      const currentRiskPrediction = predictionByUser.get(dev.userId);
 
       if (currentRiskPrediction) {
         beforeCounts[currentRiskPrediction.riskLevel as keyof typeof beforeCounts]++;
@@ -264,32 +301,43 @@ export class AnalyticsService {
     });
 
     const companies = [...new Set(users.map((u: any) => u.company).filter(Boolean))];
+    const eligibleCompanyUsers = companies
+      .map((company) => users.filter((u: any) => u.company === company))
+      .filter((companyUsers) => companyUsers.length >= 5); // Only include groups with 5 or more members
+
+    const eligibleUserIds = eligibleCompanyUsers.flatMap((companyUsers) =>
+      companyUsers.map((u: any) => u.userId)
+    );
+    const companyByUserId = new Map(
+      eligibleCompanyUsers.flatMap((companyUsers) =>
+        companyUsers.map((u: any) => [u.userId, u.company])
+      )
+    );
+
+    // One batched query for every eligible company's latest predictions,
+    // instead of one findMany per company holding a connection in a loop.
+    const allLatestPredictions = eligibleUserIds.length
+      ? await prisma.burnoutPrediction.findMany({
+          where: { userId: { in: eligibleUserIds }, isLatest: true },
+        })
+      : [];
+
+    const countsByCompany = new Map<string, { Low: number; Moderate: number; High: number; Critical: number }>();
+    for (const prediction of allLatestPredictions as any[]) {
+      const company = companyByUserId.get(prediction.userId);
+      if (!company) continue;
+      if (!countsByCompany.has(company)) {
+        countsByCompany.set(company, { Low: 0, Moderate: 0, High: 0, Critical: 0 });
+      }
+      countsByCompany.get(company)![prediction.riskLevel as 'Low' | 'Moderate' | 'High' | 'Critical']++;
+    }
+
     const result = [];
-
-    for (const company of companies) {
-      const companyUsers = users.filter((u: any) => u.company === company);
-      if (companyUsers.length < 5) continue; // Only include groups with 5 or more members
-
-      const latestPredictions = await prisma.burnoutPrediction.findMany({
-        where: {
-          userId: { in: companyUsers.map((u: any) => u.userId) },
-          isLatest: true,
-        },
-      });
-
-      const total = latestPredictions.length;
-      if (total === 0) continue;
-
-      const counts = {
-        Low: 0,
-        Moderate: 0,
-        High: 0,
-        Critical: 0,
-      };
-
-      latestPredictions.forEach((p: any) => {
-        counts[p.riskLevel as keyof typeof counts]++;
-      });
+    for (const companyUsers of eligibleCompanyUsers) {
+      const company = companyUsers[0].company as string;
+      const counts = countsByCompany.get(company);
+      const total = counts ? counts.Low + counts.Moderate + counts.High + counts.Critical : 0;
+      if (!counts || total === 0) continue;
 
       result.push({
         department: company,
@@ -341,18 +389,43 @@ export class AnalyticsService {
   async getWorkloadHotspots() {
     const users = await prisma.user.findMany({ where: { isActive: true } });
     const companies = [...new Set(users.map((u: any) => u.company).filter(Boolean))];
-    const result = [];
-
+    const eligibleCompanyUsers = new Map<string, any[]>();
     for (const company of companies) {
       const companyUsers = users.filter((u: any) => u.company === company);
-      if (companyUsers.length < 5) continue; // privacy: minimum group size
+      if (companyUsers.length >= 5) eligibleCompanyUsers.set(company, companyUsers); // privacy: minimum group size
+    }
 
-      const recentCheckIns = await prisma.dailyCheckIn.findMany({
-        where: { userId: { in: companyUsers.map((u: any) => u.userId) } },
-        orderBy: { checkInDate: 'desc' },
-        take: companyUsers.length * 7, // roughly last week per user
-      });
+    const companyByUserId = new Map<string, string>();
+    for (const [company, companyUsers] of eligibleCompanyUsers) {
+      for (const u of companyUsers) companyByUserId.set(u.userId, company);
+    }
 
+    // One batched, globally-ordered query instead of one findMany per
+    // company. Each company's per-user cap ("roughly last week per user")
+    // is then applied in memory, preserving the original per-company
+    // recency ordering since the source rows are still sorted desc.
+    const allCheckIns = companyByUserId.size
+      ? await prisma.dailyCheckIn.findMany({
+          where: { userId: { in: [...companyByUserId.keys()] } },
+          orderBy: { checkInDate: 'desc' },
+        })
+      : [];
+
+    const checkInsByCompany = new Map<string, any[]>();
+    for (const checkIn of allCheckIns as any[]) {
+      const company = companyByUserId.get(checkIn.userId);
+      if (!company) continue;
+      const cap = eligibleCompanyUsers.get(company)!.length * 7; // roughly last week per user
+      const list = checkInsByCompany.get(company) ?? [];
+      if (list.length < cap) {
+        list.push(checkIn);
+        checkInsByCompany.set(company, list);
+      }
+    }
+
+    const result = [];
+    for (const company of eligibleCompanyUsers.keys()) {
+      const recentCheckIns = checkInsByCompany.get(company) ?? [];
       const total = recentCheckIns.length;
       if (total === 0) continue;
 
@@ -578,36 +651,55 @@ export class AnalyticsService {
       where: { isActive: true, role: 'Developer' },
     });
     const companies = [...new Set(users.map((u: any) => u.company).filter(Boolean))];
-    const result = [];
-
+    const eligibleCompanyUsers = new Map<string, any[]>();
     for (const company of companies) {
       const companyUsers = users.filter((u: any) => u.company === company);
-      if (companyUsers.length < 5) continue; // privacy: minimum group size
+      if (companyUsers.length >= 5) eligibleCompanyUsers.set(company, companyUsers); // privacy: minimum group size
+    }
 
-      const activeRecs = await prisma.recommendation.findMany({
-        where: {
-          userId: { in: companyUsers.map((u: any) => u.userId) },
-          isCompleted: false,
-          isDismissed: false,
-        },
-      });
+    const companyByUserId = new Map<string, string>();
+    for (const [company, companyUsers] of eligibleCompanyUsers) {
+      for (const u of companyUsers) companyByUserId.set(u.userId, company);
+    }
 
-      if (activeRecs.length === 0) continue;
+    // One batched query for every eligible company's active recommendations,
+    // instead of one findMany per company holding a connection in a loop.
+    const allActiveRecs = companyByUserId.size
+      ? await prisma.recommendation.findMany({
+          where: {
+            userId: { in: [...companyByUserId.keys()] },
+            isCompleted: false,
+            isDismissed: false,
+          },
+        })
+      : [];
 
-      const categoryCounts: Record<string, number> = {};
-      const usersPerCategory: Record<string, Set<string>> = {};
+    const statsByCompany = new Map<
+      string,
+      { categoryCounts: Record<string, number>; usersPerCategory: Record<string, Set<string>> }
+    >();
+    for (const rec of allActiveRecs as any[]) {
+      const company = companyByUserId.get(rec.userId);
+      if (!company) continue;
+      if (!statsByCompany.has(company)) {
+        statsByCompany.set(company, { categoryCounts: {}, usersPerCategory: {} });
+      }
+      const stats = statsByCompany.get(company)!;
+      stats.categoryCounts[rec.category] = (stats.categoryCounts[rec.category] ?? 0) + 1;
+      if (!stats.usersPerCategory[rec.category]) stats.usersPerCategory[rec.category] = new Set();
+      stats.usersPerCategory[rec.category].add(rec.userId);
+    }
 
-      activeRecs.forEach((r: any) => {
-        categoryCounts[r.category] = (categoryCounts[r.category] ?? 0) + 1;
-        if (!usersPerCategory[r.category]) usersPerCategory[r.category] = new Set();
-        usersPerCategory[r.category].add(r.userId);
-      });
+    const result = [];
+    for (const [company, companyUsers] of eligibleCompanyUsers) {
+      const stats = statsByCompany.get(company);
+      if (!stats) continue;
 
-      const categories = Object.entries(categoryCounts)
+      const categories = Object.entries(stats.categoryCounts)
         .map(([category, count]) => ({
           category,
           activeCount: count,
-          affectedUserCount: usersPerCategory[category].size,
+          affectedUserCount: stats.usersPerCategory[category].size,
         }))
         .sort((a, b) => b.activeCount - a.activeCount);
 
