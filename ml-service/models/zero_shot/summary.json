@@ -1,0 +1,28 @@
+{
+  "fourClass": {
+    "selectedModel": "XGBoost",
+    "developmentRows": 256800,
+    "evaluationRows": 314,
+    "evaluationClassDistribution": {
+      "Low": 6,
+      "Moderate": 35,
+      "High": 93,
+      "Critical": 180
+    },
+    "macroF1": 0.28609923011120614,
+    "weightedF1": 0.4590760740079936,
+    "rocAUC": 0.6574908857281978
+  },
+  "binary": {
+    "selectedModel": "XGBoost",
+    "developmentRows": 256800,
+    "evaluationRows": 314,
+    "evaluationClassDistribution": {
+      "LowModerate": 41,
+      "HighCritical": 273
+    },
+    "macroF1": 0.5447883277694282,
+    "weightedF1": 0.7086711781639309,
+    "rocAUC": 0.7232198695613329
+  }
+}

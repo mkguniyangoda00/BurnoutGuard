@@ -1,0 +1,182 @@
+{
+  "variant": "four_class",
+  "classOrder": [
+    "Low",
+    "Moderate",
+    "High",
+    "Critical"
+  ],
+  "selectedModel": "XGBoost",
+  "cvSelection": {
+    "selectedByRepeatedCV": "XGBoost",
+    "cvResultsFile": "cv_results_four_class.json"
+  },
+  "tuning": {
+    "XGBoost": {
+      "bestParams": {
+        "model__learning_rate": 0.1,
+        "model__max_depth": 5,
+        "model__n_estimators": 50
+      },
+      "cvBestScore": 0.6684072043361179
+    }
+  },
+  "developmentRows": 256800,
+  "evaluationRows": 314,
+  "developmentClassDistribution": {
+    "Low": 67139,
+    "Moderate": 63602,
+    "High": 62669,
+    "Critical": 63390
+  },
+  "evaluationClassDistribution": {
+    "Low": 6,
+    "Moderate": 35,
+    "High": 93,
+    "Critical": 180
+  },
+  "developmentMetrics": {
+    "accuracy": 0.6767679127725856,
+    "macroPrecision": 0.6746223950701706,
+    "macroRecall": 0.6751136465088555,
+    "macroF1": 0.6746030510043313,
+    "weightedF1": 0.6758837552407843,
+    "rocAUC": 0.8922595074395095,
+    "perClass": {
+      "Low": {
+        "precision": 0.7293662542245063,
+        "recall": 0.7778936236762537,
+        "f1": 0.7528487513063534,
+        "support": 67139
+      },
+      "Moderate": {
+        "precision": 0.538673188627331,
+        "recall": 0.5263670953743593,
+        "f1": 0.5324490461308459,
+        "support": 63602
+      },
+      "High": {
+        "precision": 0.5905859279235106,
+        "recall": 0.5766008712441558,
+        "f1": 0.5835096161609638,
+        "support": 62669
+      },
+      "Critical": {
+        "precision": 0.8398642095053346,
+        "recall": 0.8195929957406531,
+        "f1": 0.8296047904191617,
+        "support": 63390
+      }
+    },
+    "confusionMatrix": {
+      "labels": [
+        "Low",
+        "Moderate",
+        "High",
+        "Critical"
+      ],
+      "matrix": [
+        [
+          52227,
+          13288,
+          1585,
+          39
+        ],
+        [
+          15854,
+          33478,
+          13616,
+          654
+        ],
+        [
+          3088,
+          14233,
+          36135,
+          9213
+        ],
+        [
+          437,
+          1150,
+          9849,
+          51954
+        ]
+      ]
+    }
+  },
+  "sriLankanZeroShotEvaluationMetrics": {
+    "accuracy": 0.4299363057324841,
+    "macroPrecision": 0.30879068738673177,
+    "macroRecall": 0.407078853046595,
+    "macroF1": 0.28609923011120614,
+    "weightedF1": 0.4590760740079936,
+    "rocAUC": 0.6574908857281978,
+    "perClass": {
+      "Low": {
+        "precision": 0.056338028169014086,
+        "recall": 0.6666666666666666,
+        "f1": 0.1038961038961039,
+        "support": 6
+      },
+      "Moderate": {
+        "precision": 0.16666666666666666,
+        "recall": 0.2,
+        "f1": 0.18181818181818182,
+        "support": 35
+      },
+      "High": {
+        "precision": 0.2978723404255319,
+        "recall": 0.15053763440860216,
+        "f1": 0.2,
+        "support": 93
+      },
+      "Critical": {
+        "precision": 0.7142857142857143,
+        "recall": 0.6111111111111112,
+        "f1": 0.6586826347305389,
+        "support": 180
+      }
+    },
+    "confusionMatrix": {
+      "labels": [
+        "Low",
+        "Moderate",
+        "High",
+        "Critical"
+      ],
+      "matrix": [
+        [
+          4,
+          0,
+          1,
+          1
+        ],
+        [
+          12,
+          7,
+          6,
+          10
+        ],
+        [
+          32,
+          14,
+          14,
+          33
+        ],
+        [
+          23,
+          21,
+          26,
+          110
+        ]
+      ]
+    }
+  },
+  "dataTouchConfirmation": {
+    "preprocessingFitData": "non-Sri-Lankan development rows only (X_dev)",
+    "modelSelectionCVData": "non-Sri-Lankan development rows only (X_dev, via compare_models_cv)",
+    "hyperparameterTuningData": "non-Sri-Lankan development rows only (X_dev, via GridSearchCV inside fit_best_model_with_candidates)",
+    "targetThresholdFitData": "riskLabel column reused unmodified from dataset.csv; its underlying quantile thresholds were fit on non-Sri-Lankan sources only inside generate_dataset.py (see dataset_target_construction_metadata.json); this script does not refit thresholds",
+    "sriLankanRowsInDevelopment": 0,
+    "sriLankanRowsInEvaluation": 314
+  }
+}
