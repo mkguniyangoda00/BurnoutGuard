@@ -4,7 +4,8 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { adminService } from '../../services/admin.service';
-import { Loader2, UserX, Edit2, Check, X } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { Loader2, UserX, Edit2, Check, X, Plus } from 'lucide-react';
 
 const ROLES = ['Developer', 'Manager', 'HRofficer', 'Admin', 'ResearchAdmin'] as const;
 const ROLE_COLORS: Record<string, string> = {
@@ -17,11 +18,15 @@ const ROLE_COLORS: Record<string, string> = {
 
 const UserManagement: React.FC = () => {
   const queryClient = useQueryClient();
+  const { role } = useAuth();
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deactivateModalOpen, setDeactivateModalOpen] = useState(false);
   const [newRole, setNewRole] = useState('');
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [newUser, setNewUser] = useState({ fullName: '', email: '', password: '', company: '', role: 'Developer' });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['admin', 'users'],
@@ -46,6 +51,19 @@ const UserManagement: React.FC = () => {
     },
   });
 
+  const createMutation = useMutation({
+    mutationFn: adminService.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
+      setCreateModalOpen(false);
+      setCreateError(null);
+      setNewUser({ fullName: '', email: '', password: '', company: '', role: 'Developer' });
+    },
+    onError: (err: any) => {
+      setCreateError(err.response?.data?.message ?? err.response?.data?.error ?? 'Unable to create user.');
+    },
+  });
+
   const filteredUsers = users.filter(
     (u) => u.fullName?.toLowerCase().includes(search.toLowerCase()) || u.email?.toLowerCase().includes(search.toLowerCase())
   );
@@ -59,6 +77,11 @@ const UserManagement: React.FC = () => {
             {users.length} registered · {users.filter((u) => u.isActive).length} active · {users.filter((u) => !u.isActive).length} deactivated
           </p>
         </div>
+        {role === 'Admin' && (
+          <Button variant="primary" onClick={() => { setCreateError(null); setCreateModalOpen(true); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+            <Plus size={14} /> Create user
+          </Button>
+        )}
       </div>
 
       <Card style={{ marginBottom: '20px', padding: '16px' }}>
@@ -109,7 +132,7 @@ const UserManagement: React.FC = () => {
                     <td style={{ padding: '14px 18px', fontSize: '13px', color: 'var(--text-muted)' }}>{user.company ?? '—'}</td>
                     <td style={{ padding: '14px 18px' }}>
                       <div className="flex gap-2">
-                        <button onClick={() => { setSelectedUser(user); setNewRole(user.role); setEditModalOpen(true); }} className="p-1.5 rounded-md transition-colors" style={{ color: 'var(--text-muted)' }}><Edit2 size={14} /></button>
+                        {role === 'Admin' && <button onClick={() => { setSelectedUser(user); setNewRole(user.role); setEditModalOpen(true); }} className="p-1.5 rounded-md transition-colors" style={{ color: 'var(--text-muted)' }}><Edit2 size={14} /></button>}
                         {user.isActive && <button onClick={() => { setSelectedUser(user); setDeactivateModalOpen(true); }} className="p-1.5 rounded-md transition-colors" style={{ color: 'var(--text-muted)' }}><UserX size={14} /></button>}
                       </div>
                     </td>
@@ -119,6 +142,45 @@ const UserManagement: React.FC = () => {
             </tbody>
           </table>
         </Card>
+      )}
+
+      {createModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card style={{ width: '400px', maxWidth: '90%', maxHeight: '85vh', padding: 0, display: 'flex', flexDirection: 'column' }}>
+            <div className="flex justify-between items-center" style={{ padding: '24px 24px 0' }}>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>Create User</h2>
+              <button onClick={() => setCreateModalOpen(false)} style={{ color: 'var(--text-muted)' }}><X size={18} /></button>
+            </div>
+            <div style={{ padding: '16px 24px', overflowY: 'auto' }}>
+              {createError && <div style={{ marginBottom: '16px', padding: '10px 12px', background: 'var(--danger-light)', color: 'var(--danger)', borderRadius: '10px', fontSize: '13px' }}>{createError}</div>}
+              <div className="flex flex-col gap-3">
+                {([
+                  ['fullName', 'Full name', 'text', true],
+                  ['email', 'Email', 'email', true],
+                  ['password', 'Temporary password', 'password', true],
+                  ['company', 'Company (optional)', 'text', false],
+                ] as const).map(([name, label, type, required]) => (
+                  <div key={name}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}>{label}</label>
+                    <input type={type} required={required} value={newUser[name]} onChange={(e) => setNewUser({ ...newUser, [name]: e.target.value })} className="w-full px-3 py-2 text-sm outline-none" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text-primary)' }} />
+                  </div>
+                ))}
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}>Role</label>
+                  <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })} className="w-full px-3 py-2 text-sm outline-none" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text-primary)' }}>
+                    {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2" style={{ padding: '16px 24px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
+              <Button variant="secondary" onClick={() => setCreateModalOpen(false)}>Cancel</Button>
+              <Button variant="primary" disabled={createMutation.isPending} onClick={() => { setCreateError(null); createMutation.mutate({ ...newUser, company: newUser.company || undefined }); }} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                {createMutation.isPending ? <Loader2 className="animate-spin" size={14} /> : <><Plus size={14} /> Create</>}
+              </Button>
+            </div>
+          </Card>
+        </div>
       )}
 
       {editModalOpen && selectedUser && (

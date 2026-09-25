@@ -41,7 +41,6 @@ const Register: React.FC = () => {
     fullName: '',
     email: '',
     password: '',
-    role: 'Developer',
     company: '',
     consentGiven: false,
     researchParticipation: true,
@@ -212,17 +211,13 @@ const Register: React.FC = () => {
               <label htmlFor="regRole" style={labelStyle}>{t('auth.role')}</label>
               <select
                 id="regRole"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                value="Developer"
+                disabled
+                style={{ ...inputStyle, cursor: 'not-allowed', opacity: 0.65 }}
               >
                 <option value="Developer">Developer</option>
-                <option value="Manager">Manager</option>
-                <option value="HRofficer">HR Officer</option>
-                <option value="Admin">Admin</option>
-                <option value="ResearchAdmin">Research Admin</option>
               </select>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>Other roles are assigned by an administrator.</p>
             </div>
 
             <div>

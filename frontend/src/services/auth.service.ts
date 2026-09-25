@@ -6,7 +6,6 @@ export const authService = {
     email: string;
     password: string;
     fullName: string;
-    role: string;
     company?: string;
     consentGiven: boolean;
     researchParticipation?: boolean;
