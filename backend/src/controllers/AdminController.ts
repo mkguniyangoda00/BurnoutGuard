@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { AdminService } from '../services/AdminService';
 import { AuditLogService } from '../services/AuditLogService';
 import { ResearchService } from '../services/ResearchService';
+import { createUserSchema } from '../middleware/validators/AuthValidator';
 
 export class AdminController {
   constructor(
@@ -14,6 +15,16 @@ export class AdminController {
     try {
       const users = await this.adminService.getAllUsers();
       res.status(200).json({ users });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const dto = createUserSchema.parse(req.body);
+      const user = await this.adminService.createUser(dto, req.user!.userId);
+      res.status(201).json({ user });
     } catch (err) {
       next(err);
     }

@@ -3,6 +3,8 @@ import prisma from '../config/db';
 import { User } from '../models/User';
 import { AuditLogRepository } from '../repositories/AuditLogRepository';
 import { AuditLogService } from './AuditLogService';
+import { CreateUserDto, ROLES } from '../middleware/validators/AuthValidator';
+import { hashPassword } from '../utils/HashUtils';
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
@@ -26,13 +28,73 @@ export class AdminService {
     });
   }
 
+  async createUser(dto: CreateUserDto, adminId: string) {
+    const existing = await this.userRepo.findByEmail(dto.email);
+    if (existing) {
+      const err: any = new Error('Email already in use');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const actor = await this.getActor(adminId);
+    const passwordHash = await hashPassword(dto.password);
+    const user = await this.userRepo.create({
+      email: dto.email,
+      passwordHash,
+      fullName: dto.fullName,
+      role: dto.role,
+      company: dto.company,
+      consentGivenAt: null,
+      researchParticipation: false,
+      createdBy: actor.actorEmail,
+      modifiedBy: actor.actorEmail,
+    });
+
+    if (dto.role === 'Developer') {
+      await prisma.developerProfile.create({
+        data: {
+          userId: (user as any).userId,
+          createdBy: actor.actorEmail,
+          modifiedBy: actor.actorEmail,
+        },
+      });
+    }
+
+    void auditLogService.log({
+      ...actor,
+      action: 'CREATE_USER',
+      entityType: 'User',
+      entityId: (user as any).userId,
+      details: `Created ${dto.role} user ${dto.email}`,
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue admin user-create log:', err.message);
+    });
+
+    const { passwordHash: _ph, ...safeUser } = user as any;
+    return safeUser;
+  }
+
   async updateRole(targetUserId: string, newRole: string, adminId: string) {
+    if (!(ROLES as readonly string[]).includes(newRole)) {
+      const err: any = new Error('Invalid role');
+      err.statusCode = 400;
+      throw err;
+    }
     if (targetUserId === adminId) {
       const err: any = new Error('Cannot change your own role');
       err.statusCode = 400;
       throw err;
     }
     const updated = await this.userRepo.updateRole(targetUserId, newRole);
+    if (newRole === 'Developer') {
+      const profile = await prisma.developerProfile.findUnique({ where: { userId: targetUserId } });
+      if (!profile) {
+        await prisma.developerProfile.create({
+          data: { userId: targetUserId, createdBy: adminId, modifiedBy: adminId },
+        });
+      }
+    }
     const actor = await this.getActor(adminId);
     void auditLogService.log({
       ...actor,

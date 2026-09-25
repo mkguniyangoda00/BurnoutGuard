@@ -42,7 +42,7 @@ export class AuthService {
       email: dto.email,
       passwordHash,
       fullName: dto.fullName,
-      role: dto.role,
+      role: 'Developer',
       company: dto.company,
       consentGivenAt: dto.consentGiven ? new Date() : null,
       researchParticipation: dto.researchParticipation ?? true,
@@ -50,20 +50,17 @@ export class AuthService {
       modifiedBy: dto.email,
     });
 
-    // If role is Developer, create an empty DeveloperProfile
-    if (dto.role === 'Developer') {
-      await prisma.developerProfile.create({
-        data: {
-          userId: (user as any).userId,
-          createdBy: dto.email,
-          modifiedBy: dto.email,
-        },
-      });
-    }
+    await prisma.developerProfile.create({
+      data: {
+        userId: (user as any).userId,
+        createdBy: dto.email,
+        modifiedBy: dto.email,
+      },
+    });
 
     auditLogService.log({
       actorEmail: dto.email,
-      actorRole: dto.role,
+      actorRole: 'Developer',
       action: 'REGISTER',
       entityType: 'User',
       entityId: (user as any).userId,

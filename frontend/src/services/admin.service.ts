@@ -23,6 +23,11 @@ export const adminService = {
     return res.data.users ?? res.data;
   },
 
+  createUser: async (data: { fullName: string; email: string; password: string; company?: string; role: string }) => {
+    const res = await client.post('/admin/users', data);
+    return res.data.user;
+  },
+
   updateRole: async (id: string, role: string) => {
     const res = await client.put(`/admin/users/${id}/role`, { role });
     return res.data.user;
