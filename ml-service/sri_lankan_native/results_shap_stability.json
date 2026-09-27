@@ -1,0 +1,320 @@
+{
+  "stage": "D_shap_stability",
+  "model": "LogisticRegression",
+  "fixedC": 0.01,
+  "cCcSelectionNote": "C fixed at 0.01, the modal value selected by nested inner-CV grid search across Stage B's 15 outer folds (see results_candidates.json selectedParamsPerFold), rather than re-tuned per bootstrap resample.",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "nEvalRows": 100,
+  "evalRowSelection": "Fixed random sample of 100 rows (seed=123), same set used for all 3 seeds so importances are comparable.",
+  "topNReported": 10,
+  "perSeedTop10": {
+    "42": [
+      {
+        "feature": "concentration_difficulty",
+        "meanAbsShap": 0.020903441437351587
+      },
+      {
+        "feature": "sleep_quality",
+        "meanAbsShap": 0.017732988022324914
+      },
+      {
+        "feature": "exercise_days_per_week",
+        "meanAbsShap": 0.014837615724376729
+      },
+      {
+        "feature": "job_satisfaction",
+        "meanAbsShap": 0.014728180688927235
+      },
+      {
+        "feature": "caffeinated_drinks_per_day",
+        "meanAbsShap": 0.01426873144948239
+      },
+      {
+        "feature": "years_of_experience",
+        "meanAbsShap": 0.014230090539012627
+      },
+      {
+        "feature": "breaks_per_workday",
+        "meanAbsShap": 0.014000004670074158
+      },
+      {
+        "feature": "urgent_tasks_per_week",
+        "meanAbsShap": 0.013513105857503404
+      },
+      {
+        "feature": "role_clarity_rating",
+        "meanAbsShap": 0.01342269615255422
+      },
+      {
+        "feature": "work_autonomy_rating",
+        "meanAbsShap": 0.013018597661060166
+      }
+    ],
+    "43": [
+      {
+        "feature": "energy_level",
+        "meanAbsShap": 0.016655264737402354
+      },
+      {
+        "feature": "concentration_difficulty",
+        "meanAbsShap": 0.016465908420811103
+      },
+      {
+        "feature": "breaks_per_workday",
+        "meanAbsShap": 0.016053077204583707
+      },
+      {
+        "feature": "after_hours_contact_frequency",
+        "meanAbsShap": 0.014557189200729861
+      },
+      {
+        "feature": "working_hours_per_day",
+        "meanAbsShap": 0.014421511660035575
+      },
+      {
+        "feature": "job_satisfaction",
+        "meanAbsShap": 0.01418484786818315
+      },
+      {
+        "feature": "sleep_quality",
+        "meanAbsShap": 0.013816117157970133
+      },
+      {
+        "feature": "commute_time_minutes",
+        "meanAbsShap": 0.013744954271489664
+      },
+      {
+        "feature": "context_switching_frequency",
+        "meanAbsShap": 0.012701798880918215
+      },
+      {
+        "feature": "pay_fairness_rating",
+        "meanAbsShap": 0.012475645065052388
+      }
+    ],
+    "44": [
+      {
+        "feature": "concentration_difficulty",
+        "meanAbsShap": 0.019215257155827642
+      },
+      {
+        "feature": "exercise_days_per_week",
+        "meanAbsShap": 0.018792944498850887
+      },
+      {
+        "feature": "work_challenge_confidence",
+        "meanAbsShap": 0.017679111924578286
+      },
+      {
+        "feature": "energy_level",
+        "meanAbsShap": 0.016590477190422014
+      },
+      {
+        "feature": "pressure_coping_rating",
+        "meanAbsShap": 0.015619792347863115
+      },
+      {
+        "feature": "pay_fairness_rating",
+        "meanAbsShap": 0.01544291038290716
+      },
+      {
+        "feature": "breaks_per_workday",
+        "meanAbsShap": 0.014088000040678674
+      },
+      {
+        "feature": "meal_quality_rating",
+        "meanAbsShap": 0.013780522725052752
+      },
+      {
+        "feature": "commute_time_minutes",
+        "meanAbsShap": 0.013491605413967645
+      },
+      {
+        "feature": "sleep_quality",
+        "meanAbsShap": 0.013209517566292467
+      }
+    ]
+  },
+  "perSeedFullImportance": {
+    "42": {
+      "years_of_experience": 0.014230090539012627,
+      "working_hours_per_day": 0.007797278763107101,
+      "overtime_hours_per_week": 0.011733785736752649,
+      "workload_rating": 0.005799267750207614,
+      "urgent_tasks_per_week": 0.013513105857503404,
+      "deadline_pressure": 0.00318589527322978,
+      "context_switching_frequency": 0.008057291403631305,
+      "after_hours_contact_frequency": 0.007551769132394263,
+      "work_complexity": 0.008388962348551373,
+      "sleep_hours_per_night": 0.008091258520538979,
+      "sleep_quality": 0.017732988022324914,
+      "exercise_days_per_week": 0.014837615724376729,
+      "screen_time_outside_work_hours": 0.007524577201368891,
+      "breaks_per_workday": 0.014000004670074158,
+      "commute_time_minutes": 0.00795125634561657,
+      "caffeinated_drinks_per_day": 0.01426873144948239,
+      "meal_quality_rating": 0.0043449300538978535,
+      "unstable_power_internet_frequency": 0.0074747093452864535,
+      "stress_level": 0.008150977164787963,
+      "energy_level": 0.009043239894254191,
+      "work_anxiety_frequency": 0.006810810528968528,
+      "emotional_drain_level": 0.009822807994374717,
+      "motivation_level": 0.012849213784066362,
+      "concentration_difficulty": 0.020903441437351587,
+      "irritability_frequency": 0.004833613384354855,
+      "job_satisfaction": 0.014728180688927235,
+      "work_challenge_confidence": 0.008461629646495283,
+      "pressure_coping_rating": 0.007450358719598429,
+      "general_support_rating": 0.008585043653928509,
+      "manager_support_rating": 0.006597012442323351,
+      "peer_support_rating": 0.006273108588309796,
+      "pay_fairness_rating": 0.008766911893243112,
+      "work_autonomy_rating": 0.013018597661060166,
+      "role_clarity_rating": 0.01342269615255422,
+      "seniority_tier": 0.01184789137719438,
+      "company_size_tier": 0.012633744373442161,
+      "works_weekends": 0.008220929948102298,
+      "on_call_rotation": 0.005613087389497058,
+      "work_arrangement_onsite": 0.012185141513930742,
+      "work_arrangement_remote": 0.009604422754190515
+    },
+    "43": {
+      "years_of_experience": 0.0060519800656230315,
+      "working_hours_per_day": 0.014421511660035575,
+      "overtime_hours_per_week": 0.01093823651371502,
+      "workload_rating": 0.0011940350515033794,
+      "urgent_tasks_per_week": 0.010698787335434194,
+      "deadline_pressure": 0.006065018281778454,
+      "context_switching_frequency": 0.012701798880918215,
+      "after_hours_contact_frequency": 0.014557189200729861,
+      "work_complexity": 0.008244785914875792,
+      "sleep_hours_per_night": 0.007913939212669727,
+      "sleep_quality": 0.013816117157970133,
+      "exercise_days_per_week": 0.012277121060012218,
+      "screen_time_outside_work_hours": 0.008176596217964422,
+      "breaks_per_workday": 0.016053077204583707,
+      "commute_time_minutes": 0.013744954271489664,
+      "caffeinated_drinks_per_day": 0.012240361605521144,
+      "meal_quality_rating": 0.01151058381153421,
+      "unstable_power_internet_frequency": 0.011069585294128192,
+      "stress_level": 0.006912818664579079,
+      "energy_level": 0.016655264737402354,
+      "work_anxiety_frequency": 0.002734407920823875,
+      "emotional_drain_level": 0.007597197274865813,
+      "motivation_level": 0.009704891774299043,
+      "concentration_difficulty": 0.016465908420811103,
+      "irritability_frequency": 0.007633411462009377,
+      "job_satisfaction": 0.01418484786818315,
+      "work_challenge_confidence": 0.010881707413430754,
+      "pressure_coping_rating": 0.007993544167850064,
+      "general_support_rating": 0.0033133984651329495,
+      "manager_support_rating": 0.00731432339939594,
+      "peer_support_rating": 0.0033988214805808995,
+      "pay_fairness_rating": 0.012475645065052388,
+      "work_autonomy_rating": 0.010968966809178318,
+      "role_clarity_rating": 0.005476015226581966,
+      "seniority_tier": 0.01058834267369544,
+      "company_size_tier": 0.006867389041497021,
+      "works_weekends": 0.007478347611783914,
+      "on_call_rotation": 0.007204123076556802,
+      "work_arrangement_onsite": 0.0076652904622405305,
+      "work_arrangement_remote": 0.00670994884906932
+    },
+    "44": {
+      "years_of_experience": 0.0057207596708980036,
+      "working_hours_per_day": 0.0070088565118033705,
+      "overtime_hours_per_week": 0.00958287675368747,
+      "workload_rating": 0.006113165833066801,
+      "urgent_tasks_per_week": 0.012623282736746561,
+      "deadline_pressure": 0.0033151731607514363,
+      "context_switching_frequency": 0.010042264902159202,
+      "after_hours_contact_frequency": 0.009648156689983874,
+      "work_complexity": 0.006335585559317871,
+      "sleep_hours_per_night": 0.005624621069777599,
+      "sleep_quality": 0.013209517566292467,
+      "exercise_days_per_week": 0.018792944498850887,
+      "screen_time_outside_work_hours": 0.005229965626092365,
+      "breaks_per_workday": 0.014088000040678674,
+      "commute_time_minutes": 0.013491605413967645,
+      "caffeinated_drinks_per_day": 0.010117596250465304,
+      "meal_quality_rating": 0.013780522725052752,
+      "unstable_power_internet_frequency": 0.008451147059605842,
+      "stress_level": 0.006257895605003822,
+      "energy_level": 0.016590477190422014,
+      "work_anxiety_frequency": 0.011428180298685671,
+      "emotional_drain_level": 0.012372124899607786,
+      "motivation_level": 0.0064180267758873165,
+      "concentration_difficulty": 0.019215257155827642,
+      "irritability_frequency": 0.006169169614544624,
+      "job_satisfaction": 0.008396918289894256,
+      "work_challenge_confidence": 0.017679111924578286,
+      "pressure_coping_rating": 0.015619792347863115,
+      "general_support_rating": 0.007738035945105772,
+      "manager_support_rating": 0.005640404744438198,
+      "peer_support_rating": 0.005922720649216122,
+      "pay_fairness_rating": 0.01544291038290716,
+      "work_autonomy_rating": 0.007582492669365154,
+      "role_clarity_rating": 0.008351866729250302,
+      "seniority_tier": 0.010821351661016564,
+      "company_size_tier": 0.010177978519442339,
+      "works_weekends": 0.007015533076207154,
+      "on_call_rotation": 0.007542187987099844,
+      "work_arrangement_onsite": 0.009265196218747478,
+      "work_arrangement_remote": 0.010460612379215981
+    }
+  },
+  "consistencyAcrossSeeds": {
+    "appearedInAllThreeSeeds": [
+      "breaks_per_workday",
+      "concentration_difficulty",
+      "sleep_quality"
+    ],
+    "appearedInExactlyTwoSeeds": [
+      "commute_time_minutes",
+      "energy_level",
+      "exercise_days_per_week",
+      "job_satisfaction",
+      "pay_fairness_rating"
+    ],
+    "appearedInExactlyOneSeed": [
+      "after_hours_contact_frequency",
+      "caffeinated_drinks_per_day",
+      "context_switching_frequency",
+      "meal_quality_rating",
+      "pressure_coping_rating",
+      "role_clarity_rating",
+      "urgent_tasks_per_week",
+      "work_autonomy_rating",
+      "work_challenge_confidence",
+      "working_hours_per_day",
+      "years_of_experience"
+    ]
+  },
+  "objectiveClusterFeatures": [
+    "breaks_per_workday",
+    "caffeinated_drinks_per_day",
+    "commute_time_minutes",
+    "exercise_days_per_week",
+    "overtime_hours_per_week",
+    "urgent_tasks_per_week",
+    "working_hours_per_day"
+  ],
+  "objectiveClusterFindings": {
+    "appearingInAnySeedTop10": [
+      "breaks_per_workday",
+      "caffeinated_drinks_per_day",
+      "commute_time_minutes",
+      "exercise_days_per_week",
+      "urgent_tasks_per_week",
+      "working_hours_per_day"
+    ],
+    "consistentAcrossAllThreeSeeds": [
+      "breaks_per_workday"
+    ],
+    "collinearityCaveat": "6 of the 7 known-collinear 'objective' features (pairwise |r|=0.6-0.74, see earlier correlation check) appear in at least one seed's top-10 SHAP ranking: ['breaks_per_workday', 'caffeinated_drinks_per_day', 'commute_time_minutes', 'exercise_days_per_week', 'urgent_tasks_per_week', 'working_hours_per_day']. 1 of them are consistent across all 3 seeds: ['breaks_per_workday']. Because these features are highly intercorrelated, SHAP can arbitrarily split or shift credit among them depending on which exact bootstrap resample and feature ordering the explainer encounters -- a feature's presence, absence, or rank within this cluster should not be read as evidence that it specifically (rather than the correlated cluster as a whole) drives predictions. Interpret this cluster's SHAP contribution collectively, not feature-by-feature."
+  }
+}

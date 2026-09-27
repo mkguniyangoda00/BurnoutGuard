@@ -1,0 +1,78 @@
+{
+  "stage": "A_baselines",
+  "nRows": 311,
+  "nFeatures": 40,
+  "cvProtocol": "RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=42)",
+  "results": {
+    "DummyMostFrequent": {
+      "accuracy": {
+        "mean": 0.3311827956989247,
+        "std": 0.0072928279388443686,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.12438289744343228,
+        "std": 0.0020602069923585375,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.16483400162412037,
+        "std": 0.006344880274609617,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "Moderate": {
+          "mean": 0.49753158977372913,
+          "std": 0.00824082796943415
+        },
+        "High": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "Critical": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    "DummyStratified": {
+      "accuracy": {
+        "mean": 0.2475337088240313,
+        "std": 0.026904202542354563,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.23389548574000824,
+        "std": 0.0293575127557276,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.24792322669096317,
+        "std": 0.028262580865296764,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.21782531194295895,
+          "std": 0.06621233655996685
+        },
+        "Moderate": {
+          "mean": 0.345954316686024,
+          "std": 0.0695674124849442
+        },
+        "High": {
+          "mean": 0.2002886002886003,
+          "std": 0.08741969042633876
+        },
+        "Critical": {
+          "mean": 0.17151371404244967,
+          "std": 0.05727524558588856
+        }
+      }
+    }
+  }
+}

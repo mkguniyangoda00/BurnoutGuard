@@ -1,0 +1,285 @@
+{
+  "stage": "B_candidates",
+  "nRows": 311,
+  "nFeatures": 40,
+  "cvProtocol": "Outer: RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=42); Inner: GridSearchCV(cv=3, scoring=f1_macro), nested per outer fold",
+  "results": {
+    "LogisticRegression": {
+      "accuracy": {
+        "mean": 0.5167093360641748,
+        "std": 0.05717685000478952,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.4644834457716545,
+        "std": 0.05620061470865611,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.48127864402062603,
+        "std": 0.05727176353859594,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.593675522688659,
+          "std": 0.09735934400777743
+        },
+        "Moderate": {
+          "mean": 0.5067422093601583,
+          "std": 0.05931783021782634
+        },
+        "High": {
+          "mean": 0.09154135338345865,
+          "std": 0.11383478925168088
+        },
+        "Critical": {
+          "mean": 0.6659746976543417,
+          "std": 0.046355679488248265
+        }
+      },
+      "selectedParamsPerFold": [
+        {
+          "model__C": 0.1
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.1
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        },
+        {
+          "model__C": 0.01
+        }
+      ]
+    },
+    "RandomForest_shallow": {
+      "accuracy": {
+        "mean": 0.5435057176992661,
+        "std": 0.05516421168429601,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.4627708835932766,
+        "std": 0.042859578915782855,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.4863876188465379,
+        "std": 0.04956436760683469,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.6450178592061644,
+          "std": 0.10229728465611684
+        },
+        "Moderate": {
+          "mean": 0.5256845686191688,
+          "std": 0.08326578066291802
+        },
+        "High": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "Critical": {
+          "mean": 0.6803811065477733,
+          "std": 0.040497809805815875
+        }
+      },
+      "selectedParamsPerFold": [
+        {
+          "model__max_depth": 2,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 15
+        },
+        {
+          "model__max_depth": 3,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 3,
+          "model__min_samples_leaf": 10
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 10
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 10
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 2,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 3,
+          "model__min_samples_leaf": 15
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 10
+        },
+        {
+          "model__max_depth": 3,
+          "model__min_samples_leaf": 15
+        },
+        {
+          "model__max_depth": 4,
+          "model__min_samples_leaf": 5
+        },
+        {
+          "model__max_depth": 2,
+          "model__min_samples_leaf": 15
+        }
+      ]
+    }
+  },
+  "confusionMatrices": {
+    "note": "Aggregated across all 15 CV outer folds (out-of-fold predictions pooled). Rows=true label, cols=predicted label, label order [Low, Moderate, High, Critical].",
+    "LogisticRegression": {
+      "matrix": [
+        [149, 88, 9, 3],
+        [73, 179, 20, 37],
+        [24, 97, 13, 49],
+        [5, 34, 12, 141]
+      ],
+      "trueHighPredictedAs": {"Low": 24, "Moderate": 97, "High": 13, "Critical": 49, "nTrueHigh": 183}
+    },
+    "RandomForest_shallow": {
+      "matrix": [
+        [164, 82, 0, 3],
+        [76, 193, 1, 39],
+        [15, 111, 0, 57],
+        [3, 39, 0, 150]
+      ],
+      "trueHighPredictedAs": {"Low": 15, "Moderate": 111, "High": 0, "Critical": 57, "nTrueHigh": 183}
+    }
+  },
+  "notes": {
+    "highClassCollapse": "Both candidates struggle on the High class (fold-level test support 12/fold, one of the two thinnest classes). LogisticRegression retains partial signal (per-class F1 0.0915, some folds recover True-High correctly). RandomForest_shallow collapses entirely on High (F1 0.0000 in all 15 folds, 0 correct predictions in the aggregated confusion matrix).",
+    "misclassificationDirection": "For both models, misclassified True-High rows skew toward Moderate (under-alert) over Critical (over-alert), roughly 2:1: LogisticRegression 53.0% Moderate vs 26.8% Critical (13.1% Low, 7.1% correct); RandomForest_shallow 60.7% Moderate vs 31.1% Critical (8.2% Low, 0.0% correct). This is the less-safe failure direction for a risk-screening tool, since it means true-High-risk individuals are more often shown as Moderate than as Critical.",
+    "ordinalStructureLimitation": "risk_level is inherently ordinal (Low < Moderate < High < Critical), and both models were trained as plain (unordered) multiclass classifiers, which treats every misclassification pair as equally costly. High sitting between the two classes it is most confused with (Moderate and Critical) is consistent with genuine ordinal proximity rather than a modeling artifact specific to one algorithm. Flagged as a limitation and future direction for the writeup: consider an ordinal classification formulation (e.g. proportional-odds / ordinal logistic regression) or cost-sensitive misclassification weighting that penalizes a Low<->Critical error more heavily than a High<->Critical or High<->Moderate error. Not implemented in this evaluation given time constraints and n=311; noted here for follow-up."
+  },
+  "baselinesForComparison": {
+    "DummyMostFrequent": {
+      "accuracy": {
+        "mean": 0.3311827956989247,
+        "std": 0.0072928279388443686,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.12438289744343228,
+        "std": 0.0020602069923585375,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.16483400162412037,
+        "std": 0.006344880274609617,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "Moderate": {
+          "mean": 0.49753158977372913,
+          "std": 0.00824082796943415
+        },
+        "High": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "Critical": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    "DummyStratified": {
+      "accuracy": {
+        "mean": 0.2475337088240313,
+        "std": 0.026904202542354563,
+        "nFolds": 15
+      },
+      "macroF1": {
+        "mean": 0.23389548574000824,
+        "std": 0.0293575127557276,
+        "nFolds": 15
+      },
+      "weightedF1": {
+        "mean": 0.24792322669096317,
+        "std": 0.028262580865296764,
+        "nFolds": 15
+      },
+      "perClassF1": {
+        "Low": {
+          "mean": 0.21782531194295895,
+          "std": 0.06621233655996685
+        },
+        "Moderate": {
+          "mean": 0.345954316686024,
+          "std": 0.0695674124849442
+        },
+        "High": {
+          "mean": 0.2002886002886003,
+          "std": 0.08741969042633876
+        },
+        "Critical": {
+          "mean": 0.17151371404244967,
+          "std": 0.05727524558588856
+        }
+      }
+    }
+  }
+}

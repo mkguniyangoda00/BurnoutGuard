@@ -133,25 +133,41 @@ export class AdminService {
   const fs = require('fs');
   const path = require('path');
   const metadataPath = path.join(__dirname, '../../../ml-service/models/metadata.json');
-
+ 
+  const pct = (v: any) => (typeof v === 'number' ? `${(v * 100).toFixed(1)}%` : 'N/A');
+  const num = (v: any) => (typeof v === 'number' ? v.toFixed(3) : 'N/A');
+ 
   try {
-    const raw = fs.readFileSync(metadataPath, 'utf-8');
-    const metadata = JSON.parse(raw);
-
-    // metadata.metrics is keyed by algorithm name, e.g.
-    // { LogisticRegression: {...}, RandomForest: {...}, XGBoost: {...} }
-    const allModels = Object.entries(metadata.metrics || {}).map(([algo, m]: [string, any]) => ({
-      version: algo === metadata.algorithm ? metadata.version : `benchmark · ${metadata.trainedAt?.slice(0, 10)}`,
-      algorithm: algo,
-      accuracy: `${(m.accuracy * 100).toFixed(1)}%`,
-      f1Score: m.f1Score.toFixed(3),
-      auc: m.auc ? m.auc.toFixed(3) : 'N/A',
-      status: algo === metadata.algorithm ? 'Active' : 'Benchmarked',
+    const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+    const base = {
       trainedAt: metadata.trainedAt,
       globalFeatureImportance: metadata.globalFeatureImportance || [],
-    }));
-
-    return allModels;
+    };
+ 
+    // Old train.py format: { metrics: { LogisticRegression: { accuracy, f1Score, auc }, ... } }
+    if (metadata.metrics && Object.keys(metadata.metrics).length > 0) {
+      return Object.entries(metadata.metrics).map(([algo, m]: [string, any]) => ({
+        ...base,
+        version: algo === metadata.algorithm ? metadata.version : `benchmark · ${metadata.trainedAt?.slice(0, 10)}`,
+        algorithm: algo,
+        accuracy: pct(m.accuracy),
+        f1Score: num(m.f1Score ?? m.macroF1),
+        auc: num(m.auc ?? m.rocAUC),
+        status: algo === metadata.algorithm ? 'Active' : 'Benchmarked',
+      }));
+    }
+ 
+    // run_experiment.py format: { validation: { internalEvaluation: { accuracy, macroF1, rocAUC } } }
+    const m = metadata.validation?.internalEvaluation || {};
+    return [{
+      ...base,
+      version: metadata.version,
+      algorithm: metadata.algorithm,
+      accuracy: pct(m.accuracy),
+      f1Score: num(m.macroF1 ?? m.f1Score),
+      auc: num(m.rocAUC ?? m.auc),
+      status: 'Active',
+    }];
   } catch (err: any) {
     console.error('[AdminService] Failed to read ml-service/models/metadata.json:', err.message);
     return [];
@@ -161,9 +177,24 @@ export class AdminService {
 async triggerRetrain() {
   const axios = require('axios');
   const { Env } = require('../config/env');
-
-  const response = await axios.post(`${Env.ML_SERVICE_URL}/retrain`, {}, { timeout: 300000 });
-  return response.data; // { success: boolean, log: string }
+  try {
+    const response = await axios.post(`${Env.ML_SERVICE_URL}/retrain`, {}, { timeout: 15000 });
+    return response.data; // { success, running, log }
+  } catch (err: any) {
+    if (err.response?.status === 409) return err.response.data; // already running
+    const reason = err.response
+      ? `ml-service returned ${err.response.status}: ${err.response.data?.error ?? err.message}`
+      : `ml-service unreachable at ${Env.ML_SERVICE_URL} (${err.code ?? err.message})`;
+    const e: any = new Error(reason);
+    e.statusCode = 502;
+    throw e;
+  }
 }
 
+async getRetrainStatus() {
+  const axios = require('axios');
+  const { Env } = require('../config/env');
+  const response = await axios.get(`${Env.ML_SERVICE_URL}/retrain/status`, { timeout: 5000 });
+  return response.data; // { running, success, startedAt, finishedAt, log }
+}
 }

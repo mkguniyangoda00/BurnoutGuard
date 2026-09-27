@@ -1,0 +1,99 @@
+{
+  "stage": "C_bootstrap_ci",
+  "model": "LogisticRegression",
+  "nRows": 311,
+  "nOutOfFoldObservations": 933,
+  "cvProtocolForOutOfFoldPredictions": "RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=42); hyperparameter selection nested via GridSearchCV(cv=3, scoring=f1_macro) per outer fold, same as Stage B",
+  "nBootstrap": 1000,
+  "bootstrapMethod": "Resample the pooled (true, predicted) out-of-fold pairs with replacement, n_obs draws per resample, recompute metrics; percentile CI (2.5/97.5).",
+  "ciMethodologyLimitation": "The 933 pooled out-of-fold pairs come from only 311 unique people, each appearing 3 times (once per CV repeat, under a different fold partition and, in general, a different fitted model). A single bootstrap resample can therefore draw multiple, correlated predictions for the same person across different repeats, rather than 933 independent observations. Standard bootstrap CIs assume i.i.d. resampling units; here the true number of independent units is 311, not 933. This is a CI-methodology limitation, not a modeling defect: it means the reported CIs (accuracy, macro F1, per-class F1) likely somewhat understate the true sampling uncertainty relative to an ideal bootstrap over independent people. The point estimates and relative comparisons (e.g. the High-class zero-F1 fraction) are unaffected by this; only the CI widths should be read as a lower bound on true uncertainty, not an exact figure.",
+  "pointEstimates": {
+    "accuracy": 0.5166130760986066,
+    "macroF1": 0.4700790022635869,
+    "perClass": {
+      "Low": {
+        "f1": 0.596,
+        "support": 249
+      },
+      "Moderate": {
+        "f1": 0.5063649222065064,
+        "support": 309
+      },
+      "High": {
+        "f1": 0.10970464135021098,
+        "support": 183
+      },
+      "Critical": {
+        "f1": 0.6682464454976303,
+        "support": 192
+      }
+    }
+  },
+  "bootstrapCI": {
+    "accuracy": {
+      "mean": 0.5158638799571276,
+      "std": 0.01626826054710183,
+      "ci_2.5%": 0.4844587352625938,
+      "ci_97.5%": 0.547722400857449
+    },
+    "macroF1": {
+      "mean": 0.4688288029924998,
+      "std": 0.014435418012390906,
+      "ci_2.5%": 0.4422033931513691,
+      "ci_97.5%": 0.49671904594098015
+    },
+    "perClassF1": {
+      "Low": {
+        "mean": 0.5948478329482412,
+        "std": 0.025679328584309435,
+        "ci_2.5%": 0.5407365805168987,
+        "ci_97.5%": 0.6435323231198572
+      },
+      "Moderate": {
+        "mean": 0.5058557439637353,
+        "std": 0.02260715869849169,
+        "ci_2.5%": 0.46223531386371264,
+        "ci_97.5%": 0.5491803278688525
+      },
+      "High": {
+        "mean": 0.1087636147493051,
+        "std": 0.027727982811880235,
+        "ci_2.5%": 0.06111560758921849,
+        "ci_97.5%": 0.17022573949143746
+      },
+      "Critical": {
+        "mean": 0.6658480203087174,
+        "std": 0.027329496092851412,
+        "ci_2.5%": 0.6111077963404933,
+        "ci_97.5%": 0.7191284616856666
+      }
+    },
+    "perClassSupportAcrossResamples": {
+      "Low": {
+        "mean": 249.458,
+        "min": 212,
+        "max": 297
+      },
+      "Moderate": {
+        "mean": 309.259,
+        "min": 267,
+        "max": 365
+      },
+      "High": {
+        "mean": 183.127,
+        "min": 147,
+        "max": 219
+      },
+      "Critical": {
+        "mean": 191.156,
+        "min": 152,
+        "max": 236
+      }
+    }
+  },
+  "highClassZeroF1Fraction": {
+    "fractionOfResamplesWithExactlyZeroHighF1": 0.0,
+    "nResamplesWithZeroHighF1": 0,
+    "interpretationNote": "Fraction of the 1000 bootstrap resamples in which the model's High-class F1 was exactly 0.0 -- i.e. it correctly identified zero True-High rows as High in that resample. Distinguishes 'consistent weak signal' (low fraction, F1 usually small-but-nonzero) from 'often complete failure' (high fraction, F1 is bimodal between 0 and something higher rather than clustered near its mean)."
+  }
+}
