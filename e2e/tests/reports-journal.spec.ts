@@ -5,12 +5,19 @@ test.describe('developer reports and journal', () => {
   test('weekly report downloads and journal entry persists', async ({ page }) => {
     await loginAs(page, 'Developer');
 
+    // Ensure a report exists for this account regardless of cron/prior test
+    // state — reports are only generated weekly or on demand, never implicitly.
+    const token = await page.evaluate(() => localStorage.getItem('token'));
+    await page.request.post('http://localhost:5000/api/reports/generate', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
     await page.goto('/developer/reports');
-    await expect(page.getByRole('heading', { name: /weekly wellness report/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /week \d+ wellness report/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /risk score trend/i })).toBeVisible();
 
     const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('button', { name: /export \/ print/i }).click();
+    await page.getByRole('button', { name: /export pdf/i }).click();
     const download = await downloadPromise;
     await expect(download.suggestedFilename()).toContain('.pdf');
 

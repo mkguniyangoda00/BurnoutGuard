@@ -18,6 +18,7 @@ const reportController = new ReportController(reportService, pdfService);
 router.get('/', Authenticate, reportController.getAll);
 router.post('/generate', Authenticate, reportController.generateMine);
 router.post('/generate-all', Authenticate, authorize(['Admin']), reportController.triggerManual);
+router.post('/backfill-all', Authenticate, authorize(['Admin']), reportController.backfillAll);
 router.get('/:id/pdf', Authenticate, reportController.getPdf);
 router.get('/:id', Authenticate, reportController.getById);
 

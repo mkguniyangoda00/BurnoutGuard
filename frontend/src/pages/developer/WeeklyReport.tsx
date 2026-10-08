@@ -107,13 +107,21 @@ const WeeklyReport: React.FC = () => {
     return `${start.toLocaleDateString('en-GB', options)} – ${end.toLocaleDateString('en-GB', options)} ${end.toLocaleDateString('en-GB', yearOptions)}`;
   };
 
+  // ISO 8601 week number
+  const getIsoWeek = (dateStr: string) => {
+    const date = new Date(dateStr);
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+  };
+
   // Get trend points (last 4 weeks max)
   const trendReports = [...reports].slice(0, 4).reverse();
   const points = trendReports.map((r) => {
-    const start = new Date(r.weekStart);
-    const label = `Wk ${start.getDate()}/${start.getMonth() + 1}`;
+    const label = `Wk ${getIsoWeek(r.weekStart)}`;
     const value = r.riskScoreAtEndOfWeek ?? 0;
-    const color = value < 0.4 ? 'var(--success)' : value < 0.7 ? 'var(--warning)' : 'var(--danger)';
+    const color = value < 0.4 ? 'var(--primary)' : value < 0.7 ? 'var(--warning)' : 'var(--danger)';
     return { label, value, color };
   });
 
@@ -122,13 +130,13 @@ const WeeklyReport: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>
-            Weekly Wellness Report
+            Week {getIsoWeek(latestReport.weekStart)} Wellness Report
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
             {formatWeekRange(latestReport.weekStart, latestReport.weekEnd)} · {latestReport.totalCheckIns} check-ins submitted
           </p>
         </div>
-        <Button variant="primary" onClick={handleDownloadPdf} disabled={isDownloading} style={{ padding: '8px 16px', fontSize: '13px' }}>{isDownloading ? 'Downloading…' : '📥 Export / Print'}</Button>
+        <Button variant="primary" onClick={handleDownloadPdf} disabled={isDownloading} style={{ padding: '10px 18px', fontSize: '13px' }}>{isDownloading ? 'Downloading…' : 'Export PDF'}</Button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
@@ -156,24 +164,45 @@ const WeeklyReport: React.FC = () => {
 
       {points.length > 0 && (
         <Card style={{ marginBottom: '16px', padding: '24px 28px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '24px', fontFamily: 'var(--font-heading)' }}>Risk score trend</h3>
-          
+          <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '24px', fontFamily: 'var(--font-heading)' }}>
+            Risk score trend {points.length > 1 ? `(last ${points.length} weeks)` : ''}
+          </h3>
+
           <div style={{ position: 'relative', marginBottom: '24px', padding: '0 20px' }}>
-            <div style={{ height: '140px', width: '100%' }}>
-              <svg width="100%" height="100%" viewBox="0 0 400 120" preserveAspectRatio="none">
+            <div style={{ height: '140px', width: '100%', display: 'flex' }}>
+              {/* Y-axis labels */}
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '8px', paddingBottom: '10px' }}>
+                {[1, 0.75, 0.5, 0.25, 0].map((tick) => (
+                  <span key={tick} style={{ fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1 }}>{tick}</span>
+                ))}
+              </div>
+              <svg width="100%" height="100%" viewBox="0 0 400 120" preserveAspectRatio="none" style={{ flex: 1 }}>
+                {/* Gridlines */}
+                {[0, 25, 50, 75, 100].map((tick) => {
+                  const y = 120 - (tick / 100) * 100 - 10;
+                  return (
+                    <line
+                      key={tick}
+                      x1="0" x2="400" y1={y} y2={y}
+                      stroke="var(--border-color)"
+                      strokeWidth={tick === 0 ? 1.5 : 1}
+                      strokeDasharray={tick === 0 ? undefined : '4 4'}
+                    />
+                  );
+                })}
                 {/* Line path */}
                 {points.length > 1 && (
-                  <path 
+                  <path
                     d={points.map((p, i) => {
                       const x = 50 + (i * (300 / (points.length - 1)));
                       const y = 120 - (p.value * 100) - 10;
                       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
                     }).join(' ')}
-                    fill="none" 
-                    stroke="var(--primary)" 
-                    strokeWidth="2.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
+                    fill="none"
+                    stroke="var(--primary)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 )}
                 {/* Points */}
@@ -181,33 +210,36 @@ const WeeklyReport: React.FC = () => {
                   const x = points.length > 1 ? 50 + (i * (300 / (points.length - 1))) : 200;
                   const y = 120 - (p.value * 100) - 10;
                   return (
-                    <circle 
-                      key={i} 
-                      cx={x} 
-                      cy={y} 
-                      r="5" 
-                      fill={p.color} 
+                    <circle
+                      key={i}
+                      cx={x}
+                      cy={y}
+                      r="5"
+                      fill={p.color}
                     />
                   );
                 })}
               </svg>
             </div>
-            {/* Labels */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', padding: '0 10px' }}>
+            {/* X-axis week labels */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', padding: '0 10px' }}>
               {points.map((p, i) => (
-                <div key={i} style={{ textAlign: 'center', width: '60px' }}>
-                  <span style={{ fontSize: '10px', color: 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>{p.label}</span>
-                  <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{(p.value * 100).toFixed(0)}%</span>
-                </div>
+                <span key={i} style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{p.label}</span>
               ))}
             </div>
           </div>
-          
-          <p style={{ fontSize: '12px', color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : latestReport.overallTrend === 'Improving' ? 'var(--success)' : 'var(--text-muted)', marginTop: '20px' }}>
-            {latestReport.overallTrend === 'Worsening' 
-              ? `↑ Risk is trending upward compared to last week. Intervention recommended.` 
+
+          {points.length === 1 && (
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '4px', fontStyle: 'italic' }}>
+              Not enough history yet to show a trend line — check back after next week's report.
+            </p>
+          )}
+
+          <p style={{ fontSize: '13px', color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : latestReport.overallTrend === 'Improving' ? 'var(--success)' : 'var(--text-muted)', marginTop: '20px' }}>
+            {latestReport.overallTrend === 'Worsening'
+              ? `↑ Risk is trending upward${points.length > 1 ? ` over ${points.length} weeks` : ' compared to last week'}. Intervention recommended.`
               : latestReport.overallTrend === 'Improving'
-              ? `↓ Wellness metrics are improving compared to last week. Great job!`
+              ? `↓ Wellness metrics are improving${points.length > 1 ? ` over ${points.length} weeks` : ' compared to last week'}. Great job!`
               : `→ Wellness metrics are stable compared to last week.`}
           </p>
         </Card>
@@ -224,8 +256,8 @@ const WeeklyReport: React.FC = () => {
           lineHeight: 1.6
         }}>
           <span style={{ fontWeight: 600, color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : 'var(--success)' }}>
-            {latestReport.overallTrend === 'Worsening' ? '⚠ Weekly summary: ' : '✓ Weekly summary: '}
-          </span> 
+            {latestReport.overallTrend === 'Worsening' ? '⚠️ Weekly summary: ' : '✓ Weekly summary: '}
+          </span>
           {latestReport.insightSummary}
         </div>
       )}

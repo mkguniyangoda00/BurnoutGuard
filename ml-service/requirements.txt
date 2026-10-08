@@ -5,7 +5,7 @@ numpy
 scikit-learn
 lightgbm
 xgboost
-shap
+shap==0.52.0
 joblib
 python-dotenv
 transformers

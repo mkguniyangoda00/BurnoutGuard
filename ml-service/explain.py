@@ -148,7 +148,7 @@ def explain_prediction(model, scaler, feature_df, predicted_class: int, backgrou
     """
     scaled = scaler.transform(feature_df)
 
-    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_")
+    is_tree_model = hasattr(model, "get_booster") or hasattr(model, "estimators_") or hasattr(model, "booster_")
 
     if is_tree_model:
         explainer = shap.TreeExplainer(model)
@@ -164,11 +164,25 @@ def explain_prediction(model, scaler, feature_df, predicted_class: int, backgrou
         explainer = shap.Explainer(model, background)
         shap_values = explainer.shap_values(scaled)
 
-    # For multi-class tree models, shap_values is a list per class OR a 3D array
+    # For multi-class tree models, shap_values is a list per class OR a 3D array.
+    #
+    # We deliberately do NOT use only the predicted class's SHAP slice here.
+    # A positive SHAP value for class C means "pushes probability toward C",
+    # not "increases risk" — for an ordinal target (Low<Moderate<High<Critical)
+    # a feature that pushes mass from High toward Critical shows up as
+    # *negative* for the High class even though it is clearly worsening risk.
+    # That produced wrong directions/plain-language text (e.g. sleepHours=0
+    # reported as a "protective factor") whenever the predicted class wasn't
+    # the most extreme one. Instead we attribute SHAP to the ordinal expected
+    # severity score E[class] = sum(class_index * P(class)). SHAP is additive
+    # across outputs, so sum(class_index * shap[class]) is a valid attribution
+    # of that expected severity, and its sign is consistent regardless of
+    # which single class the prediction happens to land on.
     if isinstance(shap_values, list):
-        class_shap = shap_values[predicted_class][0]
+        stacked = np.stack([np.asarray(v)[0] for v in shap_values], axis=-1)  # (features, classes)
+        class_shap = stacked @ np.arange(len(shap_values))
     elif shap_values.ndim == 3:
-        class_shap = shap_values[0, :, predicted_class]
+        class_shap = shap_values[0] @ np.arange(shap_values.shape[2])  # (features,)
     else:
         class_shap = shap_values[0]
 

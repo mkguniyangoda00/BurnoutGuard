@@ -77,7 +77,12 @@ const Register: React.FC = () => {
       await authService.register(formData);
       navigate('/login');
     } catch (err: any) {
-      const message = err.response?.data?.message || 'Registration failed. Please check your details.';
+      // The API exposes errors using the `error` field.  Prefer it so users can
+      // act on failures such as an email address that is already registered.
+      const message =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        'Registration failed. Please check your details.';
       setError(message);
     } finally {
       setIsLoading(false);

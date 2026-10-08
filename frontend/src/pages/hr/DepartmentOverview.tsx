@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle2, AlertTriangle, OctagonAlert, Building2, Clock } from 'lucide-react';
 import { researchService } from '../../services/research.service';
 
 const DepartmentOverview: React.FC = () => {
@@ -99,7 +99,7 @@ const DepartmentOverview: React.FC = () => {
               { num: `${totalLow}%`, label: 'Avg Low Risk Rate', color: 'var(--success)' },
               { num: highestRiskDept ? highestRiskDept.department : '—', label: 'Most Stressed Dept', color: 'var(--text-primary)' },
             ].map((chip, idx) => (
-              <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px' }}>
+              <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px', borderTop: `3px solid ${chip.color}` }}>
                 <div style={{ fontSize: '24px', fontWeight: 600, marginBottom: '4px', color: chip.color, lineHeight: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {chip.num}
                 </div>
@@ -110,26 +110,32 @@ const DepartmentOverview: React.FC = () => {
             ))}
           </div>
 
-          <Card style={{ padding: '20px', marginBottom: '20px' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
-              Burnout Risk Distribution by Department
-            </h2>
+          <Card style={{ padding: '24px', marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '2px' }}>
+                Burnout Risk Distribution by Department
+              </h2>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Share of each risk level within every department</p>
+            </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {deptData.map((row: any, idx: number) => {
                 const low = Math.round(row.lowPct);
                 const mod = Math.round(row.moderatePct);
                 const high = Math.round(row.highPct);
 
                 return (
-                  <div key={idx} className="flex items-center">
-                    <div className="w-32 text-sm font-medium truncate pr-2" style={{ color: 'var(--text-secondary)' }} title={row.department}>
+                  <div
+                    key={idx}
+                    style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '14px 16px', backgroundColor: 'var(--surface)' }}
+                  >
+                    <div className="text-sm font-semibold truncate mb-2" style={{ color: 'var(--text-primary)' }} title={row.department}>
                       {row.department}
                     </div>
-                    <div className="flex-1 flex h-4 rounded-full overflow-hidden" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}>
+                    <div className="flex h-5 rounded-full overflow-hidden" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}>
                       {low > 0 && (
                         <div
-                          style={{ width: `${low}%`, background: 'var(--success)' }}
+                          style={{ width: `${low}%`, background: 'var(--success)', borderRight: mod > 0 || high > 0 ? '2px solid var(--surface)' : undefined }}
                           className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
                           title={`Low Risk: ${low}%`}
                         >
@@ -138,7 +144,7 @@ const DepartmentOverview: React.FC = () => {
                       )}
                       {mod > 0 && (
                         <div
-                          style={{ width: `${mod}%`, background: 'var(--warning)' }}
+                          style={{ width: `${mod}%`, background: 'var(--warning)', borderRight: high > 0 ? '2px solid var(--surface)' : undefined }}
                           className="flex items-center justify-center text-[10px] text-white font-bold transition-all"
                           title={`Moderate Risk: ${mod}%`}
                         >
@@ -160,14 +166,14 @@ const DepartmentOverview: React.FC = () => {
               })}
             </div>
 
-            <div className="flex gap-4 mt-6 pt-4 justify-center" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="flex gap-6 mt-6 pt-4 justify-center flex-wrap" style={{ borderTop: '1px solid var(--border)' }}>
               {[
-                { color: 'var(--success)', label: 'Low Risk' },
-                { color: 'var(--warning)', label: 'Moderate Risk' },
-                { color: 'var(--danger)', label: 'High/Critical Risk' },
+                { color: 'var(--success)', label: 'Low Risk', icon: CheckCircle2 },
+                { color: 'var(--warning)', label: 'Moderate Risk', icon: AlertTriangle },
+                { color: 'var(--danger)', label: 'High/Critical Risk', icon: OctagonAlert },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-sm" style={{ background: item.color }} />
+                  <item.icon size={14} style={{ color: item.color }} />
                   <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
                 </div>
               ))}
@@ -229,23 +235,49 @@ const DepartmentOverview: React.FC = () => {
             )}
           </Card>
 
-          <Card style={{ padding: '20px', marginBottom: '20px' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
-              Highest-Risk Departments
-            </h2>
+          <Card style={{ padding: '24px', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
+              <Building2 size={18} style={{ color: 'var(--danger)' }} />
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                Highest-Risk Departments
+              </h2>
+            </div>
             {highRiskRanking.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3" style={{ color: 'var(--text-muted)' }}>
                 <AlertCircle size={24} />
                 <span style={{ fontSize: '13px' }}>Not enough data available.</span>
               </div>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 {highRiskRanking.map((row: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between">
-                    <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)' }}>
-                      {idx + 1}. {row.department}
-                    </span>
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--danger)' }}>
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between"
+                    style={{ border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', backgroundColor: idx === 0 ? 'var(--danger-light)' : 'var(--surface)' }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        style={{
+                          width: '22px',
+                          height: '22px',
+                          borderRadius: '50%',
+                          backgroundColor: idx === 0 ? 'var(--danger)' : 'var(--soft-fill)',
+                          color: idx === 0 ? 'white' : 'var(--text-muted)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {idx + 1}
+                      </div>
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {row.department}
+                      </span>
+                    </div>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--danger)' }}>
                       {row.combinedHighRisk.toFixed(0)}% High/Critical
                     </span>
                   </div>
@@ -254,10 +286,13 @@ const DepartmentOverview: React.FC = () => {
             )}
           </Card>
 
-          <Card style={{ padding: '20px' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
-              Overtime Trend (Recent Weeks)
-            </h2>
+          <Card style={{ padding: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
+              <Clock size={18} style={{ color: 'var(--primary)' }} />
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                Overtime Trend (Recent Weeks)
+              </h2>
+            </div>
             {overtimeLoading ? (
               <div className="flex items-center justify-center py-8 gap-2" style={{ color: 'var(--text-muted)' }}>
                 <Loader2 className="animate-spin" size={20} />
@@ -269,13 +304,24 @@ const DepartmentOverview: React.FC = () => {
                 <span style={{ fontSize: '13px' }}>Not enough data available.</span>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
-                {overtimeTrend.map((row: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between text-sm">
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{row.week}</span>
-                    <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '13px' }}>{row.avgOvertimeHours}h avg</span>
-                  </div>
-                ))}
+              <div className="flex flex-col gap-3">
+                {(() => {
+                  const maxOvertime = Math.max(...overtimeTrend.map((r: any) => r.avgOvertimeHours ?? 0), 1);
+                  return overtimeTrend.map((row: any, idx: number) => {
+                    const widthPct = Math.max(((row.avgOvertimeHours ?? 0) / maxOvertime) * 100, 4);
+                    return (
+                      <div key={idx}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span style={{ color: 'var(--text-secondary)', fontSize: '12px', fontWeight: 500 }}>{row.week}</span>
+                          <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '12px' }}>{row.avgOvertimeHours}h avg</span>
+                        </div>
+                        <div className="h-3 rounded-full overflow-hidden" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}>
+                          <div style={{ width: `${widthPct}%`, height: '100%', background: 'var(--primary)', borderRadius: '999px' }} />
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             )}
           </Card>

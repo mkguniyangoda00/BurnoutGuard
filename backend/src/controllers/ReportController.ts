@@ -72,4 +72,13 @@ export class ReportController {
       next(err);
     }
   };
+
+  backfillAll = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const count = await this.reportService.backfillForAllUsers(req.user!.userId);
+      res.status(200).json({ message: 'Historical reports backfilled', count });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

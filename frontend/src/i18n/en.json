@@ -225,8 +225,14 @@
     "copingStrategiesPlaceholder": "What helped you cope today?",
     "save": "Save Entry",
     "saving": "Saving...",
+    "entrySaved": "Entry saved",
     "pastReflections": "Past Reflections",
+    "loadingEntries": "Loading entries...",
     "empty": "No journal entries yet. Write your first reflection above.",
-    "optional": "optional"
+    "optional": "optional",
+    "stress": "Stress",
+    "work": "Work",
+    "positive": "Positive",
+    "coping": "Coping"
   }
 }

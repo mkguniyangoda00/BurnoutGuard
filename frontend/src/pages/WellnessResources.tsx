@@ -53,64 +53,94 @@ const WellnessResources: React.FC = () => {
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No resources available right now.</p>
         </Card>
       ) : (
-        grouped.map(({ category, items }) => {
-          const meta = CATEGORY_META[category] ?? { label: category, icon: '💡', bg: 'var(--soft-fill)', color: 'var(--text-secondary)' };
-          const isPlaceholderMedia = category === 'Meditation' || category === 'Breathing';
-          return (
-            <div key={category} style={{ marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                <span style={{ fontSize: '20px' }}>{meta.icon}</span>
-                <h2 style={{ fontSize: '16px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
-                  {meta.label}
-                </h2>
-              </div>
-              {isPlaceholderMedia && (
-                <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '12px', fontStyle: 'italic' }}>
-                  In-app audio playback and guided animations are not yet available — links currently point to external resources.
-                </p>
-              )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-                {items.map((item: any) => (
-                  <Card key={item.resourceId} style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '20px',
+            alignItems: 'start',
+          }}
+        >
+          {grouped.map(({ category, items }) => {
+            const meta = CATEGORY_META[category] ?? { label: category, icon: '💡', bg: 'var(--soft-fill)', color: 'var(--text-secondary)' };
+            const isPlaceholderMedia = category === 'Meditation' || category === 'Breathing';
+            return (
+              <Card key={category} style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '10px',
+                      backgroundColor: meta.bg,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '20px',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {meta.icon}
+                  </div>
+                  <div>
+                    <h2 style={{ fontSize: '15px', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)' }}>
+                      {meta.label}
+                    </h2>
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      {items.length} resource{items.length === 1 ? '' : 's'}
+                    </span>
+                  </div>
+                </div>
+
+                {isPlaceholderMedia && (
+                  <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontStyle: 'italic', margin: 0 }}>
+                    In-app audio playback and guided animations are not yet available — links currently point to external resources.
+                  </p>
+                )}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  {items.map((item: any, idx: number) => (
                     <div
+                      key={item.resourceId}
                       style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '8px',
-                        backgroundColor: meta.bg,
+                        padding: '12px 0',
+                        borderTop: idx === 0 ? undefined : '1px solid var(--border)',
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '18px',
+                        flexDirection: 'column',
+                        gap: '4px',
                       }}
                     >
-                      {meta.icon}
-                    </div>
-                    <h3 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>{item.title}</h3>
-                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5, flex: 1 }}>{item.description}</p>
-                    {item.contentUrl && (
+                      <h3 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+                        {item.title}
+                      </h3>
+                      <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
+                        {item.description}
+                      </p>
+                      {item.contentUrl && (
                         <a
-                            href={item.contentUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
+                          href={item.contentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '6px',
                             fontSize: '12px',
                             fontWeight: 500,
                             color: meta.color,
-                            }}
+                            marginTop: '2px',
+                          }}
                         >
-                            View resource <ExternalLink size={12} />
+                          View resource <ExternalLink size={12} />
                         </a>
-                        )}
-                  </Card>
-                ))}
-              </div>
-            </div>
-          );
-        })
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
       )}
     </PageWrapper>
   );

@@ -3,14 +3,24 @@ import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle2, AlertTriangle, OctagonAlert, HelpCircle } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import TeamWhatIfPanel from '../../components/manager/TeamWhatIfPanel';
+
+const RISK_META: Record<string, { bg: string; border: string; fg: string; icon: LucideIcon }> = {
+  Low: { bg: 'var(--success-light)', border: 'var(--success)', fg: 'var(--success)', icon: CheckCircle2 },
+  Moderate: { bg: 'var(--warning-light)', border: 'var(--warning)', fg: 'var(--warning)', icon: AlertTriangle },
+  High: { bg: 'var(--danger-light)', border: 'var(--danger)', fg: 'var(--danger)', icon: OctagonAlert },
+  Critical: { bg: 'var(--danger-light)', border: 'var(--danger)', fg: 'var(--danger)', icon: OctagonAlert },
+  NoData: { bg: 'var(--soft-fill)', border: 'var(--border)', fg: 'var(--text-muted)', icon: HelpCircle },
+};
 
 const TeamDashboard: React.FC = () => {
   const [workMode, setWorkMode] = useState('All');
   const [riskPeriod, setRiskPeriod] = useState('This Week');
   const [experienceBand, setExperienceBand] = useState('All');
   const [jobTitle, setJobTitle] = useState('All');
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState(0);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['analytics', 'heatmap', workMode, riskPeriod, experienceBand, jobTitle],
@@ -50,14 +60,15 @@ const TeamDashboard: React.FC = () => {
   const shapSummary = shapSummaryData ?? { teamSize: 0, totalDevelopers: 0, riskIncreasing: [], protective: [] };
 
   members.forEach((member: any) => {
-    if (!member.weeks || member.weeks.length === 0) {
+    const weekData = member.weeks?.[selectedWeekIndex];
+    if (!weekData) {
       noDataCount++;
       return;
     }
-    const latestRisk = member.weeks[0].riskLevel;
-    if (latestRisk === 'High' || latestRisk === 'Critical') highRiskCount++;
-    else if (latestRisk === 'Moderate') moderateRiskCount++;
-    else if (latestRisk === 'Low') lowRiskCount++;
+    const risk = weekData.riskLevel;
+    if (risk === 'High' || risk === 'Critical') highRiskCount++;
+    else if (risk === 'Moderate') moderateRiskCount++;
+    else if (risk === 'Low') lowRiskCount++;
     else noDataCount++;
   });
 
@@ -119,17 +130,33 @@ const TeamDashboard: React.FC = () => {
           { num: lowRiskCount.toString(), label: 'Low Risk', color: 'var(--success)' },
           { num: noDataCount.toString(), label: 'No Data', color: 'var(--text-muted)' },
         ].map((chip, idx) => (
-          <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px' }}>
+          <Card key={idx} style={{ textAlign: 'center', padding: '18px 16px', borderTop: `3px solid ${chip.color}` }}>
             <div style={{ fontSize: '28px', fontWeight: 600, color: chip.color, marginBottom: '4px', lineHeight: 1 }}>{chip.num}</div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{chip.label}</div>
           </Card>
         ))}
       </div>
 
-      <Card style={{ padding: '20px', marginBottom: '20px' }}>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
-          Team Burnout Heatmap (Last 4 Weeks)
-        </h2>
+      <Card style={{ padding: '24px', marginBottom: '20px' }}>
+        <div className="flex items-center justify-between flex-wrap" style={{ gap: '12px', marginBottom: '20px' }}>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '2px' }}>
+              Team Burnout Heatmap
+            </h2>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Snapshot of each developer's predicted risk for the selected week</p>
+          </div>
+          <select
+            value={selectedWeekIndex}
+            onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
+            style={{ ...filterSelectStyle, fontWeight: 600, minWidth: '140px' }}
+          >
+            {[0, 1, 2, 3].map((weekIndex) => (
+              <option key={weekIndex} value={weekIndex}>
+                {weekIndex === 0 ? 'This Week' : `Week -${weekIndex}`}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-12" style={{ color: 'var(--text-muted)' }}>
@@ -147,54 +174,88 @@ const TeamDashboard: React.FC = () => {
           </div>
         ) : (
           <div>
-            <div className="flex">
-              <div className="w-16 mr-4">
-                <div className="h-5 mb-2"></div>
-                {members.map((member: any, idx: number) => (
-                  <div key={idx} className="h-9 mb-2 text-xs flex items-center justify-end font-medium" style={{ color: 'var(--text-muted)' }}>
-                    {member.label}
-                  </div>
-                ))}
-              </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+                gap: '12px',
+              }}
+            >
+              {members.map((member: any, mIdx: number) => {
+                const weekData = member.weeks?.[selectedWeekIndex];
+                const meta = RISK_META[weekData?.riskLevel ?? 'NoData'] ?? RISK_META.NoData;
+                const Icon = meta.icon;
+                const initials = String(member.label ?? '?')
+                  .replace(/[^A-Za-z0-9]/g, ' ')
+                  .trim()
+                  .split(/\s+/)
+                  .map((part: string) => part[0])
+                  .slice(0, 2)
+                  .join('')
+                  .toUpperCase();
 
-              <div className="flex-1 flex gap-2">
-                {[0, 1, 2, 3].map((weekIndex) => {
-                  const label = `Week -${weekIndex}`;
-                  return (
-                    <div key={weekIndex} className="flex-1">
-                      <div className="text-xs text-center mb-2 h-5 font-medium" style={{ color: 'var(--text-muted)' }}>{label}</div>
-                      {members.map((member: any, mIdx: number) => {
-                        const weekData = member.weeks?.[weekIndex];
-                        let bgColor = 'bg-gray-100';
-                        if (weekData) {
-                          if (weekData.riskLevel === 'Low') bgColor = 'bg-green-500';
-                          else if (weekData.riskLevel === 'Moderate') bgColor = 'bg-amber-500';
-                          else if (weekData.riskLevel === 'High' || weekData.riskLevel === 'Critical') bgColor = 'bg-red-500';
-                        }
-                        return (
-                          <div
-                            key={mIdx}
-                            className={`h-9 rounded-md mb-2 w-full ${bgColor} transition-colors hover:opacity-80`}
-                            title={weekData ? `${member.label} Risk: ${weekData.riskLevel}` : 'No Data'}
-                          />
-                        );
-                      })}
+                return (
+                  <div
+                    key={mIdx}
+                    className="transition-transform hover:-translate-y-0.5"
+                    style={{
+                      backgroundColor: meta.bg,
+                      border: `1px solid ${meta.border}`,
+                      borderRadius: '12px',
+                      padding: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                    title={weekData ? `${member.label} — ${weekData.riskLevel} Risk` : `${member.label} — No Data`}
+                  >
+                    <div
+                      style={{
+                        width: '34px',
+                        height: '34px',
+                        borderRadius: '50%',
+                        backgroundColor: 'var(--surface)',
+                        border: `1px solid ${meta.border}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        color: meta.fg,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {initials || '?'}
                     </div>
-                  );
-                })}
-              </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div
+                        className="truncate"
+                        style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}
+                      >
+                        {member.label}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                        <Icon size={12} />
+                        <span style={{ fontSize: '11px', fontWeight: 600, color: meta.fg }}>
+                          {weekData ? weekData.riskLevel : 'No Data'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="flex gap-4 mt-6 flex-wrap">
+            <div className="flex gap-5 mt-6 flex-wrap" style={{ borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
               {[
-                { color: 'bg-green-500', label: 'Low Risk' },
-                { color: 'bg-amber-500', label: 'Moderate Risk' },
-                { color: 'bg-red-500', label: 'High/Critical Risk' },
-                { color: 'bg-gray-100', label: 'No Data' },
+                { ...RISK_META.Low, label: 'Low Risk' },
+                { ...RISK_META.Moderate, label: 'Moderate Risk' },
+                { ...RISK_META.High, label: 'High / Critical Risk' },
+                { ...RISK_META.NoData, label: 'No Data' },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-sm ${item.color}`}></div>
-                  <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
+                  <item.icon size={14} />
+                  <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-muted)' }}>{item.label}</span>
                 </div>
               ))}
             </div>

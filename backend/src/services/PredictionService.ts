@@ -15,6 +15,8 @@ import { getAlertThresholdValue, ALERT_THRESHOLD_DEFAULTS } from '../utils/Alert
 
 const auditLogService = new AuditLogService(new AuditLogRepository());
 
+const RISK_LEVEL_ORDER = ['Low', 'Moderate', 'High', 'Critical'];
+
 export class PredictionService {
   private static readonly PREDICTION_WINDOW_DAYS = 14;
   
@@ -264,10 +266,22 @@ export class PredictionService {
       ALERT_THRESHOLD_DEFAULTS.worseningTrendThreshold.value
     );
 
+    // riskScore is the model's confidence in whichever class it predicted,
+    // not a severity score comparable across different predicted classes —
+    // e.g. "Low at 0.60 confidence" -> "High at 0.47 confidence" is a big
+    // drop in riskScore despite risk clearly getting worse. So the risk
+    // *level* (its ordinal position) is the primary signal for trend, and
+    // riskScore is only used to break ties when the level didn't change.
     let trendDirection = 'Stable';
-    if (scoreChange !== undefined) {
-      if (scoreChange < -worseningThreshold) trendDirection = 'Improving';
-      else if (scoreChange > worseningThreshold) trendDirection = 'Worsening';
+    if (previous) {
+      const previousOrdinal = RISK_LEVEL_ORDER.indexOf(previous.riskLevel);
+      const currentOrdinal = RISK_LEVEL_ORDER.indexOf(mlResult.riskLevel);
+      if (previousOrdinal !== -1 && currentOrdinal !== -1 && previousOrdinal !== currentOrdinal) {
+        trendDirection = currentOrdinal < previousOrdinal ? 'Improving' : 'Worsening';
+      } else if (scoreChange !== undefined) {
+        if (scoreChange < -worseningThreshold) trendDirection = 'Improving';
+        else if (scoreChange > worseningThreshold) trendDirection = 'Worsening';
+      }
     }
 
     await this.predictionRepo.markPreviousAsNotLatest(userId);

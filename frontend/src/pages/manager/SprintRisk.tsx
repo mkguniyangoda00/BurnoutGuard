@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import PageWrapper from '../../components/layout/PageWrapper';
 import { Card } from '../../components/ui/Card';
 import { analyticsService } from '../../services/analytics.service';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle2, AlertTriangle, OctagonAlert } from 'lucide-react';
 
 const SprintRisk: React.FC = () => {
   const { data: rawData, isLoading, isError } = useQuery({
@@ -39,12 +39,15 @@ const SprintRisk: React.FC = () => {
           <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Not enough historical data available.</span>
         </div>
       ) : (
-        <Card style={{ padding: '20px' }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '18px' }}>
-            Burnout Risk Trend (Weekly)
-          </h2>
+        <Card style={{ padding: '24px' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '2px' }}>
+              Burnout Risk Trend
+            </h2>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Weekly distribution of predicted risk levels across the team</p>
+          </div>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
             {sprintData.map((weekData: any, idx: number) => {
               const total = weekData.highCount + weekData.moderateCount + weekData.lowCount;
               const highPct = total > 0 ? (weekData.highCount / total) * 100 : 0;
@@ -52,10 +55,20 @@ const SprintRisk: React.FC = () => {
               const lowPct = total > 0 ? (weekData.lowCount / total) * 100 : 0;
 
               return (
-                <div key={idx}>
-                  <div className="flex justify-between text-xs font-medium mb-2" style={{ color: 'var(--text-muted)' }}>
+                <div
+                  key={idx}
+                  style={{
+                    border: '1px solid var(--border)',
+                    borderRadius: '12px',
+                    padding: '14px 16px',
+                    backgroundColor: 'var(--surface)',
+                  }}
+                >
+                  <div className="flex justify-between items-center text-xs font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>
                     <span>{weekData.week}</span>
-                    <span>Total Predictions: {total}</span>
+                    <span style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-muted)' }}>
+                      {total} prediction{total === 1 ? '' : 's'}
+                    </span>
                   </div>
                   {total === 0 ? (
                     <div
@@ -66,12 +79,16 @@ const SprintRisk: React.FC = () => {
                     </div>
                   ) : (
                     <div
-                      className="flex w-full h-6 rounded-md overflow-hidden"
-                      style={{ background: 'var(--soft-fill)' }}
+                      className="flex w-full h-6 rounded-full overflow-hidden"
+                      style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)' }}
                     >
                       {lowPct > 0 && (
                         <div
-                          style={{ width: `${lowPct}%` }}
+                          style={{
+                            width: `${lowPct}%`,
+                            background: 'var(--success)',
+                            borderRight: modPct > 0 || highPct > 0 ? '2px solid var(--surface)' : undefined,
+                          }}
                           className="flex items-center justify-center text-[10px] text-white font-bold"
                           title={`Low Risk: ${weekData.lowCount}`}
                         >
@@ -80,7 +97,11 @@ const SprintRisk: React.FC = () => {
                       )}
                       {modPct > 0 && (
                         <div
-                          style={{ width: `${modPct}%`, background: 'var(--warning)' }}
+                          style={{
+                            width: `${modPct}%`,
+                            background: 'var(--warning)',
+                            borderRight: highPct > 0 ? '2px solid var(--surface)' : undefined,
+                          }}
                           className="flex items-center justify-center text-[10px] text-white font-bold"
                           title={`Moderate Risk: ${weekData.moderateCount}`}
                         >
@@ -103,14 +124,14 @@ const SprintRisk: React.FC = () => {
             })}
           </div>
 
-          <div className="flex gap-6 mt-8 pt-4 justify-center" style={{ borderTop: '1px solid var(--border)' }}>
+          <div className="flex gap-6 mt-6 pt-4 justify-center flex-wrap" style={{ borderTop: '1px solid var(--border)' }}>
             {[
-              { color: 'var(--success)', label: 'Low Risk' },
-              { color: 'var(--warning)', label: 'Moderate Risk' },
-              { color: 'var(--danger)', label: 'High/Critical Risk' },
+              { color: 'var(--success)', label: 'Low Risk', icon: CheckCircle2 },
+              { color: 'var(--warning)', label: 'Moderate Risk', icon: AlertTriangle },
+              { color: 'var(--danger)', label: 'High/Critical Risk', icon: OctagonAlert },
             ].map((item, idx) => (
               <div key={idx} className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm" style={{ background: item.color }} />
+                <item.icon size={14} style={{ color: item.color }} />
                 <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{item.label}</span>
               </div>
             ))}

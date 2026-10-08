@@ -213,6 +213,18 @@ export class RecommendationService {
     // active fixes the duplication at the source (the user was never meant
     // to see the same card repeated dozens of times) rather than just
     // capping the read side.
+    //
+    // A 7-day recovery plan is scoped to a single prediction though: the
+    // frontend fetches it via getByPrediction(latestPredictionId), so if two
+    // consecutive check-ins are both High/Critical, the cross-prediction
+    // active-title dedupe above would block every title from being
+    // recreated for the new prediction and the plan would render empty.
+    // Retire the previous plan's still-active rows first so the new one is
+    // always generated fresh.
+    if (isRecoveryPlan) {
+      await this.recRepo.retireActiveForUser(userId);
+    }
+
     const [dismissedTitles, activeTitles] = await Promise.all([
       this.recRepo.findDismissedTitles(userId),
       this.recRepo.findActiveTitles(userId),

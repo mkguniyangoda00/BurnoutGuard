@@ -502,6 +502,28 @@ const RiskView: React.FC = () => {
       <div style={{ marginTop: '16px' }}>
         <CounterfactualCard />
       </div>
+      <Card
+        style={{
+          padding: '20px',
+          marginTop: '16px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '16px',
+        }}
+      >
+        <div>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>
+            Want to explore further?
+          </h3>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+            Try the What-If Simulator to see how adjusting your own sleep and work hours could change your predicted risk.
+          </p>
+        </div>
+        <Button variant="secondary" onClick={() => navigate('/developer/what-if')}>
+          Open Simulator
+        </Button>
+      </Card>
       <Card style={{ padding: '20px', marginTop: '16px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>RQ3 interface condition</h3>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>

@@ -243,7 +243,7 @@ const Explanation: React.FC = () => {
             prediction.riskLevel
           )} 0%, ${getRiskColor(
             prediction.riskLevel
-          )}22 100%)`,
+          )}dd 100%)`,
           border: `2px solid ${getRiskColor(
             prediction.riskLevel
           )}33`,
@@ -277,7 +277,7 @@ const Explanation: React.FC = () => {
                 cy="60"
                 r="50"
                 fill="none"
-                stroke="rgba(255,255,255,0.2)"
+                stroke="rgba(0,0,0,0.18)"
                 strokeWidth="8"
               />
 
@@ -286,9 +286,7 @@ const Explanation: React.FC = () => {
                 cy="60"
                 r="50"
                 fill="none"
-                stroke={getRiskColor(
-                  prediction.riskLevel
-                )}
+                stroke="#FFFFFF"
                 strokeWidth="8"
                 strokeDasharray={`${
                   prediction.riskScore * 100 * Math.PI
@@ -311,9 +309,7 @@ const Explanation: React.FC = () => {
                 style={{
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: getRiskColor(
-                    prediction.riskLevel
-                  ),
+                  color: '#FFFFFF',
                 }}
               >
                 {(prediction.riskScore * 100).toFixed(0)}%
@@ -348,9 +344,7 @@ const Explanation: React.FC = () => {
                 style={{
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: getRiskColor(
-                    prediction.riskLevel
-                  ),
+                  color: '#FFFFFF',
                 }}
               >
                 {prediction.riskLevel}
@@ -392,7 +386,7 @@ const Explanation: React.FC = () => {
                       <TrendingDown
                         size={18}
                         style={{
-                          color: 'var(--success)',
+                          color: '#FFFFFF',
                         }}
                       />
 
@@ -400,7 +394,7 @@ const Explanation: React.FC = () => {
                         style={{
                           fontSize: '14px',
                           fontWeight: 600,
-                          color: 'var(--success)',
+                          color: '#FFFFFF',
                         }}
                       >
                         {getTrendLabel()}
@@ -414,7 +408,7 @@ const Explanation: React.FC = () => {
                       <TrendingUp
                         size={18}
                         style={{
-                          color: 'var(--danger)',
+                          color: '#FFFFFF',
                         }}
                       />
 
@@ -422,7 +416,7 @@ const Explanation: React.FC = () => {
                         style={{
                           fontSize: '14px',
                           fontWeight: 600,
-                          color: 'var(--danger)',
+                          color: '#FFFFFF',
                         }}
                       >
                         {getTrendLabel()}
@@ -436,7 +430,7 @@ const Explanation: React.FC = () => {
                       style={{
                         fontSize: '14px',
                         fontWeight: 600,
-                        color: 'var(--text-primary)',
+                        color: '#FFFFFF',
                       }}
                     >
                       → {getTrendLabel()}
@@ -463,7 +457,7 @@ const Explanation: React.FC = () => {
                   style={{
                     fontSize: '14px',
                     fontWeight: 600,
-                    color: 'var(--text-primary)',
+                    color: '#FFFFFF',
                   }}
                 >
                   {t(

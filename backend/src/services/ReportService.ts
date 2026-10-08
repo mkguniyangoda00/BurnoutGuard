@@ -80,10 +80,20 @@ export class ReportService {
       year: 'numeric',
     });
 
+    // riskScoreAtEndOfWeek is the model's confidence in whichever risk level
+    // it predicted, not a severity percentage — e.g. "Low" at 79% confidence
+    // is a confident Low prediction, not "79% burnt out". Stating both
+    // together as "risk: X%" reads as a severity score and is misleading
+    // (a High/Critical prediction with a low confidence score can look
+    // "less risky" than a Low prediction the model is very sure about).
+    const confidenceSuffix =
+      riskScoreAtEndOfWeek !== null
+        ? ` (${Math.round(riskScoreAtEndOfWeek * 100)}% model confidence)`
+        : '';
     const insightSummary =
       `Week of ${weekStartFormatted}: Average stress ${avgStress}/10, ` +
       `sleep ${avgSleep}h, mood ${avgMood}/10, work hours ${avgWorkHours}h/day. ` +
-      `Burnout risk: ${riskLevel}. Trend: ${overallTrend}.`;
+      `Burnout risk: ${riskLevel}${confidenceSuffix}. Trend: ${overallTrend}.`;
 
     const reportData = {
       userId,
@@ -196,6 +206,73 @@ export class ReportService {
     }
 
     return count;
+  }
+
+  private getMondayOf(date: Date): Date {
+    const d = new Date(date);
+    const dayOfWeek = d.getDay(); // 0 = Sunday
+    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    d.setDate(d.getDate() - daysToMonday);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  async backfillForUser(userId: string): Promise<number> {
+    const earliestCheckIn = await prisma.dailyCheckIn.findFirst({
+      where: { userId },
+      orderBy: { checkInDate: 'asc' },
+    });
+
+    if (!earliestCheckIn) {
+      return 0;
+    }
+
+    const currentWeekStart = this.getMondayOf(new Date());
+    let weekStart = this.getMondayOf((earliestCheckIn as any).checkInDate);
+
+    let count = 0;
+    while (weekStart <= currentWeekStart) {
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      weekEnd.setHours(23, 59, 59, 999);
+
+      const existing = await this.reportRepo.findByWeek(userId, weekStart);
+      if (!existing) {
+        const report = await this.generateForWindow(userId, weekStart, weekEnd);
+        if (report) count++;
+      }
+
+      weekStart = new Date(weekStart);
+      weekStart.setDate(weekStart.getDate() + 7);
+    }
+
+    return count;
+  }
+
+  async backfillForAllUsers(actorId?: string): Promise<number> {
+    const users = await prisma.user.findMany({ where: { isActive: true } });
+
+    let total = 0;
+    for (const user of users) {
+      total += await this.backfillForUser((user as any).userId);
+    }
+
+    console.log(`[ReportService] Backfilled ${total} historical report(s) across ${users.length} user(s).`);
+
+    if (actorId) {
+      const actor = await this.getActor(actorId);
+      void auditLogService.log({
+        ...actor,
+        action: 'REPORT_BACKFILL_MANUAL',
+        entityType: 'WellnessReport',
+        details: `Backfilled ${total} report(s)`,
+        result: 'Success',
+      }).catch((err) => {
+        console.error('[AuditLog] Failed to queue report backfill log:', err.message);
+      });
+    }
+
+    return total;
   }
 
   async getAll(userId: string): Promise<WellnessReport[]> {

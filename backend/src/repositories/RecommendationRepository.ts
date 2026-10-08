@@ -79,6 +79,16 @@ export class RecommendationRepository {
     return active.map((r: { title: string }) => r.title);
   }
 
+  // Superseded by a fresh 7-day plan on the next high/critical check-in. Uses
+  // isCompleted (not isDismissed) so the title isn't permanently blocked from
+  // being recommended again via findDismissedTitles.
+  async retireActiveForUser(userId: string): Promise<void> {
+    await prisma.recommendation.updateMany({
+      where: { userId, isDismissed: false, isCompleted: false },
+      data: { isCompleted: true, completedAt: new Date(), modifiedBy: userId },
+    });
+  }
+
   async findByPredictionId(predictionId: string, userId: string): Promise<Recommendation[]> {
     return prisma.recommendation.findMany({
       where: { predictionId, userId },
