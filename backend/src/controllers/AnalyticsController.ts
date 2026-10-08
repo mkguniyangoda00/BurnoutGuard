@@ -11,6 +11,7 @@ export class AnalyticsController {
       riskPeriod: req.query.riskPeriod as string | undefined,
       experienceBand: req.query.experienceBand as string | undefined, // NEW
       jobTitle: req.query.jobTitle as string | undefined,             // NEW
+      managerId: req.user!.role === 'Manager' ? req.user!.userId : undefined,
     });
     res.status(200).json(data);
   } catch (err) { next(err); }
@@ -101,6 +102,7 @@ getHeatmapFilterOptions = async (req: Request, res: Response, next: NextFunction
         workMode: req.query.workMode as string | undefined,
         experienceBand: req.query.experienceBand as string | undefined,
         jobTitle: req.query.jobTitle as string | undefined,
+        managerId: req.user!.role === 'Manager' ? req.user!.userId : undefined,
       });
       res.status(200).json(data);
     } catch (err) {
@@ -114,6 +116,7 @@ getHeatmapFilterOptions = async (req: Request, res: Response, next: NextFunction
         workMode: req.query.workMode as string | undefined,
         experienceBand: req.query.experienceBand as string | undefined,
         jobTitle: req.query.jobTitle as string | undefined,
+        managerId: req.user!.role === 'Manager' ? req.user!.userId : undefined,
       });
       res.status(200).json(result);
     } catch (err) {

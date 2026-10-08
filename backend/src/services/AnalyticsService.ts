@@ -16,13 +16,15 @@ export class AnalyticsService {
     workMode?: string;
     experienceBand?: string;
     jobTitle?: string;
+    managerId?: string;
   }) {
-    const { workMode, experienceBand, jobTitle } = managerFilter ?? {};
+    const { workMode, experienceBand, jobTitle, managerId } = managerFilter ?? {};
 
     const developers = await prisma.user.findMany({
       where: {
         role: 'Developer',
         isActive: true,
+        ...(managerId ? { developerProfile: { is: { managerId } } } : {}),
         ...(workMode && workMode !== 'All'
           ? { developerProfile: { is: { workModel: workMode as any } } }
           : {}),
@@ -45,10 +47,11 @@ export class AnalyticsService {
   async getTeamHeatmap(params?: {
   workMode?: string;
   riskPeriod?: string;
-  experienceBand?: string;   
-  jobTitle?: string;         
+  experienceBand?: string;
+  jobTitle?: string;
+  managerId?: string;
   }) {
-    const { workMode, riskPeriod, experienceBand, jobTitle } = params ?? {};
+    const { workMode, riskPeriod, experienceBand, jobTitle, managerId } = params ?? {};
     const cutoff = (() => {
       if (!riskPeriod || riskPeriod === 'All') return undefined;
 
@@ -67,7 +70,7 @@ export class AnalyticsService {
       return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     })();
 
-    const filteredDevelopers = await this.getFilteredDevelopers({ workMode, experienceBand, jobTitle });
+    const filteredDevelopers = await this.getFilteredDevelopers({ workMode, experienceBand, jobTitle, managerId });
 
     // A prior "fix" here batched the per-developer queries into one findMany
     // but dropped the per-developer take:4 cap, fetching every matching
@@ -126,6 +129,7 @@ export class AnalyticsService {
     workMode?: string;
     experienceBand?: string;
     jobTitle?: string;
+    managerId?: string;
   }) {
     const developers = await this.getFilteredDevelopers(managerFilter);
     const teamSize = developers.length;
@@ -221,6 +225,7 @@ export class AnalyticsService {
       workMode?: string;
       experienceBand?: string;
       jobTitle?: string;
+      managerId?: string;
     }
   ) {
     const developers = await this.getFilteredDevelopers(managerFilter);

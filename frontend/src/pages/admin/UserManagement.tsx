@@ -26,14 +26,20 @@ const UserManagement: React.FC = () => {
   const [newRole, setNewRole] = useState('');
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
-  const [newUser, setNewUser] = useState({ fullName: '', email: '', password: '', company: '', role: 'Developer' });
+  const [newUser, setNewUser] = useState({ fullName: '', email: '', password: '', company: '', role: 'Developer', managerId: '' });
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['admin', 'users'],
     queryFn: adminService.getUsers,
   });
 
+  const { data: managersData } = useQuery({
+    queryKey: ['admin', 'managers'],
+    queryFn: adminService.getManagers,
+  });
+
   const users: any[] = Array.isArray(data) ? data : [];
+  const managers: any[] = Array.isArray(managersData) ? managersData : [];
 
   const roleMutation = useMutation({
     mutationFn: ({ userId, role }: { userId: string; role: string }) => adminService.updateRole(userId, role),
@@ -57,10 +63,18 @@ const UserManagement: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
       setCreateModalOpen(false);
       setCreateError(null);
-      setNewUser({ fullName: '', email: '', password: '', company: '', role: 'Developer' });
+      setNewUser({ fullName: '', email: '', password: '', company: '', role: 'Developer', managerId: '' });
     },
     onError: (err: any) => {
       setCreateError(err.response?.data?.message ?? err.response?.data?.error ?? 'Unable to create user.');
+    },
+  });
+
+  const assignManagerMutation = useMutation({
+    mutationFn: ({ userId, managerId }: { userId: string; managerId: string | null }) =>
+      adminService.assignManager(userId, managerId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
     },
   });
 
@@ -110,7 +124,7 @@ const UserManagement: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead style={{ background: 'var(--surface)' }}>
               <tr>
-                {['Name', 'Email', 'Role', 'Status', 'Company', 'Actions'].map((h) => (
+                {['Name', 'Email', 'Role', 'Manager', 'Status', 'Company', 'Actions'].map((h) => (
                   <th key={h} style={{ padding: '14px 18px', fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{h}</th>
                 ))}
               </tr>
@@ -128,6 +142,26 @@ const UserManagement: React.FC = () => {
                     </td>
                     <td style={{ padding: '14px 18px', fontSize: '13px', color: 'var(--text-muted)' }}>{user.email}</td>
                     <td style={{ padding: '14px 18px' }}><span className={`text-xs px-2 py-1 rounded-full font-medium ${ROLE_COLORS[user.role] ?? 'bg-gray-100 text-gray-600'}`}>{user.role}</span></td>
+                    <td style={{ padding: '14px 18px' }}>
+                      {user.role === 'Developer' ? (
+                        role === 'Admin' ? (
+                          <select
+                            value={user.managerId ?? ''}
+                            onChange={(e) => assignManagerMutation.mutate({ userId: user.userId, managerId: e.target.value || null })}
+                            disabled={assignManagerMutation.isPending}
+                            className="text-xs px-2 py-1.5 outline-none"
+                            style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text-primary)' }}
+                          >
+                            <option value="">No manager</option>
+                            {managers.map((m) => <option key={m.userId} value={m.userId}>{m.fullName}</option>)}
+                          </select>
+                        ) : (
+                          <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{user.managerName ?? '—'}</span>
+                        )
+                      ) : (
+                        <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>—</span>
+                      )}
+                    </td>
                     <td style={{ padding: '14px 18px' }}><span className={`text-xs px-2 py-1 rounded-full font-medium ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>{user.isActive ? 'Active' : 'Inactive'}</span></td>
                     <td style={{ padding: '14px 18px', fontSize: '13px', color: 'var(--text-muted)' }}>{user.company ?? '—'}</td>
                     <td style={{ padding: '14px 18px' }}>
@@ -167,15 +201,24 @@ const UserManagement: React.FC = () => {
                 ))}
                 <div>
                   <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}>Role</label>
-                  <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })} className="w-full px-3 py-2 text-sm outline-none" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text-primary)' }}>
+                  <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value, managerId: e.target.value === 'Developer' ? newUser.managerId : '' })} className="w-full px-3 py-2 text-sm outline-none" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text-primary)' }}>
                     {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                   </select>
                 </div>
+                {newUser.role === 'Developer' && (
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, marginBottom: '6px', color: 'var(--text-secondary)' }}>Manager (optional)</label>
+                    <select value={newUser.managerId} onChange={(e) => setNewUser({ ...newUser, managerId: e.target.value })} className="w-full px-3 py-2 text-sm outline-none" style={{ background: 'var(--soft-fill)', border: '1px solid var(--border)', borderRadius: '10px', color: 'var(--text-primary)' }}>
+                      <option value="">No manager assigned</option>
+                      {managers.map((m) => <option key={m.userId} value={m.userId}>{m.fullName}</option>)}
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex justify-end gap-2" style={{ padding: '16px 24px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
               <Button variant="secondary" onClick={() => setCreateModalOpen(false)}>Cancel</Button>
-              <Button variant="primary" disabled={createMutation.isPending} onClick={() => { setCreateError(null); createMutation.mutate({ ...newUser, company: newUser.company || undefined }); }} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+              <Button variant="primary" disabled={createMutation.isPending} onClick={() => { setCreateError(null); createMutation.mutate({ ...newUser, company: newUser.company || undefined, managerId: newUser.managerId || undefined }); }} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                 {createMutation.isPending ? <Loader2 className="animate-spin" size={14} /> : <><Plus size={14} /> Create</>}
               </Button>
             </div>

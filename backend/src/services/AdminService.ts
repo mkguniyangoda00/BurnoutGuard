@@ -21,11 +21,24 @@ export class AdminService {
   }
 
   async getAllUsers() {
-    const users = await this.userRepo.findAll();
-    return users.map(user => {
-      const { passwordHash, ...userWithoutPassword } = user as any;
-      return userWithoutPassword;
+    const users = await this.userRepo.findAllWithManager();
+    return users.map((user: any) => {
+      const { passwordHash, developerProfile, ...rest } = user;
+      return {
+        ...rest,
+        managerId: developerProfile?.managerId ?? null,
+        managerName: developerProfile?.manager?.fullName ?? null,
+      };
     });
+  }
+
+  async getManagers() {
+    const managers = await prisma.user.findMany({
+      where: { role: 'Manager', isActive: true },
+      select: { userId: true, fullName: true, email: true },
+      orderBy: { fullName: 'asc' },
+    });
+    return managers;
   }
 
   async createUser(dto: CreateUserDto, adminId: string) {
@@ -54,6 +67,7 @@ export class AdminService {
       await prisma.developerProfile.create({
         data: {
           userId: (user as any).userId,
+          managerId: dto.managerId ?? null,
           createdBy: actor.actorEmail,
           modifiedBy: actor.actorEmail,
         },
@@ -107,6 +121,37 @@ export class AdminService {
       console.error('[AuditLog] Failed to queue admin role-change log:', err.message);
     });
     return updated;
+  }
+
+  async assignManager(targetUserId: string, managerId: string | null, adminId: string) {
+    const target = await this.userRepo.findById(targetUserId);
+    if (!target || (target as any).role !== 'Developer') {
+      const err: any = new Error('Target user is not a Developer');
+      err.statusCode = 400;
+      throw err;
+    }
+    if (managerId) {
+      const manager = await this.userRepo.findById(managerId);
+      if (!manager || (manager as any).role !== 'Manager') {
+        const err: any = new Error('Target manager is not a Manager');
+        err.statusCode = 400;
+        throw err;
+      }
+    }
+
+    await this.userRepo.updateDeveloperManager(targetUserId, managerId);
+
+    const actor = await this.getActor(adminId);
+    void auditLogService.log({
+      ...actor,
+      action: 'ASSIGN_MANAGER',
+      entityType: 'User',
+      entityId: targetUserId,
+      details: managerId ? `Assigned to manager ${managerId}` : 'Unassigned from manager',
+      result: 'Success',
+    }).catch((err) => {
+      console.error('[AuditLog] Failed to queue assign-manager log:', err.message);
+    });
   }
 
   async deactivateUser(targetUserId: string, adminId: string) {

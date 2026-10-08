@@ -40,6 +40,25 @@ export class AdminController {
     }
   };
 
+  getManagers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const managers = await this.adminService.getManagers();
+      res.status(200).json({ managers });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  assignManager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { managerId } = req.body;
+      await this.adminService.assignManager(req.params.id, managerId ?? null, req.user!.userId);
+      res.status(200).json({ success: true });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   deactivateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = await this.adminService.deactivateUser(req.params.id, req.user!.userId);

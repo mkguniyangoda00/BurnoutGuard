@@ -119,6 +119,7 @@ model User {
   wellnessReports    WellnessReport[]
   alerts             Alert[]
   journalEntries     JournalEntry[]
+  managedDevelopers  DeveloperProfile[] @relation("ManagerTeam")
 
   // Audit Fields
   createdBy       String
@@ -139,9 +140,11 @@ model DeveloperProfile {
   baselineRiskScore Float?
   totalCheckIns     Int       @default(0)
   currentStreak     Int       @default(0)
+  managerId         String?
 
   // Relations
-  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user    User  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  manager User? @relation("ManagerTeam", fields: [managerId], references: [userId], onDelete: SetNull)
 
   // Audit Fields
   createdBy       String

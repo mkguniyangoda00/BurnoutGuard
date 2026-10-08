@@ -25,8 +25,10 @@ router.use(Authenticate);
 router.use(authorize(['Admin', 'ResearchAdmin']));
 
 router.get('/users', adminController.getAllUsers);
+router.get('/managers', adminController.getManagers);
 router.post('/users', authorize(['Admin']), adminController.createUser);
 router.put('/users/:id/role', authorize(['Admin']), adminController.updateRole);
+router.put('/users/:id/manager', authorize(['Admin']), adminController.assignManager);
 router.put('/users/:id/deactivate', adminController.deactivateUser);
 router.get('/models', adminController.getModelMetrics);
 router.get('/export', adminController.exportDataset);

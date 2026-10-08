@@ -234,5 +234,66 @@
     "work": "Work",
     "positive": "Positive",
     "coping": "Coping"
+  },
+
+  "whatIf": {
+    "title": "What-If Simulator",
+    "subtitle": "Adjust factors to see how they impact your predicted burnout risk",
+    "adjustVariables": "Adjust Variables",
+    "adjustVariablesNote": "Every other factor (mood, support, workload, etc.) stays at your actual recent check-in values — only the factors below are simulated.",
+    "calculating": "Calculating your what-if result...",
+    "errorMessage": "Unable to load what-if results right now.",
+    "predictedRisk": "Predicted Burnout Risk",
+    "modelConfidence": "model confidence",
+    "sleepHours": "Average Sleep",
+    "workHours": "Daily Work Hours",
+    "stressLevel": "Stress Level",
+    "sleepQuality": "Sleep Quality",
+    "overtimeHours": "Overtime Hours",
+    "breaksTaken": "Breaks Taken"
+  },
+
+  "recommendations": {
+    "recoveryPlanTitle": "Your 7-Day Recovery Plan",
+    "actionPlanTitle": "Your Action Plan",
+    "recoveryPlanSubtitle": "Your risk level is elevated — follow this sequenced plan, one focus area per day.",
+    "actionPlanSubtitle_one": "{{count}} personalized recommendation based on your SHAP analysis",
+    "actionPlanSubtitle_other": "{{count}} personalized recommendations based on your SHAP analysis",
+    "counselingButton": "Counseling & Wellness Resources",
+    "noRecsYetTitle": "No Recommendations Yet",
+    "noRecsYetBody": "Submit a check-in to generate your first burnout risk prediction and personalized recommendations.",
+    "errorMessage": "Failed to load recommendations. Please try again.",
+    "noActiveRecs": "No active recommendations right now — your recent check-ins look stable. Keep it up!",
+    "dayLabel": "Day {{num}}",
+    "didThisHelp": "Did this help?",
+    "highPriority": "High priority",
+    "mediumPriority": "Medium priority",
+    "lowPriority": "Low priority"
+  },
+
+  "weeklyReport": {
+    "noReportsTitle": "No Wellness Reports Yet",
+    "noReportsBody": "Wellness reports are generated weekly. Complete your daily check-in to see your averages and trends here.",
+    "generating": "Generating…",
+    "generateButton": "Generate This Week's Report",
+    "exportPdf": "Export PDF",
+    "downloading": "Downloading…",
+    "weekTitle": "Week {{week}} Wellness Report",
+    "checkinsSubmitted_one": "{{count}} check-in submitted",
+    "checkinsSubmitted_other": "{{count}} check-ins submitted",
+    "avgStress": "Avg stress / 10",
+    "avgSleep": "Avg sleep",
+    "avgMood": "Avg mood / 10",
+    "avgWorkHours": "Avg work hours",
+    "riskScoreTrend": "Risk score trend",
+    "lastNWeeks": "(last {{count}} weeks)",
+    "notEnoughHistory": "Not enough history yet to show a trend line — check back after next week's report.",
+    "trendWorseningOneWeek": "↑ Risk is trending upward compared to last week. Intervention recommended.",
+    "trendWorseningMultiWeek": "↑ Risk is trending upward over {{count}} weeks. Intervention recommended.",
+    "trendImprovingOneWeek": "↓ Wellness metrics are improving compared to last week. Great job!",
+    "trendImprovingMultiWeek": "↓ Wellness metrics are improving over {{count}} weeks. Great job!",
+    "trendStable": "→ Wellness metrics are stable compared to last week.",
+    "weeklySummaryWorsening": "⚠️ Weekly summary: ",
+    "weeklySummaryStable": "✓ Weekly summary: "
   }
 }

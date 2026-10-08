@@ -5,6 +5,7 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { reportService } from '../../services/report.service';
 import { Loader2, Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const MetricChip: React.FC<{ label: string; value: string; color: string }> = ({ label, value, color }) => (
   <div
@@ -26,6 +27,7 @@ const MetricChip: React.FC<{ label: string; value: string; color: string }> = ({
 );
 
 const WeeklyReport: React.FC = () => {
+  const { t } = useTranslation();
   const [isDownloading, setIsDownloading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -81,9 +83,9 @@ const WeeklyReport: React.FC = () => {
       <PageWrapper>
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
           <Calendar size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px', opacity: 0.5 }} />
-          <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>No Wellness Reports Yet</h2>
+          <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>{t('weeklyReport.noReportsTitle')}</h2>
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 20px' }}>
-            Wellness reports are generated weekly. Complete your daily check-in to see your averages and trends here.
+            {t('weeklyReport.noReportsBody')}
           </p>
           <Button
             variant="primary"
@@ -91,7 +93,7 @@ const WeeklyReport: React.FC = () => {
             disabled={generateMutation.isPending}
             style={{ padding: '10px 16px', fontSize: '13px' }}
           >
-            {generateMutation.isPending ? 'Generating…' : "Generate This Week's Report"}
+            {generateMutation.isPending ? t('weeklyReport.generating') : t('weeklyReport.generateButton')}
           </Button>
         </div>
       </PageWrapper>
@@ -130,42 +132,42 @@ const WeeklyReport: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>
-            Week {getIsoWeek(latestReport.weekStart)} Wellness Report
+            {t('weeklyReport.weekTitle', { week: getIsoWeek(latestReport.weekStart) })}
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            {formatWeekRange(latestReport.weekStart, latestReport.weekEnd)} · {latestReport.totalCheckIns} check-ins submitted
+            {formatWeekRange(latestReport.weekStart, latestReport.weekEnd)} · {t('weeklyReport.checkinsSubmitted', { count: latestReport.totalCheckIns })}
           </p>
         </div>
-        <Button variant="primary" onClick={handleDownloadPdf} disabled={isDownloading} style={{ padding: '10px 18px', fontSize: '13px' }}>{isDownloading ? 'Downloading…' : 'Export PDF'}</Button>
+        <Button variant="primary" onClick={handleDownloadPdf} disabled={isDownloading} style={{ padding: '10px 18px', fontSize: '13px' }}>{isDownloading ? t('weeklyReport.downloading') : t('weeklyReport.exportPdf')}</Button>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '24px' }}>
-        <MetricChip 
-          label="Avg stress / 10" 
-          value={latestReport.avgStress.toFixed(1)} 
-          color={latestReport.avgStress > 7 ? 'var(--danger)' : latestReport.avgStress > 4 ? 'var(--warning)' : 'var(--success)'} 
+        <MetricChip
+          label={t('weeklyReport.avgStress')}
+          value={latestReport.avgStress.toFixed(1)}
+          color={latestReport.avgStress > 7 ? 'var(--danger)' : latestReport.avgStress > 4 ? 'var(--warning)' : 'var(--success)'}
         />
-        <MetricChip 
-          label="Avg sleep" 
-          value={`${latestReport.avgSleep.toFixed(1)}h`} 
-          color={latestReport.avgSleep < 6 ? 'var(--danger)' : latestReport.avgSleep < 7.5 ? 'var(--warning)' : 'var(--success)'} 
+        <MetricChip
+          label={t('weeklyReport.avgSleep')}
+          value={`${latestReport.avgSleep.toFixed(1)}h`}
+          color={latestReport.avgSleep < 6 ? 'var(--danger)' : latestReport.avgSleep < 7.5 ? 'var(--warning)' : 'var(--success)'}
         />
-        <MetricChip 
-          label="Avg mood / 10" 
-          value={latestReport.avgMood.toFixed(1)} 
-          color={latestReport.avgMood < 4 ? 'var(--danger)' : latestReport.avgMood < 7 ? 'var(--warning)' : 'var(--success)'} 
+        <MetricChip
+          label={t('weeklyReport.avgMood')}
+          value={latestReport.avgMood.toFixed(1)}
+          color={latestReport.avgMood < 4 ? 'var(--danger)' : latestReport.avgMood < 7 ? 'var(--warning)' : 'var(--success)'}
         />
-        <MetricChip 
-          label="Avg work hours" 
-          value={`${latestReport.avgWorkHours.toFixed(1)}h`} 
-          color={latestReport.avgWorkHours > 9 ? 'var(--danger)' : latestReport.avgWorkHours > 8.5 ? 'var(--warning)' : 'var(--success)'} 
+        <MetricChip
+          label={t('weeklyReport.avgWorkHours')}
+          value={`${latestReport.avgWorkHours.toFixed(1)}h`}
+          color={latestReport.avgWorkHours > 9 ? 'var(--danger)' : latestReport.avgWorkHours > 8.5 ? 'var(--warning)' : 'var(--success)'}
         />
       </div>
 
       {points.length > 0 && (
         <Card style={{ marginBottom: '16px', padding: '24px 28px' }}>
           <h3 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '24px', fontFamily: 'var(--font-heading)' }}>
-            Risk score trend {points.length > 1 ? `(last ${points.length} weeks)` : ''}
+            {t('weeklyReport.riskScoreTrend')} {points.length > 1 ? t('weeklyReport.lastNWeeks', { count: points.length }) : ''}
           </h3>
 
           <div style={{ position: 'relative', marginBottom: '24px', padding: '0 20px' }}>
@@ -231,32 +233,32 @@ const WeeklyReport: React.FC = () => {
 
           {points.length === 1 && (
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '4px', fontStyle: 'italic' }}>
-              Not enough history yet to show a trend line — check back after next week's report.
+              {t('weeklyReport.notEnoughHistory')}
             </p>
           )}
 
           <p style={{ fontSize: '13px', color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : latestReport.overallTrend === 'Improving' ? 'var(--success)' : 'var(--text-muted)', marginTop: '20px' }}>
             {latestReport.overallTrend === 'Worsening'
-              ? `↑ Risk is trending upward${points.length > 1 ? ` over ${points.length} weeks` : ' compared to last week'}. Intervention recommended.`
+              ? (points.length > 1 ? t('weeklyReport.trendWorseningMultiWeek', { count: points.length }) : t('weeklyReport.trendWorseningOneWeek'))
               : latestReport.overallTrend === 'Improving'
-              ? `↓ Wellness metrics are improving${points.length > 1 ? ` over ${points.length} weeks` : ' compared to last week'}. Great job!`
-              : `→ Wellness metrics are stable compared to last week.`}
+              ? (points.length > 1 ? t('weeklyReport.trendImprovingMultiWeek', { count: points.length }) : t('weeklyReport.trendImprovingOneWeek'))
+              : t('weeklyReport.trendStable')}
           </p>
         </Card>
       )}
 
       {latestReport.insightSummary && (
-        <div style={{ 
-          backgroundColor: latestReport.overallTrend === 'Worsening' ? '#FFF9F9' : '#F6FBF9', 
-          border: latestReport.overallTrend === 'Worsening' ? '1px solid #FEE2E2' : '1px solid #E6F5EE', 
-          borderRadius: '10px', 
-          padding: '16px 18px', 
-          fontSize: '13px', 
+        <div style={{
+          backgroundColor: latestReport.overallTrend === 'Worsening' ? '#FFF9F9' : '#F6FBF9',
+          border: latestReport.overallTrend === 'Worsening' ? '1px solid #FEE2E2' : '1px solid #E6F5EE',
+          borderRadius: '10px',
+          padding: '16px 18px',
+          fontSize: '13px',
           color: 'var(--text-secondary)',
           lineHeight: 1.6
         }}>
           <span style={{ fontWeight: 600, color: latestReport.overallTrend === 'Worsening' ? 'var(--danger)' : 'var(--success)' }}>
-            {latestReport.overallTrend === 'Worsening' ? '⚠️ Weekly summary: ' : '✓ Weekly summary: '}
+            {latestReport.overallTrend === 'Worsening' ? t('weeklyReport.weeklySummaryWorsening') : t('weeklyReport.weeklySummaryStable')}
           </span>
           {latestReport.insightSummary}
         </div>

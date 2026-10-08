@@ -52,6 +52,16 @@ const Dashboard: React.FC = () => {
     ?.sort((a: any, b: any) => b.shapValue - a.shapValue)
     ?.slice(0, 3) ?? [];
 
+  // SHAP returns one row per model feature (40+), nearly all of which are
+  // non-zero — counting every signed value would report ~20 "risk factors"
+  // for everyone, which is noise, not signal. Only count factors whose
+  // influence is large enough to matter (same idea as only showing the top
+  // 3 above, just as a count instead of a list).
+  const MATERIAL_SHAP_THRESHOLD = 0.05;
+  const materialShapFactors = prediction?.shapExplanations?.filter(
+    (s: any) => Math.abs(s.shapValue) >= MATERIAL_SHAP_THRESHOLD
+  ) ?? [];
+
   // Greeting based on time of day — a small but impactful UX detail
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -200,13 +210,13 @@ const Dashboard: React.FC = () => {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '28px' }}>
           <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
             <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
-              {prediction.shapExplanations?.filter((s: any) => s.direction === 'IncreasesRisk').length ?? 0}
+              {materialShapFactors.filter((s: any) => s.direction === 'IncreasesRisk').length}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Risk factors</div>
           </div>
           <div style={{ padding: '16px 14px', borderRadius: '12px', border: '1px solid var(--border)', textAlign: 'center', backgroundColor: 'var(--bg)' }}>
             <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--success)', marginBottom: '4px' }}>
-              {prediction.shapExplanations?.filter((s: any) => s.direction === 'DecreasesRisk').length ?? 0}
+              {materialShapFactors.filter((s: any) => s.direction === 'DecreasesRisk').length}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Protective factors</div>
           </div>

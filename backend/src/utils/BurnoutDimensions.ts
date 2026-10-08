@@ -85,18 +85,34 @@ export function computeDimensionBreakdown(
     Cynicism: 0,
     ReducedEfficacy: 0,
   };
+  // Tracked separately from `sums` so that opposing-sign SHAP values within
+  // the same dimension (e.g. good sleep offsetting high stress, both inside
+  // Exhaustion) don't cancel each other out when measuring how much that
+  // dimension actually drove the prediction — only the net sign (for color)
+  // should come from the signed sum; the magnitude share must come from
+  // each feature's individual |SHAP|, or a dimension with more mapped
+  // features (Exhaustion has 20 vs Cynicism's 9) would dominate by feature
+  // count alone regardless of real contribution.
+  const absSums: Record<BurnoutDimension, number> = {
+    Exhaustion: 0,
+    Cynicism: 0,
+    ReducedEfficacy: 0,
+  };
 
   for (const row of shapRows) {
     const dim = FEATURE_TO_DIMENSION[row.featureName];
-    if (dim) sums[dim] += row.shapValue;
+    if (dim) {
+      sums[dim] += row.shapValue;
+      absSums[dim] += Math.abs(row.shapValue);
+    }
   }
 
-  const totalAbs = Object.values(sums).reduce((a, b) => a + Math.abs(b), 0) || 1;
+  const totalAbs = Object.values(absSums).reduce((a, b) => a + b, 0) || 1;
 
   return (Object.keys(sums) as BurnoutDimension[]).map((dimension) => ({
     dimension,
     label: BURNOUT_DIMENSION_LABELS[dimension],
     score: parseFloat(sums[dimension].toFixed(4)),
-    normalizedPct: parseFloat(((Math.abs(sums[dimension]) / totalAbs) * 100).toFixed(1)),
+    normalizedPct: parseFloat(((absSums[dimension] / totalAbs) * 100).toFixed(1)),
   }));
 }

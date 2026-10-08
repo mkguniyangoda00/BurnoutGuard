@@ -7,6 +7,7 @@ import { CheckCircle, Circle, Loader2, HelpCircle, HeartHandshake } from 'lucide
 import { recommendationService } from '../../services/recommendation.service';
 import { usePrediction } from '../../hooks/usePrediction';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const CATEGORY_ICONS: Record<string, { icon: string; bg: string }> = {
   Sleep: { icon: '🌙', bg: 'var(--danger-light)' },
@@ -17,10 +18,10 @@ const CATEGORY_ICONS: Record<string, { icon: string; bg: string }> = {
   Workload: { icon: '📋', bg: 'var(--warning-light)' },
 };
 
-const PRIORITY_STYLE: Record<string, { label: string; color: string; bg: string }> = {
-  high: { label: 'High priority', color: 'var(--danger)', bg: 'var(--danger-light)' },
-  medium: { label: 'Medium priority', color: 'var(--warning)', bg: 'var(--warning-light)' },
-  low: { label: 'Low priority', color: 'var(--success)', bg: 'var(--success-light)' },
+const PRIORITY_STYLE: Record<string, { labelKey: string; color: string; bg: string }> = {
+  high: { labelKey: 'recommendations.highPriority', color: 'var(--danger)', bg: 'var(--danger-light)' },
+  medium: { labelKey: 'recommendations.mediumPriority', color: 'var(--warning)', bg: 'var(--warning-light)' },
+  low: { labelKey: 'recommendations.lowPriority', color: 'var(--success)', bg: 'var(--success-light)' },
 };
 
 const getPriorityBand = (priority: number, isRecoveryDay: boolean) => {
@@ -37,6 +38,7 @@ const RecCard: React.FC<{
   onRateEffectiveness: (rec: any, score: number) => void;
   isPending: boolean;
 }> = ({ rec, dayLabel, onToggleComplete, onRateEffectiveness, isPending }) => {
+  const { t } = useTranslation();
   const iconMeta = CATEGORY_ICONS[rec.category] ?? { icon: '💡', bg: 'var(--soft-fill)' };
   const priorityMeta = getPriorityBand(rec.priority, !!dayLabel);
 
@@ -107,11 +109,11 @@ const RecCard: React.FC<{
               color: priorityMeta.color,
             }}
           >
-            {priorityMeta.label}
+            {t(priorityMeta.labelKey)}
           </span>
           {rec.isCompleted && rec.effectivenessScore == null && (
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
-              <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>Did this help?</p>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>{t('recommendations.didThisHelp')}</p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {[1, 2, 3, 4, 5].map((score) => (
                   <button
@@ -143,6 +145,7 @@ const RecCard: React.FC<{
 };
 
 const Recommendations: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -199,9 +202,9 @@ const Recommendations: React.FC = () => {
       <PageWrapper>
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
           <HelpCircle size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px', opacity: 0.5 }} />
-          <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>No Recommendations Yet</h2>
+          <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>{t('recommendations.noRecsYetTitle')}</h2>
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto' }}>
-            Submit a check-in to generate your first burnout risk prediction and personalized recommendations.
+            {t('recommendations.noRecsYetBody')}
           </p>
         </div>
       </PageWrapper>
@@ -212,7 +215,7 @@ const Recommendations: React.FC = () => {
     return (
       <PageWrapper>
         <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--danger)' }}>
-          Failed to load recommendations. Please try again.
+          {t('recommendations.errorMessage')}
         </div>
       </PageWrapper>
     );
@@ -223,12 +226,12 @@ const Recommendations: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', fontWeight: 600, marginBottom: '6px' }}>
-            {isRecoveryPlan ? 'Your 7-Day Recovery Plan' : 'Your Action Plan'}
+            {isRecoveryPlan ? t('recommendations.recoveryPlanTitle') : t('recommendations.actionPlanTitle')}
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
             {isRecoveryPlan
-              ? 'Your risk level is elevated — follow this sequenced plan, one focus area per day.'
-              : `${recommendations.length} personalized recommendation${recommendations.length === 1 ? '' : 's'} based on your SHAP analysis`}
+              ? t('recommendations.recoveryPlanSubtitle')
+              : t('recommendations.actionPlanSubtitle', { count: recommendations.length })}
           </p>
         </div>
         <button
@@ -250,14 +253,14 @@ const Recommendations: React.FC = () => {
           }}
         >
           <HeartHandshake size={16} />
-          Counseling & Wellness Resources
+          {t('recommendations.counselingButton')}
         </button>
       </div>
 
       {recommendations.length === 0 ? (
         <Card style={{ padding: '32px', textAlign: 'center' }}>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            No active recommendations right now — your recent check-ins look stable. Keep it up!
+            {t('recommendations.noActiveRecs')}
           </p>
         </Card>
       ) : (
@@ -266,7 +269,7 @@ const Recommendations: React.FC = () => {
             <RecCard
               key={rec.recId}
               rec={rec}
-              dayLabel={isRecoveryPlan ? `Day ${idx + 1}` : undefined}
+              dayLabel={isRecoveryPlan ? t('recommendations.dayLabel', { num: idx + 1 }) : undefined}
               onToggleComplete={handleToggle}
               onRateEffectiveness={handleRateEffectiveness}
               isPending={completeMutation.isPending}

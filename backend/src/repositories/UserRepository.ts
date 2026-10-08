@@ -43,6 +43,28 @@ export class UserRepository {
     return prisma.user.findMany() as unknown as User[];
   }
 
+  // Includes each Developer's assigned manager (if any) so the Admin Users
+  // page can show/edit team assignment without a second round trip.
+  async findAllWithManager(): Promise<any[]> {
+    return prisma.user.findMany({
+      include: {
+        developerProfile: {
+          select: {
+            managerId: true,
+            manager: { select: { userId: true, fullName: true, email: true } },
+          },
+        },
+      },
+    });
+  }
+
+  async updateDeveloperManager(userId: string, managerId: string | null): Promise<void> {
+    await prisma.developerProfile.update({
+      where: { userId },
+      data: { managerId, modifiedBy: userId },
+    });
+  }
+
   async updateStatus(userId: string, isActive: boolean): Promise<User> {
     return prisma.user.update({
       where: { userId },

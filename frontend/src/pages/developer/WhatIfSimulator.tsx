@@ -4,6 +4,7 @@ import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Loader2, HelpCircle } from 'lucide-react';
 import { predictionService } from '../../services/prediction.service';
+import { useTranslation } from 'react-i18next';
 
 // Same actionable factors (and bounds) the backend's counterfactual search
 // treats as mutable — see PredictionService.MUTABLE_FEATURES. Sleep/work
@@ -12,22 +13,23 @@ import { predictionService } from '../../services/prediction.service';
 // values, so the simulator exposes this wider set.
 const SLIDERS: Array<{
   key: string;
-  label: string;
+  labelKey: string;
   unit: string;
   min: number;
   max: number;
   step: number;
   default: number;
 }> = [
-  { key: 'sleepHours', label: 'Average Sleep', unit: 'hrs', min: 4, max: 9, step: 0.5, default: 6 },
-  { key: 'workHours', label: 'Daily Work Hours', unit: 'hrs', min: 6, max: 12, step: 0.5, default: 9 },
-  { key: 'stressLevel', label: 'Stress Level', unit: '/10', min: 1, max: 10, step: 1, default: 6 },
-  { key: 'sleepQuality', label: 'Sleep Quality', unit: '/5', min: 1, max: 5, step: 1, default: 3 },
-  { key: 'overtimeHours', label: 'Overtime Hours', unit: 'hrs/wk', min: 0, max: 8, step: 1, default: 2 },
-  { key: 'breaksTaken', label: 'Breaks Taken', unit: '/day', min: 0, max: 8, step: 1, default: 3 },
+  { key: 'sleepHours', labelKey: 'whatIf.sleepHours', unit: 'hrs', min: 4, max: 9, step: 0.5, default: 6 },
+  { key: 'workHours', labelKey: 'whatIf.workHours', unit: 'hrs', min: 6, max: 12, step: 0.5, default: 9 },
+  { key: 'stressLevel', labelKey: 'whatIf.stressLevel', unit: '/10', min: 1, max: 10, step: 1, default: 6 },
+  { key: 'sleepQuality', labelKey: 'whatIf.sleepQuality', unit: '/5', min: 1, max: 5, step: 1, default: 3 },
+  { key: 'overtimeHours', labelKey: 'whatIf.overtimeHours', unit: 'hrs/wk', min: 0, max: 8, step: 1, default: 2 },
+  { key: 'breaksTaken', labelKey: 'whatIf.breaksTaken', unit: '/day', min: 0, max: 8, step: 1, default: 3 },
 ];
 
 const WhatIfSimulator: React.FC = () => {
+  const { t } = useTranslation();
   const [values, setValues] = useState<Record<string, number>>(() =>
     Object.fromEntries(SLIDERS.map((s) => [s.key, s.default]))
   );
@@ -79,22 +81,21 @@ const WhatIfSimulator: React.FC = () => {
   return (
     <PageWrapper>
       <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>What-If Simulator</h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Adjust factors to see how they impact your predicted burnout risk</p>
+        <h1 style={{ fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>{t('whatIf.title')}</h1>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('whatIf.subtitle')}</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
         <Card>
-          <h2 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px' }}>Adjust Variables</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px' }}>{t('whatIf.adjustVariables')}</h2>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '20px' }}>
-            Every other factor (mood, support, workload, etc.) stays at your actual recent check-in values —
-            only the factors below are simulated.
+            {t('whatIf.adjustVariablesNote')}
           </p>
 
           {SLIDERS.map((s) => (
             <div key={s.key} style={{ marginBottom: '20px' }}>
               <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 500, marginBottom: '8px' }}>
-                <span>{s.label}</span>
+                <span>{t(s.labelKey)}</span>
                 <span>{values[s.key]} {s.unit}</span>
               </label>
               <input
@@ -116,22 +117,22 @@ const WhatIfSimulator: React.FC = () => {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <Loader2 className="animate-spin text-primary" size={40} />
-              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Calculating your what-if result...</span>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('whatIf.calculating')}</span>
             </div>
           ) : isError ? (
             <div className="flex flex-col items-center justify-center gap-3 text-center">
               <HelpCircle size={40} style={{ color: 'var(--text-muted)', opacity: 0.5 }} />
-              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Unable to load what-if results right now.</span>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('whatIf.errorMessage')}</span>
             </div>
           ) : (
             <>
-              <span style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>Predicted Burnout Risk</span>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>{t('whatIf.predictedRisk')}</span>
               <div style={{ fontSize: '48px', fontWeight: 'bold', color: isElevatedRisk ? 'var(--danger)' : 'var(--success)' }}>
                 {displayRiskLevel}
               </div>
               <div style={{ marginTop: '12px' }}>
                 <Badge variant={isElevatedRisk ? 'danger' : 'success'}>
-                  {calculatedRisk} model confidence
+                  {calculatedRisk} {t('whatIf.modelConfidence')}
                 </Badge>
               </div>
             </>

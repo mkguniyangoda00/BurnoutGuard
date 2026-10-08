@@ -81,18 +81,28 @@ export class CheckInRepository {
 
     if (checkIns.length === 0) return 0;
 
+    // Multiple check-ins can exist for the same calendar day (edits,
+    // re-submissions), which would desync the index-to-expected-day
+    // comparison below if not collapsed to one entry per day first.
+    const uniqueDayTimestamps = Array.from(
+      new Set(
+        checkIns.map((c: { checkInDate: Date }) => {
+          const day = new Date(c.checkInDate);
+          day.setHours(0, 0, 0, 0);
+          return day.getTime();
+        })
+      )
+    ).sort((a, b) => b - a);
+
     let streak = 0;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    for (let i = 0; i < checkIns.length; i++) {
-      const checkInDay = new Date(checkIns[i].checkInDate);
-      checkInDay.setHours(0, 0, 0, 0);
-
+    for (let i = 0; i < uniqueDayTimestamps.length; i++) {
       const expectedDay = new Date(today);
       expectedDay.setDate(today.getDate() - i);
 
-      if (checkInDay.getTime() === expectedDay.getTime()) {
+      if (uniqueDayTimestamps[i] === expectedDay.getTime()) {
         streak++;
       } else {
         break;

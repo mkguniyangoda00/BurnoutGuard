@@ -17,6 +17,7 @@ export const createUserSchema = z.object({
   fullName: z.string().min(2),
   role: z.enum(ROLES),
   company: z.string().optional(),
+  managerId: z.string().uuid().optional(),
 });
 
 export const loginSchema = z.object({

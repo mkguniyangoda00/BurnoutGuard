@@ -23,7 +23,7 @@ export const adminService = {
     return res.data.users ?? res.data;
   },
 
-  createUser: async (data: { fullName: string; email: string; password: string; company?: string; role: string }) => {
+  createUser: async (data: { fullName: string; email: string; password: string; company?: string; role: string; managerId?: string }) => {
     const res = await client.post('/admin/users', data);
     return res.data.user;
   },
@@ -31,6 +31,16 @@ export const adminService = {
   updateRole: async (id: string, role: string) => {
     const res = await client.put(`/admin/users/${id}/role`, { role });
     return res.data.user;
+  },
+
+  getManagers: async () => {
+    const res = await client.get('/admin/managers');
+    return res.data.managers ?? [];
+  },
+
+  assignManager: async (id: string, managerId: string | null) => {
+    const res = await client.put(`/admin/users/${id}/manager`, { managerId });
+    return res.data;
   },
 
   deactivate: async (id: string) => {
